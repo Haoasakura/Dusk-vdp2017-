@@ -1,1 +1,4 @@
-sceneSetups: []
+sceneSetups:
+- path: Assets/prova.unity
+  isLoaded: 1
+  isActive: 1
