@@ -1,0 +1,2 @@
+# Dusk-vdp2017-
+Suck the lights out and use it to control your enemies! In Dusk, a 2D puzzle-platformer for PC, you are The Defection, a malfunctioning semi-biological being trying to escape a mysterious industrial facility. The Slaves are on the hunt and you can’t hurt them, but with a Dusk Gun you can create darkness to hide and release its energy to control those who will try to stop you. Will you overcome all the obstacles and finally see the Outside? Or you will succumb inside the perilous chambers of The Facility?
