@@ -14,6 +14,7 @@ public class PlayerPlatformerController : PhysicsObject
     [Header("Max Jump")]
     public float jumpTakeOffSpeed = 7;
 
+    private bool isClimbing;
     private SpriteRenderer spriteRenderer;
     //private Animator animator;
 
@@ -23,6 +24,19 @@ public class PlayerPlatformerController : PhysicsObject
         spriteRenderer = GetComponent<SpriteRenderer>();
         //animator = GetComponent<Animator> ();
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("Culochilegge");
+        Debug.Log(collision.gameObject.layer);
+
+        if (collision.gameObject.layer.Equals("9"))
+        {
+            Debug.Log(collision.gameObject.layer);
+        }
+    
+    }
+
 
     protected override void ComputeVelocity()
     {
