@@ -6,12 +6,10 @@ public class PhysicsObject : MonoBehaviour {
 
     public float minGroundNormalY = .65f;
 
-    [Header("Gravity Modifier")]
-    [Range(0.1f, 10.0f)]
+    [Header("Gravity modifier")]
     public float gravityModifier = 1f;
 
-    [Header("Gravity Modifier")]
-    [Range(0.1f, 10.0f)]
+    [Header("Gravity on fall")]
     public float gravityOnFall = 1f;
 
     protected Vector2 targetVelocity;
@@ -53,7 +51,11 @@ public class PhysicsObject : MonoBehaviour {
     void FixedUpdate()
     {
         velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
-        velocity.x = targetVelocity.x;
+
+        if (grounded || (!grounded && velocity.x > 0 && targetVelocity.x > 0) || (!grounded && velocity.x > 0 && targetVelocity.x > 0))
+        {
+            velocity.x = targetVelocity.x;
+        }
 
         grounded = false;
 

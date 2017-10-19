@@ -2,23 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPlatformerController : PhysicsObject {
+public class PlayerPlatformerController : PhysicsObject
+{
 
-    [Header("Player Speed")]
-    [Range(1.0f, 10.0f)]
+    [Header("Player Min Speed")]
+    public float minSpeed = 3;
+
+    [Header("Player Max Speed")]
     public float maxSpeed = 7;
 
     [Header("Max Jump")]
-    [Range(1.0f, 10.0f)]
     public float jumpTakeOffSpeed = 7;
 
     private SpriteRenderer spriteRenderer;
     //private Animator animator;
 
     // Use this for initialization
-    void Awake () 
+    void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer> (); 
+        spriteRenderer = GetComponent<SpriteRenderer>();
         //animator = GetComponent<Animator> ();
     }
 
@@ -26,19 +28,22 @@ public class PlayerPlatformerController : PhysicsObject {
     {
         Vector2 move = Vector2.zero;
 
-        move.x = Input.GetAxis ("Horizontal");
+        move.x = Input.GetAxis("Horizontal");
 
-        if (Input.GetButtonDown ("Jump") && grounded) {
-            velocity.y = jumpTakeOffSpeed;
-        } else if (Input.GetButtonUp ("Jump")) 
+        if (Input.GetButtonDown("Jump") && grounded)
         {
-            if (velocity.y > 0) {
+            velocity.y = jumpTakeOffSpeed;
+        }
+        else if (Input.GetButtonUp("Jump"))
+        {
+            if (velocity.y > 0)
+            {
                 velocity.y = velocity.y * 0.5f;
             }
         }
 
         bool flipSprite = (spriteRenderer.flipX ? (move.x > 0.01f) : (move.x < 0.01f));
-        if (flipSprite) 
+        if (flipSprite)
         {
             spriteRenderer.flipX = !spriteRenderer.flipX;
         }
@@ -46,7 +51,13 @@ public class PlayerPlatformerController : PhysicsObject {
         //animator.SetBool ("grounded", grounded);
         //animator.SetFloat ("velocityX", Mathf.Abs (velocity.x) / maxSpeed);
 
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
             targetVelocity = move * maxSpeed;
-
+        }
+        else
+        {
+            targetVelocity = move * minSpeed;
+        }
     }
 }
