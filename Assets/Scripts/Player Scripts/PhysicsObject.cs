@@ -10,6 +10,10 @@ public class PhysicsObject : MonoBehaviour {
     [Range(0.1f, 10.0f)]
     public float gravityModifier = 1f;
 
+    [Header("Gravity Modifier")]
+    [Range(0.1f, 10.0f)]
+    public float gravityOnFall = 1f;
+
     protected Vector2 targetVelocity;
     protected bool grounded;
     protected Vector2 groundNormal;
@@ -61,7 +65,14 @@ public class PhysicsObject : MonoBehaviour {
 
         Movement (move, false);
 
-        move = Vector2.up * deltaPosition.y;
+        if (deltaPosition.y >= 0)
+        {
+            move = Vector2.up * deltaPosition.y;
+        }
+        else if (deltaPosition.y < 0)
+        {
+            move = Vector2.up * gravityOnFall * deltaPosition.y;
+        }
 
         Movement (move, true);
     }
