@@ -84,9 +84,13 @@ public class PhysicsObject : MonoBehaviour {
         {
             move = Vector2.up * deltaPosition.y;
         }
-        else if (deltaPosition.y < 0)
+        else if (deltaPosition.y < 0 && !isClimbing)
         {
             move = Vector2.up * gravityOnFall * deltaPosition.y;
+        }
+        else if (deltaPosition.y < 0 && isClimbing)
+        {
+            move = Vector2.up * deltaPosition.y;
         }
 
         Movement (move, true);

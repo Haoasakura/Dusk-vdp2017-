@@ -81,7 +81,7 @@ public class PlayerPlatformerController : PhysicsObject
             gravityOnFall = 0f;
             isClimbing = true;
         }
-        else if ((Input.GetAxis("Vertical") > 0) && canClimb && isClimbing)
+        else if ((Input.GetAxis("Vertical") != 0) && canClimb && isClimbing)
         {
             velocity.y = climbSpeed*Input.GetAxis("Vertical");
         }
