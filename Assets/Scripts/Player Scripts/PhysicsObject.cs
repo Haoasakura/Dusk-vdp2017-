@@ -14,13 +14,15 @@ public class PhysicsObject : MonoBehaviour {
 
     protected Vector2 targetVelocity;
     protected bool grounded;
+    protected bool canClimb;
+    protected bool isClimbing;
     protected Vector2 groundNormal;
     protected Rigidbody2D rb2d;
     protected Vector2 velocity;
     protected ContactFilter2D contactFilter;
     protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
     protected List<RaycastHit2D> hitBufferList = new List<RaycastHit2D> (16);
-
+    protected float originalGravity;
 
     protected const float minMoveDistance = 0.001f;
     protected const float shellRadius = 0.01f;
@@ -35,6 +37,9 @@ public class PhysicsObject : MonoBehaviour {
         contactFilter.useTriggers = false;
         contactFilter.SetLayerMask (Physics2D.GetLayerCollisionMask (gameObject.layer));
         contactFilter.useLayerMask = true;
+        originalGravity = gravityOnFall;
+        canClimb = false;
+        isClimbing = false;
     }
     
     void Update () 
@@ -50,9 +55,17 @@ public class PhysicsObject : MonoBehaviour {
 
     void FixedUpdate()
     {
-        velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
+        if (!isClimbing)
+        {
+            velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
+        }
+        else
+        {
+            velocity = 0f * Vector2.up;
+        }
 
-        if (grounded || (!grounded && velocity.x > 0 && targetVelocity.x > 0) || (!grounded && velocity.x > 0 && targetVelocity.x > 0))
+        if (grounded || (!grounded && velocity.x > 0 && targetVelocity.x > 0) 
+            || (!grounded && velocity.x > 0 && targetVelocity.x > 0) || isClimbing)
         {
             velocity.x = targetVelocity.x;
         }
@@ -81,8 +94,10 @@ public class PhysicsObject : MonoBehaviour {
 
     void Movement(Vector2 move, bool yMovement)
     {
+        //Calcolo della lunghezza del vettore movimento
         float distance = move.magnitude;
 
+        //Se la distanza è maggiore della distanza di movimento minima allora mi muovo
         if (distance > minMoveDistance) 
         {
             int count = rb2d.Cast (move, contactFilter, hitBuffer, distance + shellRadius);

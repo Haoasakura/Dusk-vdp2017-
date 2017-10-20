@@ -14,7 +14,6 @@ public class PlayerPlatformerController : PhysicsObject
     [Header("Max Jump")]
     public float jumpTakeOffSpeed = 7;
 
-    private bool isClimbing;
     private SpriteRenderer spriteRenderer;
     //private Animator animator;
 
@@ -27,16 +26,21 @@ public class PlayerPlatformerController : PhysicsObject
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Culochilegge");
-        Debug.Log(collision.gameObject.layer);
-
-        if (collision.gameObject.layer.Equals("9"))
+        if (collision.gameObject.layer.Equals(9))
         {
-            Debug.Log(collision.gameObject.layer);
+            canClimb = true;
         }
-    
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer.Equals(9))
+        {
+            canClimb = false;
+            gravityOnFall = originalGravity;
+            isClimbing = false;
+        }
+    }
 
     protected override void ComputeVelocity()
     {
@@ -47,13 +51,32 @@ public class PlayerPlatformerController : PhysicsObject
         if (Input.GetButtonDown("Jump") && grounded)
         {
             velocity.y = jumpTakeOffSpeed;
+            gravityOnFall = originalGravity;
         }
-        else if (Input.GetButtonUp("Jump"))
+        else if (Input.GetButtonUp("Jump") && !isClimbing)
         {
+            gravityOnFall = originalGravity;
+            isClimbing = false;
             if (velocity.y > 0)
             {
                 velocity.y = velocity.y * 0.5f;
             }
+        }
+        else if (Input.GetButtonDown("Jump") && isClimbing)
+        {
+            velocity.y = jumpTakeOffSpeed;
+            gravityOnFall = originalGravity;
+            isClimbing = false;
+        }
+
+        if ((Input.GetAxis("Vertical") > 0) && canClimb && !isClimbing)
+        {
+            gravityOnFall = 0f;
+            isClimbing = true;
+        }
+        else if ((Input.GetAxis("Vertical") > 0) && canClimb && isClimbing)
+        {
+            move.y = Input.GetAxis("Vertical");
         }
 
         bool flipSprite = (spriteRenderer.flipX ? (move.x > 0.01f) : (move.x < 0.01f));
