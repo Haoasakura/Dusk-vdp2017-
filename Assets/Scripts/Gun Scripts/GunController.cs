@@ -8,6 +8,7 @@ public class GunController : MonoBehaviour {
     public Transform lineOfSight;
     public int currentCharge = 50;
     public int maxCharge = 100;
+    public LayerMask lightLayer;
 
     private Transform mTransform;
 
@@ -33,7 +34,7 @@ public class GunController : MonoBehaviour {
             }
         }
 
-        if (Input.GetButtonDown("Fire1")) {
+        if (Input.GetButtonDown("Fire1") && currentCharge<maxCharge) {
 
             //Nummero di collisioni che il fucile percepisce
             Collider2D[] pointsOfContact = new Collider2D[25];
@@ -43,12 +44,31 @@ public class GunController : MonoBehaviour {
 
             for (int i = 0; i < numberOfContacts; i++) {
                 if (pointsOfContact[i].gameObject != null && pointsOfContact[i].gameObject.CompareTag(Tags.light)) {
-                    pointsOfContact[i].GetComponent<LightController>().SwitchOnOff();
+                    if(InLineOfSight(pointsOfContact[i]) && !pointsOfContact[i].GetComponent<LightController>().changingStatus)
+                        pointsOfContact[i].GetComponent<LightController>().SwitchOnOff(transform);
                     break;
+                }
+                else if(pointsOfContact[i].gameObject != null && pointsOfContact[i].gameObject.CompareTag(Tags.machinery)) {
+                    //activate the machinery
+                }
+                else if(pointsOfContact[i].gameObject != null && pointsOfContact[i].gameObject.CompareTag(Tags.enemy)) {
+                    //control the enemy
                 }
                     
 
             }
         }
 	}
+
+    public bool InLineOfSight(Collider2D target) {
+        if (target != null) {
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, (target.transform.position - transform.position),1000f,lightLayer);
+            if (hit.collider != null)
+                if (hit.collider.gameObject.name == target.gameObject.name) 
+                    return true;
+        }
+        return false;
+    }
+
+
 }
