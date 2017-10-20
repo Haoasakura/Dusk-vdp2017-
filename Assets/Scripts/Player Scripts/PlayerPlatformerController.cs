@@ -11,6 +11,10 @@ public class PlayerPlatformerController : PhysicsObject
     [Header("Player Max Speed")]
     public float maxSpeed = 7;
 
+    [Header("Player climb speed")]
+    public float climbSpeed = 3;
+
+
     [Header("Max Jump")]
     public float jumpTakeOffSpeed = 7;
 
@@ -48,6 +52,47 @@ public class PlayerPlatformerController : PhysicsObject
 
         move.x = Input.GetAxis("Horizontal");
 
+        JumpControl();
+        ClimbControl();
+
+        bool flipSprite = (spriteRenderer.flipX ? (move.x > 0.01f) : (move.x < 0.01f));
+        if (flipSprite)
+        {
+            spriteRenderer.flipX = !spriteRenderer.flipX;
+        }
+
+        //animator.SetBool ("grounded", grounded);
+        //animator.SetFloat ("velocityX", Mathf.Abs (velocity.x) / maxSpeed);
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            targetVelocity = move * maxSpeed;
+        }
+        else
+        {
+            targetVelocity = move * minSpeed;
+        }
+    }
+
+    private void ClimbControl()
+    {
+        if ((Input.GetAxis("Vertical") > 0) && canClimb && !isClimbing)
+        {
+            gravityOnFall = 0f;
+            isClimbing = true;
+        }
+        else if ((Input.GetAxis("Vertical") > 0) && canClimb && isClimbing)
+        {
+            velocity.y = climbSpeed*Input.GetAxis("Vertical");
+        }
+        else if ((Input.GetAxis("Vertical") == 0) && canClimb && isClimbing)
+        {
+            velocity.y = velocity.y * 0.5f;
+        }
+    }
+
+    private void JumpControl()
+    {
         if (Input.GetButtonDown("Jump") && grounded)
         {
             velocity.y = jumpTakeOffSpeed;
@@ -67,34 +112,6 @@ public class PlayerPlatformerController : PhysicsObject
             velocity.y = jumpTakeOffSpeed;
             gravityOnFall = originalGravity;
             isClimbing = false;
-        }
-
-        if ((Input.GetAxis("Vertical") > 0) && canClimb && !isClimbing)
-        {
-            gravityOnFall = 0f;
-            isClimbing = true;
-        }
-        else if ((Input.GetAxis("Vertical") > 0) && canClimb && isClimbing)
-        {
-            move.y = Input.GetAxis("Vertical");
-        }
-
-        bool flipSprite = (spriteRenderer.flipX ? (move.x > 0.01f) : (move.x < 0.01f));
-        if (flipSprite)
-        {
-            spriteRenderer.flipX = !spriteRenderer.flipX;
-        }
-
-        //animator.SetBool ("grounded", grounded);
-        //animator.SetFloat ("velocityX", Mathf.Abs (velocity.x) / maxSpeed);
-
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            targetVelocity = move * maxSpeed;
-        }
-        else
-        {
-            targetVelocity = move * minSpeed;
         }
     }
 }

@@ -61,7 +61,7 @@ public class PhysicsObject : MonoBehaviour {
         }
         else
         {
-            velocity = 0f * Vector2.up;
+            velocity += 0f * Vector2.up;
         }
 
         if (grounded || (!grounded && velocity.x > 0 && targetVelocity.x > 0) 
