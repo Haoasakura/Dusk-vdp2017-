@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Light
   - Machinery
+  - Through
+  - Ladder
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - 
   - 
   - Ground
-  - Ladder
+  - Platform
   - LightLayer
   - 
   - 
