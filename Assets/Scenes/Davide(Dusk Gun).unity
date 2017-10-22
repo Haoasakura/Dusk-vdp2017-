@@ -255,7 +255,7 @@ GameObject:
   m_Component:
   - component: {fileID: 441268847}
   m_Layer: 0
-  m_Name: FarEnd
+  m_Name: End Position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -268,7 +268,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 441268846}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.99, y: -2.82, z: 0.033203125}
+  m_LocalPosition: {x: 9.99, y: -2.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -398,10 +398,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1491310304}
   - component: {fileID: 1491310303}
+  - component: {fileID: 1491310305}
+  - component: {fileID: 1491310306}
   - component: {fileID: 1491310302}
   m_Layer: 0
   m_Name: Robot
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -417,7 +419,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 813584df6b812924c82923adee7dc27e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  farEnd: {fileID: 441268847}
+  endPosition: {fileID: 441268847}
+  secondsForOneLength: 5
+  mSpeed: 10
+  controlled: 0
 --- !u!212 &1491310303
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -469,12 +474,47 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1491310301}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.54, y: -2.33, z: 0}
+  m_LocalPosition: {x: 4.54, y: -2.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &1491310305
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1491310301}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!70 &1491310306
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1491310301}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0769825, y: 0.0106163025}
+  m_Size: {x: 1.3029776, y: 1.74364}
+  m_Direction: 0
 --- !u!1001 &1514815557
 Prefab:
   m_ObjectHideFlags: 0

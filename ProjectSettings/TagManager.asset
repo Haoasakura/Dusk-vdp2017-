@@ -8,6 +8,7 @@ TagManager:
   - Machinery
   - Through
   - Ladder
+  - Enemy
   layers:
   - Default
   - TransparentFX
