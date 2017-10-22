@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightController : MonoBehaviour {
+public class MachineryController : MonoBehaviour {
 
-    public bool lightStatus = true;
+    public int powerCharge = 25;
+    public bool powered = false;
     public bool changingStatus = false;
-    public int lightCharge = 25;
-    public Sprite[] lightStates;
 
     private SpriteRenderer spriteRenderer;
-    
+
 	// Use this for initialization
 	void Start () {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -18,36 +17,37 @@ public class LightController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (changingStatus) {
-            if(Input.GetButton("Vertical") || Input.GetButton("Horizontal")) {
+        if (changingStatus) {
+            if (Input.GetButton("Vertical") || Input.GetButton("Horizontal")) {
                 StopCoroutine("SwitchingOn");
                 StopCoroutine("SwitchingOff");
                 changingStatus = false;
             }
         }
-	}
+    }
 
     public void SwitchOnOff(Transform gun) {
-        if (!lightStatus) {
-            StartCoroutine("SwitchingOn",gun);
-            
+        if (!powered) {
+            StartCoroutine("SwitchingOn", gun);
+
         }
         else {
-            StartCoroutine("SwitchingOff",gun);
-            
+            StartCoroutine("SwitchingOff", gun);
+
         }
     }
 
     IEnumerator SwitchingOn(Transform gun) {
         changingStatus = true;
         int seconds = 3;
-        while(seconds>0) {
+        while (seconds > 0) {
             yield return new WaitForSeconds(1f);
             seconds--;
         }
-        spriteRenderer.sprite = lightStates[0];
-        lightStatus = true;
-        gun.GetComponent<GunController>().currentCharge -= lightCharge;
+        //spriteRenderer.sprite = lightStates[0];
+        spriteRenderer.color = Color.red;
+        powered = true;
+        gun.GetComponent<GunController>().currentCharge -= powerCharge;
         changingStatus = false;
     }
 
@@ -58,9 +58,9 @@ public class LightController : MonoBehaviour {
             yield return new WaitForSeconds(1f);
             seconds--;
         }
-        spriteRenderer.sprite = lightStates[1];
-        lightStatus = false;
-        gun.GetComponent<GunController>().currentCharge += lightCharge;
+        //spriteRenderer.sprite = lightStates[1];
+        spriteRenderer.color = Color.white;
+        powered = false;
         changingStatus = false;
     }
 }

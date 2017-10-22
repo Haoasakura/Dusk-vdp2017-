@@ -151,9 +151,10 @@ MonoBehaviour:
   lineOfSight: {fileID: 4721762063835650}
   currentCharge: 50
   maxCharge: 100
-  lightLayer:
+  gunLayer:
     serializedVersion: 2
     m_Bits: 1024
+  inControl: 0
 --- !u!212 &212014077541558982
 SpriteRenderer:
   m_ObjectHideFlags: 1

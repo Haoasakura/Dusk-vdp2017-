@@ -8,7 +8,7 @@ public class GunController : MonoBehaviour {
     public Transform lineOfSight;
     public int currentCharge = 50;
     public int maxCharge = 100;
-    public LayerMask lightLayer;
+    public LayerMask gunLayer;
     public bool inControl = false;
 
     private Transform mTransform;
@@ -47,21 +47,25 @@ public class GunController : MonoBehaviour {
 
                 for (int i = 0; i < numberOfContacts; i++) {
                     if (pointsOfContact[i].gameObject != null && pointsOfContact[i].gameObject.CompareTag(Tags.light)) {
-                        if (InLineOfSight(pointsOfContact[i]) && !pointsOfContact[i].GetComponent<LightController>().changingStatus)
-                            pointsOfContact[i].GetComponent<LightController>().SwitchOnOff(transform);
+                        LightController currentLight = pointsOfContact[i].GetComponent<LightController>();
+                        if (InLineOfSight(pointsOfContact[i]) && !currentLight.changingStatus)
+                            if(currentCharge>=currentLight.lightCharge || currentLight.lightStatus)
+                                pointsOfContact[i].GetComponent<LightController>().SwitchOnOff(transform);
                         break;
                     }
                     else if (pointsOfContact[i].gameObject != null && pointsOfContact[i].gameObject.CompareTag(Tags.machinery)) {
-                        //activate the machinery
+                        MachineryController currentMachinery = pointsOfContact[i].GetComponent<MachineryController>();
+                        if (InLineOfSight(pointsOfContact[i]) && !currentMachinery.changingStatus)
+                            if(currentCharge>=currentMachinery.powerCharge || currentMachinery.powered)
+                                currentMachinery.SwitchOnOff(transform);
+                        break;
                     }
                     else if (pointsOfContact[i].gameObject != null && pointsOfContact[i].gameObject.CompareTag(Tags.enemy)) {
                         enemyControlled = pointsOfContact[i].GetComponent<EnemyController>();
-                        enemyControlled.controlled = true;
-                        inControl = !inControl;
-
+                        if (InLineOfSight(pointsOfContact[i]) && currentCharge>=enemyControlled.controlCost)
+                            enemyControlled.ControlledOnOff(transform);
+                        break;
                     }
-
-
                 }
             }
         }
@@ -69,7 +73,8 @@ public class GunController : MonoBehaviour {
 
     public bool InLineOfSight(Collider2D target) {
         if (target != null) {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, (target.transform.position - transform.position),1000f,lightLayer);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, (target.transform.position - transform.position),1000f,gunLayer);
+            //Debug.Log(hit.collider.gameObject.name+"    "+target.gameObject.name);
             if (hit.collider != null)
                 if (hit.collider.gameObject.name == target.gameObject.name) 
                     return true;
