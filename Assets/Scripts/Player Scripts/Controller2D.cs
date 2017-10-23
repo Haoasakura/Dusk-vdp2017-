@@ -5,6 +5,7 @@ public class Controller2D : RaycastController
     public float fallingThroughPlatformResetTimer = 0.1f;
     private float maxClimbAngle = 80f;
     private float maxDescendAngle = 80f;
+    public float gravityOnFall = 2;
 
     public CollisionInfo collisions;
     [HideInInspector]
@@ -36,6 +37,7 @@ public class Controller2D : RaycastController
 
         if (moveAmount.y < 0)
         {
+            moveAmount.y = moveAmount.y * gravityOnFall;
             DescendSlope(ref moveAmount);
         }
 
@@ -192,7 +194,9 @@ public class Controller2D : RaycastController
                         continue;
                     }
                 }
-                moveAmount.y = (hit.distance - skinWidth) * directionY;
+
+                    moveAmount.y = (hit.distance - skinWidth) * directionY;
+
                 rayLength = hit.distance;
 
                 if (collisions.climbingSlope)

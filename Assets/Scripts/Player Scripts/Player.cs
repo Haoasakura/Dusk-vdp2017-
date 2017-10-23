@@ -6,10 +6,11 @@ public class Player : MonoBehaviour
     public float maxJumpHeight = 4f;
     public float minJumpHeight = 1f;
     public float timeToJumpApex = .4f;
-    public float moveSpeed = 3f;
+    public float moveMinSpeed = 3f;
+    public float moveMaxSpeed = 7f;
     public float climbSpeed = 3f;
-    private float accelerationTimeAirborne = .2f;
-    private float accelerationTimeGrounded = .1f;
+    public float accelerationTimeAirborne = .2f;
+    public float accelerationTimeGrounded = .1f;
     
 
     public bool canDoubleJump;
@@ -122,12 +123,26 @@ public class Player : MonoBehaviour
 
     private void CalculateVelocity()
     {
-        float targetVelocityX = directionalInput.x * moveSpeed;
-        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below ? accelerationTimeGrounded : accelerationTimeAirborne));
+        float targetVelocityX = 0f;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            targetVelocityX = directionalInput.x * moveMaxSpeed;
+        }
+        else
+        {
+            targetVelocityX = directionalInput.x * moveMinSpeed;
+        }
+
+            velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below ? accelerationTimeGrounded : accelerationTimeAirborne));
 
         if (!isClimbing)
         {
             velocity.y += originalGravity * Time.deltaTime;
+        }
+        else
+        {
+            velocity.x = 0f;
         }
     }
 }
