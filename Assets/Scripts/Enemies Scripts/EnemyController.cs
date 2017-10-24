@@ -7,13 +7,16 @@ public class EnemyController : MonoBehaviour {
     public Transform endPosition;
     public float secondsForOneLength = 5f;
     public float mSpeed = 10f;
+    public float switchTime = 3f;
     public int controlCost = 25;
     public bool controlled = false;
     public bool changingStatus = false;
+    public GameObject absorptionEffect;
 
     private Vector3 startPosition;
     private SpriteRenderer spriteRenderer;
-    
+    private GameObject particleEffect;
+
 
     // Use this for initialization
     void Start () {
@@ -28,6 +31,9 @@ public class EnemyController : MonoBehaviour {
             if (Input.GetButton("Vertical") || Input.GetButton("Horizontal")) {
                 StopCoroutine("ConrtolledOn");
                 StopCoroutine("ControlledOff");
+                StopCoroutine("TrailingEffectOn");
+                StopCoroutine("TrailingEffectOff");
+                Destroy(particleEffect);
                 changingStatus = false;
                 controlled = false;
             }
@@ -66,29 +72,53 @@ public class EnemyController : MonoBehaviour {
 
     IEnumerator ConrtolledOn(Transform gun) {
         changingStatus = true;
-        int seconds = 3;
+        int seconds = (int)switchTime;
+        StartCoroutine("TrailingEffectOn", gun);
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
             seconds--;
         }
-        //spriteRenderer.sprite = lightStates[0];
+        StopCoroutine("TrailingEffectOn");
+        Destroy(particleEffect);
         controlled = true;
         gun.GetComponent<GunController>().currentCharge -= controlCost;
         gun.GetComponent<GunController>().inControl = true;
         changingStatus = false;
     }
 
-    IEnumerator ControlledOff(Transform gun) {
+    /*IEnumerator ControlledOff(Transform gun) {
         changingStatus = true;
-        int seconds = 3;
+        int seconds = (int)switchTime;
+        StartCoroutine("TrailingEffectOff", gun);
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
             seconds--;
         }
-        //spriteRenderer.sprite = lightStates[1];
+        StopCoroutine("TrailingEffectOff");
+        Destroy(particleEffect);
         controlled = false;
         changingStatus = false;
+    }*/
+
+    IEnumerator TrailingEffectOn(Transform gun) {
+        float startTime = Time.time;
+        float journeyLength = Vector3.Distance(gun.position, transform.position);
+        particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
+        while (true) {
+            particleEffect.transform.position = Vector3.Lerp(gun.position, transform.position, ((Time.time - startTime) * (switchTime-0.5f)) / journeyLength);
+            yield return null;
+        }
     }
+
+    /*IEnumerator TrailingEffectOff(Transform gun) {
+        float startTime = Time.time;
+        float journeyLength = Vector3.Distance(transform.position, gun.position);
+        particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
+        while (true) {
+            particleEffect.transform.position = Vector3.Lerp(transform.position, gun.position, ((Time.time - startTime) * switchTime) / journeyLength);
+            yield return null;
+        }
+    }*/
 
     private void OnDestroy() {
         if(controlled) {

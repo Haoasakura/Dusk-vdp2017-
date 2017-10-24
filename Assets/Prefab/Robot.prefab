@@ -92,9 +92,12 @@ MonoBehaviour:
   endPosition: {fileID: 0}
   secondsForOneLength: 5
   mSpeed: 10
+  switchTime: 3
   controlCost: 25
   controlled: 0
   changingStatus: 0
+  absorptionEffect: {fileID: 1969731243722472, guid: 0a134329a976316469f76cc7b4ce36f6,
+    type: 2}
 --- !u!212 &212575018711273744
 SpriteRenderer:
   m_ObjectHideFlags: 1

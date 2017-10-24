@@ -27,8 +27,8 @@ public class LightController : MonoBehaviour {
                 StopCoroutine("SwitchingOff");
                 StopCoroutine("TrailingEffectOn");
                 StopCoroutine("TrailingEffectOff");
-                changingStatus = false;
                 Destroy(particleEffect);
+                changingStatus = false; 
             }
         }
 	}
@@ -50,7 +50,6 @@ public class LightController : MonoBehaviour {
             yield return new WaitForSeconds(1f);
             seconds--;
         }
-        //Destroy(absorptionParticleSystem);
         StopCoroutine("TrailingEffectOn");
         Destroy(particleEffect);
         spriteRenderer.sprite = lightStates[0];
@@ -63,12 +62,10 @@ public class LightController : MonoBehaviour {
         changingStatus = true;
         int seconds = (int)switchTime;
         StartCoroutine("TrailingEffectOff", gun);
-        //particleSystem.transform.position = Vector3.Lerp(transform.position, gun.position, 3f);
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
             seconds--;
         }
-        //Destroy(absorptionParticleSystem);
         StopCoroutine("TrailingEffectOff");
         Destroy(particleEffect);
         spriteRenderer.sprite = lightStates[1];
@@ -82,7 +79,7 @@ public class LightController : MonoBehaviour {
         float journeyLength = Vector3.Distance(gun.position, transform.position);
         particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
         while (true) {
-            particleEffect.transform.position = Vector3.Lerp(gun.position, transform.position, ((Time.time - startTime) * switchTime) / journeyLength);
+            particleEffect.transform.position = Vector3.Lerp(gun.position, transform.position, ((Time.time - startTime) * (switchTime-0.5f)) / journeyLength);
             yield return null;
         }
     }
@@ -92,7 +89,7 @@ public class LightController : MonoBehaviour {
         float journeyLength = Vector3.Distance(transform.position, gun.position);
         particleEffect = Instantiate(absorptionEffect, transform.position,transform.rotation) as GameObject;
         while (true) {
-            particleEffect.transform.position=Vector3.Lerp(transform.position, gun.position, ((Time.time - startTime) * switchTime) / journeyLength);
+            particleEffect.transform.position=Vector3.Lerp(transform.position, gun.position, ((Time.time - startTime) * (switchTime-0.5f)) / journeyLength);
             yield return null;
         }
     }
