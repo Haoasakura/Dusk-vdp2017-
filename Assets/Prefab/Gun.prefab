@@ -164,7 +164,7 @@ MonoBehaviour:
   TurnSpeed: 50
   currentCharge: 50
   maxCharge: 100
-  inControl: 0
+  controlling: 0
   barrel: {fileID: 4051107181982396}
   laserDirection: {fileID: 4616099654985520}
   line: {fileID: 4791340063717932}
@@ -207,7 +207,7 @@ LineRenderer:
   m_SortingOrder: 2
   m_Positions:
   - {x: -0.74, y: -0.83, z: 0}
-  - {x: 7.74, y: -0.83, z: 0}
+  - {x: 10.74, y: -0.83, z: 0}
   m_Parameters:
     serializedVersion: 2
     widthMultiplier: 0.1

@@ -8,17 +8,16 @@ public class MachineryController : MonoBehaviour {
     public int powerCharge = 25;
     public bool powered = false;
     public bool changingStatus = false;
+
     public GameObject absorptionEffect;
 
     private SpriteRenderer spriteRenderer;
     private GameObject particleEffect;
 
-    // Use this for initialization
     void Start () {
         spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 	
-	// Update is called once per frame
 	void Update () {
         if (changingStatus) {
             if (Input.GetButton("Vertical") || Input.GetButton("Horizontal")) {
@@ -33,20 +32,17 @@ public class MachineryController : MonoBehaviour {
     }
 
     public void SwitchOnOff(Transform gun) {
-        if (!powered) {
+        if (!powered)
             StartCoroutine("SwitchingOn", gun);
-
-        }
-        else {
+        else
             StartCoroutine("SwitchingOff", gun);
-
-        }
     }
 
     IEnumerator SwitchingOn(Transform gun) {
+        GunController gunController = gun.GetComponent<GunController>();
         changingStatus = true;
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOn", gun.GetChild(0));
+        StartCoroutine("TrailingEffectOn", gunController.barrel);
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
             seconds--;
@@ -55,14 +51,14 @@ public class MachineryController : MonoBehaviour {
         StopCoroutine("TrailingEffectOn");
         Destroy(particleEffect);
         powered = true;
-        gun.GetComponent<GunController>().currentCharge -= powerCharge;
+        gunController.currentCharge -= powerCharge;
         changingStatus = false;
     }
 
     IEnumerator SwitchingOff(Transform gun) {
         changingStatus = true;
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOff", gun.GetChild(0));
+        StartCoroutine("TrailingEffectOff", gun.GetComponent<GunController>().barrel);
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
             seconds--;
@@ -76,10 +72,8 @@ public class MachineryController : MonoBehaviour {
 
     IEnumerator TrailingEffectOn(Transform gun) {
         float startTime = Time.time;
-        float journeyLength = Vector3.Distance(gun.position, transform.position);
         particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
         while (true) {
-            //particleEffect.transform.position = Vector3.Lerp(gun.position, transform.position, ((Time.time - startTime)) / switchTime);
             particleEffect.transform.position = Vector3.Lerp(gun.position, transform.position, Mathf.SmoothStep(0, 1, (Time.time - startTime) / switchTime));
             yield return null;
         }
@@ -87,10 +81,8 @@ public class MachineryController : MonoBehaviour {
 
     IEnumerator TrailingEffectOff(Transform gun) {
         float startTime = Time.time;
-        float journeyLength = Vector3.Distance(transform.position, gun.position);
         particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
         while (true) {
-            //particleEffect.transform.position = Vector3.Lerp(transform.position, gun.position, ((Time.time - startTime)) / switchTime);
             particleEffect.transform.position = Vector3.Lerp(transform.position, gun.position, Mathf.SmoothStep(0, 1, (Time.time - startTime) / switchTime));
             yield return null;
         }

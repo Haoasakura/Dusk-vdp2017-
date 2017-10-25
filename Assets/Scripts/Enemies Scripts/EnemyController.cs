@@ -4,27 +4,25 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour {
 
-    public Transform endPosition;
     public float secondsForOneLength = 5f;
     public float mSpeed = 10f;
     public float switchTime = 3f;
     public int controlCost = 25;
     public bool controlled = false;
     public bool changingStatus = false;
+
+    public Transform endPosition;
     public GameObject absorptionEffect;
 
     private Vector3 startPosition;
     private SpriteRenderer spriteRenderer;
     private GameObject particleEffect;
 
-
-    // Use this for initialization
     void Start () {
         startPosition = transform.position;
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 	
-	// Update is called once per frame
 	void Update () {
 
         if (changingStatus) {
@@ -48,33 +46,28 @@ public class EnemyController : MonoBehaviour {
                 spriteRenderer.flipX = true;
         }
         else {
-           float mHorizontal = Input.GetAxisRaw("Horizontal");
-           float mVertical = Input.GetAxisRaw("Vertical");
+            float mHorizontal = Input.GetAxisRaw("Horizontal");
+            float mVertical = Input.GetAxisRaw("Vertical");
 
             GetComponent<Rigidbody2D>().velocity = new Vector2(mHorizontal*mSpeed,0f);
 
-            if(Input.GetKey(KeyCode.F)) {
+            if(Input.GetKey(KeyCode.F))
                 Destroy(gameObject);
-            }
         }
     }
 
-    public void ControlledOnOff(Transform gun) {
-        
-        if (!controlled) {
+    public void ControlledOnOff(Transform gun) {  
+        if (!controlled)
             StartCoroutine("ConrtolledOn", gun);
-
-        }
-        else {
+        else
             StartCoroutine("ControlledOff", gun);
-
-        }
     }
 
     IEnumerator ConrtolledOn(Transform gun) {
+        GunController gunController = gun.GetComponent<GunController>();
         changingStatus = true;
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOn", gun.GetChild(0));
+        StartCoroutine("TrailingEffectOn", gunController.barrel);
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
             seconds--;
@@ -82,15 +75,15 @@ public class EnemyController : MonoBehaviour {
         StopCoroutine("TrailingEffectOn");
         Destroy(particleEffect);
         controlled = true;
-        gun.GetComponent<GunController>().currentCharge -= controlCost;
-        gun.GetComponent<GunController>().inControl = true;
+        gunController.currentCharge -= controlCost;
+        gunController.controlling = true;
         changingStatus = false;
     }
 
     /*IEnumerator ControlledOff(Transform gun) {
         changingStatus = true;
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOff", gun.GetChild(0));
+        StartCoroutine("TrailingEffectOff", gun.GetComponent<GunController>().barrel);
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
             seconds--;
@@ -120,8 +113,7 @@ public class EnemyController : MonoBehaviour {
     }*/
 
     private void OnDestroy() {
-        if(controlled && GameObject.FindGameObjectWithTag(Tags.player)) {
-            GameObject.FindGameObjectWithTag(Tags.player).GetComponent<GunController>().inControl = false;
-        }
+        if(controlled && GameObject.FindGameObjectWithTag(Tags.player))
+            GameObject.FindGameObjectWithTag(Tags.player).GetComponent<GunController>().controlling = false;
     }
 }

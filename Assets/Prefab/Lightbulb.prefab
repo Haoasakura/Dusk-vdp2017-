@@ -89,10 +89,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9be9aa959b9b983449461b3c81c1144c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  switchTime: 3
+  lightCharge: 25
   lightStatus: 1
   changingStatus: 0
-  lightCharge: 25
-  switchTime: 3
   lightStates:
   - {fileID: 21300000, guid: 774c856a4e0ed5e4cbe265d997d93357, type: 3}
   - {fileID: 21300000, guid: 0e7e869c34673fc469abe32852719611, type: 3}

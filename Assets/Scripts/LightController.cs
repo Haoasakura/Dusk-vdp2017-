@@ -4,22 +4,21 @@ using UnityEngine;
 
 public class LightController : MonoBehaviour {
 
+    public float switchTime = 3f;
+    public int lightCharge = 25;
     public bool lightStatus = true;
     public bool changingStatus = false;
-    public int lightCharge = 25;
-    public float switchTime = 3f;
+
     public Sprite[] lightStates;
     public GameObject absorptionEffect;
     
     private SpriteRenderer spriteRenderer;
     private GameObject particleEffect;
 
-    // Use this for initialization
     void Start () {
         spriteRenderer = GetComponent<SpriteRenderer>();
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 		if (changingStatus) {
             if(Input.GetButton("Vertical") || Input.GetButton("Horizontal")) {
@@ -34,18 +33,17 @@ public class LightController : MonoBehaviour {
 	}
 
     public void SwitchOnOff(Transform gun) {
-        if (!lightStatus) {
+        if (!lightStatus)
             StartCoroutine("SwitchingOn", gun); 
-        }
-        else {
+        else
             StartCoroutine("SwitchingOff", gun);  
-        }
     }
 
     IEnumerator SwitchingOn(Transform gun) {
+        GunController gunController = gun.GetComponent<GunController>();
         changingStatus = true;
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOn", gun.GetChild(0));
+        StartCoroutine("TrailingEffectOn", gunController.barrel);
         while (seconds>0) {
             yield return new WaitForSeconds(1f);
             seconds--;
@@ -54,14 +52,15 @@ public class LightController : MonoBehaviour {
         Destroy(particleEffect);
         spriteRenderer.sprite = lightStates[0];
         lightStatus = true;
-        gun.GetComponent<GunController>().currentCharge -= lightCharge;
+        gunController.currentCharge -= lightCharge;
         changingStatus = false;
     }
 
     IEnumerator SwitchingOff(Transform gun) {
+        GunController gunController = gun.GetComponent<GunController>();
         changingStatus = true;
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOff", gun.GetChild(0));
+        StartCoroutine("TrailingEffectOff", gunController.barrel);
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
             seconds--;
@@ -70,7 +69,7 @@ public class LightController : MonoBehaviour {
         Destroy(particleEffect);
         spriteRenderer.sprite = lightStates[1];
         lightStatus = false;
-        gun.GetComponent<GunController>().currentCharge += lightCharge;
+        gunController.currentCharge += lightCharge;
         changingStatus = false;
     }
 
