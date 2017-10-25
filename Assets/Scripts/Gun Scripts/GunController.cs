@@ -6,6 +6,7 @@ public class GunController : MonoBehaviour {
 
     public float TurnSpeed = 20f;
     public Transform lineOfSight;
+    public Transform line;
     public int currentCharge = 50;
     public int maxCharge = 100;
     public LayerMask gunLayer;
@@ -13,13 +14,22 @@ public class GunController : MonoBehaviour {
 
     private Transform mTransform;
     private EnemyController enemyControlled;
+    private LineRenderer mLineRenderer;
     
 
 	void Start () {
         mTransform = GetComponent<Transform>();
+        mLineRenderer = GetComponent<LineRenderer>();
 	}
 	
 	void Update () {
+        Debug.DrawRay(transform.GetChild(0).position, (GetComponent<SpriteRenderer>().flipY) ? Vector2.left*100 : Vector2.right*100);
+        RaycastHit2D hit = Physics2D.Raycast(transform.GetChild(0).position,(GetComponent<SpriteRenderer>().flipY)?Vector2.left:Vector2.right, 1000f, gunLayer);
+        //Debug.Log(hit.collider.gameObject.name+"    "+target.gameObject.name);
+        if (hit.collider != null) {
+            mLineRenderer.SetPosition(1, hit.transform.position);
+        }
+
         if (!inControl) {
             //rotazione della pistola
             if (Input.GetButton("Vertical")) {

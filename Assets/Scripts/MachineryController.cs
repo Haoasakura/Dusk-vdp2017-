@@ -46,7 +46,7 @@ public class MachineryController : MonoBehaviour {
     IEnumerator SwitchingOn(Transform gun) {
         changingStatus = true;
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOn", gun);
+        StartCoroutine("TrailingEffectOn", gun.GetChild(0));
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
             seconds--;
@@ -62,7 +62,7 @@ public class MachineryController : MonoBehaviour {
     IEnumerator SwitchingOff(Transform gun) {
         changingStatus = true;
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOff", gun);
+        StartCoroutine("TrailingEffectOff", gun.GetChild(0));
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
             seconds--;
@@ -79,7 +79,8 @@ public class MachineryController : MonoBehaviour {
         float journeyLength = Vector3.Distance(gun.position, transform.position);
         particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
         while (true) {
-            particleEffect.transform.position = Vector3.Lerp(gun.position, transform.position, ((Time.time - startTime) * (switchTime-0.5f)) / journeyLength);
+            //particleEffect.transform.position = Vector3.Lerp(gun.position, transform.position, ((Time.time - startTime)) / switchTime);
+            particleEffect.transform.position = Vector3.Lerp(gun.position, transform.position, Mathf.SmoothStep(0, 1, (Time.time - startTime) / switchTime));
             yield return null;
         }
     }
@@ -89,7 +90,8 @@ public class MachineryController : MonoBehaviour {
         float journeyLength = Vector3.Distance(transform.position, gun.position);
         particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
         while (true) {
-            particleEffect.transform.position = Vector3.Lerp(transform.position, gun.position, ((Time.time - startTime) * switchTime) / journeyLength);
+            //particleEffect.transform.position = Vector3.Lerp(transform.position, gun.position, ((Time.time - startTime)) / switchTime);
+            particleEffect.transform.position = Vector3.Lerp(transform.position, gun.position, Mathf.SmoothStep(0, 1, (Time.time - startTime) / switchTime));
             yield return null;
         }
     }
