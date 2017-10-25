@@ -5,11 +5,6 @@
 /[Bb]uild/
 /[Bb]uilds/
 /Assets/AssetStoreTools*
-[Ll]ibrary/
-
-/[Ll]ibrary/metadata/
-[Ll]ibrary/
-metadata/
 
 # Visual Studio 2015 cache directory
 /.vs/
@@ -38,8 +33,3 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
-
-
-Library/
-
-*.dwlt
