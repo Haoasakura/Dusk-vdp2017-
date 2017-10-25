@@ -500,7 +500,7 @@ LineRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1281763230}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -876,7 +876,8 @@ Prefab:
       propertyPath: m_SortingOrder
       value: 2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 70369773772581888, guid: f91205b5b7781584aa7a4512c6b2bb44, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: f91205b5b7781584aa7a4512c6b2bb44, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &2144096180

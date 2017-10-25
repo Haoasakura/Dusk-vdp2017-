@@ -23,7 +23,7 @@ public class GunController : MonoBehaviour {
 	}
 	
 	void Update () {
-        Debug.DrawRay(transform.GetChild(0).position, (GetComponent<SpriteRenderer>().flipY) ? Vector2.left*100 : Vector2.right*100);
+        Debug.DrawRay(transform.position, transform.GetChild(0).position);
         RaycastHit2D hit = Physics2D.Raycast(transform.GetChild(0).position,(GetComponent<SpriteRenderer>().flipY)?Vector2.left:Vector2.right, 1000f, gunLayer);
         //Debug.Log(hit.collider.gameObject.name+"    "+target.gameObject.name);
         if (hit.collider != null) {
