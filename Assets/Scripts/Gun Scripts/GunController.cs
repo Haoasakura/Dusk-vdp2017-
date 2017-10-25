@@ -5,13 +5,16 @@ using UnityEngine;
 public class GunController : MonoBehaviour {
 
     public float TurnSpeed = 20f;
-    public Transform lineOfSight;
-    public Transform line;
     public int currentCharge = 50;
     public int maxCharge = 100;
-    public LayerMask gunLayer;
     public bool inControl = false;
+    public Transform barrel;
+    public Transform laserDirection;
+    public Transform line;
+    public LayerMask gunLayer;
 
+
+    private Transform mTarget;
     private Transform mTransform;
     private EnemyController enemyControlled;
     private LineRenderer mLineRenderer;
@@ -23,11 +26,14 @@ public class GunController : MonoBehaviour {
 	}
 	
 	void Update () {
-        Debug.DrawRay(transform.position, transform.GetChild(0).position);
-        RaycastHit2D hit = Physics2D.Raycast(transform.GetChild(0).position,(GetComponent<SpriteRenderer>().flipY)?Vector2.left:Vector2.right, 1000f, gunLayer);
-        //Debug.Log(hit.collider.gameObject.name+"    "+target.gameObject.name);
+        RaycastHit2D hit = Physics2D.Raycast(barrel.position,laserDirection.position, 10, gunLayer);
         if (hit.collider != null) {
-            mLineRenderer.SetPosition(1, hit.transform.position);
+            line.GetComponent<LineRenderer>().SetPosition(1, hit.point);
+            mTarget = hit.transform;
+        }
+        else {
+            line.GetComponent<LineRenderer>().SetPosition(1, laserDirection.position);
+            mTarget = null;
         }
 
         if (!inControl) {
@@ -45,11 +51,12 @@ public class GunController : MonoBehaviour {
                 else {
                     GetComponent<SpriteRenderer>().flipY = true;
                 }
+                line.GetComponent<LineRenderer>().SetPosition(0, barrel.position );
             }
 
             if (Input.GetButtonDown("Fire1") && currentCharge < maxCharge) {
 
-                //Nummero di collisioni che il fucile percepisce
+                /*//Nummero di collisioni che il fucile percepisce
                 Collider2D[] pointsOfContact = new Collider2D[25];
                 ContactFilter2D contactFilter = new ContactFilter2D();
                 contactFilter.useTriggers = true;
@@ -75,6 +82,25 @@ public class GunController : MonoBehaviour {
                         if (InLineOfSight(pointsOfContact[i]) && currentCharge>=enemyControlled.controlCost)
                             enemyControlled.ControlledOnOff(transform);
                         break;
+                    }
+                }*/
+                if (mTarget != null) {
+                    if (mTarget.CompareTag(Tags.light)) {
+                        LightController currentLight = mTarget.GetComponent<LightController>();
+                        if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && !currentLight.changingStatus)
+                            if (currentCharge >= currentLight.lightCharge || currentLight.lightStatus)
+                                mTarget.GetComponent<LightController>().SwitchOnOff(transform);
+                    }
+                    else if (mTarget.CompareTag(Tags.machinery)) {
+                        MachineryController currentMachinery = mTarget.GetComponent<MachineryController>();
+                        if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && !currentMachinery.changingStatus)
+                            if (currentCharge >= currentMachinery.powerCharge || currentMachinery.powered)
+                                currentMachinery.SwitchOnOff(transform);
+                    }
+                    else if (mTarget.CompareTag(Tags.enemy)) {
+                        enemyControlled = mTarget.GetComponent<EnemyController>();
+                        if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && currentCharge >= enemyControlled.controlCost)
+                            enemyControlled.ControlledOnOff(transform);
                     }
                 }
             }
