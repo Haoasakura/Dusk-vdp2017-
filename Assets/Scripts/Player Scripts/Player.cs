@@ -19,7 +19,6 @@ public class Player : MonoBehaviour
     private bool isClimbing = false;
 
     private float originalGravity;
-    private float gravityOnFall;
     private float maxJumpVelocity;
     private float minJumpVelocity;
     private Vector3 velocity;
@@ -37,7 +36,6 @@ public class Player : MonoBehaviour
         originalGravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(originalGravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(originalGravity) * minJumpHeight);
-        gravityOnFall = originalGravity;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -53,7 +51,6 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag.Equals("Ladder"))
         {
             canClimb = false;
-            gravityOnFall = originalGravity;
             isClimbing = false;
         }
     }
@@ -91,7 +88,6 @@ public class Player : MonoBehaviour
         else if (isClimbing)
         {
             velocity.y = maxJumpVelocity;
-            gravityOnFall = originalGravity;
             isClimbing = false;
         }
     }
@@ -108,7 +104,6 @@ public class Player : MonoBehaviour
     {
         if ((Input.GetAxis("Vertical") > 0) && canClimb && !isClimbing)
         {
-            gravityOnFall = 0f;
             isClimbing = true;
         }
         else if ((Input.GetAxis("Vertical") != 0) && canClimb && isClimbing)
@@ -142,7 +137,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            velocity.x = 0f;
+            velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, accelerationTimeGrounded);
         }
     }
 }
