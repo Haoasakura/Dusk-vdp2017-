@@ -47,4 +47,11 @@ public class ElevatorMovement : MonoBehaviour {
     {
         nextPosition = (nextPosition != startingPosition ? startingPosition : targetPosition);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag.Equals("Player")) {
+            collision.gameObject.transform.position = gameObject.transform.position;
+        }
+    }
 }
