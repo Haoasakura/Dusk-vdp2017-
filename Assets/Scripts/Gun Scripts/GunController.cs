@@ -28,7 +28,7 @@ public class GunController : MonoBehaviour {
 
         line.GetComponent<LineRenderer>().SetPosition(0, barrel.position);
 
-        RaycastHit2D hit = Physics2D.Linecast(barrel.position, laserDirection.position, gunLayer);
+        RaycastHit2D hit = Physics2D.Linecast(barrel.position, laserDirection.position/*, gunLayer*/);
         if (hit.collider != null) {
             line.GetComponent<LineRenderer>().SetPosition(1, hit.point);
             mTarget = hit.transform;
