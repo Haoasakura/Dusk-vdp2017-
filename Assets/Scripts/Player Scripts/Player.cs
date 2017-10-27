@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     private bool isDoubleJumping = false;
     private bool canClimb = false;
     private bool isClimbing = false;
+    private bool lastClimb = true;
 
     private float originalGravity;
     private float maxJumpVelocity;
@@ -40,9 +41,38 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.tag.Equals("BaseLadder") && isClimbing)
+        {
+            isClimbing = false;
+        }
+        if (collision.gameObject.name.Equals("TopLadder"))
+        {
+            if (isClimbing)
+            {
+                collision.gameObject.layer = 9;
+                collision.gameObject.tag = "Ladder";
+            }
+            else
+            {
+                collision.gameObject.layer = 8;
+                collision.gameObject.tag = "Through";
+            }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
         if (collision.gameObject.tag.Equals("Ladder"))
         {
             canClimb = true;
+        }
+        if (collision.gameObject.name.Equals("TopLadder"))
+        {
+            if (isClimbing)
+            {
+                collision.gameObject.layer = 9;
+                collision.gameObject.tag = "Ladder";
+            }
         }
     }
 
@@ -52,6 +82,11 @@ public class Player : MonoBehaviour
         {
             canClimb = false;
             isClimbing = false;
+        }
+        if (collision.gameObject.name.Equals("TopLadder"))
+        {
+            collision.gameObject.layer = 8;
+            collision.gameObject.tag = "Through";
         }
     }
 
