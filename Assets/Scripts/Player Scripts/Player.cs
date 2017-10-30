@@ -3,6 +3,7 @@
 [RequireComponent(typeof(Controller2D))]
 public class Player : MonoBehaviour
 {
+    //Settaggi per il personaggio (Utilizza Inspector per cambiarli
     public float maxJumpHeight = 4f;
     public float minJumpHeight = 1f;
     public float timeToJumpApex = .4f;
@@ -11,10 +12,8 @@ public class Player : MonoBehaviour
     public float climbSpeed = 3f;
     public float accelerationTimeAirborne = .2f;
     public float accelerationTimeGrounded = .1f;
-    
 
-    public bool canDoubleJump;
-    private bool isDoubleJumping = false;
+    //Variabili per l'arrampicata e il doppio salto (non utilizzato)
     private bool canClimb = false;
     private bool isClimbing = false;
     private bool lastClimb = true;
@@ -78,16 +77,17 @@ public class Player : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+
         if (collision.gameObject.tag.Equals("Ladder"))
         {
             canClimb = false;
-            isClimbing = false;
         }
         if (collision.gameObject.name.Equals("TopLadder"))
         {
             collision.gameObject.layer = 8;
             collision.gameObject.tag = "Through";
         }
+
     }
 
     private void Update()
@@ -113,12 +113,13 @@ public class Player : MonoBehaviour
         if (controller.collisions.below)
         {
             velocity.y = maxJumpVelocity;
-            isDoubleJumping = false;
+            isClimbing = false;
+
         }
-        if (canDoubleJump && !controller.collisions.below && !isDoubleJumping && !wallSliding)
+        if (!controller.collisions.below && !wallSliding)
         {
             velocity.y = maxJumpVelocity;
-            isDoubleJumping = true;
+            isClimbing = false;
         }
         else if (isClimbing)
         {
@@ -148,6 +149,9 @@ public class Player : MonoBehaviour
         else if ((Input.GetAxis("Vertical") == 0) && canClimb && isClimbing)
         {
             velocity.y = velocity.y * 0.5f;
+        } else
+        {
+            isClimbing = false;
         }
     }
 
