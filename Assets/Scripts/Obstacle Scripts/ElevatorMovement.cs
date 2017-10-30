@@ -48,11 +48,10 @@ public class ElevatorMovement : MonoBehaviour {
         nextPosition = (nextPosition != startingPosition ? startingPosition : targetPosition);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        if (collision.transform.tag.Equals("Elevator")) {
-            GetComponent<Rigidbody2D>().isKinematic = true;
-            transform.parent = collision.transform;
+        if (other.gameObject.tag.Equals("Player")) {
+            other.gameObject.transform.position = gameObject.transform.position;
         }
     }
 }
