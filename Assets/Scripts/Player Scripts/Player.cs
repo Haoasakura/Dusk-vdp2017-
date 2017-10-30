@@ -116,11 +116,6 @@ public class Player : MonoBehaviour
             isClimbing = false;
 
         }
-        if (!controller.collisions.below && !wallSliding)
-        {
-            velocity.y = maxJumpVelocity;
-            isClimbing = false;
-        }
         else if (isClimbing)
         {
             velocity.y = maxJumpVelocity;
