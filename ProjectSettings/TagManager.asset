@@ -11,6 +11,7 @@ TagManager:
   - Enemy
   - BaseLadder
   - TopLadder
+  - Elevator
   layers:
   - Default
   - TransparentFX

@@ -1293,7 +1293,7 @@ GameObject:
   - component: {fileID: 540810464}
   m_Layer: 8
   m_Name: Platform
-  m_TagString: Untagged
+  m_TagString: Elevator
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1345,9 +1345,9 @@ CompositeCollider2D:
     m_ColliderPaths:
     - - X: 19466814
         Y: 6865108
-      - X: 6424470
+      - X: 6424471
         Y: 6865108
-      - X: 6424470
+      - X: 6424471
         Y: -6865108
       - X: 19466814
         Y: -6865108
