@@ -18,12 +18,14 @@ public class Player : MonoBehaviour
     private bool isClimbing = false;
     private bool lastClimb = true;
 
+    //Variabili di stato per la gravità
     private float originalGravity;
     private float maxJumpVelocity;
     private float minJumpVelocity;
     private Vector3 velocity;
     private float velocityXSmoothing;
 
+    //Link allo script Controller2D
     private Controller2D controller;
 
     private Vector2 directionalInput;
@@ -32,62 +34,11 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        //Setta le regole di gravità e trova il Controller2D
         controller = GetComponent<Controller2D>();
         originalGravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(originalGravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(originalGravity) * minJumpHeight);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag.Equals("BaseLadder") && isClimbing)
-        {
-            isClimbing = false;
-        }
-        if (collision.gameObject.name.Equals("TopLadder"))
-        {
-            if (isClimbing)
-            {
-                collision.gameObject.layer = 9;
-                collision.gameObject.tag = "Ladder";
-            }
-            else
-            {
-                collision.gameObject.layer = 8;
-                collision.gameObject.tag = "Through";
-            }
-        }
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag.Equals("Ladder"))
-        {
-            canClimb = true;
-        }
-        if (collision.gameObject.name.Equals("TopLadder"))
-        {
-            if (isClimbing)
-            {
-                collision.gameObject.layer = 9;
-                collision.gameObject.tag = "Ladder";
-            }
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-
-        if (collision.gameObject.tag.Equals("Ladder"))
-        {
-            canClimb = false;
-        }
-        if (collision.gameObject.name.Equals("TopLadder"))
-        {
-            collision.gameObject.layer = 8;
-            collision.gameObject.tag = "Through";
-        }
-
     }
 
     private void Update()
@@ -148,6 +99,64 @@ public class Player : MonoBehaviour
         {
             isClimbing = false;
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag.Equals("BaseLadder") && isClimbing)
+        {
+            isClimbing = false;
+        }      
+        
+        //TODO: Estrarre questo codice nell'oggetto TopLadder
+        if (collision.gameObject.name.Equals("TopLadder"))
+        {
+            if (isClimbing)
+            {
+                collision.gameObject.layer = 9;
+                collision.gameObject.tag = "Ladder";
+            }
+            else
+            {
+                collision.gameObject.layer = 8;
+                collision.gameObject.tag = "Through";
+            }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Ladder"))
+        {
+            canClimb = true;
+        }
+
+        //TODO: Estrarre questo codice nell'oggetto TopLadder
+        if (collision.gameObject.name.Equals("TopLadder"))
+        {
+            if (isClimbing)
+            {
+                collision.gameObject.layer = 9;
+                collision.gameObject.tag = "Ladder";
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+
+        if (collision.gameObject.tag.Equals("Ladder"))
+        {
+            canClimb = false;
+        }
+
+        //TODO: Estrarre questo codice nell'oggetto TopLadder
+        if (collision.gameObject.name.Equals("TopLadder"))
+        {
+            collision.gameObject.layer = 8;
+            collision.gameObject.tag = "Through";
+        }
+
     }
 
     private void CalculateVelocity()
