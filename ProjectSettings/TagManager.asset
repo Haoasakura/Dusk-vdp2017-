@@ -12,6 +12,7 @@ TagManager:
   - BaseLadder
   - TopLadder
   - Elevator
+  - Gun
   layers:
   - Default
   - TransparentFX

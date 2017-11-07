@@ -21,7 +21,6 @@ public class ElevatorMovement : MonoBehaviour {
     [SerializeField]
     private Transform targetPointTransform;
 
-	// Use this for initialization
 	void Start () {
 
         startingPosition = childTransform.localPosition;
@@ -29,7 +28,6 @@ public class ElevatorMovement : MonoBehaviour {
         nextPosition = targetPosition;
 	}
 	
-	// Update is called once per frame
 	void Update () {
         Move();
     }

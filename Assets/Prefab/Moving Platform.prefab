@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 403938}
   - component: {fileID: 6149380}
   - component: {fileID: 11407730}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Moving Platform
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -105,7 +105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000011705557550}
   - component: {fileID: 212000012115404828}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Platform Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013783419912}
   - component: {fileID: 212000012155606356}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Platform Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4000010641100056}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Platform Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}

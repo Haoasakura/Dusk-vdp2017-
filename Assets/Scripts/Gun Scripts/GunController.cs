@@ -14,12 +14,14 @@ public class GunController : MonoBehaviour {
     public Transform line;
     public LayerMask gunLayer;
 
+    private Player player;
     private Transform mTarget;
     private Transform mTransform;
     private EnemyController enemyControlled;
     private LineRenderer mLineRenderer;
     
 	void Start () {
+        player = GetComponentInParent<Player>();
         mTransform = GetComponent<Transform>();
         mLineRenderer = GetComponent<LineRenderer>();
 	}
@@ -38,7 +40,7 @@ public class GunController : MonoBehaviour {
             mTarget = null;
         }
 
-        if (!controlling) {
+        if (!player.controlling) {
             //rotazione della pistola
             if (Input.GetButton("Vertical")) {
                 float mVertical = Input.GetAxis("Vertical");

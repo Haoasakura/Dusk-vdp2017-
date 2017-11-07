@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(CapsuleCollider2D))]
+[RequireComponent(typeof(Collider2D))]
 public class RaycastController : MonoBehaviour
 {
     public LayerMask collisionMask;
@@ -19,13 +19,13 @@ public class RaycastController : MonoBehaviour
     public float verticalRaySpacing;
 
     [HideInInspector]
-    public CapsuleCollider2D coll;
+    public Collider2D coll;
     [HideInInspector]
     public RaycastOrigins raycastOrigins;
 
     public virtual void Awake()
     {
-        coll = GetComponent<CapsuleCollider2D>();
+        coll = GetComponent<Collider2D>();
     }
 
     public virtual void Start()

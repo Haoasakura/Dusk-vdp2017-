@@ -3,7 +3,7 @@
 [RequireComponent(typeof(Controller2D))]
 public class Player : MonoBehaviour
 {
-    //Settaggi per il personaggio (Utilizza Inspector per cambiarli
+    //Settaggi per il personaggio (Utilizza Inspector per cambiarli)
     public float maxJumpHeight = 4f;
     public float minJumpHeight = 1f;
     public float timeToJumpApex = .4f;
@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public float climbSpeed = 3f;
     public float accelerationTimeAirborne = .2f;
     public float accelerationTimeGrounded = .1f;
+    public bool controlling = false;
 
     //Variabili per l'arrampicata e il doppio salto (non utilizzato)
     private bool canClimb = false;
@@ -22,9 +23,9 @@ public class Player : MonoBehaviour
     private float originalGravity;
     private float maxJumpVelocity;
     private float minJumpVelocity;
-    private Vector3 velocity;
     private float velocityXSmoothing;
-
+    private Vector3 velocity;
+     
     //Link allo script Controller2D
     private Controller2D controller;
 
@@ -44,13 +45,14 @@ public class Player : MonoBehaviour
     private void Update()
     {
         CalculateVelocity();
-        ClimbControl();
+        if (!controlling) {
+            
+            ClimbControl();
 
-        controller.Move(velocity * Time.deltaTime, directionalInput);
+            controller.Move(velocity * Time.deltaTime, directionalInput);
 
-        if (controller.collisions.above || controller.collisions.below)
-        {
-            velocity.y = 0f;
+            if (controller.collisions.above || controller.collisions.below)
+                velocity.y = 0f;
         }
     }
 

@@ -64,6 +64,9 @@ public class EnemyController : MonoBehaviour {
     }
 
     IEnumerator ConrtolledOn(Transform gun) {
+        Player player = null;
+        if (GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Player>() != null)
+            player = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Player>();
         GunController gunController = gun.GetComponent<GunController>();
         changingStatus = true;
         int seconds = (int)switchTime;
@@ -76,7 +79,7 @@ public class EnemyController : MonoBehaviour {
         Destroy(particleEffect);
         controlled = true;
         gunController.currentCharge -= controlCost;
-        gunController.controlling = true;
+        player.controlling = true;
         changingStatus = false;
     }
 
@@ -114,6 +117,7 @@ public class EnemyController : MonoBehaviour {
 
     private void OnDestroy() {
         if(controlled && GameObject.FindGameObjectWithTag(Tags.player))
-            GameObject.FindGameObjectWithTag(Tags.player).GetComponent<GunController>().controlling = false;
+            if(GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Player>()!=null)
+                GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Player>().controlling = false;
     }
 }
