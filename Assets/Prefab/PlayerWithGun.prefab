@@ -261,6 +261,7 @@ MonoBehaviour:
   accelerationTimeAirborne: 3
   accelerationTimeGrounded: 0.1
   controlling: 0
+  controller: {fileID: 0}
 --- !u!114 &114239541891761324
 MonoBehaviour:
   m_ObjectHideFlags: 1

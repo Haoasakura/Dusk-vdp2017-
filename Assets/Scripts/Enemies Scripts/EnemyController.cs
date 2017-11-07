@@ -41,8 +41,8 @@ public class EnemyController : MonoBehaviour {
 
         if (!controlled && !changingStatus) {
             float lastX = transform.position.x;
-            transform.position = Vector3.Lerp(startPosition, endPosition.position, Mathf.SmoothStep(0f, 1f, Mathf.PingPong(Time.time / secondsForOneLength, 1f)));
-            //player.controller.Move(Vector3.right * Time.deltaTime, Vector2.right);
+            //transform.position = Vector3.Lerp(startPosition, endPosition.position, Mathf.SmoothStep(0f, 1f, Mathf.PingPong(Time.time / secondsForOneLength, 1f)));
+            player.controller.Move(Vector3.right * Time.deltaTime, Vector2.right);
             if (transform.position.x > lastX)
                 spriteRenderer.flipX = false;
             else
