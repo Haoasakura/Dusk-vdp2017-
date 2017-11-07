@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     private Vector3 velocity;
      
     //Link allo script Controller2D
-    private Controller2D controller;
+    public Controller2D controller;
 
     private Vector2 directionalInput;
     private bool wallSliding;
