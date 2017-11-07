@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Controller2D))]
+//[RequireComponent(typeof(Controller2D))]
 public class Player : MonoBehaviour
 {
     //Settaggi per il personaggio (Utilizza Inspector per cambiarli)

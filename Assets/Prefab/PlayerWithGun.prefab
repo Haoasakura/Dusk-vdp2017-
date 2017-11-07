@@ -67,10 +67,10 @@ GameObject:
   - component: {fileID: 4968025613568654}
   - component: {fileID: 212842435105466320}
   - component: {fileID: 50342000031924620}
-  - component: {fileID: 70280604121833164}
   - component: {fileID: 114239541891761324}
   - component: {fileID: 114061999499538962}
   - component: {fileID: 114076262290108662}
+  - component: {fileID: 61680194753589028}
   m_Layer: 0
   m_Name: PlayerWithGun
   m_TagString: Player
@@ -205,8 +205,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!70 &70280604121833164
-CapsuleCollider2D:
+--- !u!61 &61680194753589028
+BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -218,8 +218,18 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.28, y: 1.96}
+    newSize: {x: 1.28, y: 2.56}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
   m_Size: {x: 1.28, y: 1.96}
-  m_Direction: 0
+  m_EdgeRadius: 0
 --- !u!114 &114061999499538962
 MonoBehaviour:
   m_ObjectHideFlags: 1
