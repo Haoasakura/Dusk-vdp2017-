@@ -25,7 +25,7 @@ public class CameraController : MonoBehaviour {
     {
         if (collision.tag.Equals("Player"))
         {
-            Debug.Log(Mathf.Abs(transform.position.x - collision.transform.position.x));
+            //Debug.Log(Mathf.Abs(transform.position.x - collision.transform.position.x));
 
 
             //Traslazioni nel caso il giocatore esca dal collider

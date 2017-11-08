@@ -9,13 +9,14 @@ public class GunController : MonoBehaviour {
     public int maxCharge = 100;
     public bool controlling = false;
 
+    [HideInInspector]
+    public Transform mTarget;
     public Transform barrel;
     public Transform laserDirection;
     public Transform line;
     public LayerMask gunLayer;
 
     private Player player;
-    private Transform mTarget;
     private Transform mTransform;
     private EnemyController enemyControlled;
     private LineRenderer mLineRenderer;
@@ -81,7 +82,6 @@ public class GunController : MonoBehaviour {
     public bool InLineOfSight(Collider2D target) {
         if (target != null) {
             RaycastHit2D hit = Physics2D.Raycast(barrel.position, (target.transform.position - transform.position),1000f,gunLayer);
-            Debug.Log(hit.collider.name);
             if (hit.collider != null && hit.collider.gameObject.name == target.gameObject.name)
                 return true;
         }
