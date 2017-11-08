@@ -45,15 +45,10 @@ public class Player : MonoBehaviour
     private void Update()
     {
         CalculateVelocity();
-        if (!controlling) {
-            
-            ClimbControl();
-
-            controller.Move(velocity * Time.deltaTime, directionalInput);
-
-            if (controller.collisions.above || controller.collisions.below)
-                velocity.y = 0f;
-        }
+        ClimbControl();
+        controller.Move(velocity * Time.deltaTime, directionalInput);
+        if (controller.collisions.above || controller.collisions.below)
+            velocity.y = 0f;
     }
 
     public void SetDirectionalInput(Vector2 input)
