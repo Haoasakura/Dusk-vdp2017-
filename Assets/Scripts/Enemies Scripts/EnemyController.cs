@@ -66,11 +66,8 @@ public class EnemyController : MonoBehaviour {
 
             if (startPoint.position.x - transform.position.x >= 0 || endPoint.position.x - transform.position.x <= 0) {
                 setDestination(mDestination == startPoint ? endPoint : startPoint);
-                //gun.transform.rotation = new Quaternion(gun.transform.rotation.x, gun.transform.rotation.y, gun.transform.rotation.z + 180, Quaternion.identity.z);
-                //non ruota!!!!
-                gun.transform.rotation = Quaternion.Euler(0, 0, -(gun.transform.rotation.z));
-                gun.GetComponent<SpriteRenderer>().flipX = !gun.GetComponent<SpriteRenderer>().flipX;
-                //gun.GetComponent<SpriteRenderer>().flipY = !gun.GetComponent<SpriteRenderer>().flipY;
+                gun.transform.rotation = Quaternion.Euler(0, 0, 180 - gun.transform.rotation.eulerAngles.z);
+                gun.GetComponent<SpriteRenderer>().flipY = !gun.GetComponent<SpriteRenderer>().flipY;
 
             }
 
