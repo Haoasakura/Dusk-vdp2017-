@@ -90,14 +90,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   secondsForOneLength: 5
-  mSpeed: 10
+  speed: 10
   switchTime: 3
   controlCost: 25
   controlled: 0
   changingStatus: 0
+  autodestruct: 1
   endPosition: {fileID: 0}
   absorptionEffect: {fileID: 1969731243722472, guid: 0a134329a976316469f76cc7b4ce36f6,
     type: 2}
+  enemyTransform: {fileID: 0}
+  startPoint: {fileID: 0}
+  endPoint: {fileID: 0}
 --- !u!212 &212575018711273744
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -112,7 +116,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: abdf45c10f6f71a49a732646675c410d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
