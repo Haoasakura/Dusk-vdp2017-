@@ -146,7 +146,6 @@ public class Player : MonoBehaviour
         if (collision.gameObject.name.Equals("LightCollider"))
         {
             isVisible = true;
-            Debug.Log("Ciao1");
         }
     }
 
