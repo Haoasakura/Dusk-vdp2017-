@@ -132,6 +132,7 @@ MonoBehaviour:
   accelerationTimeAirborne: 3
   accelerationTimeGrounded: 0.1
   controlling: 0
+  controller: {fileID: 0}
 --- !u!114 &114839899435573112
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,6 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958b16cec60dadd4d885006f5acaa8d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canJump: 1
 --- !u!212 &212897784767667234
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -157,7 +159,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: abdf45c10f6f71a49a732646675c410d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

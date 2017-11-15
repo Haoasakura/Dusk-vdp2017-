@@ -165,6 +165,7 @@ MonoBehaviour:
   currentCharge: 50
   maxCharge: 100
   controlling: 0
+  mTarget: {fileID: 0}
   barrel: {fileID: 4051107181982396}
   laserDirection: {fileID: 4616099654985520}
   line: {fileID: 4791340063717932}
@@ -285,7 +286,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: abdf45c10f6f71a49a732646675c410d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
