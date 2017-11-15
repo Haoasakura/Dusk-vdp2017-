@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class BarrierController : MonoBehaviour {
 
-    [Header("Transform associated with child platform")]
+    private Vector3 startingPosition;
+    private Vector3 targetPosition;
+
+    private Vector3 nextPosition;
+
+    [Header("Transform associated with child barrier")]
     [SerializeField]
     private Transform childTransform;
 
@@ -12,15 +17,35 @@ public class BarrierController : MonoBehaviour {
     [SerializeField]
     private Transform targetPointTransform;
 
+    private float speed = 2;
+
     // Use this for initialization
     void Start () {
-		
-	}
+
+        startingPosition = childTransform.localPosition;
+        targetPosition = targetPointTransform.localPosition;
+        nextPosition = targetPosition;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            //transform.localPosition = Vector3.MoveTowards();
-        }
+        Move();
 	}
+
+    private void Move()
+    {
+        
+        childTransform.localPosition = Vector3.MoveTowards(childTransform.localPosition, nextPosition, speed * Time.deltaTime);
+
+        if (Input.GetKeyDown(KeyCode.Return) && (childTransform.localPosition == startingPosition || childTransform.localPosition == targetPosition))
+        {
+            ChangeDestination();
+        }
+    }
+
+    private void ChangeDestination()
+    {
+        nextPosition = (nextPosition != startingPosition ? startingPosition : targetPosition);
+    }
 }
