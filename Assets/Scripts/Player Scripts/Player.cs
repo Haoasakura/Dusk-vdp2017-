@@ -168,7 +168,6 @@ public class Player : MonoBehaviour
         if (collision.gameObject.name.Equals("LightCollider"))
         {
             isVisible = false;
-            Debug.Log("Ciao2");
         }
     }
 
