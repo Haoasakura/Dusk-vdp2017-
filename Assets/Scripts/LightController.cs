@@ -13,11 +13,15 @@ public class LightController : MonoBehaviour {
     public GameObject absorptionEffect;
     
     private SpriteRenderer spriteRenderer;
+    private Light lightAttached;
+    private Collider2D lightCollider;
     private GameObject particleEffect;
 
     void Start () {
         spriteRenderer = GetComponent<SpriteRenderer>();
-	}
+        lightAttached = gameObject.transform.GetChild(0).gameObject.GetComponent<Light>();
+        lightCollider = gameObject.transform.GetChild(1).gameObject.GetComponent<Collider2D>();
+    }
 
 	void Update () {
 		if (changingStatus) {
@@ -51,6 +55,8 @@ public class LightController : MonoBehaviour {
         StopCoroutine("TrailingEffectOn");
         Destroy(particleEffect);
         spriteRenderer.sprite = lightStates[0];
+        lightAttached.enabled = true;
+        lightCollider.enabled = true;
         lightStatus = true;
         gunController.currentCharge -= lightCharge;
         changingStatus = false;
@@ -68,6 +74,8 @@ public class LightController : MonoBehaviour {
         StopCoroutine("TrailingEffectOff");
         Destroy(particleEffect);
         spriteRenderer.sprite = lightStates[1];
+        lightAttached.enabled = false;
+        lightCollider.enabled = false;
         lightStatus = false;
         gunController.currentCharge += lightCharge;
         changingStatus = false;

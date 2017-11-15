@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
     private bool isClimbing = false;
     private bool lastClimb = true;
 
+    //Variabili per la visibilità
+    private bool isVisible;
+
     //Variabili di stato per la gravità
     private float originalGravity;
     private float maxJumpVelocity;
@@ -32,6 +35,7 @@ public class Player : MonoBehaviour
     private Vector2 directionalInput;
     private bool wallSliding;
     private int wallDirX;
+
 
     private void Start()
     {
@@ -119,6 +123,8 @@ public class Player : MonoBehaviour
                 collision.gameObject.tag = "Through";
             }
         }
+
+
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -137,6 +143,11 @@ public class Player : MonoBehaviour
                 collision.gameObject.tag = "Ladder";
             }
         }
+        if (collision.gameObject.name.Equals("LightCollider"))
+        {
+            isVisible = true;
+            Debug.Log("Ciao1");
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -154,6 +165,11 @@ public class Player : MonoBehaviour
             collision.gameObject.tag = "Through";
         }
 
+        if (collision.gameObject.name.Equals("LightCollider"))
+        {
+            isVisible = false;
+            Debug.Log("Ciao2");
+        }
     }
 
     private void CalculateVelocity()
