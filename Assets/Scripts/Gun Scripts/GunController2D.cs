@@ -35,8 +35,9 @@ public class GunController2D : MonoBehaviour
         line.GetComponent<LineRenderer>().SetPosition(0, barrel.position);
 
         RaycastHit2D hit = Physics2D.Linecast(barrel.position, laserDirection.position/*, gunLayer*/);
-        if (hit.collider != null)
+        if (hit.collider != null && !hit.collider.gameObject.layer.Equals(9))
         {
+            Debug.Log(hit.collider.gameObject.layer);
             line.GetComponent<LineRenderer>().SetPosition(1, hit.point);
             mTarget = hit.transform;
         }
@@ -57,9 +58,15 @@ public class GunController2D : MonoBehaviour
 
                 //mantiene la sprite dell'arma nel verso giusto
                 if (mTransform.rotation.eulerAngles.z % 270 < 90 && mTransform.rotation.eulerAngles.z % 270 > 0)
+                {
                     GetComponent<SpriteRenderer>().flipY = false;
+                    transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().flipY = false;
+                }
                 else
+                {
                     GetComponent<SpriteRenderer>().flipY = true;
+                    transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().flipY = true;
+                }
             }
 
             if (Input.GetButtonDown("Fire1") && currentCharge < maxCharge)
