@@ -20,8 +20,12 @@ public class Player : MonoBehaviour
     private bool isClimbing = false;
     private bool lastClimb = true;
 
+    //Variabili di Contatto
+    private ContactFilter2D contactFilter;
+    public LayerMask contactMask;
+
     //Variabili per la visibilità
-    private bool isVisible;
+    public bool isVisible = false;
 
     //Variabili di stato per la gravità
     private float originalGravity;
@@ -36,15 +40,20 @@ public class Player : MonoBehaviour
     private Vector2 directionalInput;
     private bool wallSliding;
     private int wallDirX;
-
+    private GameObject gun;
 
     private void Start()
     {
         //Setta le regole di gravità e trova il Controller2D
         controller = GetComponent<Controller2D>();
+        gun = transform.GetChild(1).gameObject;
         originalGravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(originalGravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(originalGravity) * minJumpHeight);
+        contactFilter.useLayerMask = true;
+        contactFilter.layerMask = contactMask;
+        contactFilter.useTriggers = true;
+        Debug.Log(contactFilter.isFiltering);
     }
 
     private void Update()
@@ -67,12 +76,15 @@ public class Player : MonoBehaviour
         {
             velocity.y = maxJumpVelocity;
             isClimbing = false;
+            gun.SetActive(true);
 
         }
         else if (isClimbing)
         {
             velocity.y = maxJumpVelocity;
             isClimbing = false;
+            gun.SetActive(true);
+
         }
     }
 
@@ -88,6 +100,7 @@ public class Player : MonoBehaviour
     {
         if ((directionalInput.y > minClimbAngle) && canClimb && !isClimbing)
         {
+            gun.SetActive(false);
             isClimbing = true;
         }
         else if (directionalInput.y != 0 && (Mathf.Abs(directionalInput.y) > minClimbAngle) && canClimb && isClimbing)
@@ -100,6 +113,8 @@ public class Player : MonoBehaviour
         } else
         {
             isClimbing = false;
+            gun.SetActive(true);
+
         }
     }
 
@@ -108,8 +123,10 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag.Equals("BaseLadder") && isClimbing)
         {
             isClimbing = false;
-        }      
-        
+            gun.SetActive(true);
+
+        }
+
         //TODO: Estrarre questo codice nell'oggetto TopLadder
         if (collision.gameObject.name.Equals("TopLadder"))
         {
@@ -117,6 +134,8 @@ public class Player : MonoBehaviour
             {
                 collision.gameObject.layer = 9;
                 collision.gameObject.tag = "Ladder";
+                gun.SetActive(false);
+
             }
             else
             {
@@ -133,6 +152,10 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag.Equals("Ladder"))
         {
             canClimb = true;
+            if (isClimbing)
+            {
+                gun.SetActive(false);
+            }
         }
 
         //TODO: Estrarre questo codice nell'oggetto TopLadder
@@ -142,6 +165,7 @@ public class Player : MonoBehaviour
             {
                 collision.gameObject.layer = 9;
                 collision.gameObject.tag = "Ladder";
+                gun.SetActive(false);
             }
         }
         if (collision.gameObject.name.Equals("LightCollider"))
@@ -156,6 +180,22 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag.Equals("Ladder"))
         {
             canClimb = false;
+            gun.SetActive(true);
+            Collider2D[] overlappingColliders = new Collider2D[] { };
+            GetComponent<Collider2D>().OverlapCollider(contactFilter, overlappingColliders);
+            Debug.Log(overlappingColliders.Length);
+            foreach (Collider2D c in overlappingColliders)
+            {
+                Debug.Log("Here");
+                Debug.Log(c.gameObject.name);
+                if (c.gameObject.layer.Equals(9))
+                {
+                    Debug.Log("Here1");
+                    canClimb = true;
+                    isClimbing = true;
+                    gun.SetActive(false);
+                }
+            }
         }
 
         //TODO: Estrarre questo codice nell'oggetto TopLadder

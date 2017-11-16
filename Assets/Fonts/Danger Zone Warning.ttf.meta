@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: cf9fda273659ee947a8cc8ffb9654518
+timeCreated: 1510849811
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Danger Zone Warning
+  fontNames:
+  - Danger Zone Warning
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
