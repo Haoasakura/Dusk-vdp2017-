@@ -25,7 +25,7 @@ TagManager:
   - Ground
   - Platform
   - GunLayer
-  - ShadowLayer
+  - 
   - 
   - 
   - 
@@ -50,8 +50,14 @@ TagManager:
   - name: Background
     uniqueID: 3263002265
     locked: 0
-  - name: Ladder
-    uniqueID: 91515941
+  - name: Objects
+    uniqueID: 2654584171
+    locked: 0
+  - name: Player
+    uniqueID: 4107516765
+    locked: 0
+  - name: GunLayer
+    uniqueID: 2533571095
     locked: 0
   - name: Default
     uniqueID: 0
