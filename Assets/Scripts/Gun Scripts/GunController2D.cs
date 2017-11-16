@@ -16,11 +16,13 @@ public class GunController2D : MonoBehaviour
     public Transform laserDirection;
     public Transform line;
     public LayerMask gunLayer;
+    public LayerMask untraversableLayers;
 
     private Player player;
     private Transform mTransform;
     private EnemyController enemyControlled;
     private LineRenderer mLineRenderer;
+    private bool firing;
 
     void Start()
     {
@@ -34,10 +36,9 @@ public class GunController2D : MonoBehaviour
 
         line.GetComponent<LineRenderer>().SetPosition(0, barrel.position);
 
-        RaycastHit2D hit = Physics2D.Linecast(barrel.position, laserDirection.position/*, gunLayer*/);
+        RaycastHit2D hit = Physics2D.Linecast(barrel.position, laserDirection.position, untraversableLayers);
         if (hit.collider != null && !hit.collider.gameObject.layer.Equals(9))
         {
-            Debug.Log(hit.collider.gameObject.layer);
             line.GetComponent<LineRenderer>().SetPosition(1, hit.point);
             mTarget = hit.transform;
         }
@@ -49,12 +50,16 @@ public class GunController2D : MonoBehaviour
 
         if (!player.controlling)
         {
-            //rotazione della pistola
-            if (Input.GetButton("Vertical"))
-            {
-                float mVertical = Input.GetAxis("Vertical");
 
-                mTransform.Rotate(new Vector3(0f, 0f, mVertical * TurnSpeed * Time.deltaTime));
+            float a = Input.GetAxis("HorizontalGun");
+            float b = Input.GetAxis("VerticalGun");
+            float c = Mathf.Sqrt(Mathf.Pow(a,2) + Mathf.Pow(b,2));
+            //rotazione della pistola
+            if (Mathf.Abs(c) > 0.9 && !Input.GetButton("Fire1"))
+            {
+                float angleRot = - Mathf.Sign(b)*Mathf.Rad2Deg*Mathf.Acos(a / c);
+          
+                mTransform.rotation = Quaternion.Euler(0f, 0f, angleRot);
 
                 //mantiene la sprite dell'arma nel verso giusto
                 if (mTransform.rotation.eulerAngles.z % 270 < 90 && mTransform.rotation.eulerAngles.z % 270 > 0)

@@ -2813,11 +2813,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4016387900343970, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 9.71058
+      value: -4.77
       objectReference: {fileID: 0}
     - target: {fileID: 4016387900343970, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -6.2703266
+      value: 5.39
       objectReference: {fileID: 0}
     - target: {fileID: 4016387900343970, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2846,6 +2846,31 @@ Prefab:
     - target: {fileID: 1055400727633966, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
       propertyPath: m_Name
       value: PlayerWithGun2D
+      objectReference: {fileID: 0}
+    - target: {fileID: 120578652714302362, guid: d89e776f8fbf98044a26519cf56b24ca,
+        type: 2}
+      propertyPath: m_SortingLayerID
+      value: -187450531
+      objectReference: {fileID: 0}
+    - target: {fileID: 120578652714302362, guid: d89e776f8fbf98044a26519cf56b24ca,
+        type: 2}
+      propertyPath: m_SortingLayer
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114170159066601682, guid: d89e776f8fbf98044a26519cf56b24ca,
+        type: 2}
+      propertyPath: gunLayer.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
+    - target: {fileID: 114170159066601682, guid: d89e776f8fbf98044a26519cf56b24ca,
+        type: 2}
+      propertyPath: traversableLayers.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 114170159066601682, guid: d89e776f8fbf98044a26519cf56b24ca,
+        type: 2}
+      propertyPath: untraversableLayers.m_Bits
+      value: 1280
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
@@ -3438,6 +3463,16 @@ Prefab:
         type: 2}
       propertyPath: m_BackGroundColor.b
       value: 0.6131056
+      objectReference: {fileID: 0}
+    - target: {fileID: 20060779163762556, guid: a07c76b2a00dd3744add543892c875f2,
+        type: 2}
+      propertyPath: orthographic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20060779163762556, guid: a07c76b2a00dd3744add543892c875f2,
+        type: 2}
+      propertyPath: field of view
+      value: 84
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a07c76b2a00dd3744add543892c875f2, type: 2}

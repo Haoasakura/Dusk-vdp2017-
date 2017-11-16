@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public float timeToJumpApex = .4f;
     public float moveMinSpeed = 3f;
     public float moveMaxSpeed = 7f;
+    public float minClimbAngle = 0.6f;
     public float climbSpeed = 3f;
     public float accelerationTimeAirborne = .2f;
     public float accelerationTimeGrounded = .1f;
@@ -85,15 +86,15 @@ public class Player : MonoBehaviour
 
     private void ClimbControl()
     {
-        if ((Input.GetAxis("Vertical") > 0) && canClimb && !isClimbing)
+        if ((directionalInput.y > minClimbAngle) && canClimb && !isClimbing)
         {
             isClimbing = true;
         }
-        else if ((Input.GetAxis("Vertical") != 0) && canClimb && isClimbing)
+        else if (directionalInput.y != 0 && (Mathf.Abs(directionalInput.y) > minClimbAngle) && canClimb && isClimbing)
         {
-            velocity.y = climbSpeed * Input.GetAxis("Vertical");
+            velocity.y = climbSpeed * directionalInput.y;
         }
-        else if ((Input.GetAxis("Vertical") == 0) && canClimb && isClimbing)
+        else if ((Mathf.Abs(directionalInput.y) < minClimbAngle) && canClimb && isClimbing)
         {
             velocity.y = velocity.y * 0.5f;
         } else
@@ -174,7 +175,7 @@ public class Player : MonoBehaviour
     {
         float targetVelocityX = 0f;
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetButton("Fire3"))
         {
             targetVelocityX = directionalInput.x * moveMaxSpeed;
         }

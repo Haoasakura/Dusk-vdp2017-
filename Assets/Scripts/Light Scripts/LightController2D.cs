@@ -32,7 +32,7 @@ public class LightController2D : MonoBehaviour
     {
         if (changingStatus)
         {
-            if (Input.GetButton("Vertical") || Input.GetButton("Horizontal"))
+            if (!Input.GetButton("Fire1"))
             {
                 StopCoroutine("SwitchingOn");
                 StopCoroutine("SwitchingOff");
@@ -78,6 +78,7 @@ public class LightController2D : MonoBehaviour
     {
         GunController2D gunController = gun.GetComponent<GunController2D>();
         changingStatus = true;
+
         int seconds = (int)switchTime;
         StartCoroutine("TrailingEffectOff", gunController.barrel);
         while (seconds > 0)
