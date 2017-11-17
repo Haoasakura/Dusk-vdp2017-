@@ -53,7 +53,6 @@ public class Player : MonoBehaviour
         contactFilter.useLayerMask = true;
         contactFilter.layerMask = contactMask;
         contactFilter.useTriggers = true;
-        Debug.Log(contactFilter.isFiltering);
     }
 
     private void Update()
@@ -77,14 +76,12 @@ public class Player : MonoBehaviour
             velocity.y = maxJumpVelocity;
             isClimbing = false;
             gun.SetActive(true);
-
         }
         else if (isClimbing)
         {
             velocity.y = maxJumpVelocity;
             isClimbing = false;
             gun.SetActive(true);
-
         }
     }
 
@@ -93,121 +90,6 @@ public class Player : MonoBehaviour
         if (velocity.y > minJumpVelocity)
         {
             velocity.y = minJumpVelocity;
-        }
-    }
-
-    private void ClimbControl()
-    {
-        if ((directionalInput.y > minClimbAngle) && canClimb && !isClimbing)
-        {
-            gun.SetActive(false);
-            isClimbing = true;
-        }
-        else if (directionalInput.y != 0 && (Mathf.Abs(directionalInput.y) > minClimbAngle) && canClimb && isClimbing)
-        {
-            velocity.y = climbSpeed * directionalInput.y;
-        }
-        else if ((Mathf.Abs(directionalInput.y) < minClimbAngle) && canClimb && isClimbing)
-        {
-            velocity.y = velocity.y * 0.5f;
-        } else
-        {
-            isClimbing = false;
-            gun.SetActive(true);
-
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag.Equals("BaseLadder") && isClimbing)
-        {
-            isClimbing = false;
-            gun.SetActive(true);
-
-        }
-
-        //TODO: Estrarre questo codice nell'oggetto TopLadder
-        if (collision.gameObject.name.Equals("TopLadder"))
-        {
-            if (isClimbing)
-            {
-                collision.gameObject.layer = 9;
-                collision.gameObject.tag = "Ladder";
-                gun.SetActive(false);
-
-            }
-            else
-            {
-                collision.gameObject.layer = 8;
-                collision.gameObject.tag = "Through";
-            }
-        }
-
-
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag.Equals("Ladder"))
-        {
-            canClimb = true;
-            if (isClimbing)
-            {
-                gun.SetActive(false);
-            }
-        }
-
-        //TODO: Estrarre questo codice nell'oggetto TopLadder
-        if (collision.gameObject.name.Equals("TopLadder"))
-        {
-            if (isClimbing)
-            {
-                collision.gameObject.layer = 9;
-                collision.gameObject.tag = "Ladder";
-                gun.SetActive(false);
-            }
-        }
-        if (collision.gameObject.name.Equals("LightCollider"))
-        {
-            isVisible = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-
-        if (collision.gameObject.tag.Equals("Ladder"))
-        {
-            canClimb = false;
-            gun.SetActive(true);
-            Collider2D[] overlappingColliders = new Collider2D[] { };
-            GetComponent<Collider2D>().OverlapCollider(contactFilter, overlappingColliders);
-            Debug.Log(overlappingColliders.Length);
-            foreach (Collider2D c in overlappingColliders)
-            {
-                Debug.Log("Here");
-                Debug.Log(c.gameObject.name);
-                if (c.gameObject.layer.Equals(9))
-                {
-                    Debug.Log("Here1");
-                    canClimb = true;
-                    isClimbing = true;
-                    gun.SetActive(false);
-                }
-            }
-        }
-
-        //TODO: Estrarre questo codice nell'oggetto TopLadder
-        if (collision.gameObject.name.Equals("TopLadder"))
-        {
-            collision.gameObject.layer = 8;
-            collision.gameObject.tag = "Through";
-        }
-
-        if (collision.gameObject.name.Equals("LightCollider"))
-        {
-            isVisible = false;
         }
     }
 
@@ -235,4 +117,115 @@ public class Player : MonoBehaviour
             velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, accelerationTimeGrounded);
         }
     }
+
+    private void ClimbControl()
+    {
+
+
+        if (!canClimb && isClimbing)
+        {
+            gun.SetActive(true);
+            isClimbing = false;
+            Collider2D[] results =  new Collider2D [10];
+            int i = GetComponent<Collider2D>().OverlapCollider(contactFilter, results);
+            if (i > 0)
+            {
+                gun.SetActive(false);
+                isClimbing = true;
+            }
+            
+        }
+        else if ((directionalInput.y > minClimbAngle) && canClimb && !isClimbing)
+        {
+            gun.SetActive(false);
+            isClimbing = true;
+        }
+        else if (directionalInput.y != 0 && (Mathf.Abs(directionalInput.y) > minClimbAngle) && canClimb && isClimbing)
+        {
+            velocity.y = climbSpeed * directionalInput.y;
+        }
+        else if ((Mathf.Abs(directionalInput.y) < minClimbAngle) && canClimb && isClimbing)
+        {
+            velocity.y = velocity.y * 0.5f;
+        } else
+        {
+            isClimbing = false;
+            gun.SetActive(true);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //TODO: Estrarre questo codice nell'oggetto TopLadder
+        if (collision.gameObject.name.Equals("TopLadder"))
+        {
+            if (isClimbing)
+            {
+                collision.gameObject.layer = 9;
+                collision.gameObject.tag = "Ladder";
+                gun.SetActive(false);
+            }
+            else
+            {
+                collision.gameObject.layer = 8;
+                collision.gameObject.tag = "Through";
+            }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Ladder"))
+        {
+            canClimb = true;
+            if (isClimbing)
+            {
+                gun.SetActive(false);
+            }
+        }
+
+        if (collision.gameObject.tag.Equals("BaseLadder") && isClimbing && directionalInput.y < 0)
+        {
+            isClimbing = false;
+            gun.SetActive(true);
+        }
+
+        //TODO: Estrarre questo codice nell'oggetto TopLadder
+        if (collision.gameObject.name.Equals("TopLadder"))
+        {
+            if (isClimbing)
+            {
+                collision.gameObject.layer = 9;
+                collision.gameObject.tag = "Ladder";
+                gun.SetActive(false);
+            }
+        }
+        if (collision.gameObject.name.Equals("LightCollider"))
+        {
+            isVisible = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+
+        if (collision.gameObject.tag.Equals("Ladder"))
+        {
+            canClimb = false;
+        }
+
+        //TODO: Estrarre questo codice nell'oggetto TopLadder
+        if (collision.gameObject.name.Equals("TopLadder"))
+        {
+            collision.gameObject.layer = 8;
+            collision.gameObject.tag = "Through";
+        }
+
+        if (collision.gameObject.name.Equals("LightCollider"))
+        {
+            isVisible = false;
+        }
+    }
+
+
 }
