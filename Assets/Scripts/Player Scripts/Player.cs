@@ -20,8 +20,12 @@ public class Player : MonoBehaviour
     private bool isClimbing = false;
     private bool lastClimb = true;
 
+    //Variabili di Contatto
+    private ContactFilter2D contactFilter;
+    public LayerMask contactMask;
+
     //Variabili per la visibilità
-    private bool isVisible;
+    public bool isVisible = false;
 
     //Variabili di stato per la gravità
     private float originalGravity;
@@ -36,15 +40,19 @@ public class Player : MonoBehaviour
     private Vector2 directionalInput;
     private bool wallSliding;
     private int wallDirX;
-
+    private GameObject gun;
 
     private void Start()
     {
         //Setta le regole di gravità e trova il Controller2D
         controller = GetComponent<Controller2D>();
+        gun = transform.GetChild(1).gameObject;
         originalGravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(originalGravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(originalGravity) * minJumpHeight);
+        contactFilter.useLayerMask = true;
+        contactFilter.layerMask = contactMask;
+        contactFilter.useTriggers = true;
     }
 
     private void Update()
@@ -67,12 +75,13 @@ public class Player : MonoBehaviour
         {
             velocity.y = maxJumpVelocity;
             isClimbing = false;
-
+            gun.SetActive(true);
         }
         else if (isClimbing)
         {
             velocity.y = maxJumpVelocity;
             isClimbing = false;
+            gun.SetActive(true);
         }
     }
 
@@ -84,10 +93,51 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void CalculateVelocity()
+    {
+        float targetVelocityX = 0f;
+
+        if (Input.GetButton("Fire3"))
+        {
+            targetVelocityX = directionalInput.x * moveMaxSpeed;
+        }
+        else
+        {
+            targetVelocityX = directionalInput.x * moveMinSpeed;
+        }
+
+            velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below ? accelerationTimeGrounded : accelerationTimeAirborne));
+
+        if (!isClimbing)
+        {
+            velocity.y += originalGravity * Time.deltaTime;
+        }
+        else
+        {
+            velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, accelerationTimeGrounded);
+        }
+    }
+
     private void ClimbControl()
     {
-        if ((directionalInput.y > minClimbAngle) && canClimb && !isClimbing)
+
+
+        if (!canClimb && isClimbing)
         {
+            gun.SetActive(true);
+            isClimbing = false;
+            Collider2D[] results =  new Collider2D [10];
+            int i = GetComponent<Collider2D>().OverlapCollider(contactFilter, results);
+            if (i > 0)
+            {
+                gun.SetActive(false);
+                isClimbing = true;
+            }
+            
+        }
+        else if ((directionalInput.y > minClimbAngle) && canClimb && !isClimbing)
+        {
+            gun.SetActive(false);
             isClimbing = true;
         }
         else if (directionalInput.y != 0 && (Mathf.Abs(directionalInput.y) > minClimbAngle) && canClimb && isClimbing)
@@ -100,16 +150,12 @@ public class Player : MonoBehaviour
         } else
         {
             isClimbing = false;
+            gun.SetActive(true);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag.Equals("BaseLadder") && isClimbing)
-        {
-            isClimbing = false;
-        }      
-        
         //TODO: Estrarre questo codice nell'oggetto TopLadder
         if (collision.gameObject.name.Equals("TopLadder"))
         {
@@ -117,6 +163,7 @@ public class Player : MonoBehaviour
             {
                 collision.gameObject.layer = 9;
                 collision.gameObject.tag = "Ladder";
+                gun.SetActive(false);
             }
             else
             {
@@ -124,8 +171,6 @@ public class Player : MonoBehaviour
                 collision.gameObject.tag = "Through";
             }
         }
-
-
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -133,6 +178,16 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag.Equals("Ladder"))
         {
             canClimb = true;
+            if (isClimbing)
+            {
+                gun.SetActive(false);
+            }
+        }
+
+        if (collision.gameObject.tag.Equals("BaseLadder") && isClimbing && directionalInput.y < 0)
+        {
+            isClimbing = false;
+            gun.SetActive(true);
         }
 
         //TODO: Estrarre questo codice nell'oggetto TopLadder
@@ -142,6 +197,7 @@ public class Player : MonoBehaviour
             {
                 collision.gameObject.layer = 9;
                 collision.gameObject.tag = "Ladder";
+                gun.SetActive(false);
             }
         }
         if (collision.gameObject.name.Equals("LightCollider"))
@@ -171,28 +227,5 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void CalculateVelocity()
-    {
-        float targetVelocityX = 0f;
 
-        if (Input.GetButton("Fire3"))
-        {
-            targetVelocityX = directionalInput.x * moveMaxSpeed;
-        }
-        else
-        {
-            targetVelocityX = directionalInput.x * moveMinSpeed;
-        }
-
-            velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below ? accelerationTimeGrounded : accelerationTimeAirborne));
-
-        if (!isClimbing)
-        {
-            velocity.y += originalGravity * Time.deltaTime;
-        }
-        else
-        {
-            velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, accelerationTimeGrounded);
-        }
-    }
 }

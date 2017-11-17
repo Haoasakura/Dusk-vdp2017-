@@ -9,6 +9,7 @@ public class GunController2D : MonoBehaviour
     public int currentCharge = 50;
     public int maxCharge = 100;
     public bool controlling = false;
+    public bool isLocked = false;
 
     [HideInInspector]
     public Transform mTarget;
@@ -22,7 +23,7 @@ public class GunController2D : MonoBehaviour
     private Transform mTransform;
     private EnemyController enemyControlled;
     private LineRenderer mLineRenderer;
-    private bool firing;
+
 
     void Start()
     {
@@ -55,7 +56,7 @@ public class GunController2D : MonoBehaviour
             float b = Input.GetAxis("VerticalGun");
             float c = Mathf.Sqrt(Mathf.Pow(a,2) + Mathf.Pow(b,2));
             //rotazione della pistola
-            if (Mathf.Abs(c) > 0.9 && !Input.GetButton("Fire1"))
+            if (Mathf.Abs(c) > 0.9 && !isLocked)
             {
                 float angleRot = - Mathf.Sign(b)*Mathf.Rad2Deg*Mathf.Acos(a / c);
           
@@ -83,22 +84,35 @@ public class GunController2D : MonoBehaviour
                         LightController2D currentLight = mTarget.GetComponent<LightController2D>();
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && !currentLight.changingStatus)
                             if (currentCharge >= currentLight.lightCharge || currentLight.lightStatus)
+                            {
                                 mTarget.GetComponent<LightController2D>().SwitchOnOff(transform);
+                                isLocked = true;
+                            }
                     }
                     else if (mTarget.CompareTag(Tags.machinery))
                     {
                         MachineryController currentMachinery = mTarget.GetComponent<MachineryController>();
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && !currentMachinery.changingStatus)
                             if (currentCharge >= currentMachinery.powerCharge || currentMachinery.powered)
+                            {
                                 currentMachinery.SwitchOnOff(transform);
+                                isLocked = true;
+                            }
                     }
                     else if (mTarget.CompareTag(Tags.enemy))
                     {
                         enemyControlled = mTarget.GetComponent<EnemyController>();
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && currentCharge >= enemyControlled.controlCost)
+                        {
                             enemyControlled.ControlledOnOff(transform);
+                            isLocked = true;
+                        }
                     }
                 }
+            }
+            if (Input.GetButtonUp("Fire1"))
+            {
+                isLocked = false;
             }
         }
     }
