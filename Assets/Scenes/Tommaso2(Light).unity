@@ -2825,11 +2825,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4016387900343970, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -4.77
+      value: -3.93
       objectReference: {fileID: 0}
     - target: {fileID: 4016387900343970, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 5.39
+      value: -5.93
       objectReference: {fileID: 0}
     - target: {fileID: 4016387900343970, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2888,6 +2888,11 @@ Prefab:
         type: 2}
       propertyPath: contactMask.m_Bits
       value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 114280216389960086, guid: d89e776f8fbf98044a26519cf56b24ca,
+        type: 2}
+      propertyPath: collisionMask.m_Bits
+      value: 2304
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}

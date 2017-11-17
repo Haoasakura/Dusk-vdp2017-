@@ -167,7 +167,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                collision.gameObject.layer = 8;
+                collision.gameObject.layer = 11;
                 collision.gameObject.tag = "Through";
             }
         }
@@ -217,7 +217,7 @@ public class Player : MonoBehaviour
         //TODO: Estrarre questo codice nell'oggetto TopLadder
         if (collision.gameObject.name.Equals("TopLadder"))
         {
-            collision.gameObject.layer = 8;
+            collision.gameObject.layer = 11;
             collision.gameObject.tag = "Through";
         }
 
