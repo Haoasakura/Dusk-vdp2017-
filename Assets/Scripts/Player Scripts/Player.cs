@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     //Variabili di Contatto
     private ContactFilter2D contactFilter;
     public LayerMask contactMask;
+    public GameObject gun;
 
     //Variabili per la visibilità
     public bool isVisible = false;
@@ -40,13 +41,11 @@ public class Player : MonoBehaviour
     private Vector2 directionalInput;
     private bool wallSliding;
     private int wallDirX;
-    private GameObject gun;
 
     private void Start()
     {
         //Setta le regole di gravità e trova il Controller2D
         controller = GetComponent<Controller2D>();
-        gun = transform.GetChild(1).gameObject;
         originalGravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(originalGravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(originalGravity) * minJumpHeight);
@@ -170,6 +169,11 @@ public class Player : MonoBehaviour
                 collision.gameObject.layer = 11;
                 collision.gameObject.tag = "Through";
             }
+        }
+
+        if (collision.gameObject.tag.Equals("ResetGun"))
+        {
+            gun.GetComponent<GunController2D>().currentCharge = 0;
         }
     }
 

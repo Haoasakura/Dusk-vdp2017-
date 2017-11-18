@@ -72,7 +72,7 @@ MonoBehaviour:
     m_Enabled: 0
     m_Settings:
       focusDistance: 10
-      aperture: 5.6
+      aperture: 0.3
       focalLength: 50
       useCameraFov: 0
       kernelSize: 1
@@ -81,7 +81,7 @@ MonoBehaviour:
     m_Settings:
       shutterAngle: 270
       sampleCount: 10
-      frameBlending: 0
+      frameBlending: 0.272
   eyeAdaptation:
     m_Enabled: 0
     m_Settings:

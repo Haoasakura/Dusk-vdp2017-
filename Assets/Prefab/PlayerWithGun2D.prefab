@@ -314,6 +314,7 @@ MonoBehaviour:
   contactMask:
     serializedVersion: 2
     m_Bits: 512
+  gun: {fileID: 1657418482939784}
   isVisible: 0
   controller: {fileID: 0}
 --- !u!114 &114225520261703780

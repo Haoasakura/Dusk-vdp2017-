@@ -14,6 +14,7 @@ TagManager:
   - Elevator
   - Gun
   - LightCollider
+  - ResetGun
   layers:
   - Default
   - TransparentFX
