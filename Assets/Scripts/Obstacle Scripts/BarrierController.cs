@@ -17,7 +17,7 @@ public class BarrierController : MonoBehaviour {
     [SerializeField]
     private Transform targetPointTransform;
 
-    private float speed = 2;
+    private float speed = 6;
 
     // Use this for initialization
     void Start () {
@@ -47,5 +47,25 @@ public class BarrierController : MonoBehaviour {
     private void ChangeDestination()
     {
         nextPosition = (nextPosition != startingPosition ? startingPosition : targetPosition);
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        other.transform.parent = gameObject.GetComponentInChildren<Transform>(false).GetChild(0);
+        if (System.Math.Abs(other.transform.position.x -
+            gameObject.GetComponentInChildren<Transform>(false).GetChild(0).transform.position.x) > 1.25f) {
+            other.transform.parent = null;
+        }
+        //else {
+            
+        //}
+        //other.transform.position.y > gameObject.GetComponentInChildren<Transform>(false).GetChild(0).transform.position.y
+
+
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        other.transform.parent = null;
     }
 }
