@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4163777316993996}
   - component: {fileID: 212831986963861750}
+  - component: {fileID: 331711234099230614}
   m_Layer: 10
   m_Name: LightCone
   m_TagString: Untagged
@@ -38,7 +39,7 @@ GameObject:
   - component: {fileID: 60970988023843634}
   m_Layer: 2
   m_Name: LightCollider
-  m_TagString: Light
+  m_TagString: LightCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55,6 +56,7 @@ GameObject:
   - component: {fileID: 58247048420212240}
   - component: {fileID: 114338954938603090}
   - component: {fileID: 50732902888138828}
+  - component: {fileID: 122766990320365628}
   m_Layer: 10
   m_Name: Lightbulb2D
   m_TagString: Light
@@ -69,7 +71,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1910141648084978}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: 3.16, y: -2.36, z: 0}
+  m_LocalPosition: {x: 3.57, y: -2.38, z: 0}
   m_LocalScale: {x: 0.31681517, y: 0.29406574, z: 1}
   m_Children:
   - {fileID: 4163777316993996}
@@ -84,7 +86,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1575192281506082}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.34, y: 10.6, z: 0}
+  m_LocalPosition: {x: 0.49, y: 10.87, z: 0}
   m_LocalScale: {x: 3.3752306, y: 3.98436, z: 1}
   m_Children: []
   m_Father: {fileID: 4081453096421786}
@@ -162,11 +164,9 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -7.7193937, y: 24.864965}
-      - {x: -0.95105654, y: 0.30901697}
-      - {x: -0.5877852, y: -0.80901706}
-      - {x: 0.58778536, y: -0.80901694}
-      - {x: 7.999197, y: 24.897165}
+    - - {x: -8, y: 25}
+      - {x: 0.01, y: 3.6}
+      - {x: 8, y: 25}
 --- !u!114 &114338954938603090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -182,11 +182,25 @@ MonoBehaviour:
   lightCharge: 25
   lightStatus: 1
   changingStatus: 0
+  lightAttached: {fileID: 212831986963861750}
+  lightCollider: {fileID: 60970988023843634}
+  maskAttached: {fileID: 331711234099230614}
   lightStates:
   - {fileID: 21300000, guid: 774c856a4e0ed5e4cbe265d997d93357, type: 3}
   - {fileID: 21300000, guid: 0e7e869c34673fc469abe32852719611, type: 3}
   absorptionEffect: {fileID: 1969731243722472, guid: 0a134329a976316469f76cc7b4ce36f6,
     type: 2}
+--- !u!122 &122766990320365628
+Halo:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1910141648084978}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4278241212
+  m_Size: 1
 --- !u!212 &212789967987030772
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -201,7 +215,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: abdf45c10f6f71a49a732646675c410d, type: 2}
+  - {fileID: 2100000, guid: ad0697ead184ed5428b211350818915d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -274,4 +288,47 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 2
+--- !u!331 &331711234099230614
+SpriteMask:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1575192281506082}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 10758, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: d658c0065dc3cf54cb11fda7d30684f6, type: 3}
+  m_MaskAlphaCutoff: 0.2
+  m_FrontSortingLayerID: -187450531
+  m_BackSortingLayerID: -1640383125
+  m_FrontSortingLayer: -2
+  m_BackSortingLayer: -3
+  m_FrontSortingOrder: 2
+  m_BackSortingOrder: 0
+  m_IsCustomRangeActive: 1

@@ -10,22 +10,20 @@ public class LightController2D : MonoBehaviour
     public bool lightStatus = true;
     public bool changingStatus = false;
 
+    public SpriteRenderer lightAttached;
+    public Collider2D lightCollider;
+    public SpriteMask maskAttached;
+
     public Sprite[] lightStates;
     public GameObject absorptionEffect;
 
     private SpriteRenderer spriteRenderer;
-    private SpriteRenderer lightAttached;
-    private Collider2D lightCollider;
-    private SpriteMask maskAttached;
+
     private GameObject particleEffect;
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        lightAttached = gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
-        maskAttached = gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteMask>();
-        lightCollider = gameObject.transform.GetChild(1).gameObject.GetComponent<Collider2D>();
-
     }
 
     void Update()

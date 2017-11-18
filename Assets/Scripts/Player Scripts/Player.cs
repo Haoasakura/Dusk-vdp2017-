@@ -200,7 +200,7 @@ public class Player : MonoBehaviour
                 gun.SetActive(false);
             }
         }
-        if (collision.gameObject.name.Equals("LightCollider"))
+        if (collision.gameObject.tag.Equals("LightCollider"))
         {
             isVisible = true;
         }
@@ -221,7 +221,7 @@ public class Player : MonoBehaviour
             collision.gameObject.tag = "Through";
         }
 
-        if (collision.gameObject.name.Equals("LightCollider"))
+        if (collision.gameObject.tag.Equals("LightCollider"))
         {
             isVisible = false;
         }

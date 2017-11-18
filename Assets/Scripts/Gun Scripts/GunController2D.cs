@@ -15,7 +15,7 @@ public class GunController2D : MonoBehaviour
     public Transform mTarget;
     public Transform barrel;
     public Transform laserDirection;
-    public Transform line;
+    public Transform aimsight;
     public LayerMask gunLayer;
     public LayerMask untraversableLayers;
 
@@ -35,17 +35,17 @@ public class GunController2D : MonoBehaviour
     void Update()
     {
 
-        line.GetComponent<LineRenderer>().SetPosition(0, barrel.position);
+        aimsight.SetPositionAndRotation(barrel.position, Quaternion.Euler(0f, 0f, 0f));
 
         RaycastHit2D hit = Physics2D.Linecast(barrel.position, laserDirection.position, untraversableLayers);
         if (hit.collider != null && !hit.collider.gameObject.layer.Equals(9))
         {
-            line.GetComponent<LineRenderer>().SetPosition(1, hit.point);
+            aimsight.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, 0f, 0f));
             mTarget = hit.transform;
         }
         else
         {
-            line.GetComponent<LineRenderer>().SetPosition(1, laserDirection.position);
+            aimsight.SetPositionAndRotation(laserDirection.position, Quaternion.Euler(0f, 0f, 0f));
             mTarget = null;
         }
 
@@ -75,7 +75,7 @@ public class GunController2D : MonoBehaviour
                 }
             }
 
-            if (Input.GetButtonDown("Fire1") && currentCharge < maxCharge)
+            if (Input.GetButtonDown("Fire1"))
             {
                 if (mTarget != null)
                 {
@@ -83,7 +83,8 @@ public class GunController2D : MonoBehaviour
                     {
                         LightController2D currentLight = mTarget.GetComponent<LightController2D>();
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && !currentLight.changingStatus)
-                            if (currentCharge >= currentLight.lightCharge || currentLight.lightStatus)
+                            if ((currentLight.lightStatus && (maxCharge - currentCharge) >= currentLight.lightCharge) ||
+                                (!currentLight.lightStatus && currentCharge >= currentLight.lightCharge))
                             {
                                 mTarget.GetComponent<LightController2D>().SwitchOnOff(transform);
                                 isLocked = true;
@@ -93,7 +94,8 @@ public class GunController2D : MonoBehaviour
                     {
                         MachineryController currentMachinery = mTarget.GetComponent<MachineryController>();
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && !currentMachinery.changingStatus)
-                            if (currentCharge >= currentMachinery.powerCharge || currentMachinery.powered)
+                            if ((currentMachinery.powered && (maxCharge - currentCharge) >= currentMachinery.powerCharge) ||
+                                (!currentMachinery.powered && currentCharge >= currentMachinery.powerCharge))
                             {
                                 currentMachinery.SwitchOnOff(transform);
                                 isLocked = true;
