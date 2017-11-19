@@ -11,7 +11,7 @@ public class UIvisibility : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         text = GetComponent<Text>();
-        player = GameObject.Find("PlayerWithGun2D").GetComponent<Player>();
+        player = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Player>();
 	}
 	
 	// Update is called once per frame

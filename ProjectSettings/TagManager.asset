@@ -15,6 +15,7 @@ TagManager:
   - Gun
   - LightCollider
   - ResetGun
+  - PatrolSwitch
   layers:
   - Default
   - TransparentFX

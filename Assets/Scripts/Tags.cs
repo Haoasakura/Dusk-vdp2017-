@@ -13,4 +13,5 @@ public class Tags : ScriptableObject
     public static readonly string ladder = "Ladder";
     public static readonly string topLadder = "TopLadder";
     public static readonly string baseLadder = "BaseLadder";
+    public static readonly string patrolSwitch = "PatrolSwitch";
 }

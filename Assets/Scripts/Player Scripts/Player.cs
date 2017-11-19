@@ -96,7 +96,7 @@ public class Player : MonoBehaviour
     {
         float targetVelocityX = 0f;
 
-        if (Input.GetButton("Fire3"))
+        if (Input.GetButton("Fire3") && (transform.GetComponent<EnemyController>() == null || transform.GetComponent<EnemyController>().controlled))
         {
             targetVelocityX = directionalInput.x * moveMaxSpeed;
         }
