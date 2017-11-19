@@ -25,6 +25,7 @@ public class BarrierController : MonoBehaviour {
         startingPosition = childTransform.localPosition;
         targetPosition = targetPointTransform.localPosition;
         nextPosition = targetPosition;
+        ChangeDestination();
 
     }
 	

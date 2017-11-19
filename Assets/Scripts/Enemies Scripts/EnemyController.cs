@@ -12,7 +12,6 @@ public class EnemyController : MonoBehaviour {
     public bool changingStatus = false;
     public bool autodestruct = true;
 
-    public Transform endPosition;
     public GameObject absorptionEffect;
 
     private Vector3 startPosition;

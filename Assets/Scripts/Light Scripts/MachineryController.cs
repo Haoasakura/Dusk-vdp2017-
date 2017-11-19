@@ -39,7 +39,7 @@ public class MachineryController : MonoBehaviour {
     }
 
     IEnumerator SwitchingOn(Transform gun) {
-        GunController2D gunController = gun.GetComponent<GunController2D>();
+        GunController gunController = gun.GetComponent<GunController>();
         changingStatus = true;
         int seconds = (int)switchTime;
         StartCoroutine("TrailingEffectOn", gunController.barrel);
@@ -58,7 +58,7 @@ public class MachineryController : MonoBehaviour {
     IEnumerator SwitchingOff(Transform gun) {
         changingStatus = true;
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOff", gun.GetComponent<GunController2D>().barrel);
+        StartCoroutine("TrailingEffectOff", gun.GetComponent<GunController>().barrel);
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
             seconds--;

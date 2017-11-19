@@ -173,7 +173,7 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.tag.Equals("ResetGun"))
         {
-            gun.GetComponent<GunController2D>().currentCharge = 0;
+            gun.GetComponent<GunController>().currentCharge = 0;
         }
     }
 

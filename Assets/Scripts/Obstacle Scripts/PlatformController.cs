@@ -213,8 +213,7 @@ public class PlatformController : RaycastController
             for (int i = 0; i < localWaypoints.Length; i++)
             {
                 Vector3 globalWaypointPos = (Application.isPlaying) ? globalWaypoints[i] : localWaypoints[i] + transform.position;
-                Gizmos.DrawLine(globalWaypointPos - Vector3.up * size, globalWaypointPos + Vector3.up * size);
-                Gizmos.DrawLine(globalWaypointPos - Vector3.left * size, globalWaypointPos + Vector3.left * size);
+                Gizmos.DrawWireCube(globalWaypointPos, transform.GetComponent<BoxCollider2D>().size);
             }
         }
     }

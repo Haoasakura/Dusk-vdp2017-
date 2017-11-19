@@ -5,12 +5,12 @@ public class PlayerInput : MonoBehaviour
 {
     public bool canJump=true;
     private Player player;
-    private GunController2D gunController2D;
+    private GunController gunController2D;
 
     private void Start()
     {
         player = GetComponent<Player>();
-        gunController2D = transform.GetChild(1).gameObject.GetComponent<GunController2D>();
+        gunController2D = transform.GetComponentInChildren<GunController>();
     }
 
     private void Update()
