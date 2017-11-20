@@ -6,12 +6,11 @@ using UnityEngine.UI;
 public class UIvisibility : MonoBehaviour {
 
     private Text text;
-    private Player player;
+    public Player player;
 
 	// Use this for initialization
 	void Start () {
         text = GetComponent<Text>();
-        player = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Player>();
 	}
 	
 	// Update is called once per frame

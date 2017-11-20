@@ -4,4 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Tommaso3(GameManager).unity
+    guid: 316c95f5f92104447900bde2a1748ac2
+  - enabled: 1
+    path: Assets/Scenes/Tommaso2(Light).unity
+    guid: bc7b1d024e93d6045aa93b6b1f95f4db

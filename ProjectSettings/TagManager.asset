@@ -16,6 +16,7 @@ TagManager:
   - LightCollider
   - ResetGun
   - PatrolSwitch
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
