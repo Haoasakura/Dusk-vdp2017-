@@ -57,11 +57,6 @@ public class BarrierController : MonoBehaviour {
             gameObject.GetComponentInChildren<Transform>(false).GetChild(0).transform.position.x) > 1.25f) {
             other.transform.parent = null;
         }
-        //else {
-            
-        //}
-        //other.transform.position.y > gameObject.GetComponentInChildren<Transform>(false).GetChild(0).transform.position.y
-
 
     }
 
