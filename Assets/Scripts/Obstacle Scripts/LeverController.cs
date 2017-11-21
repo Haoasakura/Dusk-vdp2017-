@@ -35,5 +35,8 @@ public class LeverController : MonoBehaviour {
         if (mechanism.GetComponent<BarrierController>() != null) {
             mechanism.GetComponent<BarrierController>().ChangeDestination();
         }
+        if (mechanism.GetComponent<TrapdoorController>() != null) {
+            mechanism.GetComponent<TrapdoorController>().Activate();
+        }
     }
 }
