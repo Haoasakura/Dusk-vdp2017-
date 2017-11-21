@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ElevatorMovement : MonoBehaviour {
 
+    public bool active = false;
+
     private Vector3 startingPosition;
     private Vector3 targetPosition;
 
@@ -25,7 +27,7 @@ public class ElevatorMovement : MonoBehaviour {
 
         startingPosition = childTransform.localPosition;
         targetPosition = targetPointTransform.localPosition;
-        nextPosition = targetPosition;
+        nextPosition = startingPosition;
 	}
 	
 	void Update () {
@@ -36,12 +38,13 @@ public class ElevatorMovement : MonoBehaviour {
     {
         childTransform.localPosition = Vector3.MoveTowards(childTransform.localPosition, nextPosition, speed * Time.deltaTime);
 
-        if (Input.GetKeyDown(KeyCode.H) && (childTransform.localPosition == startingPosition || childTransform.localPosition == targetPosition)) {
+        if (active && (childTransform.localPosition == startingPosition || childTransform.localPosition == targetPosition)) {
+            active = false;
             ChangeDestination();
         }
     }
 
-    private void ChangeDestination()
+    public void ChangeDestination()
     {
         nextPosition = (nextPosition != startingPosition ? startingPosition : targetPosition);
     }
@@ -49,8 +52,8 @@ public class ElevatorMovement : MonoBehaviour {
     private void OnCollisionStay2D(Collision2D other)
     {
         other.transform.parent = gameObject.GetComponentInChildren<Transform>(false).GetChild(0);
-        /*if (System.Math.Abs(other.transform.position.x -
-            gameObject.GetComponentInChildren<Transform>(false).GetChild(0).transform.position.x) > 1.25f)
+        /*if (other.transform.position.y -
+            gameObject.GetComponentInChildren<Transform>(false).GetChild(0).transform.position.y < 0)
         {
             other.transform.parent = null;
         }*/
