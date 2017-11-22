@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BarrierController : MonoBehaviour {
 
+    public bool active = false;
+
     private Vector3 startingPosition;
     private Vector3 targetPosition;
 
@@ -24,8 +26,7 @@ public class BarrierController : MonoBehaviour {
 
         startingPosition = childTransform.localPosition;
         targetPosition = targetPointTransform.localPosition;
-        nextPosition = targetPosition;
-        ChangeDestination();
+        nextPosition = startingPosition;
 
     }
 	
@@ -39,13 +40,14 @@ public class BarrierController : MonoBehaviour {
         
         childTransform.localPosition = Vector3.MoveTowards(childTransform.localPosition, nextPosition, speed * Time.deltaTime);
 
-        if (Input.GetKeyDown(KeyCode.Return) && (childTransform.localPosition == startingPosition || childTransform.localPosition == targetPosition))
+        if (active && (childTransform.localPosition == startingPosition || childTransform.localPosition == targetPosition))
         {
+            active = false;
             ChangeDestination();
         }
     }
 
-    private void ChangeDestination()
+    public void ChangeDestination()
     {
         nextPosition = (nextPosition != startingPosition ? startingPosition : targetPosition);
     }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TrapdoorController : MonoBehaviour {
 
+    private bool active = false;
+
     private bool isOpen;
 
     [Header("Transform for the center of rotation")]
@@ -19,17 +21,27 @@ public class TrapdoorController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-        if(Input.GetKeyDown(KeyCode.G) && !isOpen)
-        {
-            gameObject.transform.RotateAround(rotationCenterTransform.position, new Vector3(0,0,1), -90);
-            isOpen = true;
+        if (active) {
+            Move();
         }
-        else if (Input.GetKeyDown(KeyCode.G) && isOpen)
+    }
+
+    public void Move() {
+        if (!isOpen)
+        {
+            gameObject.transform.RotateAround(rotationCenterTransform.position, new Vector3(0, 0, 1), -90);
+            isOpen = true;
+            active = false;
+        }
+        else
         {
             gameObject.transform.RotateAround(rotationCenterTransform.position, new Vector3(0, 0, 1), 90);
             isOpen = false;
+            active = false;
         }
+    }
 
+    public void Activate() {
+        active = true;
     }
 }
