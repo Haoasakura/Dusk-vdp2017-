@@ -204,7 +204,7 @@ RectTransform:
   m_Children:
   - {fileID: 489479191}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -692,15 +692,15 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 957276581}
     m_Modifications:
     - target: {fileID: 4536841245790534, guid: 180e173bec7f16547bc1ee7c1bb8b8e5, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -0.9608655
+      value: 0.96000004
       objectReference: {fileID: 0}
     - target: {fileID: 4536841245790534, guid: 180e173bec7f16547bc1ee7c1bb8b8e5, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -6.0374193
+      value: 1.58
       objectReference: {fileID: 0}
     - target: {fileID: 4536841245790534, guid: 180e173bec7f16547bc1ee7c1bb8b8e5, type: 2}
       propertyPath: m_LocalPosition.z
@@ -708,15 +708,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4536841245790534, guid: 180e173bec7f16547bc1ee7c1bb8b8e5, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4536841245790534, guid: 180e173bec7f16547bc1ee7c1bb8b8e5, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4536841245790534, guid: 180e173bec7f16547bc1ee7c1bb8b8e5, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4536841245790534, guid: 180e173bec7f16547bc1ee7c1bb8b8e5, type: 2}
       propertyPath: m_LocalRotation.w
@@ -724,7 +724,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4536841245790534, guid: 180e173bec7f16547bc1ee7c1bb8b8e5, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1007856374767466, guid: 180e173bec7f16547bc1ee7c1bb8b8e5, type: 2}
       propertyPath: m_Name
@@ -1542,7 +1542,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4966322574958226, guid: 9f2a8a87d9830504f8bd63aa013ff6c0, type: 2}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9f2a8a87d9830504f8bd63aa013ff6c0, type: 2}
@@ -1584,7 +1584,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4061462516925252, guid: 9437392c371eaff4bb2dda241798b37d, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 114949579641435806, guid: 9437392c371eaff4bb2dda241798b37d,
         type: 2}
@@ -1593,7 +1593,12 @@ Prefab:
       objectReference: {fileID: 1186534079}
     - target: {fileID: 1855772001907126, guid: 9437392c371eaff4bb2dda241798b37d, type: 2}
       propertyPath: m_Name
-      value: SetReset Button (Elevator 2)
+      value: Button (Elevator 2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114949579641435806, guid: 9437392c371eaff4bb2dda241798b37d,
+        type: 2}
+      propertyPath: isPressurePlate
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9437392c371eaff4bb2dda241798b37d, type: 2}
@@ -1649,6 +1654,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 180e173bec7f16547bc1ee7c1bb8b8e5, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &957276581 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4870652115103060, guid: 509c0d1c2c9c7e64283c64e0438a3f80,
+    type: 2}
+  m_PrefabInternal: {fileID: 1593982242}
 --- !u!1001 &961047271
 Prefab:
   m_ObjectHideFlags: 0
@@ -2094,7 +2104,7 @@ Transform:
   - {fileID: 626250172}
   - {fileID: 2024548549}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1055611761
 GameObject:
@@ -2477,7 +2487,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4536841245790534, guid: 180e173bec7f16547bc1ee7c1bb8b8e5, type: 2}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 114351717116431190, guid: 180e173bec7f16547bc1ee7c1bb8b8e5,
         type: 2}
@@ -2627,7 +2637,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4869541354345854, guid: 87c92af7c60bb8947b338bc915ed76e1, type: 2}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 87c92af7c60bb8947b338bc915ed76e1, type: 2}
@@ -3163,7 +3173,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4536841245790534, guid: 180e173bec7f16547bc1ee7c1bb8b8e5, type: 2}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1007856374767466, guid: 180e173bec7f16547bc1ee7c1bb8b8e5, type: 2}
       propertyPath: m_Name
@@ -3488,7 +3498,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4061462516925252, guid: 9437392c371eaff4bb2dda241798b37d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 5.91
+      value: 6.24
       objectReference: {fileID: 0}
     - target: {fileID: 4061462516925252, guid: 9437392c371eaff4bb2dda241798b37d, type: 2}
       propertyPath: m_LocalPosition.y
@@ -3516,7 +3526,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4061462516925252, guid: 9437392c371eaff4bb2dda241798b37d, type: 2}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 114949579641435806, guid: 9437392c371eaff4bb2dda241798b37d,
         type: 2}
@@ -3525,7 +3535,12 @@ Prefab:
       objectReference: {fileID: 68188525}
     - target: {fileID: 1855772001907126, guid: 9437392c371eaff4bb2dda241798b37d, type: 2}
       propertyPath: m_Name
-      value: SetReset Button (Barrier)
+      value: Button (Barrier)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114949579641435806, guid: 9437392c371eaff4bb2dda241798b37d,
+        type: 2}
+      propertyPath: isPressurePlate
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9437392c371eaff4bb2dda241798b37d, type: 2}
@@ -3674,32 +3689,4 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1008121580}
   m_RootOrder: 22
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2088738995
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 2088738996}
-  m_Layer: 0
-  m_Name: PressurePlate Button
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2088738996
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2088738995}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.4943213, y: 1.3662287, z: -0.07535245}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
