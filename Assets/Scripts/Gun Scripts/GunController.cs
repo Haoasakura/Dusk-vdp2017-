@@ -7,6 +7,7 @@ public class GunController : MonoBehaviour {
     public float TurnSpeed = 20f;
     public int currentCharge = 50;
     public int maxCharge = 100;
+    public float gunRange;
     public bool controlling = false;
     public bool isLocked = false;
 
@@ -28,6 +29,7 @@ public class GunController : MonoBehaviour {
         player = GetComponentInParent<Player>();
         mTransform = GetComponent<Transform>();
         mLineRenderer = GetComponent<LineRenderer>();
+        gunRange = Mathf.Abs((laserDirection.position-barrel.position).x);
     }
 
     void Update() {
@@ -71,8 +73,7 @@ public class GunController : MonoBehaviour {
                     if (mTarget.CompareTag(Tags.light)) {
                         LightController currentLight = mTarget.GetComponent<LightController>();
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && !currentLight.changingStatus)
-                            if ((currentLight.lightStatus && (maxCharge - currentCharge) >= currentLight.lightCharge) ||
-                                (!currentLight.lightStatus && currentCharge >= currentLight.lightCharge)) {
+                            if ((currentLight.lightStatus && (maxCharge - currentCharge) >= currentLight.lightCharge) || (!currentLight.lightStatus && currentCharge >= currentLight.lightCharge)) {
                                 mTarget.GetComponent<LightController>().SwitchOnOff(transform);
                                 isLocked = true;
                             }
@@ -80,8 +81,7 @@ public class GunController : MonoBehaviour {
                     else if (mTarget.CompareTag(Tags.machinery)) {
                         MachineryController currentMachinery = mTarget.GetComponent<MachineryController>();
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && !currentMachinery.changingStatus)
-                            if ((currentMachinery.powered && (maxCharge - currentCharge) >= currentMachinery.powerCharge) ||
-                                (!currentMachinery.powered && currentCharge >= currentMachinery.powerCharge)) {
+                            if ((currentMachinery.powered && (maxCharge - currentCharge) >= currentMachinery.powerCharge) || (!currentMachinery.powered && currentCharge >= currentMachinery.powerCharge)) {
                                 currentMachinery.SwitchOnOff(transform);
                                 isLocked = true;
                             }

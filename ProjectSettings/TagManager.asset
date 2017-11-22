@@ -17,6 +17,7 @@ TagManager:
   - ResetGun
   - PatrolSwitch
   - Checkpoint
+  - DeathCollider
   layers:
   - Default
   - TransparentFX
@@ -30,7 +31,7 @@ TagManager:
   - Platform
   - GunLayer
   - TraversableGround
-  - 
+  - Camera
   - 
   - 
   - 

@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
 
     //Variabili per l'arrampicata e il doppio salto (non utilizzato)
     private bool canClimb = false;
-    private bool isClimbing = false;
+    public bool isClimbing = false;
     private bool lastClimb = true;
 
     //Variabili di Contatto

@@ -20,6 +20,7 @@ public class LightController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     private GameObject particleEffect;
+    public GameObject shooter=null;
 
     void Start()
     {
@@ -30,7 +31,7 @@ public class LightController : MonoBehaviour
     {
         if (changingStatus)
         {
-            if (!Input.GetButton("Fire1"))
+            if (!Input.GetButton("Fire1") && (shooter!=null && shooter.CompareTag(Tags.player)))
             {
                 StopCoroutine("SwitchingOn");
                 StopCoroutine("SwitchingOff");
@@ -38,6 +39,7 @@ public class LightController : MonoBehaviour
                 StopCoroutine("TrailingEffectOff");
                 Destroy(particleEffect);
                 changingStatus = false;
+                shooter = null;
             }
         }
     }
@@ -52,6 +54,7 @@ public class LightController : MonoBehaviour
 
     IEnumerator SwitchingOn(Transform gun)
     {
+        shooter = gun.GetComponentInParent<Player>().gameObject;
         GunController gunController = gun.GetComponent<GunController>();
         changingStatus = true;
         int seconds = (int)switchTime;
@@ -70,10 +73,15 @@ public class LightController : MonoBehaviour
         lightStatus = true;
         gunController.currentCharge -= lightCharge;
         changingStatus = false;
+        if(shooter.CompareTag(Tags.enemy)) {
+            shooter.GetComponentInChildren<EnemyController>().shootingLights = false;
+        }
+        shooter = null;
     }
 
     IEnumerator SwitchingOff(Transform gun)
     {
+        shooter = gun.GetComponentInParent<Player>().gameObject;
         GunController gunController = gun.GetComponent<GunController>();
         changingStatus = true;
 

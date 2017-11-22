@@ -2,7 +2,7 @@
 
 public class Tags : ScriptableObject
 {
-
+    public static readonly string mainCamera = "MainCamera";
     public static readonly string menuBackground = "Menu Background";
     public static readonly string gameManager = "GameController";
     public static readonly string player = "Player";
@@ -14,4 +14,5 @@ public class Tags : ScriptableObject
     public static readonly string topLadder = "TopLadder";
     public static readonly string baseLadder = "BaseLadder";
     public static readonly string patrolSwitch = "PatrolSwitch";
+    public static readonly string deathCollider = "DeathCollider";
 }
