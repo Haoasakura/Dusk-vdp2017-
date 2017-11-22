@@ -31,13 +31,17 @@ public class ButtonController : MonoBehaviour {
         {
             mechanism.GetComponent<ElevatorMovement>().ChangeDestination();
         }
-        if (mechanism.GetComponent<BarrierController>() != null)
+        else if (mechanism.GetComponent<BarrierController>() != null)
         {
             mechanism.GetComponent<BarrierController>().ChangeDestination();
         }
-        if (mechanism.GetComponent<TrapdoorController>() != null)
+        else if (mechanism.GetComponent<TrapdoorController>() != null)
         {
             mechanism.GetComponent<TrapdoorController>().Activate();
+        }
+        else if (mechanism.GetComponent<DoorController>() != null)
+        {
+            mechanism.GetComponent<DoorController>().Activate();
         }
     }
 }
