@@ -24,16 +24,12 @@ public class PlayerAnimationController : MonoBehaviour {
 
         nextState = 0;
 
-        if (!isClimbing && velocity.x > 0.2 && velocity.y < 0.1)
+        if (!isClimbing && velocity.x > 0.2 && velocity.y < 0.2)
         {
             nextState = 1;
-            if (Input.GetButtonDown("Fire3"))
+            if (Input.GetButton("Fire3"))
             {
-                 animator.speed = runVelocity;
-            }
-            else
-            {
-                animator.speed = walkVelocity;
+                nextState = 5;
             }
 
         }
@@ -41,14 +37,15 @@ public class PlayerAnimationController : MonoBehaviour {
         {
             nextState = 2;
         }
+        else if (isClimbing && Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
+        {
+            nextState = 4;
+        }
         else if (isClimbing && (velocity.x != 0 || velocity.y != 0))
         {
             nextState = 3;
         }
-        else if (isClimbing && velocity.x == 0 && velocity.y == 0)
-        {
-            nextState = 4;
-        }
+
 
         if (currentState != nextState)
         {
