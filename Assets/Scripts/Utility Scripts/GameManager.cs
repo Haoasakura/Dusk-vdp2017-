@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
+    public int loadedScene;
+
     private UnityAction unityAction;
     private GameObject player;
     
@@ -41,7 +43,7 @@ public class GameManager : MonoBehaviour {
 
     void LoadGame()
     {
-        SceneManager.LoadScene(1, LoadSceneMode.Single);
+        SceneManager.LoadScene(loadedScene, LoadSceneMode.Single);
         StartCoroutine("SearchPlayer");
     }
 

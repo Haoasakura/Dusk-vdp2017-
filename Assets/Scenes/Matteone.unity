@@ -171,7 +171,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 11658272}
   m_LocalRotation: {x: -0.045206007, y: -0.07466302, z: -0.7101793, w: -0.69858944}
-  m_LocalPosition: {x: 11.32, y: -7.9, z: 7.52}
+  m_LocalPosition: {x: -3.09, y: -9.65, z: 10.06}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -436,6 +436,7 @@ GameObject:
   m_Component:
   - component: {fileID: 800811639}
   - component: {fileID: 800811638}
+  - component: {fileID: 800811640}
   m_Layer: 0
   m_Name: Directional light (1)
   m_TagString: Untagged
@@ -492,6 +493,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: -2.4580002, y: 9.711, z: -269.266}
+--- !u!114 &800811640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 800811637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0604b69b5da0c5f40ad926543e41de39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxLight: 5
+  minLight: 2
+  velocity: 0.0319
 --- !u!1 &867934505
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,7 +589,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 867934505}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 574, y: 267.5, z: 0}
+  m_LocalPosition: {x: 307.5, y: 173, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1943340361}
