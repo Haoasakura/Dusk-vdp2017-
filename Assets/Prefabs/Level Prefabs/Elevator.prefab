@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 61731296595650122}
   m_Layer: 8
   m_Name: Elevator Graphics
-  m_TagString: Through
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 212953191593991520}
   m_Layer: 8
   m_Name: Platform Right
-  m_TagString: Through
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,7 +70,7 @@ GameObject:
   - component: {fileID: 114037917507855896}
   m_Layer: 8
   m_Name: Elevator
-  m_TagString: Through
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 212199858669350600}
   m_Layer: 8
   m_Name: Platform Left
-  m_TagString: Through
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -216,6 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9a9659193d5c434683253ccf6e94a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 0
   speed: 2
   childTransform: {fileID: 4870652115103060}
   targetPointTransform: {fileID: 4710264672488506}
