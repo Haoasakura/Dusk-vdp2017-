@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class ButtonController : MonoBehaviour {
 
+    [Header("TRUE -> Pressure Plate; FALSE -> Set Reset Button")]
+    [SerializeField]
+    private bool isPressurePlate;
+
     [Header("GameObject associated with linked mechanism")]
     [SerializeField]
     private GameObject mechanism;
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         Activate();
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (isPressurePlate)
+        {
+            Activate();
+        }
     }
 
     private void Activate()

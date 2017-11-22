@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 61429359747806896}
   - component: {fileID: 114949579641435806}
   m_Layer: 0
-  m_Name: SetReset Button
+  m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 105aaaea9b9396747be3d836f996df3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPressurePlate: 0
   mechanism: {fileID: 0}
 --- !u!212 &212687673665333390
 SpriteRenderer:
