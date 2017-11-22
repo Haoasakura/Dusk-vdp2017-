@@ -434,7 +434,7 @@ MonoBehaviour:
   maxCharge: 100
   gunRange: 0
   controlling: 1
-  isLocked: 0
+  isLocked: 1
   mTarget: {fileID: 0}
   barrel: {fileID: 4148466714793788}
   laserDirection: {fileID: 4152802212724024}

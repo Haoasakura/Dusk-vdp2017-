@@ -11,8 +11,9 @@ public class GameManager : MonoBehaviour {
 
     private UnityAction unityAction;
     private GameObject player;
-    
+
     private Vector3 playerPosition = new Vector3 (0f, 0f);
+    private int duskCharge = 0;
 
     private void Awake()
     {        
@@ -24,7 +25,7 @@ public class GameManager : MonoBehaviour {
     private void OnEnable()
     {
         EventManager.StartListening("CheckpointReached", SaveGame);
-        EventManager.StartListening("PlayerDied", LoadGame);
+        EventManager.StartListening("ReloadScene", LoadGame);
     }
 
     private void OnDisable()
@@ -38,11 +39,13 @@ public class GameManager : MonoBehaviour {
         Debug.Log(player.transform.position);
 
         playerPosition = new Vector3 (player.transform.position.x, player.transform.position.y);
+        duskCharge = player.transform.Find("Gun").gameObject.GetComponent<GunController>().currentCharge;
         Debug.Log("Saving");
     }
 
     void LoadGame()
     {
+        SceneManager.UnloadSceneAsync(loadedScene);
         SceneManager.LoadScene(loadedScene, LoadSceneMode.Single);
         StartCoroutine("SearchPlayer");
     }
@@ -56,6 +59,7 @@ public class GameManager : MonoBehaviour {
             Debug.Log("PlayerFound");
         }
         Debug.Log(player.transform.position);
-        player.transform.position = playerPosition;       
+        player.transform.position = playerPosition;
+        player.transform.Find("Gun").gameObject.GetComponent<GunController>().currentCharge = duskCharge;
     }
 }

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Events;
 
 //[RequireComponent(typeof(Controller2D))]
 public class Player : MonoBehaviour
@@ -37,15 +39,22 @@ public class Player : MonoBehaviour
      
     //Link allo script Controller2D
     public Controller2D controller;
+    public PlayerAnimationController playerAnimationController;
 
     private Vector2 directionalInput;
     private bool wallSliding;
     private int wallDirX;
 
+    private void OnEnable()
+    {
+        EventManager.StartListening("PlayerDied", DeathProcess);
+    }
+
     private void Start()
     {
         //Setta le regole di gravità e trova il Controller2D
         controller = GetComponent<Controller2D>();
+        playerAnimationController = GetComponent<PlayerAnimationController>();
         originalGravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(originalGravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(originalGravity) * minJumpHeight);
@@ -61,6 +70,7 @@ public class Player : MonoBehaviour
         controller.Move(velocity * Time.deltaTime, directionalInput);
         if (controller.collisions.above || controller.collisions.below)
             velocity.y = 0f;
+        playerAnimationController.Animate(velocity, isClimbing);
     }
 
     public void SetDirectionalInput(Vector2 input)
@@ -119,8 +129,6 @@ public class Player : MonoBehaviour
 
     private void ClimbControl()
     {
-
-
         if (!canClimb && isClimbing)
         {
             gun.SetActive(true);
@@ -231,5 +239,13 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void DeathProcess()
+    {
+        Destroy(gameObject);
+    }
 
+    private void OnDestroy()
+    {
+        EventManager.TriggerEvent("ReloadScene");
+    }
 }
