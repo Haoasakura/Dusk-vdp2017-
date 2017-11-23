@@ -10,6 +10,7 @@ public class UIvisibility : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        player = GameObject.Find("Player").GetComponent<Player>();
         text = GetComponent<Text>();
 	}
 	
@@ -18,7 +19,7 @@ public class UIvisibility : MonoBehaviour {
         if (player.isVisible)
         {
             text.text = "OH GOD, YOU ARE FUCKED!";
-            text.color = Color.red;
+            text.color = Color.white;
             text.fontSize = 28;
         }
         else

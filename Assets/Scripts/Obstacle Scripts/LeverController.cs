@@ -8,16 +8,6 @@ public class LeverController : MonoBehaviour {
     [SerializeField]
     private GameObject mechanism;
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     private void OnTriggerStay2D(Collider2D other)
     {
         if (Input.GetButtonDown("Fire2") && other.gameObject.tag.Equals("Player"))

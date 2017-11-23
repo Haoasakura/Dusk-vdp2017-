@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
     private Vector2 directionalInput;
     private bool wallSliding;
     private int wallDirX;
+    private bool isLighted = false;
 
     private void OnEnable()
     {
@@ -68,10 +69,20 @@ public class Player : MonoBehaviour
     {
         CalculateVelocity();
         ClimbControl();
+        VisibilityControl();
         controller.Move(velocity * Time.deltaTime, directionalInput);
         if (controller.collisions.above || controller.collisions.below)
             velocity.y = 0f;
         playerAnimationController.Animate(velocity, isClimbing);
+    }
+
+    private void VisibilityControl()
+    {
+        isVisible = false;
+        if (directionalInput.magnitude > 0 || isLighted)
+        {
+            isVisible = true;
+        }
     }
 
     public void SetDirectionalInput(Vector2 input)
@@ -86,12 +97,14 @@ public class Player : MonoBehaviour
             velocity.y = maxJumpVelocity;
             isClimbing = false;
             pivotArm.SetActive(true);
+            SoundManager.Instance.Jump();
         }
         else if (isClimbing)
         {
             velocity.y = maxJumpVelocity;
             isClimbing = false;
             pivotArm.SetActive(true);
+            SoundManager.Instance.Jump();
         }
     }
 
@@ -215,7 +228,7 @@ public class Player : MonoBehaviour
         }
         if (collision.gameObject.tag.Equals("LightCollider"))
         {
-            isVisible = true;
+            isLighted = true;
         }
     }
 
@@ -236,7 +249,7 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.tag.Equals("LightCollider"))
         {
-            isVisible = false;
+            isLighted = false;
         }
     }
 

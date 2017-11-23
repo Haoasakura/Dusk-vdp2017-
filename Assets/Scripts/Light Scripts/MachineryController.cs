@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class MachineryController : MonoBehaviour {
 
+    [Header("GameObject associated with linked mechanism")]
+    [SerializeField]
+    private GameObject mechanism;
+
     public float switchTime = 3f;
     public int powerCharge = 25;
     public bool powered = false;
@@ -53,6 +57,7 @@ public class MachineryController : MonoBehaviour {
         powered = true;
         gunController.currentCharge -= powerCharge;
         changingStatus = false;
+        Activate();
     }
 
     IEnumerator SwitchingOff(Transform gun) {
@@ -68,6 +73,7 @@ public class MachineryController : MonoBehaviour {
         Destroy(particleEffect);
         powered = false;
         changingStatus = false;
+        Activate();
     }
 
     IEnumerator TrailingEffectOn(Transform gun) {
@@ -85,6 +91,26 @@ public class MachineryController : MonoBehaviour {
         while (true) {
             particleEffect.transform.position = Vector3.Lerp(transform.position, gun.position, Mathf.SmoothStep(0, 1, (Time.time - startTime) / switchTime));
             yield return null;
+        }
+    }
+
+    private void Activate()
+    {
+        if (mechanism.GetComponent<ElevatorMovement>() != null)
+        {
+            mechanism.GetComponent<ElevatorMovement>().ChangeDestination();
+        }
+        else if (mechanism.GetComponent<BarrierController>() != null)
+        {
+            mechanism.GetComponent<BarrierController>().ChangeDestination();
+        }
+        else if (mechanism.GetComponent<TrapdoorController>() != null)
+        {
+            mechanism.GetComponent<TrapdoorController>().Activate();
+        }
+        else if (mechanism.GetComponent<DoorController>() != null)
+        {
+            mechanism.GetComponent<DoorController>().Activate();
         }
     }
 }

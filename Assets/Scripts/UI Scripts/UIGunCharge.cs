@@ -11,6 +11,7 @@ public class UIGunCharge : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        gun = GameObject.Find("Player").transform.Find("PivotArm").Find("Gun").gameObject;
         text = GetComponent<Text>();
     }
 	
