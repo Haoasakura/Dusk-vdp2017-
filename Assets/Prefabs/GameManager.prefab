@@ -51,4 +51,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3838f9e177d044a989cd743ddfbd4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1469963480000816, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
+  loadedScene: 1
