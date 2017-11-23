@@ -303,7 +303,7 @@ RectTransform:
   m_Children:
   - {fileID: 489479191}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2633,7 +2633,7 @@ Transform:
   - {fileID: 574182127}
   - {fileID: 1268263427}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1055611761
 GameObject:
@@ -3426,6 +3426,7 @@ GameObject:
   - component: {fileID: 1395167205}
   - component: {fileID: 1395167206}
   - component: {fileID: 1395167207}
+  - component: {fileID: 1395167208}
   m_Layer: 0
   m_Name: Door2
   m_TagString: Untagged
@@ -3440,11 +3441,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1395167204}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16.41, y: 5.99, z: 0.0625}
+  m_LocalPosition: {x: 16.55786, y: 5.395947, z: -0.00390625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_Father: {fileID: 1774380701}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1395167206
 SpriteRenderer:
@@ -3477,8 +3478,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1640383125
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 64f39b5816034094f94045ca0594ea6e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3515,6 +3516,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.56, y: 3.2}
   m_EdgeRadius: 0
+--- !u!114 &1395167208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1395167204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c07a3d6d3f7d9f438be4addbba7c2eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 9dccacb02b5d259499e897d691109a13, type: 3}
+  - {fileID: 21300000, guid: 64f39b5816034094f94045ca0594ea6e, type: 3}
+  isOpen: 1
 --- !u!1 &1407820199
 GameObject:
   m_ObjectHideFlags: 0
@@ -3644,11 +3660,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1522070349}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -17.64, y: -2.89, z: 0.0625}
+  m_LocalPosition: {x: -17.49214, y: -3.484053, z: -0.00390625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_Father: {fileID: 1774380701}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1522070351
 SpriteRenderer:
@@ -3681,8 +3697,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1640383125
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 64f39b5816034094f94045ca0594ea6e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3730,6 +3746,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c07a3d6d3f7d9f438be4addbba7c2eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 9dccacb02b5d259499e897d691109a13, type: 3}
+  - {fileID: 21300000, guid: 64f39b5816034094f94045ca0594ea6e, type: 3}
   isOpen: 0
 --- !u!1 &1569274615
 GameObject:
@@ -4223,6 +4242,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1008121580}
   m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1774380700
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1774380701}
+  m_Layer: 0
+  m_Name: DoorLink
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1774380701
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1774380700}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.14785896, y: 0.59405273, z: 0.06640625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1522070350}
+  - {fileID: 1395167205}
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1796629861 stripped
 GameObject:
