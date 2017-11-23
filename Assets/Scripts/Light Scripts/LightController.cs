@@ -20,7 +20,7 @@ public class LightController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     private GameObject particleEffect;
-    public GameObject shooter=null;
+    public Transform shooter=null;
 
     void Start()
     {
@@ -54,7 +54,10 @@ public class LightController : MonoBehaviour
 
     IEnumerator SwitchingOn(Transform gun)
     {
-        shooter = gun.GetComponentInParent<Player>().gameObject;
+        if (gun.GetComponentInParent<SpriteRenderer>().gameObject.CompareTag(Tags.player))
+            shooter = gun.GetComponentInParent<Player>().transform;
+        else
+            shooter = gun.GetComponentInParent<Enemy>().transform;
         GunController gunController = gun.GetComponent<GunController>();
         changingStatus = true;
         int seconds = (int)switchTime;
@@ -73,15 +76,18 @@ public class LightController : MonoBehaviour
         lightStatus = true;
         gunController.currentCharge -= lightCharge;
         changingStatus = false;
-        if(shooter.CompareTag(Tags.enemy)) {
-            shooter.GetComponentInChildren<EnemyController>().shootingLights = false;
+        if(shooter.GetComponent<EnemyController>()!=null) {
+            shooter.GetComponent<EnemyController>().shootingLights = false;
         }
         shooter = null;
     }
 
     IEnumerator SwitchingOff(Transform gun)
     {
-        shooter = gun.GetComponentInParent<Player>().gameObject;
+        if (gun.GetComponentInParent<Player>()!=null)
+            shooter = gun.GetComponentInParent<Player>().transform;
+        else
+            shooter = gun.GetComponentInParent<Enemy>().transform;
         GunController gunController = gun.GetComponent<GunController>();
         changingStatus = true;
 

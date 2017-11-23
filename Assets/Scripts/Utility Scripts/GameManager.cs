@@ -39,13 +39,12 @@ public class GameManager : MonoBehaviour {
         Debug.Log(player.transform.position);
 
         playerPosition = new Vector3 (player.transform.position.x, player.transform.position.y);
-        duskCharge = player.transform.Find("Gun").gameObject.GetComponent<GunController>().currentCharge;
+        duskCharge = player.transform.Find("PivotArm").Find("Gun").gameObject.GetComponent<GunController>().currentCharge;
         Debug.Log("Saving");
     }
 
     void LoadGame()
     {
-        SceneManager.UnloadSceneAsync(loadedScene);
         SceneManager.LoadScene(loadedScene, LoadSceneMode.Single);
         StartCoroutine("SearchPlayer");
     }
@@ -60,6 +59,6 @@ public class GameManager : MonoBehaviour {
         }
         Debug.Log(player.transform.position);
         player.transform.position = playerPosition;
-        player.transform.Find("Gun").gameObject.GetComponent<GunController>().currentCharge = duskCharge;
+        player.transform.Find("PivotArm").Find("Gun").gameObject.GetComponent<GunController>().currentCharge = duskCharge;
     }
 }

@@ -20,7 +20,7 @@ public class UIvisibility : MonoBehaviour {
         {
             text.text = "OH GOD, YOU ARE FUCKED!";
             text.color = Color.white;
-            text.fontSize = 28;
+            text.fontSize = 18;
         }
         else
         {

@@ -228,6 +228,8 @@ public class EnemyController : MonoBehaviour {
                         
                     }
                 }
+                if (shootingLights)
+                    mDirection = Vector2.zero;
 
                 enemy.SetDirectionalInput(mDirection.normalized);
 
@@ -242,13 +244,15 @@ public class EnemyController : MonoBehaviour {
                     gun.GetComponent<SpriteRenderer>().flipY = true;
                 }
             }
+            else if (changingStatus)
+                enemy.SetDirectionalInput(Vector2.zero);
             yield return null;
         }
     }
 
     IEnumerator ConrtolledOn(Transform gun) {
 
-        if(gun.GetComponentInParent<SpriteRenderer>().gameObject.CompareTag(Tags.player))
+        if(gun.GetComponentInParent<Player>()!=null)
             shooter = gun.GetComponentInParent<Player>().transform;
         else
             shooter = gun.GetComponentInParent<Enemy>().transform;

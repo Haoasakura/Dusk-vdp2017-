@@ -43,12 +43,12 @@ public class PlayerAnimationController : MonoBehaviour {
             nextState = 3;
         }
 
-        if (currentState != nextState)
-        {
-            currentState = nextState;
+    //    if (currentState != nextState)
+      //  {
+        //    currentState = nextState;
             animator.SetInteger("State", nextState);
             shadowAnimator.SetInteger("State", nextState);
-        }
+        //}
 
     }
 

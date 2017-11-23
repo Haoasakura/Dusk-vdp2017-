@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     public float timeToJumpApex = .4f;
     public float moveMinSpeed = 3f;
     public float moveMaxSpeed = 7f;
-    public float minClimbAngle = 0.6f;
+    public float minClimbAngle = 0.7f;
     public float climbSpeed = 3f;
     public float accelerationTimeAirborne = .2f;
     public float accelerationTimeGrounded = .1f;

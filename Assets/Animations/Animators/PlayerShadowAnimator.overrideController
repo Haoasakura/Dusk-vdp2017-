@@ -8,5 +8,9 @@ AnimatorOverrideController:
   m_Name: PlayerShadowAnimator
   m_Controller: {fileID: 9100000, guid: 043b09ae9a3740748a87ca160112df86, type: 2}
   m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 48cd87b98eda5ac49a1e80dfdc0b7f69, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 179a52da1aaffe24c913ccb020d11cb2, type: 2}
   - m_OriginalClip: {fileID: 7400000, guid: fefb4b8f0c73a3b4d846d49b4e375009, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: d64fb4ee3a6ff1747acda4dcb3b8a015, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6f762f791c908e14595906bad2887b84, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2aeec7f8afeb63a408ca3a8b365bc665, type: 2}
