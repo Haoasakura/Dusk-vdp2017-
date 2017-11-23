@@ -5,17 +5,13 @@ using UnityEngine;
 public class PlayerAnimationController : MonoBehaviour {
 
     public Animator animator;
+    public Animator shadowAnimator;
 
     public float runVelocity;
     public float walkVelocity;
 
     private int currentState = 0;
     private int nextState = 0;
-
-    private void Start()
-    {
-        animator = GetComponent<Animator>();
-    }
 
     public void Animate (Vector3 velocity, bool isClimbing)
     {
@@ -51,6 +47,7 @@ public class PlayerAnimationController : MonoBehaviour {
         {
             currentState = nextState;
             animator.SetInteger("State", nextState);
+            shadowAnimator.SetInteger("State", nextState);
         }
 
     }

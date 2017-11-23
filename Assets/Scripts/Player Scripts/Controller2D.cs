@@ -2,6 +2,8 @@
 
 public class Controller2D : RaycastController
 {
+    public GameObject pivotArm;
+
     public float fallingThroughPlatformResetTimer = 0.1f;
     private float maxClimbAngle = 80f;
     private float maxDescendAngle = 80f;
@@ -53,6 +55,17 @@ public class Controller2D : RaycastController
         if (standingOnPlatform)
         {
             collisions.below = true;
+        }
+
+        if (moveAmount.x < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+            pivotArm.transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+            pivotArm.transform.localScale = new Vector3(1, 1, 1);
         }
     }
 

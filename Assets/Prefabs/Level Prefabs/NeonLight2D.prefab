@@ -201,6 +201,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: dc69f8e263c2b0140916c39139966345, type: 3}
   absorptionEffect: {fileID: 1969731243722472, guid: 0a134329a976316469f76cc7b4ce36f6,
     type: 2}
+  shooter: {fileID: 0}
 --- !u!212 &212189002294776636
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -329,6 +330,6 @@ SpriteMask:
   m_BackSortingLayerID: -1640383125
   m_FrontSortingLayer: -2
   m_BackSortingLayer: -3
-  m_FrontSortingOrder: 2
+  m_FrontSortingOrder: 10
   m_BackSortingOrder: 2
   m_IsCustomRangeActive: 1

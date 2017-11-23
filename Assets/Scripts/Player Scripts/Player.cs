@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     //Variabili di Contatto
     private ContactFilter2D contactFilter;
     public LayerMask contactMask;
+    public GameObject pivotArm;
     public GameObject gun;
 
     //Variabili per la visibilità
@@ -84,13 +85,13 @@ public class Player : MonoBehaviour
         {
             velocity.y = maxJumpVelocity;
             isClimbing = false;
-            gun.SetActive(true);
+            pivotArm.SetActive(true);
         }
         else if (isClimbing)
         {
             velocity.y = maxJumpVelocity;
             isClimbing = false;
-            gun.SetActive(true);
+            pivotArm.SetActive(true);
         }
     }
 
@@ -131,20 +132,20 @@ public class Player : MonoBehaviour
     {
         if (!canClimb && isClimbing)
         {
-            gun.SetActive(true);
+            pivotArm.SetActive(true);
             isClimbing = false;
             Collider2D[] results =  new Collider2D [10];
             int i = GetComponent<Collider2D>().OverlapCollider(contactFilter, results);
             if (i > 0)
             {
-                gun.SetActive(false);
+                pivotArm.SetActive(false);
                 isClimbing = true;
             }
             
         }
         else if ((directionalInput.y > minClimbAngle) && canClimb && !isClimbing)
         {
-            gun.SetActive(false);
+            pivotArm.SetActive(false);
             isClimbing = true;
         }
         else if (directionalInput.y != 0 && (Mathf.Abs(directionalInput.y) > minClimbAngle) && canClimb && isClimbing)
@@ -157,7 +158,7 @@ public class Player : MonoBehaviour
         } else
         {
             isClimbing = false;
-            gun.SetActive(true);
+            pivotArm.SetActive(true);
         }
     }
 
@@ -170,7 +171,7 @@ public class Player : MonoBehaviour
             {
                 collision.gameObject.layer = 9;
                 collision.gameObject.tag = "Ladder";
-                gun.SetActive(false);
+                pivotArm.SetActive(false);
             }
             else
             {
@@ -192,14 +193,14 @@ public class Player : MonoBehaviour
             canClimb = true;
             if (isClimbing)
             {
-                gun.SetActive(false);
+                pivotArm.SetActive(false);
             }
         }
 
         if (collision.gameObject.tag.Equals("BaseLadder") && isClimbing && directionalInput.y < 0)
         {
             isClimbing = false;
-            gun.SetActive(true);
+            pivotArm.SetActive(true);
         }
 
         //TODO: Estrarre questo codice nell'oggetto TopLadder
@@ -209,7 +210,7 @@ public class Player : MonoBehaviour
             {
                 collision.gameObject.layer = 9;
                 collision.gameObject.tag = "Ladder";
-                gun.SetActive(false);
+                pivotArm.SetActive(false);
             }
         }
         if (collision.gameObject.tag.Equals("LightCollider"))

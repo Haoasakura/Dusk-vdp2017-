@@ -12,7 +12,6 @@ public class Checkpoint : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         CheckpointList = GameObject.FindGameObjectsWithTag("Checkpoint");
-        Debug.Log("Checkp are: " + CheckpointList.Length);
         animator = GetComponent<Animator>();
 	}
 
