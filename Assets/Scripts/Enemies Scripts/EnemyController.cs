@@ -28,8 +28,8 @@ public class EnemyController : MonoBehaviour {
     private Vector3 startPosition;
     private SpriteRenderer spriteRenderer;
     private GameObject particleEffect;
-    private Player enemy;
-    private Player shooter = null;
+    private Enemy enemy;
+    private Transform shooter = null;
     private GunController gun;
     private Transform player;
     private Vector3 mDirection;
@@ -42,7 +42,7 @@ public class EnemyController : MonoBehaviour {
     private Transform endPoint;
 
     private void Awake() {
-        enemy = GetComponent<Player>();
+        enemy = GetComponent<Enemy>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         gun = GetComponentInChildren<GunController>();      
         animator = GetComponent<Animator>();
@@ -247,7 +247,11 @@ public class EnemyController : MonoBehaviour {
     }
 
     IEnumerator ConrtolledOn(Transform gun) {
-        shooter = gun.GetComponentInParent<Player>();
+
+        if(gun.GetComponentInParent<SpriteRenderer>().gameObject.CompareTag(Tags.player))
+            shooter = gun.GetComponentInParent<Player>().transform;
+        else
+            shooter = gun.GetComponentInParent<Enemy>().transform;
         GunController gunController = gun.GetComponent<GunController>();
         changingStatus = true;
         int seconds = (int)switchTime;
@@ -260,9 +264,12 @@ public class EnemyController : MonoBehaviour {
         Destroy(particleEffect);
         controlled = true;
         gunController.currentCharge -= controlCost;
-        shooter.controlling = true;
+        if(shooter.GetComponent<Player>()!=null)
+            shooter.GetComponent<Player>().controlling = true;
+        else
+            shooter.GetComponent<Enemy>().controlling = true;
         enemy.controlling = false;
-        enemy.GetComponent<PlayerInput>().enabled = true;
+        enemy.GetComponent<EnemyInput>().enabled = true;
         changingStatus = false;
     }
 
@@ -317,9 +324,12 @@ public class EnemyController : MonoBehaviour {
                 GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Player>().controlling = false;
 
         if (shooter != null)
-            if (controlled && shooter.gameObject.tag == Tags.enemy) {
+            if (controlled && shooter.gameObject.CompareTag(Tags.enemy)) {
                 shooter.GetComponent<EnemyController>().controlled = false;
-                shooter.controlling = true;
+                if (shooter.GetComponent<Player>() != null)
+                    shooter.GetComponent<Player>().controlling = true;
+                else
+                    shooter.GetComponent<Enemy>().controlling = true;
             }
     }
 

@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 212263010799459918}
   - component: {fileID: 50898369341577044}
   - component: {fileID: 114775175018109276}
+  - component: {fileID: 114466115846945898}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Gun
@@ -436,7 +437,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1659207596573030}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 813584df6b812924c82923adee7dc27e, type: 3}
   m_Name: 
@@ -485,16 +486,45 @@ MonoBehaviour:
   contactMask:
     serializedVersion: 2
     m_Bits: 0
+  pivotArm: {fileID: 0}
   gun: {fileID: 1301738664848460}
   isVisible: 0
   controller: {fileID: 0}
---- !u!114 &114775175018109276
+  playerAnimationController: {fileID: 0}
+--- !u!114 &114466115846945898
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1301738664848460}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e2c15b3645a28c418bfa4f6aea91806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TurnSpeed: 50
+  currentCharge: 75
+  maxCharge: 100
+  gunRange: 0
+  controlling: 1
+  isLocked: 0
+  mTarget: {fileID: 0}
+  barrel: {fileID: 4900478887811314}
+  laserDirection: {fileID: 4639075651686934}
+  aimsight: {fileID: 4121231525382886}
+  gunLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  untraversableLayers:
+    serializedVersion: 2
+    m_Bits: 1280
+--- !u!114 &114775175018109276
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1301738664848460}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7abff27d7bdea2843a538604f62d0218, type: 3}
   m_Name: 
@@ -508,7 +538,12 @@ MonoBehaviour:
   mTarget: {fileID: 0}
   barrel: {fileID: 4900478887811314}
   laserDirection: {fileID: 4639075651686934}
+  mTransform: {fileID: 0}
   aimsight: {fileID: 4121231525382886}
+  arm: {fileID: 0}
+  armShadow: {fileID: 0}
+  aimMaterial: {fileID: 0}
+  idleMaterial: {fileID: 0}
   gunLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -534,6 +569,7 @@ MonoBehaviour:
   horizontalRaySpacing: 0
   verticalRaySpacing: 0
   coll: {fileID: 0}
+  pivotArm: {fileID: 0}
   fallingThroughPlatformResetTimer: 0.1
   gravityOnFall: 2.5
   playerInput: {x: 0, y: 0}
