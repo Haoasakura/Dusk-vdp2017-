@@ -59,13 +59,23 @@ public class Controller2D : RaycastController
 
         if (moveAmount.x < 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
-            pivotArm.transform.localScale = new Vector3(-1, 1, 1);
+            if (pivotArm.transform.localScale.Equals(new Vector3(1, 1, 1)))
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+                pivotArm.transform.localScale = new Vector3(-1, 1, 1);
+                pivotArm.transform.localRotation = Quaternion.Euler(0f, 0f, -pivotArm.transform.localRotation.z * Mathf.Rad2Deg * 2);
+            }
         }
-        else
+        
+        else if (moveAmount.x > 0)
         {
-            transform.localScale = new Vector3(1, 1, 1);
-            pivotArm.transform.localScale = new Vector3(1, 1, 1);
+            if (pivotArm.transform.localScale.Equals(new Vector3(-1, 1, 1)))
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+                pivotArm.transform.localScale = new Vector3(1, 1, 1);
+                pivotArm.transform.localRotation = Quaternion.Euler(0f, 0f, -pivotArm.transform.localRotation.z * Mathf.Rad2Deg * 2);
+
+            }
         }
     }
 

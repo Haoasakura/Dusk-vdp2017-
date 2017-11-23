@@ -23,7 +23,7 @@ public class PlayerAnimationController : MonoBehaviour {
         if (!isClimbing && velocity.x > 0.2 && velocity.y < 0.2)
         {
             nextState = 1;
-            if (Input.GetButton("Fire3"))
+            if (velocity.x > 3)
             {
                 nextState = 5;
             }

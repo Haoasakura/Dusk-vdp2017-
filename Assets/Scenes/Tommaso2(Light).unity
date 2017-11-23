@@ -3007,6 +3007,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114225520261703780, guid: d89e776f8fbf98044a26519cf56b24ca,
+        type: 2}
+      propertyPath: aimMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 3a4a7bd28c6ff3643a76713f890bbe90, type: 2}
+    - target: {fileID: 120721805904456470, guid: d89e776f8fbf98044a26519cf56b24ca,
+        type: 2}
+      propertyPath: m_SortingLayerID
+      value: -187450531
+      objectReference: {fileID: 0}
+    - target: {fileID: 120721805904456470, guid: d89e776f8fbf98044a26519cf56b24ca,
+        type: 2}
+      propertyPath: m_SortingLayer
+      value: -2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
   m_IsPrefabParent: 0

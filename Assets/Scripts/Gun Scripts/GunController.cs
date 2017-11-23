@@ -15,10 +15,12 @@ public class GunController : MonoBehaviour {
     public Transform mTarget;
     public Transform barrel;
     public Transform laserDirection;
-    public Transform aimsight;
     public Transform mTransform;
+    public GameObject aimsight;
     public SpriteRenderer arm;
     public SpriteRenderer armShadow;
+    public Material aimMaterial;
+    public Material idleMaterial;
     public LayerMask gunLayer;
     public LayerMask untraversableLayers;
 
@@ -30,21 +32,24 @@ public class GunController : MonoBehaviour {
 
     void Start() {
         player = GetComponentInParent<Player>();
-        mLineRenderer = GetComponent<LineRenderer>();
+        mLineRenderer = aimsight.GetComponent<LineRenderer>();
         gunRange = Mathf.Abs((laserDirection.position-barrel.position).x);
     }
 
     void Update() {
 
-        aimsight.SetPositionAndRotation(barrel.position, Quaternion.Euler(0f, 0f, 0f));
+        aimsight.transform.SetPositionAndRotation(barrel.position, Quaternion.Euler(0f, 0f, 0f));
+        mLineRenderer.SetPosition(0, barrel.position);
 
         RaycastHit2D hit = Physics2D.Linecast(barrel.position, laserDirection.position, untraversableLayers);
         if (hit.collider != null && !hit.collider.gameObject.layer.Equals(9)) {
-            aimsight.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, 0f, 0f));
+            aimsight.transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, 0f, 0f));
+            mLineRenderer.SetPosition(1, hit.point);
             mTarget = hit.transform;
         }
         else {
-            aimsight.SetPositionAndRotation(laserDirection.position, Quaternion.Euler(0f, 0f, 0f));
+            aimsight.transform.SetPositionAndRotation(laserDirection.position, Quaternion.Euler(0f, 0f, 0f));
+            mLineRenderer.SetPosition(1, laserDirection.position);
             mTarget = null;
         }
 
@@ -54,10 +59,17 @@ public class GunController : MonoBehaviour {
             float b = Input.GetAxis("VerticalGun");
             float c = Mathf.Sqrt(Mathf.Pow(a, 2) + Mathf.Pow(b, 2));
             //rotazione della pistola
+
+            if (Mathf.Abs(c) < 0.5){
+                mLineRenderer.material = idleMaterial;
+            }
+            else
+            {
+                mLineRenderer.material = aimMaterial;
+            }
+
             if (Mathf.Abs(c) > 0.9 && !isLocked) {
                 float angleRot = -Mathf.Sign(b) * Mathf.Rad2Deg * Mathf.Acos(a / c);
-
-                Debug.Log(mTransform.gameObject.name);
 
                 mTransform.rotation = Quaternion.Euler(0f, 0f, angleRot);
                                 
