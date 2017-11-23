@@ -17,6 +17,7 @@ public class MachineryController : MonoBehaviour {
 
     private SpriteRenderer spriteRenderer;
     private GameObject particleEffect;
+    public Transform shooter = null;
 
     void Start () {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -24,13 +25,14 @@ public class MachineryController : MonoBehaviour {
 	
 	void Update () {
         if (changingStatus) {
-            if (Input.GetButton("Vertical") || Input.GetButton("Horizontal")) {
+            if (!Input.GetButton("Fire1") && (shooter != null && shooter.CompareTag(Tags.player))) {
                 StopCoroutine("SwitchingOn");
                 StopCoroutine("SwitchingOff");
                 StopCoroutine("TrailingEffectOn");
                 StopCoroutine("TrailingEffectOff");
                 Destroy(particleEffect);
                 changingStatus = false;
+                shooter = null;
             }
         }
     }
@@ -43,10 +45,18 @@ public class MachineryController : MonoBehaviour {
     }
 
     IEnumerator SwitchingOn(Transform gun) {
-        GunController gunController = gun.GetComponent<GunController>();
+        Transform pointOfOrigin = null;
+        if (gun.GetComponentInParent<Player>() != null) {
+            shooter = gun.GetComponentInParent<Player>().transform;
+            pointOfOrigin = gun.GetComponent<GunController>().barrel;
+        }
+        else {
+            shooter = gun.GetComponentInParent<Enemy>().transform;
+            pointOfOrigin = gun.GetComponent<EnemyWeapon>().barrel;
+        }
         changingStatus = true;
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOn", gunController.barrel);
+        StartCoroutine("TrailingEffectOn", pointOfOrigin);
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
             seconds--;
@@ -55,15 +65,30 @@ public class MachineryController : MonoBehaviour {
         StopCoroutine("TrailingEffectOn");
         Destroy(particleEffect);
         powered = true;
-        gunController.currentCharge -= powerCharge;
+        if (shooter.GetComponent<Player>() != null) {
+            gun.GetComponent<GunController>().currentCharge -= powerCharge;
+        }
+        else {
+            gun.GetComponent<EnemyWeapon>().currentCharge -= powerCharge;
+            shooter.GetComponent<EnemyController>().shootingLights = false;
+        }
         changingStatus = false;
         Activate();
     }
 
     IEnumerator SwitchingOff(Transform gun) {
+        Transform pointOfOrigin = null;
+        if (gun.GetComponentInParent<Player>() != null) {
+            shooter = gun.GetComponentInParent<Player>().transform;
+            pointOfOrigin = gun.GetComponent<GunController>().barrel;
+        }
+        else {
+            shooter = gun.GetComponentInParent<Enemy>().transform;
+            pointOfOrigin = gun.GetComponent<EnemyWeapon>().barrel;
+        }
         changingStatus = true;
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOff", gun.GetComponent<GunController>().barrel);
+        StartCoroutine("TrailingEffectOff", pointOfOrigin);
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
             seconds--;
@@ -72,6 +97,9 @@ public class MachineryController : MonoBehaviour {
         StopCoroutine("TrailingEffectOff");
         Destroy(particleEffect);
         powered = false;
+        if (shooter.GetComponent<EnemyController>() != null) {
+            shooter.GetComponent<EnemyController>().shootingLights = false;
+        }
         changingStatus = false;
         Activate();
     }

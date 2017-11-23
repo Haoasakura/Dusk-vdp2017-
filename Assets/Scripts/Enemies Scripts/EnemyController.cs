@@ -30,7 +30,7 @@ public class EnemyController : MonoBehaviour {
     private GameObject particleEffect;
     private Enemy enemy;
     private Transform shooter = null;
-    private GunController gun;
+    private EnemyWeapon weapon;
     private Transform player;
     private Vector3 mDirection;
     private Transform mDestination;
@@ -41,17 +41,20 @@ public class EnemyController : MonoBehaviour {
     [SerializeField]
     private Transform endPoint;
 
+    private float lastX;
+
     private void Awake() {
         enemy = GetComponent<Enemy>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        gun = GetComponentInChildren<GunController>();      
+        weapon = GetComponentInChildren<EnemyWeapon>();      
         animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag(Tags.player).transform;
     }
     void Start () {
         startPosition = transform.position;
         setDestination(startPoint);
-        weaponRange = gun.gunRange;
+        weaponRange = weapon.gunRange;
+        lastX = transform.position.x;
     }
 	
 	void Update () {
@@ -67,21 +70,29 @@ public class EnemyController : MonoBehaviour {
                 controlled = false;
             }
         }
-        //for playtest purpose
-        if (autodestruct && Input.GetKey(KeyCode.F))
+        else if (!controlled && !shootingLights) {
+            if(transform.position.x>lastX)
+                weapon.transform.rotation = Quaternion.Euler(0, 0, 0);
+            else
+                weapon.transform.rotation = Quaternion.Euler(0, 0, 180 /*- weapon.transform.rotation.eulerAngles.z*/);
+        }
+            //for playtest purpose
+            if (autodestruct && Input.GetKey(KeyCode.F))
                 Destroy(gameObject);
-
+        lastX = transform.position.x;
     }
 
     public void StartPatrol() {
         Debug.Log("Start Patrol");
         StopCoroutine("Chase");
+        enemy.moveMinSpeed = 2f;
         StartCoroutine("Patrol");
     }
 
     public void StartChase() {
         Debug.Log("Start Chase");
         StopCoroutine("Patrol");
+        enemy.moveMinSpeed = 4f;
         StartCoroutine("Chase");
     }
 
@@ -101,20 +112,22 @@ public class EnemyController : MonoBehaviour {
         if (target != null) {
             Vector3 dir = (target.transform.position - transform.position);
             dir.y = 0;
-            RaycastHit2D hit = Physics2D.Raycast(gun.barrel.position, dir, range, sightLayerMask);
-            if (hit.collider != null && hit.collider.gameObject.name == target.gameObject.name && target.gameObject.GetComponent<Player>().isVisible)
+            RaycastHit2D hit = Physics2D.Raycast(weapon.barrel.position, dir, range, sightLayerMask);
+            if (hit.collider != null && hit.collider.gameObject.name == target.gameObject.name && target.GetComponent<Player>()!=null && target.gameObject.GetComponent<Player>().isVisible)
                 return true;
         }
         return false;
     }
 
     IEnumerator Patrol() {
-        SpriteRenderer gunSpriteRenderer = gun.GetComponent<SpriteRenderer>();
+        SpriteRenderer gunSpriteRenderer = weapon.GetComponent<SpriteRenderer>();
         while (true) {
             foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, sightRange)) {
                 if (obj.gameObject.CompareTag(Tags.light)) {
                     if (!obj.gameObject.GetComponent<LightController>().lightStatus && !obj.gameObject.GetComponent<LightController>().changingStatus) {
-                        obj.GetComponent<LightController>().SwitchOnOff(gun.transform);
+                        obj.GetComponent<LightController>().SwitchOnOff(weapon.transform);
+                        float rotationZ = Mathf.Atan2((obj.transform.position - transform.position).y, (obj.transform.position - transform.position).x) * Mathf.Rad2Deg;
+                        weapon.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
                         shootingLights = true;
 
                     }
@@ -128,6 +141,11 @@ public class EnemyController : MonoBehaviour {
                 }
                 if (shootingLights)
                     mDirection = Vector2.zero;
+                /*else {
+                    float rotationZ = Mathf.Atan2((weapon.laserDirection.transform.position - weapon.barrel.position).y, (weapon.laserDirection.transform.position - weapon.barrel.position).x) * Mathf.Rad2Deg;
+                    weapon.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
+                }*/
+
 
                 enemy.SetDirectionalInput(mDirection.normalized);
 
@@ -163,12 +181,11 @@ public class EnemyController : MonoBehaviour {
     }
 
     IEnumerator Chase() {
-        SpriteRenderer gunSpriteRenderer = gun.GetComponent<SpriteRenderer>();
-
+        SpriteRenderer gunSpriteRenderer = weapon.GetComponent<SpriteRenderer>();
         while (true) {
             if (!controlled && !changingStatus) {
-                if (InLineOfSight(player.GetComponent<Collider2D>(),weaponRange))
-                    Debug.Log("Die, Die, Die!!!");
+                if (player!=null && InLineOfSight(player.GetComponent<Collider2D>(), weaponRange))
+                    StartCoroutine("ShootPlayer");
                 float lastX = transform.localPosition.x;
 
                 // gestisce il chasing e i casi un sui deve salire le scale durante il chasing
@@ -201,7 +218,7 @@ public class EnemyController : MonoBehaviour {
                         }
                     }
 
-                    if(ladder != null && climbing && !enemy.GetComponent<Player>().controller.collisions.below) {
+                    if(ladder != null && climbing && !enemy.GetComponent<Enemy>().controller.collisions.below) {
                         mChaseTarget = ladder.GetComponent<Collider2D>().bounds.max;
                         mDirection = (mChaseTarget - transform.position);
                         mDirection.y = -player.position.y;
@@ -234,14 +251,14 @@ public class EnemyController : MonoBehaviour {
                 enemy.SetDirectionalInput(mDirection.normalized);
 
                 float rotationZ = Mathf.Atan2(mDirection.y, mDirection.x) * Mathf.Rad2Deg;
-                gun.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
+                weapon.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
                 if (mDirection.x>0) {
                     spriteRenderer.flipX = false;
-                    gun.GetComponent<SpriteRenderer>().flipY = false;
+                    weapon.GetComponent<SpriteRenderer>().flipY = false;
                 }
                 else {
                     spriteRenderer.flipX = true;
-                    gun.GetComponent<SpriteRenderer>().flipY = true;
+                    weapon.GetComponent<SpriteRenderer>().flipY = true;
                 }
             }
             else if (changingStatus)
@@ -251,15 +268,19 @@ public class EnemyController : MonoBehaviour {
     }
 
     IEnumerator ConrtolledOn(Transform gun) {
-
-        if(gun.GetComponentInParent<Player>()!=null)
+        Transform pointOfOrigin = null;
+        if (gun.GetComponentInParent<Player>() != null) {
+            pointOfOrigin = gun.GetComponent<GunController>().barrel;
             shooter = gun.GetComponentInParent<Player>().transform;
-        else
+        }
+        else {
+            pointOfOrigin = gun.GetComponent<EnemyWeapon>().barrel;
             shooter = gun.GetComponentInParent<Enemy>().transform;
+        }
         GunController gunController = gun.GetComponent<GunController>();
         changingStatus = true;
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOn", gunController.barrel);
+        StartCoroutine("TrailingEffectOn", pointOfOrigin);
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
             seconds--;
@@ -267,11 +288,14 @@ public class EnemyController : MonoBehaviour {
         StopCoroutine("TrailingEffectOn");
         Destroy(particleEffect);
         controlled = true;
-        gunController.currentCharge -= controlCost;
-        if(shooter.GetComponent<Player>()!=null)
+        if (shooter.GetComponent<Player>() != null) {
             shooter.GetComponent<Player>().controlling = true;
-        else
+            gun.GetComponent<GunController>().currentCharge -= controlCost;
+        }
+        else {
             shooter.GetComponent<Enemy>().controlling = true;
+            gun.GetComponent<EnemyWeapon>().currentCharge -= controlCost;
+        }
         enemy.controlling = false;
         enemy.GetComponent<EnemyInput>().enabled = true;
         changingStatus = false;
@@ -313,14 +337,24 @@ public class EnemyController : MonoBehaviour {
         animator.SetBool("PlayerInSight", false);
     }
 
-    /*IEnumerator TrailingEffectOff(Transform gun) {
+    IEnumerator ShootPlayer() {
+        shootingLights = true;
+        player.GetComponent<Player>().controlling = true;
+        StartCoroutine("TrailingEffectOff", player.transform);
+        yield return new WaitForSeconds(switchTime);
+        StopCoroutine("TrailingEffectOff");
+        EventManager.TriggerEvent("PlayerDied");
+
+    }
+
+    IEnumerator TrailingEffectOff(Transform gun) {
         float startTime = Time.time;
         particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
         while (true) {
             particleEffect.transform.position = Vector3.Lerp(transform.position, gun.position, Mathf.SmoothStep(0, 1, (Time.time - startTime) / switchTime));
             yield return null;
         }
-    }*/
+    }
 
     private void OnDestroy() {
         if(controlled && GameObject.FindGameObjectWithTag(Tags.player))
@@ -340,8 +374,8 @@ public class EnemyController : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.CompareTag(Tags.patrolSwitch) && !animator.GetBool("PlayerInSight")) {
             setDestination(mDestination == startPoint ? endPoint : startPoint);
-            gun.transform.rotation = Quaternion.Euler(0, 0, 180 - gun.transform.rotation.eulerAngles.z);
-            gun.GetComponent<SpriteRenderer>().flipY = !gun.GetComponent<SpriteRenderer>().flipY;
+            //weapon.transform.rotation = Quaternion.Euler(0, 0, 180 - weapon.transform.rotation.eulerAngles.z);
+            weapon.GetComponent<SpriteRenderer>().flipY = !weapon.GetComponent<SpriteRenderer>().flipY;
             spriteRenderer.flipX = !spriteRenderer.flipX;
         }
     }

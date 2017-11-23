@@ -54,14 +54,18 @@ public class LightController : MonoBehaviour
 
     IEnumerator SwitchingOn(Transform gun)
     {
-        if (gun.GetComponentInParent<SpriteRenderer>().gameObject.CompareTag(Tags.player))
+        Transform pointOfOrigin = null;
+        if (gun.GetComponentInParent<Player>() != null) {
             shooter = gun.GetComponentInParent<Player>().transform;
-        else
+            pointOfOrigin = gun.GetComponent<GunController>().barrel;
+        }
+        else {
             shooter = gun.GetComponentInParent<Enemy>().transform;
-        GunController gunController = gun.GetComponent<GunController>();
+            pointOfOrigin = gun.GetComponent<EnemyWeapon>().barrel;
+        }
         changingStatus = true;
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOn", gunController.barrel);
+        StartCoroutine("TrailingEffectOn", pointOfOrigin);
         while (seconds > 0)
         {
             yield return new WaitForSeconds(1f);
@@ -74,25 +78,31 @@ public class LightController : MonoBehaviour
         lightCollider.enabled = true;
         maskAttached.enabled = true;
         lightStatus = true;
-        gunController.currentCharge -= lightCharge;
-        changingStatus = false;
-        if(shooter.GetComponent<EnemyController>()!=null) {
+        if (shooter.GetComponent<Player>() != null) {
+            gun.GetComponent<GunController>().currentCharge -= lightCharge;
+        }
+        else {
+            gun.GetComponent<EnemyWeapon>().currentCharge -= lightCharge;
             shooter.GetComponent<EnemyController>().shootingLights = false;
         }
+        changingStatus = false;
         shooter = null;
     }
 
     IEnumerator SwitchingOff(Transform gun)
     {
-        if (gun.GetComponentInParent<Player>()!=null)
+        Transform pointOfOrigin = null;
+        if (gun.GetComponentInParent<Player>() != null) {
             shooter = gun.GetComponentInParent<Player>().transform;
-        else
+            pointOfOrigin = gun.GetComponent<GunController>().barrel;
+        }
+        else {
             shooter = gun.GetComponentInParent<Enemy>().transform;
-        GunController gunController = gun.GetComponent<GunController>();
+            pointOfOrigin = gun.GetComponent<EnemyWeapon>().barrel;
+        }
         changingStatus = true;
-
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOff", gunController.barrel);
+        StartCoroutine("TrailingEffectOff", pointOfOrigin);
         while (seconds > 0)
         {
             yield return new WaitForSeconds(1f);
@@ -105,7 +115,12 @@ public class LightController : MonoBehaviour
         lightCollider.enabled = false;
         maskAttached.enabled = false;
         lightStatus = false;
-        gunController.currentCharge += lightCharge;
+        if (shooter.GetComponent<Player>() != null) {
+            gun.GetComponent<GunController>().currentCharge += lightCharge;
+        }
+        else {
+            gun.GetComponent<EnemyWeapon>().currentCharge += lightCharge;
+        }
         changingStatus = false;
     }
 
