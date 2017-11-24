@@ -23,25 +23,29 @@ public class CameraController : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+
+        newX = transform.position.x;
+        newY = transform.position.y;
+        newZ = transform.position.z;
+
         if (collision.tag.Equals("Player"))
         {
-            //Debug.Log(Mathf.Abs(transform.position.x - collision.transform.position.x));
-
+            Transform current = collision.transform;
 
             //Traslazioni nel caso il giocatore esca dal collider
-            if ((Mathf.Abs(transform.position.x - collision.transform.position.x) > collX / 2) && Mathf.Sign(transform.position.x - collision.transform.position.x) < 0)
+            if ((Mathf.Abs(transform.position.x - current.position.x) > collX / 2) && Mathf.Sign(transform.position.x - current.position.x) < 0)
             {
                 newX = transform.position.x + collX - offsetX;
             }
-            else if ((Mathf.Abs(transform.position.x - collision.transform.position.x) > collX / 2) && Mathf.Sign(transform.position.x - collision.transform.position.x) > 0)
+            else if ((Mathf.Abs(transform.position.x - current.position.x) > collX / 2) && Mathf.Sign(transform.position.x - current.position.x) > 0)
             {
                 newX = transform.position.x - collX + offsetX;
             }
-            else if ((Mathf.Abs(transform.position.y - collision.transform.position.y) > collY / 2) && Mathf.Sign(transform.position.y - collision.transform.position.y) < 0)
+            else if ((Mathf.Abs(transform.position.y - current.position.y) > collY / 2) && Mathf.Sign(transform.position.y - current.position.y) < 0)
             {
                 newY = transform.position.y + collY - offsetY;
             }
-            else if ((Mathf.Abs(transform.position.y - collision.transform.position.y) > collY / 2) && Mathf.Sign(transform.position.y - collision.transform.position.y) > 0)
+            else if ((Mathf.Abs(transform.position.y - current.position.y) > collY / 2) && Mathf.Sign(transform.position.y - current.position.y) > 0)
             {
                 newY = transform.position.y - collY + offsetY;
             }

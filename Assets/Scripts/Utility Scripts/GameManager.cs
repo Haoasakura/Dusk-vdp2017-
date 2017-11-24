@@ -11,8 +11,10 @@ public class GameManager : MonoBehaviour {
 
     private UnityAction unityAction;
     private GameObject player;
+    private GameObject camera;
 
-    private Vector3 playerPosition = new Vector3 (0f, 0f);
+    public Vector3 cameraPosition = new Vector3(0f, 0f, -10f);
+    public Vector3 playerPosition = new Vector3 (0f, 0f);
     private int duskCharge = 0;
 
     private void Awake()
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviour {
     {
         Debug.Log(player.transform.position);
 
+        cameraPosition = new Vector3(camera.transform.position.x, camera.transform.position.y, -10f);
         playerPosition = new Vector3 (player.transform.position.x, player.transform.position.y);
         duskCharge = player.transform.Find("PivotArm").Find("Gun").gameObject.GetComponent<GunController>().currentCharge;
         Debug.Log("Saving");
@@ -53,11 +56,13 @@ public class GameManager : MonoBehaviour {
     {
         yield return new WaitForSeconds(0.01f);
         player = GameObject.FindWithTag("Player");
+        camera = GameObject.FindWithTag("MainCamera");
         if (!(player == null))
         {
             Debug.Log("PlayerFound");
         }
         Debug.Log(player.transform.position);
+        camera.transform.position = cameraPosition;
         player.transform.position = playerPosition;
         player.transform.Find("PivotArm").Find("Gun").gameObject.GetComponent<GunController>().currentCharge = duskCharge;
     }

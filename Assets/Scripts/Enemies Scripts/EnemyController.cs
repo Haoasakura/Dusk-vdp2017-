@@ -77,7 +77,7 @@ public class EnemyController : MonoBehaviour {
                 weapon.transform.rotation = Quaternion.Euler(0, 0, 180 /*- weapon.transform.rotation.eulerAngles.z*/);
         }
             //for playtest purpose
-            if (autodestruct && Input.GetKey(KeyCode.F))
+            if (autodestruct && (Input.GetKey(KeyCode.F) || Input.GetButton("Fire4")))
                 Destroy(gameObject);
         lastX = transform.position.x;
     }
