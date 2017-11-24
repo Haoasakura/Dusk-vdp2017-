@@ -24,5 +24,9 @@ public class EnemyInput : MonoBehaviour
             }
 
         }
+        //for playtest purpose
+        if (transform.GetComponent<EnemyController>().autodestruct && (Input.GetKey(KeyCode.F) || Input.GetButton("Fire4"))) {
+            Destroy(gameObject);
+        }
     }
 }

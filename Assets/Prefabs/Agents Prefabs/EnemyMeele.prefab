@@ -237,7 +237,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1024049234888226}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.44, y: 0.007, z: 0}
+  m_LocalPosition: {x: 4.71, y: 0.007, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4464744006087852}
@@ -486,7 +486,7 @@ MonoBehaviour:
   timeToReturnPatrol: 3
   controlled: 0
   changingStatus: 0
-  autodestruct: 0
+  autodestruct: 1
   playerInSight: 0
   sightLayerMask:
     serializedVersion: 2

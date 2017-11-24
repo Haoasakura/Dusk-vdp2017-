@@ -31,7 +31,7 @@ public class LightController : MonoBehaviour
     {
         if (changingStatus)
         {
-            if (!Input.GetButton("Fire1") && (shooter!=null && shooter.CompareTag(Tags.player)))
+            if (!Input.GetButton("Fire1") && ((shooter!=null && shooter.CompareTag(Tags.player)) || (shooter != null && shooter.CompareTag(Tags.enemy) && shooter.GetComponent<EnemyController>().controlled)))
             {
                 StopCoroutine("SwitchingOn");
                 StopCoroutine("SwitchingOff");

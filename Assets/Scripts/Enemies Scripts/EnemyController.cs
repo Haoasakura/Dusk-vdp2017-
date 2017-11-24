@@ -22,6 +22,7 @@ public class EnemyController : MonoBehaviour {
     public Animator animator;
 
     private float weaponRange;
+    private float lastX;
     private bool losingTarget=false;
     public bool shootingLights = false;
 
@@ -41,7 +42,7 @@ public class EnemyController : MonoBehaviour {
     [SerializeField]
     private Transform endPoint;
 
-    private float lastX;
+    
 
     private void Awake() {
         enemy = GetComponent<Enemy>();
@@ -76,9 +77,7 @@ public class EnemyController : MonoBehaviour {
             else
                 weapon.transform.rotation = Quaternion.Euler(0, 0, 180 /*- weapon.transform.rotation.eulerAngles.z*/);
         }
-            //for playtest purpose
-            if (autodestruct && (Input.GetKey(KeyCode.F) || Input.GetButton("Fire4")))
-                Destroy(gameObject);
+            
         lastX = transform.position.x;
     }
 
@@ -124,7 +123,7 @@ public class EnemyController : MonoBehaviour {
         while (true) {
             foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, sightRange)) {
                 if (obj.gameObject.CompareTag(Tags.light)) {
-                    if (!obj.gameObject.GetComponent<LightController>().lightStatus && !obj.gameObject.GetComponent<LightController>().changingStatus) {
+                    if (!obj.gameObject.GetComponent<LightController>().lightStatus && !obj.gameObject.GetComponent<LightController>().changingStatus && weapon.currentCharge>0) {
                         obj.GetComponent<LightController>().SwitchOnOff(weapon.transform);
                         float rotationZ = Mathf.Atan2((obj.transform.position - transform.position).y, (obj.transform.position - transform.position).x) * Mathf.Rad2Deg;
                         weapon.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
@@ -136,6 +135,7 @@ public class EnemyController : MonoBehaviour {
 
             if (!controlled && !changingStatus) {
                 float lastX = transform.localPosition.x;
+                mDirection = (mDestination.position - transform.position);
                 if (Mathf.Abs(mDirection.x) < 1) {
                     mDirection.x += 0.03f * Mathf.Sign(mDirection.x);
                 }
@@ -184,8 +184,18 @@ public class EnemyController : MonoBehaviour {
         SpriteRenderer gunSpriteRenderer = weapon.GetComponent<SpriteRenderer>();
         while (true) {
             if (!controlled && !changingStatus) {
+
+                if (player != null) {
+                    Debug.Log(InLineOfSight(player.GetComponent<Collider2D>(), sightRange));
+                    if (!InLineOfSight(player.GetComponent<Collider2D>(), sightRange))
+                        StartCoroutine("ReturnToPatrol");
+                    else
+                        StopCoroutine("ReturnToPatrol");
+                }
+
                 if (player!=null && InLineOfSight(player.GetComponent<Collider2D>(), weaponRange))
                     StartCoroutine("ShootPlayer");
+
                 float lastX = transform.localPosition.x;
 
                 // gestisce il chasing e i casi un sui deve salire le scale durante il chasing
@@ -338,9 +348,12 @@ public class EnemyController : MonoBehaviour {
     }
 
     IEnumerator ShootPlayer() {
+        if(!shootingLights)
+        StartCoroutine("TrailingEffectOff", player.transform);
         shootingLights = true;
         player.GetComponent<Player>().controlling = true;
-        StartCoroutine("TrailingEffectOff", player.transform);
+        player.GetComponent<Player>().SetDirectionalInput(Vector2.zero);
+        player.GetComponent<PlayerInput>().enabled = false;
         yield return new WaitForSeconds(switchTime);
         StopCoroutine("TrailingEffectOff");
         EventManager.TriggerEvent("PlayerDied");
@@ -357,16 +370,23 @@ public class EnemyController : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        if(controlled && GameObject.FindGameObjectWithTag(Tags.player))
-            if(GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Player>()!=null)
-                GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Player>().controlling = false;
+        GameObject player = GameObject.FindGameObjectWithTag(Tags.player);
+        if (controlled && player != null) {
+            Player mPlayer = player.GetComponent<Player>();
+            if (mPlayer != null) {
+                mPlayer.controlling = false;
+                mPlayer.GetComponentInChildren<GunController>().isLocked = false;
+            }
 
+        }
+        //questo dovrebbe essere inutile devo farlo quando sparo a unaltro nemico non on destry
         if (shooter != null)
             if (controlled && shooter.gameObject.CompareTag(Tags.enemy)) {
                 shooter.GetComponent<EnemyController>().controlled = false;
-                if (shooter.GetComponent<Player>() != null)
+                /*if (shooter.GetComponent<Player>() != null) {
                     shooter.GetComponent<Player>().controlling = true;
-                else
+                }
+                else*/
                     shooter.GetComponent<Enemy>().controlling = true;
             }
     }
