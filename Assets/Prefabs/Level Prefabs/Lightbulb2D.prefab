@@ -71,7 +71,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1910141648084978}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: 11.32, y: -1.35, z: 0}
+  m_LocalPosition: {x: 3.57, y: -2.38, z: 0}
   m_LocalScale: {x: 0.31681517, y: 0.29406574, z: 1}
   m_Children:
   - {fileID: 4163777316993996}
@@ -175,14 +175,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1910141648084978}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2c40ed0f2ed5ee4fa42ce60626bc893, type: 3}
+  m_Script: {fileID: 11500000, guid: 9be9aa959b9b983449461b3c81c1144c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   switchTime: 3
   lightCharge: 25
   lightStatus: 1
   changingStatus: 0
-  lightAttached: {fileID: 212789967987030772}
+  lightAttached: {fileID: 212831986963861750}
   lightCollider: {fileID: 60970988023843634}
   maskAttached: {fileID: 331711234099230614}
   lightStates:
