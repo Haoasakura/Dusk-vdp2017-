@@ -80,7 +80,6 @@ public class Player : MonoBehaviour
     private void VisibilityControl()
     {
         isVisible = false;
-<<<<<<< Updated upstream
         bool enemiesAreChasing = false;
         foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
             if (enemy.GetComponent<Animator>().GetBool("PlayerInSight")) {
@@ -88,9 +87,7 @@ public class Player : MonoBehaviour
             }
         }
         if (directionalInput.magnitude > 0 || isLighted || (directionalInput.magnitude<=0 && enemiesAreChasing))
-=======
         if (directionalInput.magnitude > 0.3 || isLighted)
->>>>>>> Stashed changes
         {
             isVisible = true;
         }
