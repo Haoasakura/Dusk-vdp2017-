@@ -3696,6 +3696,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114388058619968842, guid: a07c76b2a00dd3744add543892c875f2,
+        type: 2}
+      propertyPath: contactFilter.layerMask.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
+    - target: {fileID: 114388058619968842, guid: a07c76b2a00dd3744add543892c875f2,
+        type: 2}
+      propertyPath: contactFilter.useTriggers
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a07c76b2a00dd3744add543892c875f2, type: 2}
   m_IsPrefabParent: 0
@@ -3953,7 +3963,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4741299486758322, guid: c09e187aeba357d4fa9f869cd51f1ad2, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 8.03
+      value: 9.1
       objectReference: {fileID: 0}
     - target: {fileID: 4741299486758322, guid: c09e187aeba357d4fa9f869cd51f1ad2, type: 2}
       propertyPath: m_LocalPosition.y
@@ -3986,11 +3996,6 @@ Prefab:
     - target: {fileID: 1702261885228422, guid: c09e187aeba357d4fa9f869cd51f1ad2, type: 2}
       propertyPath: m_Name
       value: EnemyWithGun
-      objectReference: {fileID: 0}
-    - target: {fileID: 114093405346142414, guid: c09e187aeba357d4fa9f869cd51f1ad2,
-        type: 2}
-      propertyPath: autodestruct
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c09e187aeba357d4fa9f869cd51f1ad2, type: 2}

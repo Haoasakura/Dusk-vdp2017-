@@ -14,22 +14,20 @@ public class CameraController : MonoBehaviour {
     private float collY;
     private BoxCollider2D coll;
 
-    private void OnEnable()
-    {
+    private void OnEnable() {
         coll = GetComponent<BoxCollider2D>();
         collX = coll.size.x;
         collY = coll.size.y;
+        ActivateEnemies();
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
+    private void OnTriggerExit2D(Collider2D collision) {
 
         newX = transform.position.x;
         newY = transform.position.y;
         newZ = transform.position.z;
 
-        if (collision.tag.Equals("Player"))
-        {
+        if (collision.CompareTag(Tags.player)) {
             Transform current = collision.transform;
 
             //Traslazioni nel caso il giocatore esca dal collider
@@ -53,6 +51,17 @@ public class CameraController : MonoBehaviour {
             newZ = transform.position.z;
 
             transform.position= new Vector3 (newX, newY, newZ);
+        }
+        ActivateEnemies();  
+    }
+
+    private void ActivateEnemies() {     
+        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
+            if (coll.bounds.Contains(enemy.transform.position + new Vector3(0, 0, -10))) {
+                if (enemy.gameObject.GetComponent<Animator>().GetBool("Idle")) {
+                    enemy.gameObject.GetComponent<Animator>().SetBool("Idle",false);
+                }
+            }
         }
     }
 }

@@ -124,8 +124,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4741299486758322}
   m_Layer: 10
-  m_Name: EnemyMeele
-  m_TagString: Enemy
+  m_Name: EnemyMelee
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -277,7 +277,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1702261885228422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.03, y: -6.67, z: 0}
+  m_LocalPosition: {x: 17.24, y: -6.67, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4582047910831166}
@@ -486,7 +486,7 @@ MonoBehaviour:
   timeToReturnPatrol: 3
   controlled: 0
   changingStatus: 0
-  autodestruct: 1
+  autodestruct: 0
   playerInSight: 0
   sightLayerMask:
     serializedVersion: 2
@@ -503,7 +503,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1481899608667454}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5738f23f2bb29e24db4e7a6053c6402a, type: 3}
   m_Name: 

@@ -105,7 +105,7 @@ public class EnemyWeapon : MonoBehaviour
 
     public bool InLineOfSight(Collider2D target) {
         if (target != null) {
-            RaycastHit2D hit = Physics2D.Raycast(barrel.position, (target.transform.position - transform.position), 1000f, gunLayer);
+            RaycastHit2D hit = Physics2D.Raycast(barrel.position, (target.transform.position - transform.position), gunRange, gunLayer);
             if (hit.collider != null && hit.collider.gameObject.name == target.gameObject.name)
                 return true;
         }
