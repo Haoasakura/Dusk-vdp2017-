@@ -168,7 +168,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1586977726353020}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -4.96, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4741299486758322}
@@ -277,7 +277,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1702261885228422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.1, y: -6.67, z: 0}
+  m_LocalPosition: {x: 6.99, y: -6.67, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4582047910831166}
@@ -483,14 +483,14 @@ MonoBehaviour:
   switchTime: 3
   sightRange: 10
   controlCost: 25
-  timeToReturnPatrol: 5
+  timeToReturnPatrol: 4
   controlled: 0
   changingStatus: 0
   autodestruct: 0
   playerInSight: 0
   sightLayerMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 1280
   absorptionEffect: {fileID: 1969731243722472, guid: 0a134329a976316469f76cc7b4ce36f6,
     type: 2}
   animator: {fileID: 95889545691908768}

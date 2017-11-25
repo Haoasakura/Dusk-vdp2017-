@@ -36,6 +36,7 @@ public class EnemyController : MonoBehaviour {
     private Vector3 mDirection;
     private Transform mDestination;
     private Vector3 mChaseTarget;
+    private EnemyController2D enemyController2D;
 
     [SerializeField]
     private Transform startPoint;
@@ -49,6 +50,7 @@ public class EnemyController : MonoBehaviour {
         spriteRenderer = GetComponent<SpriteRenderer>();
         weapon = GetComponentInChildren<EnemyWeapon>();      
         animator = GetComponent<Animator>();
+        enemyController2D = GetComponent<EnemyController2D>();
         player = GameObject.FindGameObjectWithTag(Tags.player).transform;
     }
     void Start () {
@@ -108,7 +110,7 @@ public class EnemyController : MonoBehaviour {
 
     private void setDestination(Transform destination) {
         mDestination = destination;
-        mDirection = (mDestination.position - transform.position).normalized/10;
+        mDirection = (mDestination.position - transform.position).normalized/10f;
     }
 
     private bool InLineOfSight(Collider2D target, float range) {
@@ -138,10 +140,8 @@ public class EnemyController : MonoBehaviour {
             }
 
             if (!controlled && !changingStatus) {
-
                 if (!(transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x)) {
-                        mDirection = (startPosition - transform.position);
-                        enemy.SetDirectionalInput(mDirection.normalized);
+                    mDirection = (startPosition - transform.position);
                 } else {
                     float lastX = transform.localPosition.x;
                     mDirection = (mDestination.position - transform.position);
@@ -165,19 +165,24 @@ public class EnemyController : MonoBehaviour {
                 }
                 else {
                     spriteRenderer.flipX = true;
-                }
-
-                if (startPoint.position.x - transform.position.x > 0 || endPoint.position.x - transform.position.x < 0) {
-                    //setDestination(mDestination == startPoint ? endPoint : startPoint);
-                    gun.transform.rotation = Quaternion.Euler(0, 0, 180 - gun.transform.rotation.eulerAngles.z);
-                    gun.GetComponent<SpriteRenderer>().flipY = !gun.GetComponent<SpriteRenderer>().flipY;
-
                 }*/
+                if ((startPoint.position.x - transform.position.x > 0 || enemyController2D.collisions.left) && !controlled && !animator.GetBool("PlayerInSight")) {
+                    setDestination(endPoint);
+                    //setDestination(mDestination == startPoint ? endPoint : startPoint);
+                    //weapon.transform.rotation = Quaternion.Euler(0, 0, 180 - gun.transform.rotation.eulerAngles.z);
+                    //weapon.GetComponent<SpriteRenderer>().flipY = !gun.GetComponent<SpriteRenderer>().flipY;
+                }
+                else if ((endPoint.position.x - transform.position.x < 0 || enemyController2D.collisions.right) && !controlled && !animator.GetBool("PlayerInSight")) {
+                    setDestination(startPoint);
+                    //setDestination(mDestination == startPoint ? endPoint : startPoint);
+                    //weapon.transform.rotation = Quaternion.Euler(0, 0, 180 - gun.transform.rotation.eulerAngles.z);
+                    //weapon.GetComponent<SpriteRenderer>().flipY = !gun.GetComponent<SpriteRenderer>().flipY;
+                }
                 /*if (gun.mTarget != null && gun.mTarget.CompareTag(Tags.player) && InLineOfSight(GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Collider2D>())) {
                     animator.SetBool("PlayerInSight", true);
                     mChaseTarget = gun.mTarget;
                 }*/
-                if(!changingStatus)
+                if (!changingStatus)
                     if (InLineOfSight(player.GetComponent<Collider2D>(), sightRange) && GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<Collider2D>().bounds.Contains(transform.position + new Vector3(0, 0, -10))) {
                         animator.SetBool("PlayerInSight", true);
                         mChaseTarget = player.position;
@@ -297,7 +302,6 @@ public class EnemyController : MonoBehaviour {
             pointOfOrigin = gun.GetComponent<EnemyWeapon>().barrel;
             shooter = gun.GetComponentInParent<Enemy>().transform;
         }
-        GunController gunController = gun.GetComponent<GunController>();
         changingStatus = true;
         int seconds = (int)switchTime;
         StartCoroutine("TrailingEffectOn", pointOfOrigin);
@@ -346,9 +350,9 @@ public class EnemyController : MonoBehaviour {
         }
     }
     IEnumerator ReturnToPatrol() {
-        Debug.Log("loosing target");
+        Debug.Log("Loosing Target...");
         yield return new WaitForSeconds(timeToReturnPatrol);
-        Debug.Log("target lost, returning");
+        Debug.Log("...Target Lost, Returning!");
         StartPatrol();
     }
 
@@ -384,27 +388,23 @@ public class EnemyController : MonoBehaviour {
             }
 
         }
-        //questo dovrebbe essere inutile devo farlo quando sparo a un altro nemico non on destry
+        //questo dovrebbe essere inutile devo farlo quando sparo a un altro nemico non on destroy
         if (shooter != null)
             if (controlled && shooter.gameObject.CompareTag(Tags.enemy)) {
                 shooter.GetComponentInChildren<EnemyController>().controlled = false;
-                /*if (shooter.GetComponent<Player>() != null) {
-                    shooter.GetComponent<Player>().controlling = true;
-                }
-                else*/
                 shooter.GetComponent<Enemy>().controlling = true;
                 enemy.GetComponentInChildren<EnemyWeapon>().untraversableLayers = enemy.GetComponentInChildren<EnemyWeapon>().groundLayer;
             }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) {
+    /*private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.CompareTag(Tags.patrolSwitch) && collision.transform.IsChildOf(transform.parent) && !controlled && !animator.GetBool("PlayerInSight")) {
             setDestination(mDestination == startPoint ? endPoint : startPoint);
             //weapon.transform.rotation = Quaternion.Euler(0, 0, 180 - weapon.transform.rotation.eulerAngles.z);
             weapon.GetComponent<SpriteRenderer>().flipY = !weapon.GetComponent<SpriteRenderer>().flipY;
             spriteRenderer.flipX = !spriteRenderer.flipX;
         }
-    }
+    }*/
 
     private void OnDrawGizmos() {
         Gizmos.color = Color.green;
@@ -414,5 +414,7 @@ public class EnemyController : MonoBehaviour {
         Gizmos.DrawWireCube(endPoint.position, transform.GetComponent<BoxCollider2D>().size);
 
         Gizmos.DrawWireSphere(transform.position, sightRange);
+       
+       
     }
 }
