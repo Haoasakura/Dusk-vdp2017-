@@ -31,5 +31,9 @@ public class LeverController : MonoBehaviour {
         else if (mechanism.GetComponent<DoorController>() != null) {
             mechanism.GetComponent<DoorController>().Activate();
         }
+        else if (mechanism.GetComponent<CrusherController>() != null)
+        {
+            mechanism.GetComponent<CrusherController>().Activate();
+        }
     }
 }
