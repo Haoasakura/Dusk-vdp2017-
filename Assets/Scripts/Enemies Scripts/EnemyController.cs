@@ -61,7 +61,7 @@ public class EnemyController : MonoBehaviour {
 	void Update () {
 
         if (changingStatus) {
-            if (Input.GetButton("Vertical") || Input.GetButton("Horizontal")) {
+            if (!Input.GetButton("Fire1") && ((shooter != null && shooter.CompareTag(Tags.player)) || (shooter != null && shooter.CompareTag(Tags.enemy) && shooter.GetComponent<EnemyController>().controlled))/) {
                 StopCoroutine("ConrtolledOn");
                 StopCoroutine("ControlledOff");
                 StopCoroutine("TrailingEffectOn");
@@ -304,10 +304,12 @@ public class EnemyController : MonoBehaviour {
         }
         else {
             shooter.GetComponent<Enemy>().controlling = true;
+            gun.GetComponent<EnemyWeapon>().untraversableLayers = gun.GetComponent<EnemyWeapon>().groundLayer;
             gun.GetComponent<EnemyWeapon>().currentCharge -= controlCost;
         }
         enemy.controlling = false;
         enemy.GetComponent<EnemyInput>().enabled = true;
+        enemy.GetComponentInChildren<EnemyWeapon>().untraversableLayers = enemy.GetComponentInChildren<EnemyWeapon>().groundLayer+enemy.GetComponentInChildren<EnemyWeapon>().gunLayer;
         changingStatus = false;
     }
 
@@ -379,20 +381,21 @@ public class EnemyController : MonoBehaviour {
             }
 
         }
-        //questo dovrebbe essere inutile devo farlo quando sparo a unaltro nemico non on destry
+        //questo dovrebbe essere inutile devo farlo quando sparo a un altro nemico non on destry
         if (shooter != null)
             if (controlled && shooter.gameObject.CompareTag(Tags.enemy)) {
-                shooter.GetComponent<EnemyController>().controlled = false;
+                shooter.GetComponentInChildren<EnemyController>().controlled = false;
                 /*if (shooter.GetComponent<Player>() != null) {
                     shooter.GetComponent<Player>().controlling = true;
                 }
                 else*/
-                    shooter.GetComponent<Enemy>().controlling = true;
+                shooter.GetComponent<Enemy>().controlling = true;
+                enemy.GetComponentInChildren<EnemyWeapon>().untraversableLayers = enemy.GetComponentInChildren<EnemyWeapon>().groundLayer;
             }
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.gameObject.CompareTag(Tags.patrolSwitch) && !animator.GetBool("PlayerInSight")) {
+        if (collision.gameObject.CompareTag(Tags.patrolSwitch) && collision.transform.IsChildOf(transform.parent) && !controlled && !animator.GetBool("PlayerInSight")) {
             setDestination(mDestination == startPoint ? endPoint : startPoint);
             //weapon.transform.rotation = Quaternion.Euler(0, 0, 180 - weapon.transform.rotation.eulerAngles.z);
             weapon.GetComponent<SpriteRenderer>().flipY = !weapon.GetComponent<SpriteRenderer>().flipY;

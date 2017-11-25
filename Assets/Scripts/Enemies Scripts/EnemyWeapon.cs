@@ -18,6 +18,7 @@ public class EnemyWeapon : MonoBehaviour
     public Transform laserDirection;
     public Transform aimsight;
     public LayerMask gunLayer;
+    public LayerMask groundLayer;
     public LayerMask untraversableLayers;
 
     private Enemy enemy;

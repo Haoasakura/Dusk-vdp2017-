@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 4741299486758322}
   m_Layer: 10
   m_Name: EnemyMeele
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -532,9 +532,12 @@ MonoBehaviour:
   gunLayer:
     serializedVersion: 2
     m_Bits: 1024
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
   untraversableLayers:
     serializedVersion: 2
-    m_Bits: 1280
+    m_Bits: 256
 --- !u!212 &212022497737796636
 SpriteRenderer:
   m_ObjectHideFlags: 1
