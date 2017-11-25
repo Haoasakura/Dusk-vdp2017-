@@ -83,15 +83,19 @@ public class EnemyController : MonoBehaviour {
 
     public void StartPatrol() {
         Debug.Log("Start Patrol");
+        StopCoroutine("Patrol");
         StopCoroutine("Chase");
         enemy.moveMinSpeed = 2f;
+        animator.SetBool("PlayerInSight", false);
         StartCoroutine("Patrol");
     }
 
     public void StartChase() {
         Debug.Log("Start Chase");
         StopCoroutine("Patrol");
+        StopCoroutine("Chase");
         enemy.moveMinSpeed = 4f;
+        animator.SetBool("PlayerInSight", true);
         StartCoroutine("Chase");
     }
 
@@ -134,11 +138,17 @@ public class EnemyController : MonoBehaviour {
             }
 
             if (!controlled && !changingStatus) {
-                float lastX = transform.localPosition.x;
-                mDirection = (mDestination.position - transform.position);
-                if (Mathf.Abs(mDirection.x) < 1) {
-                    mDirection.x += 0.03f * Mathf.Sign(mDirection.x);
+
+                if (!(transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x)) {
+                        mDirection = (startPosition - transform.position);
+                        enemy.SetDirectionalInput(mDirection.normalized);
+                } else {
+                    float lastX = transform.localPosition.x;
+                    mDirection = (mDestination.position - transform.position);
+                    if (Mathf.Abs(mDirection.x) < 1)
+                        mDirection.x += 0.03f * Mathf.Sign(mDirection.x);
                 }
+
                 if (shootingLights)
                     mDirection = Vector2.zero;
                 /*else {
@@ -200,7 +210,7 @@ public class EnemyController : MonoBehaviour {
 
                 // gestisce il chasing e i casi un sui deve salire le scale durante il chasing
                 mDirection = (player.position - transform.position);
-                if (mDirection.y >1.1f) {
+                if (mDirection.y >1.6f) {
                     float closestLadder = 10000f;
                     GameObject ladder = null;
                     foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, sightRange)) {
@@ -338,15 +348,8 @@ public class EnemyController : MonoBehaviour {
     IEnumerator ReturnToPatrol() {
         Debug.Log("loosing target");
         yield return new WaitForSeconds(timeToReturnPatrol);
-        StopCoroutine("Patrol");
-        StopCoroutine("Chase");
         Debug.Log("target lost, returning");
-        while (Vector2.Distance(transform.position,startPosition)>0.3f) {
-            mDirection = (startPosition - transform.position);
-            enemy.SetDirectionalInput(mDirection.normalized);
-            yield return null;
-        }
-        animator.SetBool("PlayerInSight", false);
+        StartPatrol();
     }
 
     IEnumerator ShootPlayer() {
