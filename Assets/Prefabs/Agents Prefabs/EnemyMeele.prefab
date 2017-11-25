@@ -180,7 +180,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1262722675055186}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 1, w: -0.00000004371139}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -250,7 +250,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1481899608667454}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.65, y: 0, z: 0}
+  m_LocalPosition: {x: 2.6499996, y: -0.03999996, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4464744006087852}
@@ -429,22 +429,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 067127c2342acfa489a5f8ee5634080c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxJumpHeight: 1
-  minJumpHeight: 0.1
+  maxJumpHeight: 4
+  minJumpHeight: 1
   timeToJumpApex: 0.4
   moveMinSpeed: 2
   moveMaxSpeed: 7
   minClimbAngle: 0.6
   climbSpeed: 3
-  accelerationTimeAirborne: 3
+  accelerationTimeAirborne: 0.2
   accelerationTimeGrounded: 0.1
-  controlling: 1
+  controlling: 0
   isClimbing: 0
   contactMask:
     serializedVersion: 2
     m_Bits: 0
-  weapon: {fileID: 1262722675055186}
-  controller: {fileID: 0}
+  weapon: {fileID: 0}
+  controller: {fileID: 114075024692391410}
 --- !u!114 &114075024692391410
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -459,13 +459,13 @@ MonoBehaviour:
   collisionMask:
     serializedVersion: 2
     m_Bits: 256
-  horizontalRayCount: 0
-  verticalRayCount: 0
-  horizontalRaySpacing: 0
-  verticalRaySpacing: 0
-  coll: {fileID: 0}
+  horizontalRayCount: 8
+  verticalRayCount: 5
+  horizontalRaySpacing: 0.2757143
+  verticalRaySpacing: 0.3124997
+  coll: {fileID: 61146520019875452}
   fallingThroughPlatformResetTimer: 0.1
-  gravityOnFall: 2.5
+  gravityOnFall: 2
   playerInput: {x: 0, y: 0}
 --- !u!114 &114093405346142414
 MonoBehaviour:
@@ -490,7 +490,7 @@ MonoBehaviour:
   playerInSight: 0
   sightLayerMask:
     serializedVersion: 2
-    m_Bits: 1280
+    m_Bits: 1024
   absorptionEffect: {fileID: 1969731243722472, guid: 0a134329a976316469f76cc7b4ce36f6,
     type: 2}
   animator: {fileID: 95889545691908768}
@@ -522,9 +522,9 @@ MonoBehaviour:
   TurnSpeed: 20
   currentCharge: 50
   maxCharge: 100
-  gunRange: 10
-  controlling: 1
-  isLocked: 1
+  gunRange: 0
+  controlling: 0
+  isLocked: 0
   mTarget: {fileID: 0}
   barrel: {fileID: 4662259354890072}
   laserDirection: {fileID: 4556103794543666}

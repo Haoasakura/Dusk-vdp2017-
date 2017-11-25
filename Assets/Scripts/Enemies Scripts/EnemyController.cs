@@ -61,7 +61,7 @@ public class EnemyController : MonoBehaviour {
 	void Update () {
 
         if (changingStatus) {
-            if (!Input.GetButton("Fire1") && ((shooter != null && shooter.CompareTag(Tags.player)) || (shooter != null && shooter.CompareTag(Tags.enemy) && shooter.GetComponent<EnemyController>().controlled))/) {
+            if (!Input.GetButton("Fire1") && ((shooter != null && shooter.CompareTag(Tags.player)) || (shooter != null && shooter.CompareTag(Tags.enemy) && shooter.GetComponent<EnemyController>().controlled))) {
                 StopCoroutine("ConrtolledOn");
                 StopCoroutine("ControlledOff");
                 StopCoroutine("TrailingEffectOn");

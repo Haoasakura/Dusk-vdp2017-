@@ -1339,7 +1339,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4853769423987270, guid: d620a622aed17174cb8d16bd42c91959, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d620a622aed17174cb8d16bd42c91959, type: 2}
@@ -3736,7 +3736,7 @@ Transform:
   - {fileID: 160505046}
   - {fileID: 253301831}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1116111668
 GameObject:
@@ -3981,11 +3981,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4741299486758322, guid: c09e187aeba357d4fa9f869cd51f1ad2, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1702261885228422, guid: c09e187aeba357d4fa9f869cd51f1ad2, type: 2}
       propertyPath: m_Name
       value: EnemyWithGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 114093405346142414, guid: c09e187aeba357d4fa9f869cd51f1ad2,
+        type: 2}
+      propertyPath: autodestruct
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c09e187aeba357d4fa9f869cd51f1ad2, type: 2}
@@ -4523,7 +4528,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4529855375827694, guid: cf69a574a19a2f24cb5cc3d6757016f4, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cf69a574a19a2f24cb5cc3d6757016f4, type: 2}
@@ -4776,7 +4781,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4132464546881570, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
@@ -6292,7 +6297,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4823071536768108, guid: e26a26709c9c08f428f0daadeeee4fb6, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 61837447132642560, guid: e26a26709c9c08f428f0daadeeee4fb6,
         type: 2}
