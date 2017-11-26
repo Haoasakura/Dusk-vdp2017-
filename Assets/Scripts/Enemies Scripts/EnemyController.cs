@@ -138,6 +138,7 @@ public class EnemyController : MonoBehaviour {
             }
 
             if (!controlled && !changingStatus) {
+                //questo è il caso del return to patrol
                 if (!(transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x)) {
                     mDirection = (startPosition - transform.position);
                 } else {
@@ -200,7 +201,7 @@ public class EnemyController : MonoBehaviour {
 
                 if (player != null) {
                     Debug.Log(InLineOfSight(player.GetComponent<Collider2D>(), sightRange));
-                    if (!InLineOfSight(player.GetComponent<Collider2D>(), sightRange))
+                    if (!InLineOfSight(player.GetComponent<Collider2D>(), sightRange) && !enemy.isClimbing)
                         StartCoroutine("ReturnToPatrol");
                     else
                         StopCoroutine("ReturnToPatrol");
