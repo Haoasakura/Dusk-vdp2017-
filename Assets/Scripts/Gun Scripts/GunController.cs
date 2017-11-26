@@ -38,17 +38,14 @@ public class GunController : MonoBehaviour {
 
     void Update() {
 
-        aimsight.transform.SetPositionAndRotation(barrel.position, Quaternion.Euler(0f, 0f, 0f));
         mLineRenderer.SetPosition(0, barrel.position);
 
         RaycastHit2D hit = Physics2D.Linecast(barrel.position, laserDirection.position, untraversableLayers);
         if (hit.collider != null && !hit.collider.gameObject.layer.Equals(9)) {
-            aimsight.transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, 0f, 0f));
             mLineRenderer.SetPosition(1, hit.point);
             mTarget = hit.transform;
         }
         else {
-            aimsight.transform.SetPositionAndRotation(laserDirection.position, Quaternion.Euler(0f, 0f, 0f));
             mLineRenderer.SetPosition(1, laserDirection.position);
             mTarget = null;
         }

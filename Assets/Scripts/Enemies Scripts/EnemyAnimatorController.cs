@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimationController : MonoBehaviour {
+public class EnemyAnimatorController : MonoBehaviour
+{
 
     public Animator animator;
     public Animator shadowAnimator;
@@ -12,7 +13,7 @@ public class PlayerAnimationController : MonoBehaviour {
     private int nextState = 0;
     private String animName;
 
-    public void Animate (Vector3 velocity, bool isClimbing)
+    public void Animate(Vector3 velocity, bool isClimbing)
     {
         velocity.x = Mathf.Abs(velocity.x);
         velocity.y = Mathf.Abs(velocity.y);
@@ -63,3 +64,4 @@ public class PlayerAnimationController : MonoBehaviour {
     }
 
 }
+

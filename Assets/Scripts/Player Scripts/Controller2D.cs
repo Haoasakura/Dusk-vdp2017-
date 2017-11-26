@@ -57,7 +57,7 @@ public class Controller2D : RaycastController
             collisions.below = true;
         }
 
-        if (moveAmount.x < 0.001f)
+        if (moveAmount.x < -0.001f)
         {
             if (pivotArm.transform.localScale.Equals(new Vector3(1, 1, 1)))
             {
