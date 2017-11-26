@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour
 
     //Link allo script Controller2D
     public EnemyController2D controller;
-
+    private EnemyAnimatorController enemyAnimationController;
     private Vector2 directionalInput;
     private bool wallSliding;
     private int wallDirX;
@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour
     private void Start() {
         //Setta le regole di gravità e trova il Controller2D
         controller = GetComponent<EnemyController2D>();
+        enemyAnimationController = GetComponent<EnemyAnimatorController>();
         originalGravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(originalGravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(originalGravity) * minJumpHeight);
@@ -58,6 +59,7 @@ public class Enemy : MonoBehaviour
         controller.Move(velocity * Time.deltaTime, directionalInput);
         if (controller.collisions.above || controller.collisions.below)
             velocity.y = 0f;
+        enemyAnimationController.Animate(velocity, isClimbing);
     }
 
     public void SetDirectionalInput(Vector2 input) {

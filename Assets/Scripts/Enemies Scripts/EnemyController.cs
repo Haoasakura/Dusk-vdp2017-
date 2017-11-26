@@ -27,7 +27,6 @@ public class EnemyController : MonoBehaviour {
     public bool shootingLights = false;
 
     private Vector3 startPosition;
-    private SpriteRenderer spriteRenderer;
     private GameObject particleEffect;
     private Enemy enemy;
     private Transform shooter = null;
@@ -47,7 +46,6 @@ public class EnemyController : MonoBehaviour {
 
     private void Awake() {
         enemy = GetComponent<Enemy>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
         weapon = GetComponentInChildren<EnemyWeapon>();      
         animator = GetComponent<Animator>();
         enemyController2D = GetComponent<EnemyController2D>();
@@ -278,11 +276,9 @@ public class EnemyController : MonoBehaviour {
                 float rotationZ = Mathf.Atan2(mDirection.y, mDirection.x) * Mathf.Rad2Deg;
                 weapon.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
                 if (mDirection.x>0) {
-                    spriteRenderer.flipX = false;
                     weapon.GetComponent<SpriteRenderer>().flipY = false;
                 }
                 else {
-                    spriteRenderer.flipX = true;
                     weapon.GetComponent<SpriteRenderer>().flipY = true;
                 }
             }
