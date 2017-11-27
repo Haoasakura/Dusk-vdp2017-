@@ -18,6 +18,7 @@ TagManager:
   - PatrolSwitch
   - Checkpoint
   - DeathCollider
+  - Mine
   layers:
   - Default
   - TransparentFX
