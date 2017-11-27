@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 58247048420212240}
   - component: {fileID: 50732902888138828}
   - component: {fileID: 122766990320365628}
-  - component: {fileID: 114689854797569492}
+  - component: {fileID: 114131336616378698}
   m_Layer: 10
   m_Name: Lightbulb2D
   m_TagString: Light
@@ -70,8 +70,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1910141648084978}
-  m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
-  m_LocalPosition: {x: 27.51, y: 6.81, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalPosition: {x: 11.32, y: -1.35, z: 0}
   m_LocalScale: {x: 0.31682, y: 0.29407, z: 1}
   m_Children:
   - {fileID: 4163777316993996}
@@ -167,7 +167,7 @@ PolygonCollider2D:
     - - {x: -8, y: 25}
       - {x: 0.01, y: 3.6}
       - {x: 8, y: 25}
---- !u!114 &114689854797569492
+--- !u!114 &114131336616378698
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

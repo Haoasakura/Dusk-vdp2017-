@@ -49,18 +49,12 @@ public class ElevatorMovement : MonoBehaviour {
         nextPosition = (nextPosition != startingPosition ? startingPosition : targetPosition);
     }
 
-    private void OnCollisionStay2D(Collision2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         other.transform.parent = gameObject.GetComponentInChildren<Transform>(false).GetChild(0);
-        /*if (other.transform.position.y -
-            gameObject.GetComponentInChildren<Transform>(false).GetChild(0).transform.position.y < 0)
-        {
-            other.transform.parent = null;
-        }*/
-
     }
 
-    private void OnCollisionExit2D(Collision2D other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         other.transform.parent = null;
     }

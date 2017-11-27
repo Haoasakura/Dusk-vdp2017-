@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour
     //Variabili di Contatto
     private ContactFilter2D contactFilter;
     public LayerMask contactMask;
+    public GameObject pivotArm;
     public GameObject weapon;
 
     //Variabili di stato per la gravità
@@ -36,7 +37,7 @@ public class Enemy : MonoBehaviour
 
     //Link allo script Controller2D
     public EnemyController2D controller;
-
+    private EnemyAnimatorController enemyAnimationController;
     private Vector2 directionalInput;
     private bool wallSliding;
     private int wallDirX;
@@ -44,6 +45,7 @@ public class Enemy : MonoBehaviour
     private void Start() {
         //Setta le regole di gravità e trova il Controller2D
         controller = GetComponent<EnemyController2D>();
+        enemyAnimationController = GetComponent<EnemyAnimatorController>();
         originalGravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(originalGravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(originalGravity) * minJumpHeight);
@@ -58,6 +60,7 @@ public class Enemy : MonoBehaviour
         controller.Move(velocity * Time.deltaTime, directionalInput);
         if (controller.collisions.above || controller.collisions.below)
             velocity.y = 0f;
+        enemyAnimationController.Animate(velocity, isClimbing);
     }
 
     public void SetDirectionalInput(Vector2 input) {
@@ -68,11 +71,13 @@ public class Enemy : MonoBehaviour
         if (controller.collisions.below) {
             velocity.y = maxJumpVelocity;
             isClimbing = false;
+            pivotArm.SetActive(true);
 
         }
         else if (isClimbing) {
             velocity.y = maxJumpVelocity;
             isClimbing = false;
+            pivotArm.SetActive(true);
         }
     }
 
@@ -105,6 +110,7 @@ public class Enemy : MonoBehaviour
     private void ClimbControl() {
         if (!canClimb && isClimbing) {
             isClimbing = false;
+            pivotArm.SetActive(true);
             Collider2D[] results = new Collider2D[10];
             int i = GetComponent<Collider2D>().OverlapCollider(contactFilter, results);
             if (i > 0) {
@@ -114,6 +120,7 @@ public class Enemy : MonoBehaviour
         }
         else if ((directionalInput.y > minClimbAngle) && canClimb && !isClimbing) {
             isClimbing = true;
+            pivotArm.SetActive(false);
         }
         else if (directionalInput.y != 0 && (Mathf.Abs(directionalInput.y) > minClimbAngle) && canClimb && isClimbing) {
             velocity.y = climbSpeed * directionalInput.y;
@@ -123,6 +130,7 @@ public class Enemy : MonoBehaviour
         }
         else {
             isClimbing = false;
+            pivotArm.SetActive(true);
         }
     }
 
@@ -147,10 +155,15 @@ public class Enemy : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision) {
         if (collision.gameObject.tag.Equals("Ladder")) {
             canClimb = true;
+            if (isClimbing)
+            {
+                pivotArm.SetActive(false);
+            }
         }
 
         if (collision.gameObject.tag.Equals("BaseLadder") && isClimbing && directionalInput.y < 0) {
             isClimbing = false;
+            pivotArm.SetActive(true);
         }
 
         //TODO: Estrarre questo codice nell'oggetto TopLadder
@@ -158,6 +171,12 @@ public class Enemy : MonoBehaviour
             if (isClimbing) {
                 collision.gameObject.layer = 9;
                 collision.gameObject.tag = "Ladder";
+                pivotArm.SetActive(false);
+            }
+            else
+            {
+                collision.gameObject.layer = 11;
+                collision.gameObject.tag = "Through";
             }
         }
 

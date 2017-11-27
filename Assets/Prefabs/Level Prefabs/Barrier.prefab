@@ -84,6 +84,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4650676632116132}
   - component: {fileID: 61078479227618858}
+  - component: {fileID: 61762265689138500}
   m_Layer: 8
   m_Name: Barrier Graphics
   m_TagString: Untagged
@@ -235,6 +236,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.2794449, y: 3.8205268}
   m_EdgeRadius: 0
+--- !u!61 &61762265689138500
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1884212007450640}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0026413202, y: 3.124484}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.2054965, y: 0.1250248}
+  m_EdgeRadius: 0
 --- !u!114 &114286328185314588
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -246,6 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 075997ba7cbf77745a30bf1807ca379e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 0
   childTransform: {fileID: 4650676632116132}
   targetPointTransform: {fileID: 4429035559010758}
 --- !u!212 &212080283798455168

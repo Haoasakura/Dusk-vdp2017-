@@ -17,6 +17,8 @@ public class EnemyWeapon : MonoBehaviour
     public Transform barrel;
     public Transform laserDirection;
     public Transform aimsight;
+    public SpriteRenderer arm;
+    public SpriteRenderer armShadow;
     public LayerMask gunLayer;
     public LayerMask groundLayer;
     public LayerMask untraversableLayers;
@@ -62,10 +64,14 @@ public class EnemyWeapon : MonoBehaviour
                 //mantiene la sprite dell'arma nel verso giusto
                 if (mTransform.rotation.eulerAngles.z % 270 < 90 && mTransform.rotation.eulerAngles.z % 270 > 0) {
                     GetComponent<SpriteRenderer>().flipY = false;
+                    arm.flipX = false;
+                    armShadow.flipX = false;
                     transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().flipY = false;
                 }
                 else {
                     GetComponent<SpriteRenderer>().flipY = true;
+                    arm.flipX = true;
+                    armShadow.flipX = true;
                     transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().flipY = true;
                 }
             }
@@ -105,7 +111,7 @@ public class EnemyWeapon : MonoBehaviour
 
     public bool InLineOfSight(Collider2D target) {
         if (target != null) {
-            RaycastHit2D hit = Physics2D.Raycast(barrel.position, (target.transform.position - transform.position), 1000f, gunLayer);
+            RaycastHit2D hit = Physics2D.Raycast(barrel.position, (target.transform.position - transform.position), gunRange, gunLayer);
             if (hit.collider != null && hit.collider.gameObject.name == target.gameObject.name)
                 return true;
         }

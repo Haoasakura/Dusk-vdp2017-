@@ -43,5 +43,9 @@ public class ButtonController : MonoBehaviour {
         {
             mechanism.GetComponent<DoorController>().Activate();
         }
+        else if (mechanism.GetComponent<CrusherController>() != null)
+        {
+            mechanism.GetComponent<CrusherController>().Activate();
+        }
     }
 }

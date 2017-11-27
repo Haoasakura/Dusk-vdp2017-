@@ -52,18 +52,19 @@ public class BarrierController : MonoBehaviour {
         nextPosition = (nextPosition != startingPosition ? startingPosition : targetPosition);
     }
 
-    private void OnCollisionStay2D(Collision2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
-        other.transform.parent = gameObject.GetComponentInChildren<Transform>(false).GetChild(0);
-        if (System.Math.Abs(other.transform.position.x -
-            gameObject.GetComponentInChildren<Transform>(false).GetChild(0).transform.position.x) > 1.25f) {
-            other.transform.parent = null;
+        if (!other.gameObject.tag.Equals("Gun"))
+        {
+            other.transform.parent = gameObject.GetComponentInChildren<Transform>(false).GetChild(0);
         }
-
     }
 
-    private void OnCollisionExit2D(Collision2D other)
+    private void OnTriggerExit2D(Collider2D other)
     {
-        other.transform.parent = null;
+        if (!other.gameObject.tag.Equals("Gun"))
+        {
+            other.transform.parent = null;
+        }
     }
 }

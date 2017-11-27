@@ -80,7 +80,16 @@ public class Player : MonoBehaviour
     private void VisibilityControl()
     {
         isVisible = false;
-        if (directionalInput.magnitude > 0 || isLighted)
+        bool enemiesAreChasing = false;
+        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
+            if (enemy.GetComponent<Animator>().GetBool("PlayerInSight")) {
+                enemiesAreChasing = true;
+            }
+        }
+        if (velocity.magnitude > 0.5f || isLighted || (velocity.magnitude<= 0.5f && enemiesAreChasing)) {
+            isVisible = true;
+        }
+        if (Input.GetButton("Fire1"))
         {
             isVisible = true;
         }

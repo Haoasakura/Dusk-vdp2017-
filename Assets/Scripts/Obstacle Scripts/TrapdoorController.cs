@@ -21,6 +21,14 @@ public class TrapdoorController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (isOpen)
+        {
+            gameObject.GetComponentInChildren<Transform>().GetChild(0).gameObject.layer = 0;
+        }
+        else
+        {
+            gameObject.GetComponentInChildren<Transform>().GetChild(0).gameObject.layer = 8;
+        }
         if (active) {
             Move();
         }

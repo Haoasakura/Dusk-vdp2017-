@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class DoorController : MonoBehaviour {
 
-    private bool active = false;
+    public bool active = false;
 
-    [Header("Element0 -> OpenDoorSprite; Element1 -> ClosedDoorSprite")]
+    [Header("0 -> Open; 1 -> Closed")]
     public Sprite[] sprites = new Sprite[2];
 
     [Header("Is the door open?")]
@@ -53,5 +53,19 @@ public class DoorController : MonoBehaviour {
     public void Activate()
     {
         active = true;
+    }
+
+    public void OnTriggerStay2D(Collider2D collision)
+    {
+        int otherDoorChildIndex = 1 - gameObject.transform.GetSiblingIndex();
+        string otherName = otherDoorChildIndex.ToString();
+        if (isOpen)
+        {
+            if(collision.gameObject.tag.Equals("Player") && Input.GetButtonDown("Fire2"))
+            {
+                collision.gameObject.transform.position = 
+                    gameObject.transform.parent.Find(string.Concat("Door",otherName)).position;
+            }
+        }
     }
 }

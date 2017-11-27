@@ -8,9 +8,6 @@ public class PlayerAnimationController : MonoBehaviour {
     public Animator animator;
     public Animator shadowAnimator;
 
-    public float runVelocity;
-    public float walkVelocity;
-
     private int currentState = 0;
     private int nextState = 0;
     private String animName;

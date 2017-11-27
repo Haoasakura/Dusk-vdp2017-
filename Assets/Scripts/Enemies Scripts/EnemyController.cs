@@ -27,7 +27,6 @@ public class EnemyController : MonoBehaviour {
     public bool shootingLights = false;
 
     private Vector3 startPosition;
-    private SpriteRenderer spriteRenderer;
     private GameObject particleEffect;
     private Enemy enemy;
     private Transform shooter = null;
@@ -36,6 +35,7 @@ public class EnemyController : MonoBehaviour {
     private Vector3 mDirection;
     private Transform mDestination;
     private Vector3 mChaseTarget;
+    private EnemyController2D enemyController2D;
 
     [SerializeField]
     private Transform startPoint;
@@ -46,9 +46,9 @@ public class EnemyController : MonoBehaviour {
 
     private void Awake() {
         enemy = GetComponent<Enemy>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
         weapon = GetComponentInChildren<EnemyWeapon>();      
         animator = GetComponent<Animator>();
+        enemyController2D = GetComponent<EnemyController2D>();
         player = GameObject.FindGameObjectWithTag(Tags.player).transform;
     }
     void Start () {
@@ -83,15 +83,19 @@ public class EnemyController : MonoBehaviour {
 
     public void StartPatrol() {
         Debug.Log("Start Patrol");
+        StopCoroutine("Patrol");
         StopCoroutine("Chase");
         enemy.moveMinSpeed = 2f;
+        animator.SetBool("PlayerInSight", false);
         StartCoroutine("Patrol");
     }
 
     public void StartChase() {
         Debug.Log("Start Chase");
         StopCoroutine("Patrol");
+        StopCoroutine("Chase");
         enemy.moveMinSpeed = 4f;
+        animator.SetBool("PlayerInSight", true);
         StartCoroutine("Chase");
     }
 
@@ -104,7 +108,7 @@ public class EnemyController : MonoBehaviour {
 
     private void setDestination(Transform destination) {
         mDestination = destination;
-        mDirection = (mDestination.position - transform.position).normalized/10;
+        mDirection = (mDestination.position - transform.position).normalized/10f;
     }
 
     private bool InLineOfSight(Collider2D target, float range) {
@@ -134,11 +138,16 @@ public class EnemyController : MonoBehaviour {
             }
 
             if (!controlled && !changingStatus) {
-                float lastX = transform.localPosition.x;
-                mDirection = (mDestination.position - transform.position);
-                if (Mathf.Abs(mDirection.x) < 1) {
-                    mDirection.x += 0.03f * Mathf.Sign(mDirection.x);
+                //questo è il caso del return to patrol
+                if (!(transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x)) {
+                    mDirection = (startPosition - transform.position);
+                } else {
+                    float lastX = transform.localPosition.x;
+                    mDirection = (mDestination.position - transform.position);
+                    if (Mathf.Abs(mDirection.x) < 1)
+                        mDirection.x += 0.03f * Mathf.Sign(mDirection.x);
                 }
+
                 if (shootingLights)
                     mDirection = Vector2.zero;
                 /*else {
@@ -155,19 +164,24 @@ public class EnemyController : MonoBehaviour {
                 }
                 else {
                     spriteRenderer.flipX = true;
-                }
-
-                if (startPoint.position.x - transform.position.x > 0 || endPoint.position.x - transform.position.x < 0) {
-                    //setDestination(mDestination == startPoint ? endPoint : startPoint);
-                    gun.transform.rotation = Quaternion.Euler(0, 0, 180 - gun.transform.rotation.eulerAngles.z);
-                    gun.GetComponent<SpriteRenderer>().flipY = !gun.GetComponent<SpriteRenderer>().flipY;
-
                 }*/
+                if ((startPoint.position.x - transform.position.x > 0 || enemyController2D.collisions.left) && !controlled && !animator.GetBool("PlayerInSight")) {
+                    setDestination(endPoint);
+                    //setDestination(mDestination == startPoint ? endPoint : startPoint);
+                    //weapon.transform.rotation = Quaternion.Euler(0, 0, 180 - gun.transform.rotation.eulerAngles.z);
+                    //weapon.GetComponent<SpriteRenderer>().flipY = !gun.GetComponent<SpriteRenderer>().flipY;
+                }
+                else if ((endPoint.position.x - transform.position.x < 0 || enemyController2D.collisions.right) && !controlled && !animator.GetBool("PlayerInSight")) {
+                    setDestination(startPoint);
+                    //setDestination(mDestination == startPoint ? endPoint : startPoint);
+                    //weapon.transform.rotation = Quaternion.Euler(0, 0, 180 - gun.transform.rotation.eulerAngles.z);
+                    //weapon.GetComponent<SpriteRenderer>().flipY = !gun.GetComponent<SpriteRenderer>().flipY;
+                }
                 /*if (gun.mTarget != null && gun.mTarget.CompareTag(Tags.player) && InLineOfSight(GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Collider2D>())) {
                     animator.SetBool("PlayerInSight", true);
                     mChaseTarget = gun.mTarget;
                 }*/
-                if(!changingStatus)
+                if (!changingStatus)
                     if (InLineOfSight(player.GetComponent<Collider2D>(), sightRange) && GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<Collider2D>().bounds.Contains(transform.position + new Vector3(0, 0, -10))) {
                         animator.SetBool("PlayerInSight", true);
                         mChaseTarget = player.position;
@@ -187,7 +201,7 @@ public class EnemyController : MonoBehaviour {
 
                 if (player != null) {
                     Debug.Log(InLineOfSight(player.GetComponent<Collider2D>(), sightRange));
-                    if (!InLineOfSight(player.GetComponent<Collider2D>(), sightRange))
+                    if (!InLineOfSight(player.GetComponent<Collider2D>(), sightRange) && !enemy.isClimbing)
                         StartCoroutine("ReturnToPatrol");
                     else
                         StopCoroutine("ReturnToPatrol");
@@ -200,7 +214,7 @@ public class EnemyController : MonoBehaviour {
 
                 // gestisce il chasing e i casi un sui deve salire le scale durante il chasing
                 mDirection = (player.position - transform.position);
-                if (mDirection.y >1.1f) {
+                if (mDirection.y >1.6f) {
                     float closestLadder = 10000f;
                     GameObject ladder = null;
                     foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, sightRange)) {
@@ -263,11 +277,9 @@ public class EnemyController : MonoBehaviour {
                 float rotationZ = Mathf.Atan2(mDirection.y, mDirection.x) * Mathf.Rad2Deg;
                 weapon.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
                 if (mDirection.x>0) {
-                    spriteRenderer.flipX = false;
                     weapon.GetComponent<SpriteRenderer>().flipY = false;
                 }
                 else {
-                    spriteRenderer.flipX = true;
                     weapon.GetComponent<SpriteRenderer>().flipY = true;
                 }
             }
@@ -287,7 +299,6 @@ public class EnemyController : MonoBehaviour {
             pointOfOrigin = gun.GetComponent<EnemyWeapon>().barrel;
             shooter = gun.GetComponentInParent<Enemy>().transform;
         }
-        GunController gunController = gun.GetComponent<GunController>();
         changingStatus = true;
         int seconds = (int)switchTime;
         StartCoroutine("TrailingEffectOn", pointOfOrigin);
@@ -336,17 +347,10 @@ public class EnemyController : MonoBehaviour {
         }
     }
     IEnumerator ReturnToPatrol() {
-        Debug.Log("loosing target");
+        Debug.Log("Loosing Target...");
         yield return new WaitForSeconds(timeToReturnPatrol);
-        StopCoroutine("Patrol");
-        StopCoroutine("Chase");
-        Debug.Log("target lost, returning");
-        while (Vector2.Distance(transform.position,startPosition)>0.3f) {
-            mDirection = (startPosition - transform.position);
-            enemy.SetDirectionalInput(mDirection.normalized);
-            yield return null;
-        }
-        animator.SetBool("PlayerInSight", false);
+        Debug.Log("...Target Lost, Returning!");
+        StartPatrol();
     }
 
     IEnumerator ShootPlayer() {
@@ -381,27 +385,23 @@ public class EnemyController : MonoBehaviour {
             }
 
         }
-        //questo dovrebbe essere inutile devo farlo quando sparo a un altro nemico non on destry
+        //questo dovrebbe essere inutile devo farlo quando sparo a un altro nemico non on destroy
         if (shooter != null)
             if (controlled && shooter.gameObject.CompareTag(Tags.enemy)) {
                 shooter.GetComponentInChildren<EnemyController>().controlled = false;
-                /*if (shooter.GetComponent<Player>() != null) {
-                    shooter.GetComponent<Player>().controlling = true;
-                }
-                else*/
                 shooter.GetComponent<Enemy>().controlling = true;
                 enemy.GetComponentInChildren<EnemyWeapon>().untraversableLayers = enemy.GetComponentInChildren<EnemyWeapon>().groundLayer;
             }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) {
+    /*private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.CompareTag(Tags.patrolSwitch) && collision.transform.IsChildOf(transform.parent) && !controlled && !animator.GetBool("PlayerInSight")) {
             setDestination(mDestination == startPoint ? endPoint : startPoint);
             //weapon.transform.rotation = Quaternion.Euler(0, 0, 180 - weapon.transform.rotation.eulerAngles.z);
             weapon.GetComponent<SpriteRenderer>().flipY = !weapon.GetComponent<SpriteRenderer>().flipY;
             spriteRenderer.flipX = !spriteRenderer.flipX;
         }
-    }
+    }*/
 
     private void OnDrawGizmos() {
         Gizmos.color = Color.green;
@@ -411,5 +411,7 @@ public class EnemyController : MonoBehaviour {
         Gizmos.DrawWireCube(endPoint.position, transform.GetComponent<BoxCollider2D>().size);
 
         Gizmos.DrawWireSphere(transform.position, sightRange);
+       
+       
     }
 }
