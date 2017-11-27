@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 761ec8443f8859e439c3acb95023eb9e
+timeCreated: 1511798390
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Gobold Lowplus
+  fontNames:
+  - Gobold Lowplus
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
