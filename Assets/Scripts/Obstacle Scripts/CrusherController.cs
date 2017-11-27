@@ -20,8 +20,9 @@ public class CrusherController : MonoBehaviour {
     [SerializeField]
     private Transform targetPointTransform;
 
-    private float returnSpeed = 3.5f;
-    private float smashSpeed = 8;
+    [Header("Crusher speed up and down")]
+    public float returnSpeed = 3.5f;
+    public float smashSpeed = 8;
 
     // Use this for initialization
     void Start()
@@ -38,6 +39,14 @@ public class CrusherController : MonoBehaviour {
     void Update()
     {
         Move();
+        if (!active)
+        {
+            gameObject.GetComponentInChildren<Transform>().GetChild(0).GetComponentInChildren<Transform>().GetChild(0).GetComponent<BoxCollider2D>().enabled = false;
+        }
+        else
+        {
+            gameObject.GetComponentInChildren<Transform>().GetChild(0).GetComponentInChildren<Transform>().GetChild(0).GetComponent<BoxCollider2D>().enabled = true;
+        }
     }
 
     private void Move()

@@ -496,7 +496,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 74696794}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 301.5, y: 135.5, z: 0}
+  m_LocalPosition: {x: 444, y: 211.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 489479191}
@@ -865,7 +865,7 @@ GameObject:
   m_Component:
   - component: {fileID: 286271005}
   - component: {fileID: 286271006}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Crusher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -884,7 +884,6 @@ Transform:
   m_Children:
   - {fileID: 1257500022}
   - {fileID: 1072711313}
-  - {fileID: 1564322250}
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -902,6 +901,8 @@ MonoBehaviour:
   active: 1
   childTransform: {fileID: 1257500022}
   targetPointTransform: {fileID: 1072711313}
+  returnSpeed: 3.5
+  smashSpeed: 7
 --- !u!1 &286306182
 GameObject:
   m_ObjectHideFlags: 0
@@ -2174,7 +2175,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 489479190}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -48.000015, y: 64.2, z: 0}
+  m_LocalPosition: {x: -190.50002, y: 140.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 74696798}
@@ -4380,7 +4381,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1072711313}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Smash Position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4664,7 +4665,7 @@ GameObject:
   - component: {fileID: 1257500022}
   - component: {fileID: 1257500023}
   - component: {fileID: 1257500024}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Crusher Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4680,7 +4681,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1564322250}
   m_Father: {fileID: 286271005}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5549,7 +5551,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 286271005}
+    m_TransformParent: {fileID: 1257500022}
     m_Modifications:
     - target: {fileID: 4823071536768108, guid: e26a26709c9c08f428f0daadeeee4fb6, type: 2}
       propertyPath: m_LocalPosition.x
@@ -5581,27 +5583,31 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4823071536768108, guid: e26a26709c9c08f428f0daadeeee4fb6, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 61837447132642560, guid: e26a26709c9c08f428f0daadeeee4fb6,
         type: 2}
       propertyPath: m_Offset.x
-      value: -1.6431174
+      value: -1.649343
       objectReference: {fileID: 0}
     - target: {fileID: 61837447132642560, guid: e26a26709c9c08f428f0daadeeee4fb6,
         type: 2}
       propertyPath: m_Size.x
-      value: 1.2772799
+      value: 1.177535
       objectReference: {fileID: 0}
     - target: {fileID: 61837447132642560, guid: e26a26709c9c08f428f0daadeeee4fb6,
         type: 2}
       propertyPath: m_Offset.y
-      value: 1.0171247
+      value: 1.0327022
       objectReference: {fileID: 0}
     - target: {fileID: 61837447132642560, guid: e26a26709c9c08f428f0daadeeee4fb6,
         type: 2}
       propertyPath: m_Size.y
-      value: 0.12821674
+      value: 0.097061634
+      objectReference: {fileID: 0}
+    - target: {fileID: 1642075815595900, guid: e26a26709c9c08f428f0daadeeee4fb6, type: 2}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e26a26709c9c08f428f0daadeeee4fb6, type: 2}
