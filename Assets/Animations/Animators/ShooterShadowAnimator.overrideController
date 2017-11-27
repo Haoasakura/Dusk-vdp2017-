@@ -5,8 +5,10 @@ AnimatorOverrideController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: BruteAnimator
+  m_Name: ShooterShadowAnimator
   m_Controller: {fileID: 9100000, guid: 043b09ae9a3740748a87ca160112df86, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: fefb4b8f0c73a3b4d846d49b4e375009, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: 0f446c605cac3cf4e989d15f02b199f2, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8959cb55446019e4cb98c7d44519c28c, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6f762f791c908e14595906bad2887b84, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 05f2f093f1300174eaaf8ac42729cb33, type: 2}

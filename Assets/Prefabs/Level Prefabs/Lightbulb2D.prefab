@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 58247048420212240}
   - component: {fileID: 50732902888138828}
   - component: {fileID: 122766990320365628}
-  - component: {fileID: 114689854797569492}
+  - component: {fileID: 114131336616378698}
   m_Layer: 10
   m_Name: Lightbulb2D
   m_TagString: Light
@@ -167,7 +167,7 @@ PolygonCollider2D:
     - - {x: -8, y: 25}
       - {x: 0.01, y: 3.6}
       - {x: 8, y: 25}
---- !u!114 &114689854797569492
+--- !u!114 &114131336616378698
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1910141648084978}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2c40ed0f2ed5ee4fa42ce60626bc893, type: 3}
+  m_Script: {fileID: 11500000, guid: 9be9aa959b9b983449461b3c81c1144c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   switchTime: 3
