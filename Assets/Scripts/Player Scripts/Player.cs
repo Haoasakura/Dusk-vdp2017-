@@ -86,7 +86,6 @@ public class Player : MonoBehaviour
                 enemiesAreChasing = true;
             }
         }
-        Debug.Log(velocity);
         if (velocity.magnitude > 0.5f || isLighted || (velocity.magnitude<= 0.5f && enemiesAreChasing)) {
             isVisible = true;
         }
