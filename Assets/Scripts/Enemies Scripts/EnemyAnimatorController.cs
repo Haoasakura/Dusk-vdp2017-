@@ -39,7 +39,7 @@ public class EnemyAnimatorController : MonoBehaviour
 
             nextState = 2;
         }
-        else if (isClimbing && Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
+        else if (isClimbing && velocity.x == 0 && velocity.y == 0)
         {
             animName = "CharacterClimbingIdle";
 
@@ -50,6 +50,12 @@ public class EnemyAnimatorController : MonoBehaviour
             animName = "CharacterClimbing";
 
             nextState = 3;
+            Debug.Log("Hello");
+        }
+
+        if (isClimbing)
+        {
+            Debug.Log(velocity + " "+ isClimbing);
         }
 
         if (currentState != nextState)
