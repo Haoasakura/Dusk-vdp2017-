@@ -101,12 +101,10 @@ public class GunController : MonoBehaviour {
                             if ((currentLight.lightStatus && (maxCharge - currentCharge) >= currentLight.lightCharge) || (!currentLight.lightStatus && currentCharge >= currentLight.lightCharge)) {
                                 mTarget.GetComponent<LightController>().SwitchOnOff(transform);
                                 StartCoroutine("LightningEffectOn", mTarget.GetComponent<LightController>().switchTime);
-                                if (currentLight.lightStatus)
-                                {
+                                if (currentLight.lightStatus) {
                                     StartCoroutine("TrailingEffectOff", mTarget.GetComponent<LightController>().switchTime);
                                 }
-                                else
-                                {
+                                else {
                                     StartCoroutine("TrailingEffectOn", mTarget.GetComponent<LightController>().switchTime);
                                 }
                                 isLocked = true;

@@ -71,12 +71,17 @@ public class EnemyController : MonoBehaviour {
                 controlled = false;
             }
         }
-        else if (!controlled && !shootingLights) {
-            if(transform.position.x>lastX)
-                weapon.transform.rotation = Quaternion.Euler(0, 0, 0);
-            else
-                weapon.transform.rotation = Quaternion.Euler(0, 0, 180 /*- weapon.transform.rotation.eulerAngles.z*/);
-        }
+        /*else if (!controlled && !shootingLights) {
+            if (transform.position.x > lastX) {
+                //weapon.transform.rotation = Quaternion.Euler(0, 0, 0);
+                weapon.armTransform.rotation = Quaternion.Euler(0, 0, -21.8f);
+            }
+            else {
+                weapon.armTransform.rotation = Quaternion.Euler(0, 180f, 20f);
+                //weapon.transform.rotation = Quaternion.Euler(0, 0, 180 /*- weapon.transform.rotation.eulerAngles.z);
+            }
+
+        }*/
             
         lastX = transform.position.x;
     }
@@ -188,11 +193,12 @@ public class EnemyController : MonoBehaviour {
                 if ((startPoint.position.x - transform.position.x > 0 || enemyController2D.collisions.left) && !controlled && !animator.GetBool("PlayerInSight")) {
                     setDestination(endPoint);
                     //setDestination(mDestination == startPoint ? endPoint : startPoint);
-                    //weapon.transform.rotation = Quaternion.Euler(0, 0, 180 - gun.transform.rotation.eulerAngles.z);
+                    //weapon.armTransform.rotation = Quaternion.Euler(0, 180 - weapon.armTransform.rotation.eulerAngles.y,0);
                     //weapon.GetComponent<SpriteRenderer>().flipY = !gun.GetComponent<SpriteRenderer>().flipY;
                 }
                 else if ((endPoint.position.x - transform.position.x < 0 || enemyController2D.collisions.right) && !controlled && !animator.GetBool("PlayerInSight")) {
                     setDestination(startPoint);
+                    //weapon.armTransform.rotation = Quaternion.Euler(0, 180 - weapon.armTransform.rotation.eulerAngles.y, 0);
                     //setDestination(mDestination == startPoint ? endPoint : startPoint);
                     //weapon.transform.rotation = Quaternion.Euler(0, 0, 180 - gun.transform.rotation.eulerAngles.z);
                     //weapon.GetComponent<SpriteRenderer>().flipY = !gun.GetComponent<SpriteRenderer>().flipY;
@@ -202,7 +208,7 @@ public class EnemyController : MonoBehaviour {
                     mChaseTarget = gun.mTarget;
                 }*/
                 if (!changingStatus)
-                    if (InLineOfSight(player.GetComponent<Collider2D>(), sightRange) && GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<Collider2D>().bounds.Contains(transform.position + new Vector3(0, 0, -10))) {
+                    if (InLineOfSight(player.GetComponent<Collider2D>(), sightRange) && GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Player>().isVisible && GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<Collider2D>().bounds.Contains(transform.position + new Vector3(0, 0, -10))) {
                         animator.SetBool("PlayerInSight", true);
                         mChaseTarget = player.position;
                     }
@@ -218,12 +224,11 @@ public class EnemyController : MonoBehaviour {
         SpriteRenderer gunSpriteRenderer = weapon.GetComponent<SpriteRenderer>();
         while (true) {
             if (!controlled && !changingStatus) {
-
                 if (player != null) {
                     //Debug.Log(InLineOfSight(player.GetComponent<Collider2D>(), sightRange));
                     if (!InLineOfSight(player.GetComponent<Collider2D>(), sightRange) && !enemy.isClimbing)
                         StartCoroutine("ReturnToPatrol");
-                    else
+                    else if(!losingTarget)
                         StopCoroutine("ReturnToPatrol");
                 }
 
@@ -268,13 +273,13 @@ public class EnemyController : MonoBehaviour {
                         mDirection = (mChaseTarget - transform.position);
                     }
                 }
-
                 if (!enemy.isClimbing && player != null && InLineOfSight(player.GetComponent<Collider2D>(), weaponRange))
                     StartCoroutine("ShootPlayer");
 
                 //controllo per evitare di cadere nella sua morte
                 foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, 2.5f)) {
                     if (obj.gameObject.CompareTag(Tags.deathCollider)) {
+                        Debug.Log((player.position - transform.position).x + "    "+ (obj.gameObject.transform.position - transform.position).x);
                         if ((player.position - transform.position).x > (obj.gameObject.transform.position - transform.position).x) {
                             mDirection = Vector2.zero;
                             if (!losingTarget) {
@@ -424,10 +429,10 @@ public class EnemyController : MonoBehaviour {
         }
     }*/
 
-    private void OnTriggerEnter2D(Collider2D collision) {
+    /*private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.CompareTag(Tags.topLadder))
             collision.gameObject.layer = 1;
-    }
+    }*/
 
     private void OnDrawGizmos() {
         Gizmos.color = Color.green;
@@ -436,7 +441,7 @@ public class EnemyController : MonoBehaviour {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(endPoint.position, transform.GetComponent<BoxCollider2D>().size);
 
-        Gizmos.DrawWireSphere(transform.position, sightRange);
+        Gizmos.DrawWireSphere(transform.position, 28);
        
        
     }
