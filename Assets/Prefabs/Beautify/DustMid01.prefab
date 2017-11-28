@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212209579039950776}
   - component: {fileID: 95580691570179386}
   m_Layer: 0
-  m_Name: DustGround
+  m_Name: DustMid01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
