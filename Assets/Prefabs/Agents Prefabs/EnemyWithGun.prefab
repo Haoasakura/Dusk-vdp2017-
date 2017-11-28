@@ -372,7 +372,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1366024844245078}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 24.53, y: -21.67, z: -6.5507812}
+  m_LocalPosition: {x: 8.38, y: -6.76, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4163863874324084}
@@ -729,8 +729,8 @@ MonoBehaviour:
   barrel: {fileID: 4674249161477928}
   laserDirection: {fileID: 4547616490511210}
   aimsight: {fileID: 4643131441186854}
-  arm: {fileID: 212204134340733282}
-  armShadow: {fileID: 212178119895939630}
+  arm: {fileID: 0}
+  armShadow: {fileID: 0}
   gunLayer:
     serializedVersion: 2
     m_Bits: 1024

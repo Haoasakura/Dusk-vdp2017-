@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4163777316993996}
   - component: {fileID: 212831986963861750}
   - component: {fileID: 331711234099230614}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: LightCone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4680714591063820}
   - component: {fileID: 60970988023843634}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: LightCollider
   m_TagString: LightCollider
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 58247048420212240}
   - component: {fileID: 50732902888138828}
   - component: {fileID: 122766990320365628}
-  - component: {fileID: 114131336616378698}
+  - component: {fileID: 114600780808504480}
   m_Layer: 10
   m_Name: Lightbulb2D
   m_TagString: Light
@@ -167,7 +167,7 @@ PolygonCollider2D:
     - - {x: -8, y: 25}
       - {x: 0.01, y: 3.6}
       - {x: 8, y: 25}
---- !u!114 &114131336616378698
+--- !u!114 &114600780808504480
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1910141648084978}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9be9aa959b9b983449461b3c81c1144c, type: 3}
+  m_Script: {fileID: 11500000, guid: e2c40ed0f2ed5ee4fa42ce60626bc893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   switchTime: 3
@@ -185,9 +185,7 @@ MonoBehaviour:
   lightAttached: {fileID: 212831986963861750}
   lightCollider: {fileID: 60970988023843634}
   maskAttached: {fileID: 331711234099230614}
-  lightStates:
-  - {fileID: 21300000, guid: 774c856a4e0ed5e4cbe265d997d93357, type: 3}
-  - {fileID: 21300000, guid: 0e7e869c34673fc469abe32852719611, type: 3}
+  lightStates: []
   absorptionEffect: {fileID: 1969731243722472, guid: 0a134329a976316469f76cc7b4ce36f6,
     type: 2}
   shooter: {fileID: 0}

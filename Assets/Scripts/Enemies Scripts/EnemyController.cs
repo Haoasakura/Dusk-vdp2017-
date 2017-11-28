@@ -200,18 +200,15 @@ public class EnemyController : MonoBehaviour {
             if (!controlled && !changingStatus) {
 
                 if (player != null) {
-                    Debug.Log(InLineOfSight(player.GetComponent<Collider2D>(), sightRange));
+                    //Debug.Log(InLineOfSight(player.GetComponent<Collider2D>(), sightRange));
                     if (!InLineOfSight(player.GetComponent<Collider2D>(), sightRange) && !enemy.isClimbing)
                         StartCoroutine("ReturnToPatrol");
                     else
                         StopCoroutine("ReturnToPatrol");
                 }
 
-                if (player!=null && InLineOfSight(player.GetComponent<Collider2D>(), weaponRange))
-                    StartCoroutine("ShootPlayer");
-
                 float lastX = transform.localPosition.x;
-
+                
                 // gestisce il chasing e i casi un sui deve salire le scale durante il chasing
                 mDirection = (player.position - transform.position);
                 if (mDirection.y >1.6f) {
@@ -232,9 +229,8 @@ public class EnemyController : MonoBehaviour {
                     }
                 }
                 else {
-                    bool climbing=false;
                     GameObject ladder = null;
-
+                    bool climbing = false;
                     foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, 1f)) {
                         if (obj.gameObject.CompareTag(Tags.ladder)) {
                             climbing = true;
@@ -252,6 +248,10 @@ public class EnemyController : MonoBehaviour {
                         mDirection = (mChaseTarget - transform.position);
                     }
                 }
+
+                if (!enemy.isClimbing && player != null && InLineOfSight(player.GetComponent<Collider2D>(), weaponRange))
+                    StartCoroutine("ShootPlayer");
+
                 //controllo per evitare di cadere nella sua morte
                 foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, 2.5f)) {
                     if (obj.gameObject.CompareTag(Tags.deathCollider)) {
@@ -276,6 +276,7 @@ public class EnemyController : MonoBehaviour {
 
                 float rotationZ = Mathf.Atan2(mDirection.y, mDirection.x) * Mathf.Rad2Deg;
                 weapon.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
+
                 if (mDirection.x>0) {
                     weapon.GetComponent<SpriteRenderer>().flipY = false;
                 }

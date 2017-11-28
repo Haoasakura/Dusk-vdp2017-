@@ -50,13 +50,12 @@ public class EnemyAnimatorController : MonoBehaviour
             animName = "CharacterClimbing";
 
             nextState = 3;
-            Debug.Log("Hello");
         }
 
-        if (isClimbing)
+        /*if (isClimbing)
         {
             Debug.Log(velocity + " "+ isClimbing);
-        }
+        }*/
 
         if (currentState != nextState)
         {
