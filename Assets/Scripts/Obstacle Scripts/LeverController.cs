@@ -35,5 +35,9 @@ public class LeverController : MonoBehaviour {
         {
             mechanism.GetComponent<CrusherController>().Activate();
         }
+        else if (mechanism.GetComponent<LaserController>() != null)
+        {
+            mechanism.GetComponent<LaserController>().Activate();
+        }
     }
 }

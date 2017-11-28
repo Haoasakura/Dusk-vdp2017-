@@ -14,6 +14,14 @@ public class Death : MonoBehaviour {
             }
             EventManager.TriggerEvent("PlayerDied");
         }
-        
+        else if (collision.gameObject.tag.Equals("Enemy"))
+        {
+            if (gameObject.transform.parent.tag == "Mine")
+            {
+                Destroy(gameObject.transform.parent.gameObject);
+            }
+            Destroy(collision.gameObject);
+        }
+
     }
 }
