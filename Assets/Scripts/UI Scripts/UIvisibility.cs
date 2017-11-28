@@ -5,28 +5,26 @@ using UnityEngine.UI;
 
 public class UIvisibility : MonoBehaviour {
 
-    private Text text;
+    private Image eye;
     public Player player;
+
+    public Sprite[] sprites = new Sprite[3];
 
 	// Use this for initialization
 	void Start () {
         player = GameObject.Find("Player").GetComponent<Player>();
-        text = GetComponent<Text>();
+        eye = GetComponent<Image>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         if (player.isVisible)
         {
-            text.text = "OH GOD, YOU ARE FUCKED!";
-            text.color = Color.white;
-            text.fontSize = 18;
+            eye.sprite = sprites[2];
         }
         else
         {
-            text.text = "BETTER THAN SNAKE!";
-            text.color = Color.white;
-            text.fontSize = 18;
+            eye.sprite = sprites[0];
         }
 	}
 }
