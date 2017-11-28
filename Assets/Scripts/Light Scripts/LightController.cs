@@ -6,6 +6,7 @@ public class LightController : MonoBehaviour
 {
 
     public float switchTime = 3f;
+    public float flickeringRange = 1.5f; 
     public int lightCharge = 25;
     public bool lightStatus = true;
     public bool changingStatus = false;
@@ -17,6 +18,7 @@ public class LightController : MonoBehaviour
     public Sprite[] lightStates;
 
     private SpriteRenderer spriteRenderer;
+
 
     public Transform shooter=null;
 
@@ -33,18 +35,39 @@ public class LightController : MonoBehaviour
             {
                 StopCoroutine("SwitchingOn");
                 StopCoroutine("SwitchingOff");
+                StopCoroutine("FlickeringLightOn");
+                StopCoroutine("FlickeringLightOff");
                 changingStatus = false;
                 shooter = null;
+                if (lightStatus)
+                {
+                    lightAttached.enabled = true;
+                    lightCollider.enabled = true;
+                    maskAttached.enabled = true;
+                }
+                else
+                {
+                    lightAttached.enabled = false;
+                    lightCollider.enabled = false;
+                    maskAttached.enabled = false;
+                }
             }
+            
         }
     }
 
     public void SwitchOnOff(Transform gun)
     {
         if (!lightStatus)
+        {
             StartCoroutine("SwitchingOn", gun);
+            StartCoroutine("FlickeringLightOn");
+        }
         else
+        {
             StartCoroutine("SwitchingOff", gun);
+            StartCoroutine("FlickeringLightOff");
+        }
     }
 
     IEnumerator SwitchingOn(Transform gun)
@@ -111,5 +134,47 @@ public class LightController : MonoBehaviour
             gun.GetComponent<EnemyWeapon>().currentCharge += lightCharge;
         }
         changingStatus = false;
+    }
+
+    IEnumerator FlickeringLightOn()
+    {
+        float startTime = Time.time;
+        while ((Time.time - startTime) < switchTime)
+        {
+            if (Random.Range (Time.time - startTime, switchTime) > switchTime / flickeringRange)
+            {
+                lightAttached.enabled = true;
+                lightCollider.enabled = true;
+                maskAttached.enabled = true;
+            }
+            else
+            {
+                lightAttached.enabled = false;
+                lightCollider.enabled = false;
+                maskAttached.enabled = false;
+            }
+            yield return null;
+        }
+    }
+
+    IEnumerator FlickeringLightOff()
+    {
+        float startTime = Time.time;
+        while ((Time.time - startTime) < switchTime)
+        {
+            if (Random.Range(Time.time - startTime, switchTime) > switchTime / flickeringRange)
+            {
+                lightAttached.enabled = false;
+                lightCollider.enabled = false;
+                maskAttached.enabled = false;
+            }
+            else
+            {
+                lightAttached.enabled = true;
+                lightCollider.enabled = true;
+                maskAttached.enabled = true;
+            }
+            yield return null;
+        }
     }
 }

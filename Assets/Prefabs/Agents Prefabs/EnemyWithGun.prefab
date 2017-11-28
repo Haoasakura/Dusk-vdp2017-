@@ -372,7 +372,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1366024844245078}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.38, y: -6.76, z: 0}
+  m_LocalPosition: {x: 24.53, y: -21.67, z: -6.5507812}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4163863874324084}
@@ -691,8 +691,6 @@ MonoBehaviour:
   sightLayerMask:
     serializedVersion: 2
     m_Bits: 1280
-  absorptionEffect: {fileID: 1969731243722472, guid: 0a134329a976316469f76cc7b4ce36f6,
-    type: 2}
   animator: {fileID: 95975344386765232}
   shootingLights: 0
   startPoint: {fileID: 4206732701412326}
@@ -729,8 +727,8 @@ MonoBehaviour:
   barrel: {fileID: 4674249161477928}
   laserDirection: {fileID: 4547616490511210}
   aimsight: {fileID: 4643131441186854}
-  arm: {fileID: 0}
-  armShadow: {fileID: 0}
+  arm: {fileID: 212204134340733282}
+  armShadow: {fileID: 212178119895939630}
   gunLayer:
     serializedVersion: 2
     m_Bits: 1024
