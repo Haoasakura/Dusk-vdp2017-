@@ -10,6 +10,7 @@ public class SoundManager : MonoBehaviour
     [Header("Player Audio")]
     public AudioSource as_player;
     public AudioClip ac_jump;
+    private float as_playerPitch;
 
     // Use this for initialization
     void Awake()
@@ -27,7 +28,10 @@ public class SoundManager : MonoBehaviour
 
     public void Jump()
     {
+        as_playerPitch = as_player.pitch;
+        as_player.pitch += Random.Range(-1, 1);
         as_player.PlayOneShot(ac_jump);
+        as_player.pitch = as_playerPitch;
     }
 
     public void Walk()

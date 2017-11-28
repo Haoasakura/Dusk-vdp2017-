@@ -28,12 +28,14 @@ public class GunController : MonoBehaviour {
     private Player player;
     private EnemyController enemyControlled;
     private LineRenderer mLineRenderer;
+    private DigitalRuby.LightningBolt.LightningBoltScript lightning;
 
 
     void Start() {
         player = GetComponentInParent<Player>();
         mLineRenderer = aimsight.GetComponent<LineRenderer>();
         gunRange = Mathf.Abs((laserDirection.position-barrel.position).x);
+        lightning = GetComponent<DigitalRuby.LightningBolt.LightningBoltScript>();
     }
 
     void Update() {
@@ -43,10 +45,12 @@ public class GunController : MonoBehaviour {
         RaycastHit2D hit = Physics2D.Linecast(barrel.position, laserDirection.position, untraversableLayers);
         if (hit.collider != null && !hit.collider.gameObject.layer.Equals(9)) {
             mLineRenderer.SetPosition(1, hit.point);
+            lightning.EndPosition = hit.point;
             mTarget = hit.transform;
         }
         else {
             mLineRenderer.SetPosition(1, laserDirection.position);
+            lightning.EndPosition = laserDirection.position;
             mTarget = null;
         }
 
@@ -86,12 +90,14 @@ public class GunController : MonoBehaviour {
             }
 
             if (Input.GetButtonDown("Fire1")) {
+                lightning.Trigger();
                 if (mTarget != null) {
                     if (mTarget.CompareTag(Tags.light)) {
                         LightController currentLight = mTarget.GetComponent<LightController>();
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && !currentLight.changingStatus)
                             if ((currentLight.lightStatus && (maxCharge - currentCharge) >= currentLight.lightCharge) || (!currentLight.lightStatus && currentCharge >= currentLight.lightCharge)) {
                                 mTarget.GetComponent<LightController>().SwitchOnOff(transform);
+                                StartCoroutine("LightningEffectOn", mTarget.GetComponent<LightController>().switchTime);
                                 isLocked = true;
                             }
                     }
@@ -100,20 +106,26 @@ public class GunController : MonoBehaviour {
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && !currentMachinery.changingStatus)
                             if ((currentMachinery.powered && (maxCharge - currentCharge) >= currentMachinery.powerCharge) || (!currentMachinery.powered && currentCharge >= currentMachinery.powerCharge)) {
                                 currentMachinery.SwitchOnOff(transform);
+                                StartCoroutine("LightningEffectOn", mTarget.GetComponent<MachineryController>().switchTime);
                                 isLocked = true;
+
                             }
                     }
                     else if (mTarget.CompareTag(Tags.enemy)) {
                         enemyControlled = mTarget.GetComponent<EnemyController>();
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && currentCharge >= enemyControlled.controlCost) {
                             enemyControlled.ControlledOnOff(transform);
+                            StartCoroutine("LightningEffectOn", mTarget.GetComponent<EnemyController>().switchTime);
                             isLocked = true;
                         }
                     }
                 }
+
+
             }
             if (Input.GetButtonUp("Fire1")) {
                 isLocked = false;
+                StopCoroutine("LightningEffectOn");
             }
         }
     }
@@ -125,5 +137,17 @@ public class GunController : MonoBehaviour {
                 return true;
         }
         return false;
+    }
+
+    IEnumerator LightningEffectOn(float switchTime)
+    {
+        float startTime = Time.time;
+        Debug.Log(Time.time - startTime);
+        while ((Time.time - startTime) < switchTime)
+        {
+            lightning.Trigger();
+            yield return null;
+        }
+        isLocked = false;
     }
 }

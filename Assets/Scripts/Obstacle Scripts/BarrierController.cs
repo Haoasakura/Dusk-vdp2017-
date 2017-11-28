@@ -54,11 +54,17 @@ public class BarrierController : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        other.transform.parent = gameObject.GetComponentInChildren<Transform>(false).GetChild(0);
+        if (!other.gameObject.tag.Equals("Gun"))
+        {
+            other.transform.parent = gameObject.GetComponentInChildren<Transform>(false).GetChild(0);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        other.transform.parent = null;
+        if (!other.gameObject.tag.Equals("Gun"))
+        {
+            other.transform.parent = null;
+        }
     }
 }

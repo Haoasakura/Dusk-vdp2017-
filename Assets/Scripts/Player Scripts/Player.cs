@@ -86,7 +86,11 @@ public class Player : MonoBehaviour
                 enemiesAreChasing = true;
             }
         }
-        if (directionalInput.magnitude > 0.3 || isLighted || (directionalInput.magnitude<=0 && enemiesAreChasing)) {
+        if (velocity.magnitude > 0.5f || isLighted || (velocity.magnitude<= 0.5f && enemiesAreChasing)) {
+            isVisible = true;
+        }
+        if (Input.GetButton("Fire1"))
+        {
             isVisible = true;
         }
     }
