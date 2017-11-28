@@ -216,7 +216,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1469963480000816}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.65629, y: -7.1072936, z: 0}
+  m_LocalPosition: {x: -11.11, y: -5.73, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4693392112332574}
@@ -536,6 +536,8 @@ MonoBehaviour:
   laserDirection: {fileID: 4828965061366874}
   mTransform: {fileID: 4693392112332574}
   aimsight: {fileID: 1779710702141780}
+  absorptionEffect: {fileID: 1969731243722472, guid: 0a134329a976316469f76cc7b4ce36f6,
+    type: 2}
   arm: {fileID: 212831801578941178}
   armShadow: {fileID: 212768688809863094}
   aimMaterial: {fileID: 2100000, guid: 3a4a7bd28c6ff3643a76713f890bbe90, type: 2}
@@ -575,7 +577,7 @@ MonoBehaviour:
   EndPosition: {x: 0, y: 0, z: 0}
   Generations: 6
   Duration: 0.05
-  ChaosFactor: 0.15
+  ChaosFactor: 0.05
   ManualMode: 1
   Rows: 1
   Columns: 1
@@ -767,25 +769,25 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 0.1166687
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 0
       - serializedVersion: 2
         time: 0.05357143
-        value: 0.28333282
+        value: 0.11312103
         inSlope: 0
         outSlope: 0
         tangentMode: 0
       - serializedVersion: 2
         time: 0.94196427
-        value: 0.28333333
+        value: 0.11312154
         inSlope: 0
         outSlope: 0
         tangentMode: 0
       - serializedVersion: 2
         time: 1
-        value: 0.1166687
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 0
