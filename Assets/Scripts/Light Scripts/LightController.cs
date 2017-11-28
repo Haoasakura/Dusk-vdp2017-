@@ -15,11 +15,9 @@ public class LightController : MonoBehaviour
     public SpriteMask maskAttached;
 
     public Sprite[] lightStates;
-    public GameObject absorptionEffect;
 
     private SpriteRenderer spriteRenderer;
 
-    private GameObject particleEffect;
     public Transform shooter=null;
 
     void Start()
@@ -35,9 +33,6 @@ public class LightController : MonoBehaviour
             {
                 StopCoroutine("SwitchingOn");
                 StopCoroutine("SwitchingOff");
-                StopCoroutine("TrailingEffectOn");
-                StopCoroutine("TrailingEffectOff");
-                Destroy(particleEffect);
                 changingStatus = false;
                 shooter = null;
             }
@@ -65,14 +60,11 @@ public class LightController : MonoBehaviour
         }
         changingStatus = true;
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOn", pointOfOrigin);
         while (seconds > 0)
         {
             yield return new WaitForSeconds(1f);
             seconds--;
         }
-        StopCoroutine("TrailingEffectOn");
-        Destroy(particleEffect);
         spriteRenderer.sprite = lightStates[0];
         lightAttached.enabled = true;
         lightCollider.enabled = true;
@@ -102,14 +94,11 @@ public class LightController : MonoBehaviour
         }
         changingStatus = true;
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOff", pointOfOrigin);
         while (seconds > 0)
         {
             yield return new WaitForSeconds(1f);
             seconds--;
         }
-        StopCoroutine("TrailingEffectOff");
-        Destroy(particleEffect);
         spriteRenderer.sprite = lightStates[1];
         lightAttached.enabled = false;
         lightCollider.enabled = false;
@@ -122,27 +111,5 @@ public class LightController : MonoBehaviour
             gun.GetComponent<EnemyWeapon>().currentCharge += lightCharge;
         }
         changingStatus = false;
-    }
-
-    IEnumerator TrailingEffectOn(Transform gun)
-    {
-        float startTime = Time.time;
-        particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
-        while (true)
-        {
-            particleEffect.transform.position = Vector3.Lerp(gun.position, transform.position, Mathf.SmoothStep(0, 1, (Time.time - startTime) / switchTime));
-            yield return null;
-        }
-    }
-
-    IEnumerator TrailingEffectOff(Transform gun)
-    {
-        float startTime = Time.time;
-        particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
-        while (true)
-        {
-            particleEffect.transform.position = Vector3.Lerp(transform.position, gun.position, Mathf.SmoothStep(0, 1, (Time.time - startTime) / switchTime));
-            yield return null;
-        }
     }
 }

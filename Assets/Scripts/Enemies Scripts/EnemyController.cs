@@ -16,7 +16,6 @@ public class EnemyController : MonoBehaviour {
     public bool playerInSight;
     public LayerMask sightLayerMask;
 
-    public GameObject absorptionEffect;
     public DecisionTree chasingDT;
     public BehaviourTree patrolBT;
     public Animator animator;
@@ -27,7 +26,6 @@ public class EnemyController : MonoBehaviour {
     public bool shootingLights = false;
 
     private Vector3 startPosition;
-    private GameObject particleEffect;
     private Enemy enemy;
     private Transform shooter = null;
     private EnemyWeapon weapon;
@@ -64,9 +62,6 @@ public class EnemyController : MonoBehaviour {
             if (!Input.GetButton("Fire1") && ((shooter != null && shooter.CompareTag(Tags.player)) || (shooter != null && shooter.CompareTag(Tags.enemy) && shooter.GetComponent<EnemyController>().controlled))) {
                 StopCoroutine("ConrtolledOn");
                 StopCoroutine("ControlledOff");
-                StopCoroutine("TrailingEffectOn");
-                StopCoroutine("TrailingEffectOff");
-                Destroy(particleEffect);
                 changingStatus = false;
                 controlled = false;
             }
@@ -302,13 +297,10 @@ public class EnemyController : MonoBehaviour {
         }
         changingStatus = true;
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOn", pointOfOrigin);
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
             seconds--;
         }
-        StopCoroutine("TrailingEffectOn");
-        Destroy(particleEffect);
         controlled = true;
         if (shooter.GetComponent<Player>() != null) {
             shooter.GetComponent<Player>().controlling = true;
@@ -339,14 +331,6 @@ public class EnemyController : MonoBehaviour {
         changingStatus = false;
     }*/
 
-    IEnumerator TrailingEffectOn(Transform gun) {
-        float startTime = Time.time;
-        particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
-        while (true) {
-            particleEffect.transform.position = Vector3.Lerp(gun.position, transform.position, Mathf.SmoothStep(0, 1, (Time.time - startTime) / switchTime));
-            yield return null;
-        }
-    }
     IEnumerator ReturnToPatrol() {
         Debug.Log("Loosing Target...");
         yield return new WaitForSeconds(timeToReturnPatrol);
@@ -365,15 +349,6 @@ public class EnemyController : MonoBehaviour {
         StopCoroutine("TrailingEffectOff");
         EventManager.TriggerEvent("PlayerDied");
 
-    }
-
-    IEnumerator TrailingEffectOff(Transform gun) {
-        float startTime = Time.time;
-        particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
-        while (true) {
-            particleEffect.transform.position = Vector3.Lerp(transform.position, gun.position, Mathf.SmoothStep(0, 1, (Time.time - startTime) / switchTime));
-            yield return null;
-        }
     }
 
     private void OnDestroy() {
