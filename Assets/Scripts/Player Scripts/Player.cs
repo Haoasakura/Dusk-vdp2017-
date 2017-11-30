@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class Player : MonoBehaviour
 {
     //Settaggi per il personaggio (Utilizza Inspector per cambiarli)
+    public GameObject explosionDeath;
     public float maxJumpHeight = 4f;
     public float minJumpHeight = 1f;
     public float timeToJumpApex = .4f;
@@ -90,6 +91,10 @@ public class Player : MonoBehaviour
             isVisible = true;
         }
         if (Input.GetButton("Fire1"))
+        {
+            isVisible = true;
+        }
+        if (controlling)
         {
             isVisible = true;
         }
@@ -265,6 +270,7 @@ public class Player : MonoBehaviour
 
     private void DeathProcess()
     {
+        Instantiate(explosionDeath, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 
@@ -272,4 +278,5 @@ public class Player : MonoBehaviour
     {
         EventManager.TriggerEvent("ReloadScene");
     }
+
 }

@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212380205743739684}
   - component: {fileID: 58978529304443988}
   - component: {fileID: 50100954085589120}
-  - component: {fileID: 114371303108444402}
+  - component: {fileID: 114459912161732530}
   m_Layer: 10
   m_Name: Lightbulb
   m_TagString: Light
@@ -166,7 +166,7 @@ PolygonCollider2D:
     - - {x: -4.4, y: 25}
       - {x: 0, y: 0}
       - {x: 4.4, y: 25}
---- !u!114 &114371303108444402
+--- !u!114 &114459912161732530
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -174,9 +174,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1136147901394148}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 9be9aa959b9b983449461b3c81c1144c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  switchTime: 3
+  flickeringRange: 1.5
+  lightCharge: 25
+  lightStatus: 1
+  changingStatus: 0
+  lightAttached: {fileID: 212676659766471764}
+  lightCollider: {fileID: 60355810340723018}
+  maskAttached: {fileID: 331428614628187750}
+  lightStates:
+  - {fileID: 21300000, guid: 774c856a4e0ed5e4cbe265d997d93357, type: 3}
+  - {fileID: 21300000, guid: 0e7e869c34673fc469abe32852719611, type: 3}
+  shooter: {fileID: 0}
 --- !u!212 &212380205743739684
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -299,7 +311,7 @@ SpriteMask:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d658c0065dc3cf54cb11fda7d30684f6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 58e7b9dfb2f78be44b5e2449ed7243de, type: 3}
   m_MaskAlphaCutoff: 0.2
   m_FrontSortingLayerID: -187450531
   m_BackSortingLayerID: -1640383125

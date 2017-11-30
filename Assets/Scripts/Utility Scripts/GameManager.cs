@@ -48,6 +48,12 @@ public class GameManager : MonoBehaviour {
 
     void LoadGame()
     {
+        StartCoroutine("WaitLoading");
+    }
+
+    IEnumerator WaitLoading()
+    {
+        yield return new WaitForSeconds(3);
         SceneManager.LoadScene(loadedScene, LoadSceneMode.Single);
         StartCoroutine("SearchPlayer");
     }

@@ -335,6 +335,7 @@ public class EnemyController : MonoBehaviour {
         StopCoroutine("TrailingEffectOn");
         Destroy(particleEffect);
         controlled = true;
+        EventManager.TriggerEvent("EnemyControlled");
         if (shooter.GetComponent<Player>() != null) {
             shooter.GetComponent<Player>().controlling = true;
             gun.GetComponent<GunController>().currentCharge -= controlCost;
@@ -389,7 +390,6 @@ public class EnemyController : MonoBehaviour {
         yield return new WaitForSeconds(switchTime);
         StopCoroutine("TrailingEffectOff");
         EventManager.TriggerEvent("PlayerDied");
-
     }
 
     IEnumerator TrailingEffectOff(Transform gun) {
@@ -409,7 +409,7 @@ public class EnemyController : MonoBehaviour {
                 mPlayer.controlling = false;
                 mPlayer.GetComponentInChildren<GunController>().isLocked = false;
             }
-
+            EventManager.TriggerEvent("EnemyDestroyed");
         }
         //questo dovrebbe essere inutile devo farlo quando sparo a un altro nemico non on destroy
         if (shooter != null)
