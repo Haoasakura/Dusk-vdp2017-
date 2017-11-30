@@ -149,7 +149,6 @@ public class MachineryController : MonoBehaviour {
             else
             {
                 spriteRenderer.color = Color.green;
-
             }
             yield return null;
         }
