@@ -207,7 +207,7 @@ public class EnemyController : MonoBehaviour {
                     animator.SetBool("PlayerInSight", true);
                     mChaseTarget = gun.mTarget;
                 }*/
-                if (!changingStatus)
+                if (!changingStatus && !(player == null))
                     if (InLineOfSight(player.GetComponent<Collider2D>(), sightRange) && GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Player>().isVisible && GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<Collider2D>().bounds.Contains(transform.position + new Vector3(0, 0, -10))) {
                         animator.SetBool("PlayerInSight", true);
                         mChaseTarget = player.position;
@@ -389,7 +389,7 @@ public class EnemyController : MonoBehaviour {
         player.GetComponent<PlayerInput>().enabled = false;
         yield return new WaitForSeconds(switchTime);
         StopCoroutine("TrailingEffectOff");
-        EventManager.TriggerEvent("PlayerDied");
+        EventManager.TriggerEvent("PlayerControlled");
     }
 
     IEnumerator TrailingEffectOff(Transform gun) {

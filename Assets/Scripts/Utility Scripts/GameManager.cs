@@ -8,10 +8,11 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 
     public int loadedScene;
+    public int gameOverScene;
 
     private UnityAction unityAction;
     private GameObject player;
-    private GameObject camera;
+    private new GameObject camera;
 
     public Vector3 cameraPosition = new Vector3(0f, 0f, -10f);
     public Vector3 playerPosition = new Vector3 (0f, 0f);
@@ -27,19 +28,16 @@ public class GameManager : MonoBehaviour {
     private void OnEnable()
     {
         EventManager.StartListening("CheckpointReached", SaveGame);
-        EventManager.StartListening("ReloadScene", LoadGame);
+        EventManager.StartListening("ReloadScene", ReloadGame);
     }
 
     private void OnDisable()
     {
         EventManager.StopListening("CheckpointReached", SaveGame);
-        EventManager.StartListening("PlayerDied", LoadGame);
     }
 
     void SaveGame()
     {
-        Debug.Log(player.transform.position);
-
         cameraPosition = new Vector3(camera.transform.position.x, camera.transform.position.y, -10f);
         playerPosition = new Vector3 (player.transform.position.x, player.transform.position.y);
         duskCharge = player.transform.Find("PivotArm").Find("Gun").gameObject.GetComponent<GunController>().currentCharge;
@@ -48,12 +46,24 @@ public class GameManager : MonoBehaviour {
 
     void LoadGame()
     {
+        SceneManager.LoadScene(loadedScene, LoadSceneMode.Single);
+        StartCoroutine("SearchPlayer");
+    }
+
+    void ReloadGame()
+    {
         StartCoroutine("WaitLoading");
     }
 
     IEnumerator WaitLoading()
     {
         yield return new WaitForSeconds(3);
+        Time.timeScale = 0;
+        while (!Input.GetButton("Retry"))
+        {
+            yield return null;
+        }
+        Time.timeScale = 1;
         SceneManager.LoadScene(loadedScene, LoadSceneMode.Single);
         StartCoroutine("SearchPlayer");
     }
@@ -71,5 +81,6 @@ public class GameManager : MonoBehaviour {
         camera.transform.position = cameraPosition;
         player.transform.position = playerPosition;
         player.transform.Find("PivotArm").Find("Gun").gameObject.GetComponent<GunController>().currentCharge = duskCharge;
+        SaveGame();
     }
 }

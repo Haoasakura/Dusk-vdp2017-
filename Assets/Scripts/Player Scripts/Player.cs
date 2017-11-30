@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         EventManager.StartListening("PlayerDied", DeathProcess);
+        EventManager.StartListening("PlayerControlled", DelayedDeath);
     }
 
     private void Start()
@@ -266,6 +267,17 @@ public class Player : MonoBehaviour
         {
             isLighted = false;
         }
+    }
+
+    private void DelayedDeath()
+    {
+        StartCoroutine("PuppetAnimation");
+    }
+
+    IEnumerator PuppetAnimation()
+    {
+        yield return new WaitForSeconds(1);
+        EventManager.TriggerEvent("PlayerDied");
     }
 
     private void DeathProcess()
