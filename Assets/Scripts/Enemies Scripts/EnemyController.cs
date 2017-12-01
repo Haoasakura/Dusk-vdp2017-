@@ -71,17 +71,17 @@ public class EnemyController : MonoBehaviour {
                 controlled = false;
             }
         }
-        /*else if (!controlled && !shootingLights) {
+        else if (!controlled && !shootingLights) {
             if (transform.position.x > lastX) {
                 //weapon.transform.rotation = Quaternion.Euler(0, 0, 0);
-                weapon.armTransform.rotation = Quaternion.Euler(0, 0, -21.8f);
+                weapon.armTransform.rotation = Quaternion.Euler(0f, 0f, -21.1f);
             }
             else {
-                weapon.armTransform.rotation = Quaternion.Euler(0, 180f, 20f);
+                weapon.armTransform.rotation = Quaternion.Euler(0f, 180f, -21.1f);
                 //weapon.transform.rotation = Quaternion.Euler(0, 0, 180 /*- weapon.transform.rotation.eulerAngles.z);
             }
 
-        }*/
+        }
             
         lastX = transform.position.x;
     }
