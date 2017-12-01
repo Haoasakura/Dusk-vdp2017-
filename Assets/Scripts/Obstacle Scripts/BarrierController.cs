@@ -19,7 +19,7 @@ public class BarrierController : MonoBehaviour {
     [SerializeField]
     private Transform targetPointTransform;
 
-    private float speed = 6;
+    private float speed = 20;
 
     // Use this for initialization
     void Start () {
@@ -50,6 +50,7 @@ public class BarrierController : MonoBehaviour {
     public void ChangeDestination()
     {
         nextPosition = (nextPosition != startingPosition ? startingPosition : targetPosition);
+        SoundManager.Instance.Barrier();
     }
 
     private void OnTriggerStay2D(Collider2D other)

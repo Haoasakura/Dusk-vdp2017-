@@ -18,6 +18,15 @@ public class SoundManager : MonoBehaviour
     public AudioClip ac_gunshot;
     public AudioClip ac_emptygunshot;
 
+    [Header("Objects Audio")]
+    public AudioSource as_objects;
+    public AudioClip ac_lever;
+    public AudioClip ac_button;
+    public AudioClip ac_trapdoor;
+    public AudioClip ac_movingPlatform;
+    public AudioClip ac_barrier;
+    public AudioClip ac_chekpointReached;
+
     private float as_playerPitch;
 
     private float lowPitchRange = .95f;
@@ -79,5 +88,40 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    //ObjectSounds
+    public void Lever()
+    {
+        as_objects.pitch = Random.Range(lowPitchRange, highPitchRange);
+        if (!as_objects.isPlaying)
+        {
+            as_objects.PlayOneShot(ac_lever);
+        }
+    }
 
+    public void Barrier()
+    {
+        as_objects.pitch = Random.Range(lowPitchRange, highPitchRange);
+        as_objects.PlayOneShot(ac_barrier);
+
+    }
+
+    public void Trapdoor(float pitch)
+    {
+        as_objects.pitch = pitch;
+        as_objects.PlayOneShot(ac_trapdoor);
+
+    }
+
+    public void Button(float pitch)
+    {
+        as_objects.pitch = pitch;
+        as_objects.PlayOneShot(ac_button);
+
+    }
+
+    public void Checkpoint()
+    {
+        as_objects.pitch = Random.Range(lowPitchRange, highPitchRange);
+        as_objects.PlayOneShot(ac_chekpointReached);
+    }
 }

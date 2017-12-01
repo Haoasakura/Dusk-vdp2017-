@@ -10,8 +10,10 @@ public class LeverController : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (Input.GetButtonDown("Fire2") && other.gameObject.tag.Equals("Player"))
+        if (Input.GetButtonDown("Fire2") && other.gameObject.tag.Equals("Player") &&
+            !Input.GetButton("Fire1"))
         {
+            SoundManager.Instance.Lever();
             gameObject.GetComponent<SpriteRenderer>().flipX = gameObject.GetComponent<SpriteRenderer>().flipX == true ? false : true;
             Activate();
         }

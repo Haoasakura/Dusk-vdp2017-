@@ -37,12 +37,14 @@ public class TrapdoorController : MonoBehaviour {
     public void Move() {
         if (!isOpen)
         {
+            SoundManager.Instance.Trapdoor(0.95f);
             gameObject.transform.RotateAround(rotationCenterTransform.position, new Vector3(0, 0, 1), -90);
             isOpen = true;
             active = false;
         }
         else
         {
+            SoundManager.Instance.Trapdoor(0.95f);
             gameObject.transform.RotateAround(rotationCenterTransform.position, new Vector3(0, 0, 1), 90);
             isOpen = false;
             active = false;

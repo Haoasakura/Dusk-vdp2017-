@@ -12,8 +12,24 @@ public class ButtonController : MonoBehaviour {
     [SerializeField]
     private GameObject mechanism;
 
+    private bool isFirstPass = true;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (!isPressurePlate && isFirstPass)
+        {
+            SoundManager.Instance.Button(0.95f);
+            isFirstPass = false;
+        }
+        else if (!isPressurePlate && !isFirstPass)
+        {
+            SoundManager.Instance.Button(1.05f);
+            isFirstPass = true;
+        }
+        else
+        {
+            SoundManager.Instance.Button(0.95f);
+        }
         Activate();
     }
 
@@ -21,6 +37,7 @@ public class ButtonController : MonoBehaviour {
     {
         if (isPressurePlate)
         {
+            SoundManager.Instance.Button(1.05f);
             Activate();
         }
     }
