@@ -54,9 +54,12 @@ public class EnemyController2D : RaycastController
         {
             if (transform.localScale.Equals(new Vector3(1, 1, 1)))
             {
-                transform.localScale = new Vector3(-1, 1, 1);
-                pivotArm.transform.localScale = new Vector3(-1, 1, 1);
-                pivotArm.transform.localRotation = Quaternion.Euler(0f, 180f, 21.1f);
+                if (transform.GetComponent<EnemyController>().controlled) {
+                    transform.localScale = new Vector3(-1, 1, 1);
+                    pivotArm.transform.localScale = new Vector3(-1, 1, 1);
+
+                    pivotArm.transform.localRotation = Quaternion.Euler(0f, 0f, -pivotArm.transform.localRotation.z * Mathf.Rad2Deg * 2);
+                }
             }
         }
 
@@ -64,10 +67,12 @@ public class EnemyController2D : RaycastController
         {
             if (transform.localScale.Equals(new Vector3(-1, 1, 1)))
             {
-                transform.localScale = new Vector3(1, 1, 1);
-                pivotArm.transform.localScale = new Vector3(1, 1, 1);
-                pivotArm.transform.localRotation = Quaternion.Euler(0f, 0f, -21.1f);
+                if (transform.GetComponent<EnemyController>().controlled) {
+                    transform.localScale = new Vector3(1, 1, 1);
+                    pivotArm.transform.localScale = new Vector3(1, 1, 1);
 
+                    pivotArm.transform.localRotation = Quaternion.Euler(0f, 0f, -pivotArm.transform.localRotation.z * Mathf.Rad2Deg * 2);
+                }
             }
         }
     }
