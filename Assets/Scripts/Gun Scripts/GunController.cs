@@ -92,6 +92,7 @@ public class GunController : MonoBehaviour {
             }
 
             if (Input.GetButtonDown("Fire1")) {
+                SoundManager.Instance.EmptyGunshot();
                 lightning.Trigger();
                 mLineRenderer.enabled = false;
                 if (mTarget != null) {
@@ -163,9 +164,11 @@ public class GunController : MonoBehaviour {
 
     IEnumerator LightningEffectOn(float switchTime)
     {
+
         float startTime = Time.time;
         while ((Time.time - startTime) < switchTime)
         {
+            SoundManager.Instance.Gunshot((Time.time - startTime));
             lightning.Trigger();
             yield return null;
         }

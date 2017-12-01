@@ -12,7 +12,7 @@ public class PlayerAnimationController : MonoBehaviour {
     private int nextState = 0;
     private String animName;
 
-    public void Animate (Vector3 velocity, bool isClimbing)
+    public void Animate (Vector3 velocity, bool isClimbing, Controller2D controller)
     {
         velocity.x = Mathf.Abs(velocity.x);
         velocity.y = Mathf.Abs(velocity.y);
@@ -20,8 +20,9 @@ public class PlayerAnimationController : MonoBehaviour {
         animName = "CharacterIdle";
         nextState = 0;
 
-        if (!isClimbing && velocity.x > 0.2 && velocity.y < 0.2)
+        if (!isClimbing && velocity.x > 0.2 && velocity.y < 0.2 && controller.collisions.below)
         {
+            SoundManager.Instance.Walk();
             animName = "CharacterWalking";
             nextState = 1;
             if (velocity.x > 3)
@@ -40,12 +41,14 @@ public class PlayerAnimationController : MonoBehaviour {
         }
         else if (isClimbing && Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
         {
+
             animName = "CharacterClimbingIdle";
 
             nextState = 4;
         }
         else if (isClimbing && (velocity.x != 0 || velocity.y != 0))
         {
+            SoundManager.Instance.Climb();
             animName = "CharacterClimbing";
 
             nextState = 3;

@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
         controller.Move(velocity * Time.deltaTime, directionalInput);
         if (controller.collisions.above || controller.collisions.below)
             velocity.y = 0f;
-        playerAnimationController.Animate(velocity, isClimbing);
+        playerAnimationController.Animate(velocity, isClimbing, controller);
     }
 
     private void VisibilityControl()
