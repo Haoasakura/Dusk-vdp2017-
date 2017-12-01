@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Mine : MonoBehaviour {
 
+    public GameObject explosion;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -22,6 +23,7 @@ public class Mine : MonoBehaviour {
 
     private void Explode()
     {
+        Instantiate(explosion, transform.position, transform.rotation);
         Destroy(transform.parent.gameObject);
         return;
     }

@@ -1,24 +1,59 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CameraController : MonoBehaviour {
 
     public float offsetX;
     public float offsetY;
 
+    private Vector3 cameraPosition;
     private float newX;
     private float newY;
     private float newZ;
     private float collX;
     private float collY;
     private BoxCollider2D coll;
+    private UnityAction saveCameraPosition;
+    private UnityAction returnOldCamera;
+    private UnityAction returnOldFromEnemy;
+
 
     private void OnEnable() {
         coll = GetComponent<BoxCollider2D>();
         collX = coll.size.x;
         collY = coll.size.y;
         ActivateEnemies();
+        saveCameraPosition = new UnityAction(SaveCameraPosition);
+        returnOldCamera = new UnityAction(ReturnOldCamera);
+        returnOldFromEnemy = new UnityAction(ReturnOldFromEnemy);
+        EventManager.StartListening("EnemyControlled", saveCameraPosition);
+        EventManager.StartListening("EnemyDestroyed", returnOldFromEnemy);
+        EventManager.StartListening("PlayerDied", returnOldCamera);
+        SaveCameraPosition();
+    }
+
+    private void ReturnOldFromEnemy()
+    {
+        StartCoroutine("DontReturnSuddenly");
+    }
+
+    IEnumerator DontReturnSuddenly()
+    {
+        yield return new WaitForSeconds(3);
+        ReturnOldCamera();
+    }
+
+    private void ReturnOldCamera()
+    {
+        transform.position = cameraPosition;
+    }
+
+    private void SaveCameraPosition()
+    {
+        cameraPosition = transform.position;
     }
 
     private void OnTriggerExit2D(Collider2D collision) {
@@ -27,7 +62,7 @@ public class CameraController : MonoBehaviour {
         newY = transform.position.y;
         newZ = transform.position.z;
 
-        if (collision.CompareTag(Tags.player)) {
+        if ((collision.CompareTag(Tags.player) && !collision.gameObject.GetComponent<Player>().controlling) || (collision.gameObject.GetComponent<EnemyController>().controlled)) {
             Transform current = collision.transform;
 
             //Traslazioni nel caso il giocatore esca dal collider
@@ -52,6 +87,7 @@ public class CameraController : MonoBehaviour {
 
             transform.position= new Vector3 (newX, newY, newZ);
         }
+
         ActivateEnemies();  
     }
 

@@ -8,18 +8,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tommaso3(GameManager).unity
     guid: 316c95f5f92104447900bde2a1748ac2
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Tommaso2(Light).unity
     guid: bc7b1d024e93d6045aa93b6b1f95f4db
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Matteone.unity
     guid: 98c8a89deeac63e489a982ef13cf5ce5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Davide(Enemies).unity
     guid: 80d08da97b15c3c4db550641fa9df25b
   - enabled: 1
     path: Assets/Scenes/Tommaso4(LevelDesign).unity
     guid: 5cf49f012078ffd4eb92266f6c812528
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Marco(PlatformingElements).unity
     guid: 30cbc7527b4cefa4f93c145f4dd59501
