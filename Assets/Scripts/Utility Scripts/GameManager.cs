@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour {
     private void Awake()
     {        
         DontDestroyOnLoad(transform.gameObject);
+        DontDestroyOnLoad(UITitle);
         //LoadGame();
         //unityAction = new UnityAction(SaveGame);
     }

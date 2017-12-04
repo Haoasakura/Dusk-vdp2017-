@@ -20,6 +20,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tommaso4(LevelDesign).unity
     guid: 5cf49f012078ffd4eb92266f6c812528
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Marco(PlatformingElements).unity
     guid: 30cbc7527b4cefa4f93c145f4dd59501
