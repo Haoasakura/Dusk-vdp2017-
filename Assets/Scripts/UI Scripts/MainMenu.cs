@@ -20,6 +20,7 @@ public class MainMenu : MonoBehaviour
     {
         StartCoroutine(Fade());
         //yield return new WaitForSeconds(3f);
+        ready = false;
     }
 
     IEnumerator Fade()
