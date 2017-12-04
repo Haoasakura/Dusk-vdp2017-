@@ -4,19 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
-{ 
+{
+    public bool ready = false;
+
     // Update is called once per frame
     void Update()
     {
         if(Input.GetButtonDown("Submit") && gameObject.GetComponent<CanvasGroup>().alpha != 0)
         {
-            FadeMe();
+            ready = true;
         }
     }
 
     public void FadeMe()
     {
         StartCoroutine(Fade());
+        //yield return new WaitForSeconds(3f);
     }
 
     IEnumerator Fade()
