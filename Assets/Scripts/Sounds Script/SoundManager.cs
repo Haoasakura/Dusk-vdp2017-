@@ -84,7 +84,7 @@ public class SoundManager : MonoBehaviour
         as_gun.pitch = Random.Range(lowPitchRange, highPitchRange);
         if (!as_gun.isPlaying)
         {
-            as_player.PlayOneShot(ac_emptygunshot);
+            as_gun.PlayOneShot(ac_emptygunshot);
         }
     }
 

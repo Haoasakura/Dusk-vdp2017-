@@ -25,6 +25,7 @@ public class EnemyWeapon : MonoBehaviour {
     public LayerMask gunLayer;
     public LayerMask groundLayer;
     public LayerMask untraversableLayers;
+    public EnemySoundManager soundManager;
 
     private GameObject particleEffect;
     private Enemy enemy;
@@ -94,6 +95,8 @@ public class EnemyWeapon : MonoBehaviour {
             }
 
             if (Input.GetButtonDown("Fire1")) {
+                soundManager.EmptyGunshot();
+                Debug.Log("Hello");
                 lightning.Trigger();
                 mLineRenderer.enabled = false;
                 if (mTarget != null) {
@@ -161,6 +164,7 @@ public class EnemyWeapon : MonoBehaviour {
     IEnumerator LightningEffectOn(float switchTime) {
         float startTime = Time.time;
         while ((Time.time - startTime) < switchTime) {
+            soundManager.Gunshot((Time.time - startTime));
             lightning.Trigger();
             yield return null;
         }
