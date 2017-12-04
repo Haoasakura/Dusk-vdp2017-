@@ -115,8 +115,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1785535524557962}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: 0, y: 29.42, z: 0}
-  m_LocalScale: {x: 3.3752306, y: 7.563787, z: 1}
+  m_LocalPosition: {x: 0, y: 19.42, z: 0}
+  m_LocalScale: {x: 3.3752306, y: 5.064061, z: 1}
   m_Children: []
   m_Father: {fileID: 4885878140906198}
   m_RootOrder: 0
@@ -154,7 +154,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1136147901394148}
   m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
-  m_LocalPosition: {x: 54.83, y: 8.48, z: 0}
+  m_LocalPosition: {x: 95.27, y: 14.17, z: 0}
   m_LocalScale: {x: 0.31682, y: 0.29407, z: 1}
   m_Children:
   - {fileID: 4263535640175718}
@@ -198,7 +198,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.000001418841}
   serializedVersion: 2
-  m_Radius: 2.250265
+  m_Radius: 1.35
 --- !u!60 &60355810340723018
 PolygonCollider2D:
   m_ObjectHideFlags: 1
@@ -223,9 +223,9 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -5.48959, y: 57.61615}
+    - - {x: -5.7370725, y: 38.68489}
       - {x: 0, y: 0}
-      - {x: 5.793543, y: 57.41037}
+      - {x: 5.5460668, y: 38.479107}
 --- !u!114 &114459912161732530
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -245,6 +245,8 @@ MonoBehaviour:
   lightAttached: {fileID: 212676659766471764}
   lightCollider: {fileID: 60355810340723018}
   maskAttached: {fileID: 331428614628187750}
+  litMaterial: {fileID: 2100000, guid: 231ab5bae1ae98d44a7ba709ab99efc4, type: 2}
+  unlitMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   lightStates:
   - {fileID: 21300000, guid: f0b08527243ce1d4aada2daabee76423, type: 3}
   - {fileID: 21300000, guid: 211063163fd64c541ae20cefe63ba199, type: 3}

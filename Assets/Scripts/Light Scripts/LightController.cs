@@ -14,7 +14,8 @@ public class LightController : MonoBehaviour
     public SpriteRenderer lightAttached;
     public Collider2D lightCollider;
     public SpriteMask maskAttached;
-
+    public Material litMaterial;
+    public Material unlitMaterial;
     public Sprite[] lightStates;
 
     private SpriteRenderer spriteRenderer;
@@ -89,6 +90,7 @@ public class LightController : MonoBehaviour
             seconds--;
         }
         spriteRenderer.sprite = lightStates[0];
+        spriteRenderer.material = litMaterial;
         lightAttached.enabled = true;
         lightCollider.enabled = true;
         maskAttached.enabled = true;
@@ -123,6 +125,7 @@ public class LightController : MonoBehaviour
             seconds--;
         }
         spriteRenderer.sprite = lightStates[1];
+        spriteRenderer.material = unlitMaterial;
         lightAttached.enabled = false;
         lightCollider.enabled = false;
         maskAttached.enabled = false;
@@ -143,12 +146,16 @@ public class LightController : MonoBehaviour
         {
             if (Random.Range (Time.time - startTime, switchTime) > switchTime / flickeringRange)
             {
+                spriteRenderer.sprite = lightStates[0];
+                spriteRenderer.material = litMaterial;
                 lightAttached.enabled = true;
                 lightCollider.enabled = true;
                 maskAttached.enabled = true;
             }
             else
             {
+                spriteRenderer.sprite = lightStates[1];
+                spriteRenderer.material = unlitMaterial;
                 lightAttached.enabled = false;
                 lightCollider.enabled = false;
                 maskAttached.enabled = false;
@@ -164,12 +171,16 @@ public class LightController : MonoBehaviour
         {
             if (Random.Range(Time.time - startTime, switchTime) > switchTime / flickeringRange)
             {
+                spriteRenderer.sprite = lightStates[1];
+                spriteRenderer.material = unlitMaterial;
                 lightAttached.enabled = false;
                 lightCollider.enabled = false;
                 maskAttached.enabled = false;
             }
             else
             {
+                spriteRenderer.sprite = lightStates[0];
+                spriteRenderer.material = litMaterial;
                 lightAttached.enabled = true;
                 lightCollider.enabled = true;
                 maskAttached.enabled = true;
