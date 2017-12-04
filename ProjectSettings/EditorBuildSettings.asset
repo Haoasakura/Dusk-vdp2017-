@@ -23,3 +23,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Marco(PlatformingElements).unity
     guid: 30cbc7527b4cefa4f93c145f4dd59501
+  - enabled: 1
+    path: Assets/Scenes/Tommaso5(LevelDesign2).unity
+    guid: b64313406bd48af47be33e96e910f2c4

@@ -5,7 +5,7 @@ using UnityEngine;
 public class TrapdoorController : MonoBehaviour {
 
     private bool active = false;
-
+    private ObjectSoundManager osm;
     private bool isOpen;
 
     [Header("Transform for the center of rotation")]
@@ -14,7 +14,7 @@ public class TrapdoorController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
+        osm = GetComponent<ObjectSoundManager>();
         isOpen = false;
 
 	}
@@ -37,14 +37,14 @@ public class TrapdoorController : MonoBehaviour {
     public void Move() {
         if (!isOpen)
         {
-            SoundManager.Instance.Trapdoor(0.95f);
+            osm.PlaySound(0.95f);
             gameObject.transform.RotateAround(rotationCenterTransform.position, new Vector3(0, 0, 1), -90);
             isOpen = true;
             active = false;
         }
         else
         {
-            SoundManager.Instance.Trapdoor(0.95f);
+            osm.PlaySound(0.95f);
             gameObject.transform.RotateAround(rotationCenterTransform.position, new Vector3(0, 0, 1), 90);
             isOpen = false;
             active = false;

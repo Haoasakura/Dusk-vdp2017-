@@ -6,9 +6,10 @@ public class BarrierController : MonoBehaviour {
 
     public bool active = false;
 
+
     private Vector3 startingPosition;
     private Vector3 targetPosition;
-
+    private ObjectSoundManager osm;
     private Vector3 nextPosition;
 
     [Header("Transform associated with child barrier")]
@@ -24,6 +25,7 @@ public class BarrierController : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
+        osm = GetComponent<ObjectSoundManager>();
         startingPosition = childTransform.localPosition;
         targetPosition = targetPointTransform.localPosition;
         nextPosition = startingPosition;
@@ -50,7 +52,7 @@ public class BarrierController : MonoBehaviour {
     public void ChangeDestination()
     {
         nextPosition = (nextPosition != startingPosition ? startingPosition : targetPosition);
-        SoundManager.Instance.Barrier();
+        osm.PlaySound();
     }
 
     private void OnTriggerStay2D(Collider2D other)
