@@ -62,10 +62,7 @@ public class CameraController : MonoBehaviour {
         newY = transform.position.y;
         newZ = transform.position.z;
 
-        if (collision.CompareTag(Tags.player))
-        {
-            SaveCameraPosition();
-        }
+
 
         if ((collision.CompareTag(Tags.player) && !collision.gameObject.GetComponent<Player>().controlling) || (collision.CompareTag(Tags.enemy) && collision.gameObject.GetComponent<EnemyController>().controlled)) {
             Transform current = collision.transform;
@@ -91,6 +88,11 @@ public class CameraController : MonoBehaviour {
             newZ = transform.position.z;
 
             transform.position= new Vector3 (newX, newY, newZ);
+        }
+
+        if (collision.CompareTag(Tags.player))
+        {
+            SaveCameraPosition();
         }
 
         ActivateEnemies();  

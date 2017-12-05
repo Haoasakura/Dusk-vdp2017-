@@ -337,10 +337,10 @@ public class EnemyController : MonoBehaviour {
         StopCoroutine("TrailingEffectOn");
         Destroy(particleEffect);
         controlled = true;
-        EventManager.TriggerEvent("EnemyControlled");
         if (shooter.GetComponent<Player>() != null) {
             shooter.GetComponent<Player>().controlling = true;
             gun.GetComponent<GunController>().currentCharge -= controlCost;
+            EventManager.TriggerEvent("EnemyControlled");
         }
         else {
             shooter.GetComponent<Enemy>().controlling = true;
@@ -406,12 +406,12 @@ public class EnemyController : MonoBehaviour {
     private void OnDestroy() {
         GameObject player = GameObject.FindGameObjectWithTag(Tags.player);
         if (controlled && player != null) {
+            EventManager.TriggerEvent("EnemyDestroyed");
             Player mPlayer = player.GetComponent<Player>();
             if (mPlayer != null) {
                 mPlayer.controlling = false;
                 mPlayer.GetComponentInChildren<GunController>().isLocked = false;
             }
-            EventManager.TriggerEvent("EnemyDestroyed");
         }
         //questo dovrebbe essere inutile devo farlo quando sparo a un altro nemico non on destroy
         if (shooter != null)
