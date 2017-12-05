@@ -67,7 +67,7 @@ public class CameraController : MonoBehaviour {
             SaveCameraPosition();
         }
 
-        if ((collision.CompareTag(Tags.player) && !collision.gameObject.GetComponent<Player>().controlling) || (collision.gameObject.GetComponent<EnemyController>().controlled)) {
+        if ((collision.CompareTag(Tags.player) && !collision.gameObject.GetComponent<Player>().controlling) || (collision.CompareTag(Tags.enemy) && collision.gameObject.GetComponent<EnemyController>().controlled)) {
             Transform current = collision.transform;
 
             //Traslazioni nel caso il giocatore esca dal collider

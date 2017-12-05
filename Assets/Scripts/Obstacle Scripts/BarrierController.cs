@@ -57,17 +57,23 @@ public class BarrierController : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (!other.gameObject.tag.Equals("Gun"))
+        if (!other.gameObject.CompareTag("Gun") && !other.gameObject.CompareTag(Tags.enemy))
         {
             other.transform.parent = gameObject.GetComponentInChildren<Transform>(false).GetChild(0);
+        }
+        else if(other.gameObject.CompareTag(Tags.enemy)) {
+            other.transform.parent.parent= gameObject.GetComponentInChildren<Transform>(false).GetChild(0);
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (!other.gameObject.tag.Equals("Gun"))
+        if (!other.gameObject.tag.Equals("Gun") && !other.gameObject.CompareTag(Tags.enemy))
         {
             other.transform.parent = null;
+        }
+        else if (other.gameObject.CompareTag(Tags.enemy)) {
+            other.transform.parent.parent = null;
         }
     }
 }

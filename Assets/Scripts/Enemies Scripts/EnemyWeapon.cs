@@ -16,6 +16,7 @@ public class EnemyWeapon : MonoBehaviour {
     public Transform barrel;
     public Transform laserDirection;
     public Transform armTransform;
+    public Transform pivot;
     public GameObject aimsight;
     public GameObject absorptionEffect;
     public SpriteRenderer arm;
@@ -42,6 +43,7 @@ public class EnemyWeapon : MonoBehaviour {
         mTransform = GetComponent<Transform>();
         mLineRenderer = aimsight.GetComponent<LineRenderer>();
         lightning = GetComponent<DigitalRuby.LightningBolt.LightningBoltScript>();
+        armTransform.position = pivot.position;
     }
 
     void Update() {
@@ -76,27 +78,31 @@ public class EnemyWeapon : MonoBehaviour {
 
             if (Mathf.Abs(c) > 0.9 && !isLocked) {
                 float angleRot = -Mathf.Sign(b) * Mathf.Rad2Deg * Mathf.Acos(a / c);
+                Debug.Log(angleRot);
+                if(GetComponentInParent<Enemy>().transform.localScale.x>0)
+                    transform.parent.rotation = Quaternion.Euler(0f, 0f, 73+angleRot);
+                else
+                     transform.parent.rotation = Quaternion.Euler(0f, 0f, 93+angleRot);
 
-                mTransform.rotation = Quaternion.Euler(0f, 0f, angleRot);
-
+                //transform.parent.RotateAround (pivot.position, Vector3.forward, angleRot);
+                
                 //mantiene la sprite dell'arma nel verso giusto
                 if (mTransform.rotation.eulerAngles.z % 270 < 90 && mTransform.rotation.eulerAngles.z % 270 > 0) {
                     GetComponent<SpriteRenderer>().flipY = false;
-                    arm.flipX = false;
-                    armShadow.flipX = false;
+                    //arm.flipX = false;
+                    //armShadow.flipX = false;
                     transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().flipY = false;
                 }
                 else {
                     GetComponent<SpriteRenderer>().flipY = true;
-                    arm.flipX = true;
-                    armShadow.flipX = true;
+                    //arm.flipX = true;
+                    //armShadow.flipX = true;
                     transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().flipY = true;
                 }
             }
 
             if (Input.GetButtonDown("Fire1")) {
                 soundManager.EmptyGunshot();
-                Debug.Log("Hello");
                 lightning.Trigger();
                 mLineRenderer.enabled = false;
                 if (mTarget != null) {

@@ -73,11 +73,13 @@ public class EnemyController : MonoBehaviour {
         }
         else if (!controlled && !shootingLights) {
             if (transform.position.x > lastX) {
+                transform.localScale = new Vector3(1, 1, 1);
                 //weapon.transform.rotation = Quaternion.Euler(0, 0, 0);
-                weapon.armTransform.rotation = Quaternion.Euler(0f, 0f, -21.1f);
+                //weapon.armTransform.rotation = Quaternion.Euler(0f, 0f, -21.1f);
             }
             else {
-                weapon.armTransform.rotation = Quaternion.Euler(0f, 180f, -21.1f);
+                transform.localScale = new Vector3(-1, 1, 1);
+                //weapon.armTransform.rotation = Quaternion.Euler(0f, 180f, -21.1f);
                 //weapon.transform.rotation = Quaternion.Euler(0, 0, 180 /*- weapon.transform.rotation.eulerAngles.z);
             }
 
@@ -92,6 +94,7 @@ public class EnemyController : MonoBehaviour {
         StopCoroutine("Chase");
         enemy.moveMinSpeed = 2f;
         animator.SetBool("PlayerInSight", false);
+        //mettere qui la coroutine per fare le cose di transizione
         StartCoroutine("Patrol");
     }
 
@@ -101,14 +104,13 @@ public class EnemyController : MonoBehaviour {
         StopCoroutine("Chase");
         enemy.moveMinSpeed = 4f;
         animator.SetBool("PlayerInSight", true);
+        //mettere qui la coroutine per fare le cose di transizione
         StartCoroutine("Chase");
     }
 
     public void ControlledOnOff(Transform gun) {  
         if (!controlled)
             StartCoroutine("ConrtolledOn", gun);
-        else
-            StartCoroutine("ControlledOff", gun);
     }
 
     private void setDestination(Transform destination) {
@@ -130,7 +132,7 @@ public class EnemyController : MonoBehaviour {
     IEnumerator Patrol() {
         SpriteRenderer gunSpriteRenderer = weapon.GetComponent<SpriteRenderer>();
         while (true) {
-            if (transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x)
+            if (!animator.GetBool("PlayerInSight") && transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x)
                 foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, sightRange)) {
                 if (obj.gameObject.CompareTag(Tags.light)) {
                     if (!obj.gameObject.GetComponent<LightController>().lightStatus && !obj.gameObject.GetComponent<LightController>().changingStatus && weapon.currentCharge>0) {
@@ -299,7 +301,7 @@ public class EnemyController : MonoBehaviour {
 
                 enemy.SetDirectionalInput(mDirection.normalized);
 
-                float rotationZ = Mathf.Atan2(mDirection.y, mDirection.x) * Mathf.Rad2Deg;
+                /*float rotationZ = Mathf.Atan2(mDirection.y, mDirection.x) * Mathf.Rad2Deg;
                 weapon.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
 
                 if (mDirection.x>0) {
@@ -307,7 +309,7 @@ public class EnemyController : MonoBehaviour {
                 }
                 else {
                     weapon.GetComponent<SpriteRenderer>().flipY = true;
-                }
+                }*/
             }
             else if (changingStatus)
                 enemy.SetDirectionalInput(Vector2.zero);
