@@ -269,7 +269,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1896382861546928}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.03, y: -6.78, z: 0}
+  m_LocalPosition: {x: 152.44774, y: 18.830038, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4697053231449220}
@@ -298,7 +298,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1860259847764534}
   m_LocalRotation: {x: 0, y: 0, z: 0.5976252, w: 0.80177563}
-  m_LocalPosition: {x: -0.53999996, y: 0.01999998, z: 0}
+  m_LocalPosition: {x: -0.45899963, y: 0.39100075, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4702311802371664}
@@ -314,7 +314,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1559151879951116}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.03, y: 0, z: 0}
+  m_LocalPosition: {x: 5.58, y: -0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4029164057039906}
@@ -339,8 +339,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1291629822638102}
-  m_LocalRotation: {x: 0, y: 0, z: -0.59130967, w: 0.8064446}
-  m_LocalPosition: {x: 0.05999988, y: -1.13, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.5913097, w: 0.8064445}
+  m_LocalPosition: {x: 0.06013599, y: -1.1299658, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4485754474244312}
@@ -435,8 +435,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1060611368795358}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.29464722, y: -0.13003731, z: 0}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children:
   - {fileID: 4623544703859014}
   - {fileID: 4568926039379098}
@@ -465,7 +465,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1317101880541418}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.68, y: 0, z: 0}
+  m_LocalPosition: {x: -4.88, y: -0.22, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4029164057039906}
@@ -597,8 +597,8 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
+  m_Volume: 0.3
+  m_Pitch: 1.0257804
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -606,7 +606,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 0
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 30
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -824,7 +824,7 @@ MonoBehaviour:
     m_Bits: 0
   pivotArm: {fileID: 1860259847764534}
   weapon: {fileID: 1291629822638102}
-  controller: {fileID: 0}
+  controller: {fileID: 114306670039632392}
 --- !u!114 &114132608266449860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -839,7 +839,7 @@ MonoBehaviour:
   StartObject: {fileID: 1829732536947012}
   StartPosition: {x: 0, y: 0, z: 0}
   EndObject: {fileID: 0}
-  EndPosition: {x: 0, y: 0, z: 0}
+  EndPosition: {x: 150.30916, y: 18.955208, z: 0}
   Generations: 6
   Duration: 0.05
   ChaosFactor: 0.05
@@ -861,15 +861,15 @@ MonoBehaviour:
   collisionMask:
     serializedVersion: 2
     m_Bits: 2304
-  horizontalRayCount: 0
-  verticalRayCount: 0
-  horizontalRaySpacing: 0
-  verticalRaySpacing: 0
-  coll: {fileID: 0}
+  horizontalRayCount: 8
+  verticalRayCount: 4
+  horizontalRaySpacing: 0.27571416
+  verticalRaySpacing: 0.34480754
+  coll: {fileID: 61769645976624936}
   pivotArm: {fileID: 1860259847764534}
   fallingThroughPlatformResetTimer: 0.1
   gravityOnFall: 2.5
-  playerInput: {x: 0, y: 0}
+  playerInput: {x: -0.99985343, y: -0.017123802}
 --- !u!114 &114360353280467046
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -915,7 +915,7 @@ MonoBehaviour:
   TurnSpeed: 20
   currentCharge: 50
   maxCharge: 100
-  gunRange: 20
+  gunRange: 6.4992065
   controlling: 1
   isLocked: 1
   mTarget: {fileID: 0}
@@ -1016,8 +1016,8 @@ LineRenderer:
   m_SortingLayer: -2
   m_SortingOrder: 0
   m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  - {x: 151.68117, y: 18.933655, z: 0}
+  - {x: 150.30916, y: 18.955208, z: 0}
   m_Parameters:
     serializedVersion: 2
     widthMultiplier: 0.1
@@ -1107,7 +1107,7 @@ LineRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 02d22a64daa120542b4215115693e884, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1127,9 +1127,7 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  m_Positions: []
   m_Parameters:
     serializedVersion: 2
     widthMultiplier: 1

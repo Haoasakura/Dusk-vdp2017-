@@ -13,6 +13,7 @@ public class PlatformController : RaycastController
     public float waitTime;
     [Range(0, 2)]
     public float easeAmount;
+    public bool isActive = true;
 
     private int fromWaypointIndex;
     private float percentBetweenWaypoints;
@@ -32,17 +33,32 @@ public class PlatformController : RaycastController
         }
     }
 
+    public void Activate()
+    {
+        if (isActive)
+        {
+            isActive = false;
+        }
+        else
+        {
+            isActive = true;
+        }
+    }
+
     private void Update()
     {
-        UpdateRaycastOrigins();
+        if (isActive)
+        {
+            UpdateRaycastOrigins();
 
-        Vector3 velocity = CalculatePlatformMovement();
+            Vector3 velocity = CalculatePlatformMovement();
 
-        CalculatePassengerMovement(velocity);
+            CalculatePassengerMovement(velocity);
 
-        MovePassengers(true);
-        transform.Translate(velocity);
-        MovePassengers(false);
+            MovePassengers(true);
+            transform.Translate(velocity);
+            MovePassengers(false);
+        }
     }
 
     private float Ease(float x)

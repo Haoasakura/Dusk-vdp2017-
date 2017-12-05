@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StealthLaserController : MonoBehaviour {
 
-    public Player player;
+    private Player player;
 
     private Vector3 startingPosition;
     private Vector3 targetPosition;
@@ -27,6 +27,7 @@ public class StealthLaserController : MonoBehaviour {
 
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 
         startingPosition = startPointTransform.localPosition;
         targetPosition = endPointTransform.localPosition;
@@ -40,11 +41,16 @@ public class StealthLaserController : MonoBehaviour {
         {
             GetComponentInChildren<Transform>().GetChild(0).GetComponentInChildren<Transform>().GetChild(2).
                     GetComponent<BoxCollider2D>().enabled = false;
+            GetComponentInChildren<Transform>().GetChild(0).GetComponent<LineRenderer>().enabled = false;
+
+
         }
         else
         {
             GetComponentInChildren<Transform>().GetChild(0).GetComponentInChildren<Transform>().GetChild(2).
                     GetComponent<BoxCollider2D>().enabled = true;
+            GetComponentInChildren<Transform>().GetChild(0).GetComponent<LineRenderer>().enabled = true;
+
         }
     }
 
