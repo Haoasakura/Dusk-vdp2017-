@@ -6,36 +6,66 @@ using UnityEngine.UI;
 public class UIChapterTitle : MonoBehaviour {
 
     public GameObject title;
+    public bool ready;
+    public bool finished;
+    public bool textDone;
 
     private bool timerReached = false;
     private float timer = 0;
 
-     // Update is called once per frame
-    void Update () {
-        FadeText();
-        if (!timerReached)
-        {
-            timer += Time.deltaTime;
-        }
-        if (!timerReached && timer > 4)
-        {
-            Debug.Log("Done waiting");
-            FadeMe();
-        }
-	}
+    private void Start()
+    {
+        ready = false;
+        finished = false;
+        textDone = false;
+    }
 
-    void FadeMe()
+    // Update is called once per frame
+    void Update () {
+        if (ready)
+        {
+            if (!textDone)
+            {
+                if (!timerReached)
+                {
+                    timer += Time.deltaTime;
+                }
+                if (!timerReached && timer > 3)
+                {
+                    FadeText();
+                }
+            }
+            if(!textDone && title.GetComponent<CanvasGroup>().alpha == 1)
+            {
+                textDone = true;
+                timer = 0;
+            }
+            if (textDone)
+            {
+                if (!timerReached)
+                {
+                    timer += Time.deltaTime;
+                }
+                if (!timerReached && timer > 3)
+                {
+                    FadeMe();
+                }
+            }
+        }
+        if(gameObject.GetComponent<CanvasGroup>().alpha == 0)
+        {
+            ready = false;
+        }
+    }
+
+    public void FadeMe()
     {
         StartCoroutine(FadeOutAll());
     }
 
-    void FadeText()
+    public void FadeText()
     {
         StartCoroutine(FadeInTitle());
-    }
-
-    IEnumerator Stop() {
-        yield return new WaitUntil(() => Input.GetButtonDown("Submit"));
     }
 
     IEnumerator FadeOutAll()

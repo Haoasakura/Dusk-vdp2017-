@@ -169,6 +169,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: {fileID: 1797886269378952}
+  ready: 1
+  finished: 0
 --- !u!222 &222079825273159716
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -227,7 +229,7 @@ RectTransform:
   m_GameObject: {fileID: 1797886269378952}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.000015258789, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 224714941150404746}
   m_RootOrder: 1

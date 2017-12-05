@@ -10,7 +10,7 @@ public class MainMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Submit") && gameObject.GetComponent<CanvasGroup>().alpha != 0)
+        if(Input.GetButtonDown("Submit") && gameObject.GetComponent<CanvasGroup>().alpha == 1)
         {
             ready = true;
         }
@@ -19,8 +19,6 @@ public class MainMenu : MonoBehaviour
     public void FadeMe()
     {
         StartCoroutine(Fade());
-        //yield return new WaitForSeconds(3f);
-        ready = false;
     }
 
     IEnumerator Fade()
