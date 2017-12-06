@@ -111,9 +111,16 @@ public class MachineryController : MonoBehaviour {
         }
         spriteRenderer.color = Color.red;
         powered = false;
-        if (shooter.GetComponent<EnemyController>() != null) {
+        if (shooter.GetComponent<Player>() != null)
+        {
+            gun.GetComponent<GunController>().currentCharge += powerCharge;
+        }
+        if (shooter.GetComponent<EnemyController>() != null)
+        {
+            gun.GetComponent<EnemyWeapon>().currentCharge += powerCharge;
             shooter.GetComponent<EnemyController>().shootingLights = false;
         }
+
         changingStatus = false;
         Activate();
     }

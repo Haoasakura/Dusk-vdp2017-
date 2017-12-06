@@ -42,12 +42,14 @@ public class LightController : MonoBehaviour
                 shooter = null;
                 if (lightStatus)
                 {
+                    spriteRenderer.sprite = lightStates[0];
                     lightAttached.enabled = true;
                     lightCollider.enabled = true;
                     maskAttached.enabled = true;
                 }
                 else
                 {
+                    spriteRenderer.sprite = lightStates[1];
                     lightAttached.enabled = false;
                     lightCollider.enabled = false;
                     maskAttached.enabled = false;
