@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour {
     private UnityAction returnOldFromEnemy;
 
 
-    private void OnEnable() {
+    private void Start() {
         coll = GetComponent<BoxCollider2D>();
         collX = coll.size.x;
         collY = coll.size.y;
@@ -33,6 +33,7 @@ public class CameraController : MonoBehaviour {
         EventManager.StartListening("EnemyDestroyed", returnOldFromEnemy);
         EventManager.StartListening("PlayerDied", returnOldCamera);
         SaveCameraPosition();
+        ActivateEnemies();
     }
 
     private void ReturnOldFromEnemy()
@@ -48,11 +49,16 @@ public class CameraController : MonoBehaviour {
 
     private void ReturnOldCamera()
     {
+        Debug.Log("ohi");
+        Debug.Log(cameraPosition);
         transform.position = cameraPosition;
     }
 
     private void SaveCameraPosition()
     {
+        Debug.Log("ohilà");
+        Debug.Log(transform.position);
+
         cameraPosition = transform.position;
     }
 
