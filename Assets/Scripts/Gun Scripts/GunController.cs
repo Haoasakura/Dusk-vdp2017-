@@ -24,6 +24,7 @@ public class GunController : MonoBehaviour {
     public Material idleMaterial;
     public LayerMask gunLayer;
     public LayerMask untraversableLayers;
+    public bool canFire = false;
 
 
     private GameObject particleEffect;
@@ -91,7 +92,7 @@ public class GunController : MonoBehaviour {
                 }
             }
 
-            if (Input.GetButtonDown("Fire1")) {
+            if (Input.GetButtonDown("Fire1") && canFire) {
                 SoundManager.Instance.EmptyGunshot();
                 lightning.Trigger();
                 mLineRenderer.enabled = false;

@@ -13,6 +13,7 @@ public class MachineryController : MonoBehaviour {
     public bool powered = false;
     public bool changingStatus = false;
     public float flickeringRange;
+    public Sprite[] sprites = new Sprite[2];
 
     private SpriteRenderer spriteRenderer;
     public Transform shooter = null;
@@ -21,13 +22,13 @@ public class MachineryController : MonoBehaviour {
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (powered == false)
         {
-            spriteRenderer.color = Color.red;
+            spriteRenderer.sprite = sprites[1];
         }
         else
         {
-            spriteRenderer.color = Color.green;
+            spriteRenderer.sprite = sprites[0];
         }
-	}
+    }
 	
 	void Update () {
         if (changingStatus) {
@@ -40,11 +41,11 @@ public class MachineryController : MonoBehaviour {
                 shooter = null;
                 if (powered)
                 {
-                    spriteRenderer.color = Color.green;
+                    spriteRenderer.sprite = sprites[0];
                 }
                 else
                 {
-                    spriteRenderer.color = Color.red;
+                    spriteRenderer.sprite = sprites[1];
                 }
             }
         }
@@ -80,7 +81,7 @@ public class MachineryController : MonoBehaviour {
             yield return new WaitForSeconds(1f);
             seconds--;
         }
-        spriteRenderer.color = Color.green;
+        spriteRenderer.sprite = sprites[0];
         powered = true;
         if (shooter.GetComponent<Player>() != null) {
             gun.GetComponent<GunController>().currentCharge -= powerCharge;
@@ -109,7 +110,7 @@ public class MachineryController : MonoBehaviour {
             yield return new WaitForSeconds(1f);
             seconds--;
         }
-        spriteRenderer.color = Color.red;
+        spriteRenderer.sprite = sprites[1];
         powered = false;
         if (shooter.GetComponent<Player>() != null)
         {
@@ -132,11 +133,11 @@ public class MachineryController : MonoBehaviour {
         {
             if (Random.Range(Time.time - startTime, switchTime) > switchTime / flickeringRange)
             {
-                spriteRenderer.color = Color.green;
+                spriteRenderer.sprite = sprites[0];
             }
             else
             {
-                spriteRenderer.color = Color.red;
+                spriteRenderer.sprite = sprites[1];
 
             }
             yield return null;
@@ -150,12 +151,12 @@ public class MachineryController : MonoBehaviour {
         {
             if (Random.Range(Time.time - startTime, switchTime) > switchTime / flickeringRange)
             {
-                spriteRenderer.color = Color.red;
+                spriteRenderer.sprite = sprites[1];
 
             }
             else
             {
-                spriteRenderer.color = Color.green;
+                spriteRenderer.sprite = sprites[0];
             }
             yield return null;
         }
