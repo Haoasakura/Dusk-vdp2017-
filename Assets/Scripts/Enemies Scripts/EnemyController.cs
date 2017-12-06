@@ -127,9 +127,9 @@ public class EnemyController : MonoBehaviour {
 
     private bool InLineOfSight(Collider2D target, float range) {
         if (target != null) {
-            Vector3 dir = (target.transform.position - transform.position);
-            //dir.y = 0;
-            //.DrawRay(weapon.barrel.position, dir, Color.blue);
+            Vector3 dir = (weapon.laserDirection.position - transform.position);
+            dir.y = 0;
+            Debug.DrawRay(weapon.barrel.position, dir, Color.blue);
             RaycastHit2D hit = Physics2D.Raycast(weapon.barrel.position, dir, range, sightLayerMask);
             if(hit.transform)
             if (hit.collider != null && hit.collider.gameObject.name == target.gameObject.name && target.GetComponent<Player>() != null && target.gameObject.GetComponent<Player>().isVisible) {
@@ -138,19 +138,6 @@ public class EnemyController : MonoBehaviour {
         }
         return false;
     }
-
-    /*private bool InLineOfFire(Collider2D target, float range) {
-        if (target != null) {
-            Vector3 dir = (target.transform.position - transform.position);
-            dir.y = 0;
-            RaycastHit2D hit = Physics2D.Raycast(weapon.barrel.position, dir, range, sightLayerMask);
-            Debug.Log(hit.collider);
-            if (hit.collider != null && hit.collider.gameObject.name == target.gameObject.name && target.GetComponent<Player>() != null && target.gameObject.GetComponent<Player>().isVisible)
-                animator.SetBool("PlayerInSight", true);
-            return true;
-        }
-        return false;
-    }*/
 
     IEnumerator Patrol() {
         SpriteRenderer gunSpriteRenderer = weapon.GetComponent<SpriteRenderer>();
