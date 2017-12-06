@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour {
     public bool changingStatus = false;
     public bool autodestruct = true;
     public bool playerInSight;
+    public bool flipStartDir = false;
     public LayerMask sightLayerMask;
 
     public GameObject explosion;
@@ -97,6 +98,10 @@ public class EnemyController : MonoBehaviour {
         animator.SetBool("PlayerInSight", false);
         //mettere qui la coroutine per fare le cose di transizione
         //StartCoroutine("TransitionEffects");
+        if (flipStartDir)
+        {
+            setDestination(endPoint);
+        }
         StartCoroutine("Patrol");
     }
 
