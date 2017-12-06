@@ -269,7 +269,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1896382861546928}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 152.44774, y: 18.830038, z: 0}
+  m_LocalPosition: {x: 14.58, y: -6.52, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4697053231449220}
@@ -327,7 +327,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1829732536947012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.1, z: 0}
+  m_LocalPosition: {x: 0.6, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4150831261549982}
@@ -817,7 +817,7 @@ MonoBehaviour:
   climbSpeed: 3
   accelerationTimeAirborne: 3
   accelerationTimeGrounded: 0.1
-  controlling: 1
+  controlling: 0
   isClimbing: 0
   contactMask:
     serializedVersion: 2
@@ -946,7 +946,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1060611368795358}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5738f23f2bb29e24db4e7a6053c6402a, type: 3}
   m_Name: 
@@ -975,9 +975,11 @@ MonoBehaviour:
   sightLayerMask:
     serializedVersion: 2
     m_Bits: 1280
+  explosion: {fileID: 1538426323180472, guid: 8644a2a8ce5daa64abbe4ae37c549cc5, type: 2}
   absorptionEffect: {fileID: 1969731243722472, guid: 0a134329a976316469f76cc7b4ce36f6,
     type: 2}
   animator: {fileID: 95698153002782214}
+  losingTarget: 0
   shootingLights: 0
   startPoint: {fileID: 4908477930762620}
   endPoint: {fileID: 4080785784595764}
@@ -1016,8 +1018,8 @@ LineRenderer:
   m_SortingLayer: -2
   m_SortingOrder: 0
   m_Positions:
-  - {x: 151.68117, y: 18.933655, z: 0}
-  - {x: 150.30916, y: 18.955208, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 2
     widthMultiplier: 0.1
@@ -1026,31 +1028,25 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 0.5792084
+        value: 0.66399384
         inSlope: 0
         outSlope: 0
         tangentMode: 0
       - serializedVersion: 2
-        time: 0.19397032
-        value: 0.68454975
-        inSlope: 0.3618002
-        outSlope: 0.3618002
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 0.682541
-        value: 0.7500839
+        time: 0.21836865
+        value: 0.731704
         inSlope: -0.8201599
         outSlope: -0.8201599
         tangentMode: 0
       - serializedVersion: 2
-        time: 0.88660496
-        value: 0.8305435
+        time: 0.9624106
+        value: 0.84584343
         inSlope: 0.3376603
         outSlope: 0.3376603
         tangentMode: 0
       - serializedVersion: 2
         time: 1
-        value: 0.6203747
+        value: 0.65299416
         inSlope: 0
         outSlope: 0
         tangentMode: 0

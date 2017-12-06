@@ -16,14 +16,15 @@ public class EnemyController : MonoBehaviour {
     public bool playerInSight;
     public LayerMask sightLayerMask;
 
-    public GameObject absorptionEffect;
+    public GameObject explosion;
+    public GameObject absorptionEffect;  
     public DecisionTree chasingDT;
     public BehaviourTree patrolBT;
     public Animator animator;
 
     private float weaponRange;
     private float lastX;
-    private bool losingTarget=false;
+    public bool losingTarget=false;
     public bool shootingLights = false;
 
     private Vector3 startPosition;
@@ -95,6 +96,7 @@ public class EnemyController : MonoBehaviour {
         enemy.moveMinSpeed = 2f;
         animator.SetBool("PlayerInSight", false);
         //mettere qui la coroutine per fare le cose di transizione
+        //StartCoroutine("TransitionEffects");
         StartCoroutine("Patrol");
     }
 
@@ -104,12 +106,12 @@ public class EnemyController : MonoBehaviour {
         StopCoroutine("Chase");
         enemy.moveMinSpeed = 4f;
         animator.SetBool("PlayerInSight", true);
-        //mettere qui la coroutine per fare le cose di transizione
+        StartCoroutine("TransitionEffects");
         StartCoroutine("Chase");
     }
 
     public void ControlledOnOff(Transform gun) {  
-        if (!controlled)
+        //if (!controlled)
             StartCoroutine("ConrtolledOn", gun);
     }
 
@@ -121,19 +123,35 @@ public class EnemyController : MonoBehaviour {
     private bool InLineOfSight(Collider2D target, float range) {
         if (target != null) {
             Vector3 dir = (target.transform.position - transform.position);
-            dir.y = 0;
+            //dir.y = 0;
+            //.DrawRay(weapon.barrel.position, dir, Color.blue);
             RaycastHit2D hit = Physics2D.Raycast(weapon.barrel.position, dir, range, sightLayerMask);
-            if (hit.collider != null && hit.collider.gameObject.name == target.gameObject.name && target.GetComponent<Player>()!=null && target.gameObject.GetComponent<Player>().isVisible)
+            if(hit.transform)
+            if (hit.collider != null && hit.collider.gameObject.name == target.gameObject.name && target.GetComponent<Player>() != null && target.gameObject.GetComponent<Player>().isVisible) {
                 return true;
+            }
         }
         return false;
     }
+
+    /*private bool InLineOfFire(Collider2D target, float range) {
+        if (target != null) {
+            Vector3 dir = (target.transform.position - transform.position);
+            dir.y = 0;
+            RaycastHit2D hit = Physics2D.Raycast(weapon.barrel.position, dir, range, sightLayerMask);
+            Debug.Log(hit.collider);
+            if (hit.collider != null && hit.collider.gameObject.name == target.gameObject.name && target.GetComponent<Player>() != null && target.gameObject.GetComponent<Player>().isVisible)
+                animator.SetBool("PlayerInSight", true);
+            return true;
+        }
+        return false;
+    }*/
 
     IEnumerator Patrol() {
         SpriteRenderer gunSpriteRenderer = weapon.GetComponent<SpriteRenderer>();
         while (true) {
             if (!animator.GetBool("PlayerInSight") && transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x)
-                foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, sightRange)) {
+                foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, sightRange-12,sightLayerMask)) {
                 if (obj.gameObject.CompareTag(Tags.light)) {
                     if (!obj.gameObject.GetComponent<LightController>().lightStatus && !obj.gameObject.GetComponent<LightController>().changingStatus && weapon.currentCharge>0) {
                         obj.GetComponent<LightController>().SwitchOnOff(weapon.transform);
@@ -169,10 +187,12 @@ public class EnemyController : MonoBehaviour {
                     else
                         mDirection = (startPosition - transform.position);
                 } else {
+                    
                     float lastX = transform.localPosition.x;
                     mDirection = (mDestination.position - transform.position);
                     if (Mathf.Abs(mDirection.x) < 1)
                         mDirection.x += 0.03f * Mathf.Sign(mDirection.x);
+                    
                 }
 
                 if (shootingLights)
@@ -181,8 +201,7 @@ public class EnemyController : MonoBehaviour {
                     float rotationZ = Mathf.Atan2((weapon.laserDirection.transform.position - weapon.barrel.position).y, (weapon.laserDirection.transform.position - weapon.barrel.position).x) * Mathf.Rad2Deg;
                     weapon.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
                 }*/
-
-
+                
                 enemy.SetDirectionalInput(mDirection.normalized);
 
                 //commented part is for the swap without the triggers
@@ -210,12 +229,12 @@ public class EnemyController : MonoBehaviour {
                     mChaseTarget = gun.mTarget;
                 }*/
                 if (!changingStatus && !(player == null))
-                    if (InLineOfSight(player.GetComponent<Collider2D>(), sightRange) && GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Player>().isVisible && GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<Collider2D>().bounds.Contains(transform.position + new Vector3(0, 0, -10))) {
+                    if (InLineOfSight(player.GetComponent<Collider2D>(), sightRange) && GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<Collider2D>().bounds.Contains(transform.position + new Vector3(0, 0, -10))) {
                         animator.SetBool("PlayerInSight", true);
                         mChaseTarget = player.position;
                     }
             }
-            else if (changingStatus)
+            else if (changingStatus || enemy.controlling)
                 enemy.SetDirectionalInput(Vector2.zero);
 
             yield return null;
@@ -225,20 +244,25 @@ public class EnemyController : MonoBehaviour {
     IEnumerator Chase() {
         SpriteRenderer gunSpriteRenderer = weapon.GetComponent<SpriteRenderer>();
         while (true) {
-            if (!controlled && !changingStatus) {
+            if (!controlled && !changingStatus && player) {
                 if (player != null) {
                     //Debug.Log(InLineOfSight(player.GetComponent<Collider2D>(), sightRange));
-                    if (!InLineOfSight(player.GetComponent<Collider2D>(), sightRange) && !enemy.isClimbing)
+                    if (!InLineOfSight(player.GetComponent<Collider2D>(), sightRange) && !enemy.isClimbing && !losingTarget) {
                         StartCoroutine("ReturnToPatrol");
-                    else if(!losingTarget)
+                        //animator.SetBool("PlayerInSight", false);
+                        losingTarget = true;
+                    }
+                    else if ((player.position - transform.position).y>1.6f) {
                         StopCoroutine("ReturnToPatrol");
+                        losingTarget = false;
+                    }
                 }
 
                 float lastX = transform.localPosition.x;
-                
+
                 // gestisce il chasing e i casi un sui deve salire le scale durante il chasing
                 mDirection = (player.position - transform.position);
-                if (mDirection.y >1.6f) {
+                if (mDirection.y > 1.6f) {
                     float closestLadder = 10000f;
                     GameObject ladder = null;
                     foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, sightRange)) {
@@ -265,7 +289,7 @@ public class EnemyController : MonoBehaviour {
                         }
                     }
 
-                    if(ladder != null && climbing && !enemy.GetComponent<Enemy>().controller.collisions.below) {
+                    if (ladder != null && climbing && !enemy.GetComponent<Enemy>().controller.collisions.below) {
                         mChaseTarget = ladder.GetComponent<Collider2D>().bounds.max;
                         mDirection = (mChaseTarget - transform.position);
                         mDirection.y = -player.position.y;
@@ -275,13 +299,13 @@ public class EnemyController : MonoBehaviour {
                         mDirection = (mChaseTarget - transform.position);
                     }
                 }
-                if (!enemy.isClimbing && player != null && InLineOfSight(player.GetComponent<Collider2D>(), weaponRange))
+                if (!enemy.isClimbing && player != null && InLineOfSight(player.GetComponent<Collider2D>(), weaponRange)) {
                     StartCoroutine("ShootPlayer");
+                }
 
                 //controllo per evitare di cadere nella sua morte
                 foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, 2.5f)) {
                     if (obj.gameObject.CompareTag(Tags.deathCollider)) {
-                        Debug.Log((player.position - transform.position).x + "    "+ (obj.gameObject.transform.position - transform.position).x);
                         if ((player.position - transform.position).x > (obj.gameObject.transform.position - transform.position).x) {
                             mDirection = Vector2.zero;
                             if (!losingTarget) {
@@ -346,6 +370,7 @@ public class EnemyController : MonoBehaviour {
             shooter.GetComponent<Enemy>().controlling = true;
             gun.GetComponent<EnemyWeapon>().untraversableLayers = gun.GetComponent<EnemyWeapon>().groundLayer;
             gun.GetComponent<EnemyWeapon>().currentCharge -= controlCost;
+            gun.GetComponent<EnemyWeapon>().isLocked = true;
         }
         enemy.controlling = false;
         enemy.GetComponent<EnemyInput>().enabled = true;
@@ -353,33 +378,26 @@ public class EnemyController : MonoBehaviour {
         changingStatus = false;
     }
 
-    /*IEnumerator ControlledOff(Transform gun) {
+    IEnumerator TransitionEffects() {
         changingStatus = true;
-        int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOff", gun.GetComponent<GunController>().barrel);
+        int seconds = 1;
+        
         while (seconds > 0) {
+            Instantiate(explosion, transform.position+Vector3.up, transform.rotation);
             yield return new WaitForSeconds(1f);
             seconds--;
         }
-        StopCoroutine("TrailingEffectOff");
-        Destroy(particleEffect);
-        controlled = false;
         changingStatus = false;
-    }*/
-
-    IEnumerator TrailingEffectOn(Transform gun) {
-        float startTime = Time.time;
-        particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
-        while (true) {
-            particleEffect.transform.position = Vector3.Lerp(gun.position, transform.position, Mathf.SmoothStep(0, 1, (Time.time - startTime) / switchTime));
-            yield return null;
-        }
     }
+
     IEnumerator ReturnToPatrol() {
         Debug.Log("Loosing Target...");
         yield return new WaitForSeconds(timeToReturnPatrol);
         Debug.Log("...Target Lost, Returning!");
-        StartPatrol();
+        animator.SetBool("PlayerInSight", false);
+        losingTarget = false;
+        
+        //StartPatrol();
     }
 
     IEnumerator ShootPlayer() {
@@ -394,6 +412,15 @@ public class EnemyController : MonoBehaviour {
         EventManager.TriggerEvent("PlayerControlled");
     }
 
+    IEnumerator TrailingEffectOn(Transform gun) {
+        float startTime = Time.time;
+        particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
+        while (true) {
+            particleEffect.transform.position = Vector3.Lerp(gun.position, transform.position, Mathf.SmoothStep(0, 1, (Time.time - startTime) / switchTime));
+            yield return null;
+        }
+    }
+
     IEnumerator TrailingEffectOff(Transform gun) {
         float startTime = Time.time;
         particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
@@ -405,6 +432,7 @@ public class EnemyController : MonoBehaviour {
 
     private void OnDestroy() {
         GameObject player = GameObject.FindGameObjectWithTag(Tags.player);
+        Instantiate(explosion, transform.position, transform.rotation);
         if (controlled && player != null) {
             EventManager.TriggerEvent("EnemyDestroyed");
             Player mPlayer = player.GetComponent<Player>();
@@ -443,7 +471,7 @@ public class EnemyController : MonoBehaviour {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(endPoint.position, transform.GetComponent<BoxCollider2D>().size);
 
-        Gizmos.DrawWireSphere(transform.position, 28);
+        Gizmos.DrawWireSphere(transform.position, 16);
        
        
     }

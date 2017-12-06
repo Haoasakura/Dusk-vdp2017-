@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
         isVisible = false;
         bool enemiesAreChasing = false;
         foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
-            if (enemy.GetComponent<Animator>().GetBool("PlayerInSight")) {
+            if (enemy.GetComponent<Animator>().GetBool("PlayerInSight") && !enemy.GetComponent<EnemyController>().losingTarget) {
                 enemiesAreChasing = true;
             }
         }

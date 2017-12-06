@@ -30,6 +30,7 @@ public class EnemyWeapon : MonoBehaviour {
 
     private GameObject particleEffect;
     private Enemy enemy;
+    private EnemyController enemyController;
     private Transform mTransform;
     private EnemyController enemyControlled;
     private LineRenderer mLineRenderer;
@@ -40,6 +41,7 @@ public class EnemyWeapon : MonoBehaviour {
     }
     void Start() {
         enemy = GetComponentInParent<Enemy>();
+        enemyController = GetComponentInParent<EnemyController>();
         mTransform = GetComponent<Transform>();
         mLineRenderer = aimsight.GetComponent<LineRenderer>();
         lightning = GetComponent<DigitalRuby.LightningBolt.LightningBoltScript>();
@@ -62,7 +64,7 @@ public class EnemyWeapon : MonoBehaviour {
             mTarget = null;
         }
 
-        if (!enemy.controlling) {
+        if (enemyController.controlled && !enemy.controlling) {
 
             float a = Input.GetAxis("HorizontalGun");
             float b = Input.GetAxis("VerticalGun");
@@ -78,7 +80,7 @@ public class EnemyWeapon : MonoBehaviour {
 
             if (Mathf.Abs(c) > 0.9 && !isLocked) {
                 float angleRot = -Mathf.Sign(b) * Mathf.Rad2Deg * Mathf.Acos(a / c);
-                Debug.Log(angleRot);
+
                 if(GetComponentInParent<Enemy>().transform.localScale.x>0)
                     transform.parent.rotation = Quaternion.Euler(0f, 0f, 73+angleRot);
                 else
@@ -147,7 +149,7 @@ public class EnemyWeapon : MonoBehaviour {
                     }
                 }
             }
-            if (Input.GetButtonUp("Fire1")) {
+            if (Input.GetButtonUp("Fire1") /*&& !enemy.controlling*/) {
                 isLocked = false;
                 mLineRenderer.enabled = true;
                 StopCoroutine("LightningEffectOn");

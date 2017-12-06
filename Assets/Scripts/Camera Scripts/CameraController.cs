@@ -98,7 +98,7 @@ public class CameraController : MonoBehaviour {
         ActivateEnemies();  
     }
 
-    private void ActivateEnemies() {     
+    private void ActivateEnemies() {
         foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
             if (coll.bounds.Contains(enemy.transform.position + new Vector3(0, 0, -10))) {
                 if (enemy.gameObject.GetComponent<Animator>().GetBool("Idle")) {

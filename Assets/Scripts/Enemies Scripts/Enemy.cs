@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour
     }
 
     public void SetDirectionalInput(Vector2 input) {
-        directionalInput = input;
+            directionalInput = input;
     }
 
     public void OnJumpInputDown() {
