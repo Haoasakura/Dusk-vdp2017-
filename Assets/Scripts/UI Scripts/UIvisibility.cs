@@ -18,13 +18,24 @@ public class UIvisibility : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (player.isVisible)
+        foreach(GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy))
         {
-            eye.sprite = sprites[2];
+            if(enemy.GetComponent<Enemy>().moveMinSpeed >= 4f)
+            {
+                eye.sprite = sprites[2];
+            }
+            else
+            {
+                if (player.isVisible)
+                {
+                    eye.sprite = sprites[1];
+                }
+                else
+                {
+                    eye.sprite = sprites[0];
+                }
+            }
         }
-        else
-        {
-            eye.sprite = sprites[0];
-        }
+        
 	}
 }
