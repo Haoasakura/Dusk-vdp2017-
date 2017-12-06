@@ -7,6 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
+    public GameObject UITitle;
+    public GameObject UIChapTitle;
+    private bool timerReached;
+    private float timer = 0;
+
     public int loadedScene;
     public int gameOverScene;
 
@@ -21,8 +26,27 @@ public class GameManager : MonoBehaviour {
     private void Awake()
     {        
         DontDestroyOnLoad(transform.gameObject);
-        LoadGame();
-        unityAction = new UnityAction(SaveGame);
+        DontDestroyOnLoad(UITitle);
+        DontDestroyOnLoad(UIChapTitle);
+        //LoadGame();
+        //unityAction = new UnityAction(SaveGame);
+    }
+
+    private void Update()
+    {
+        if (UITitle.GetComponent<MainMenu>().ready)
+        {
+            UITitle.GetComponent<MainMenu>().ready = false;
+            UITitle.GetComponent<MainMenu>().FadeMe();
+            UIChapTitle.GetComponent<UIChapterTitle>().ready = true;
+            UIChapTitle.GetComponent<UIChapterTitle>().finished = true;
+        }
+        if (UIChapTitle.GetComponent<UIChapterTitle>().finished) {
+            UIChapTitle.GetComponent<UIChapterTitle>().finished = false;
+            LoadGame();
+            unityAction = new UnityAction(SaveGame);
+        }
+
     }
 
     private void OnEnable()

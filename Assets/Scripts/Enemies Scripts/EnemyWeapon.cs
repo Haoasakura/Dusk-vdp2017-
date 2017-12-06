@@ -16,6 +16,7 @@ public class EnemyWeapon : MonoBehaviour {
     public Transform barrel;
     public Transform laserDirection;
     public Transform armTransform;
+    public Transform pivot;
     public GameObject aimsight;
     public GameObject absorptionEffect;
     public SpriteRenderer arm;
@@ -25,9 +26,11 @@ public class EnemyWeapon : MonoBehaviour {
     public LayerMask gunLayer;
     public LayerMask groundLayer;
     public LayerMask untraversableLayers;
+    public EnemySoundManager soundManager;
 
     private GameObject particleEffect;
     private Enemy enemy;
+    private EnemyController enemyController;
     private Transform mTransform;
     private EnemyController enemyControlled;
     private LineRenderer mLineRenderer;
@@ -38,9 +41,11 @@ public class EnemyWeapon : MonoBehaviour {
     }
     void Start() {
         enemy = GetComponentInParent<Enemy>();
+        enemyController = GetComponentInParent<EnemyController>();
         mTransform = GetComponent<Transform>();
         mLineRenderer = aimsight.GetComponent<LineRenderer>();
         lightning = GetComponent<DigitalRuby.LightningBolt.LightningBoltScript>();
+        armTransform.position = pivot.position;
     }
 
     void Update() {
@@ -59,7 +64,7 @@ public class EnemyWeapon : MonoBehaviour {
             mTarget = null;
         }
 
-        if (!enemy.controlling) {
+        if (enemyController.controlled && !enemy.controlling) {
 
             float a = Input.GetAxis("HorizontalGun");
             float b = Input.GetAxis("VerticalGun");
@@ -76,24 +81,30 @@ public class EnemyWeapon : MonoBehaviour {
             if (Mathf.Abs(c) > 0.9 && !isLocked) {
                 float angleRot = -Mathf.Sign(b) * Mathf.Rad2Deg * Mathf.Acos(a / c);
 
-                mTransform.rotation = Quaternion.Euler(0f, 0f, angleRot);
+                if(GetComponentInParent<Enemy>().transform.localScale.x>0)
+                    transform.parent.rotation = Quaternion.Euler(0f, 0f, 73+angleRot);
+                else
+                     transform.parent.rotation = Quaternion.Euler(0f, 0f, 93+angleRot);
 
+                //transform.parent.RotateAround (pivot.position, Vector3.forward, angleRot);
+                
                 //mantiene la sprite dell'arma nel verso giusto
                 if (mTransform.rotation.eulerAngles.z % 270 < 90 && mTransform.rotation.eulerAngles.z % 270 > 0) {
                     GetComponent<SpriteRenderer>().flipY = false;
-                    arm.flipX = false;
-                    armShadow.flipX = false;
+                    //arm.flipX = false;
+                    //armShadow.flipX = false;
                     transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().flipY = false;
                 }
                 else {
                     GetComponent<SpriteRenderer>().flipY = true;
-                    arm.flipX = true;
-                    armShadow.flipX = true;
+                    //arm.flipX = true;
+                    //armShadow.flipX = true;
                     transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().flipY = true;
                 }
             }
 
             if (Input.GetButtonDown("Fire1")) {
+                soundManager.EmptyGunshot();
                 lightning.Trigger();
                 mLineRenderer.enabled = false;
                 if (mTarget != null) {
@@ -138,7 +149,7 @@ public class EnemyWeapon : MonoBehaviour {
                     }
                 }
             }
-            if (Input.GetButtonUp("Fire1")) {
+            if (Input.GetButtonUp("Fire1") /*&& !enemy.controlling*/) {
                 isLocked = false;
                 mLineRenderer.enabled = true;
                 StopCoroutine("LightningEffectOn");
@@ -161,6 +172,7 @@ public class EnemyWeapon : MonoBehaviour {
     IEnumerator LightningEffectOn(float switchTime) {
         float startTime = Time.time;
         while ((Time.time - startTime) < switchTime) {
+            soundManager.Gunshot((Time.time - startTime));
             lightning.Trigger();
             yield return null;
         }

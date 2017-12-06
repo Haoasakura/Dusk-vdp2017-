@@ -20,6 +20,7 @@ public class Checkpoint : MonoBehaviour {
         if (collision.gameObject.tag.Equals("Player") && !isUsed)
         {
             ActivateCheckpoint();
+            SoundManager.Instance.Checkpoint();
         }
     }
 
@@ -31,6 +32,7 @@ public class Checkpoint : MonoBehaviour {
             cp.GetComponent<Animator>().SetInteger("State", 2);
         }
         animator.SetInteger("State", 1);
+        SoundManager.Instance.Checkpoint();
         EventManager.TriggerEvent("CheckpointReached");
         isUsed = true;
     }

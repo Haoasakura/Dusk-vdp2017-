@@ -6,7 +6,7 @@ public class MachineryController : MonoBehaviour {
 
     [Header("GameObject associated with linked mechanism")]
     [SerializeField]
-    private GameObject mechanism;
+    private GameObject[] mechanisms;
 
     public float switchTime = 3f;
     public int powerCharge = 25;
@@ -111,9 +111,16 @@ public class MachineryController : MonoBehaviour {
         }
         spriteRenderer.color = Color.red;
         powered = false;
-        if (shooter.GetComponent<EnemyController>() != null) {
+        if (shooter.GetComponent<Player>() != null)
+        {
+            gun.GetComponent<GunController>().currentCharge += powerCharge;
+        }
+        if (shooter.GetComponent<EnemyController>() != null)
+        {
+            gun.GetComponent<EnemyWeapon>().currentCharge += powerCharge;
             shooter.GetComponent<EnemyController>().shootingLights = false;
         }
+
         changingStatus = false;
         Activate();
     }
@@ -156,21 +163,24 @@ public class MachineryController : MonoBehaviour {
 
     private void Activate()
     {
-        if (mechanism.GetComponent<ElevatorMovement>() != null)
+        foreach (GameObject mechanism in mechanisms)
         {
-            mechanism.GetComponent<ElevatorMovement>().ChangeDestination();
-        }
-        else if (mechanism.GetComponent<BarrierController>() != null)
-        {
-            mechanism.GetComponent<BarrierController>().ChangeDestination();
-        }
-        else if (mechanism.GetComponent<TrapdoorController>() != null)
-        {
-            mechanism.GetComponent<TrapdoorController>().Activate();
-        }
-        else if (mechanism.GetComponent<DoorController>() != null)
-        {
-            mechanism.GetComponent<DoorController>().Activate();
+            if (mechanism.GetComponent<ElevatorMovement>() != null)
+            {
+                mechanism.GetComponent<ElevatorMovement>().ChangeDestination();
+            }
+            else if (mechanism.GetComponent<BarrierController>() != null)
+            {
+                mechanism.GetComponent<BarrierController>().ChangeDestination();
+            }
+            else if (mechanism.GetComponent<TrapdoorController>() != null)
+            {
+                mechanism.GetComponent<TrapdoorController>().Activate();
+            }
+            else if (mechanism.GetComponent<DoorController>() != null)
+            {
+                mechanism.GetComponent<DoorController>().Activate();
+            }
         }
     }
 }

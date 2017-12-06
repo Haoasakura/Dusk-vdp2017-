@@ -216,7 +216,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1469963480000816}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.9, y: -4.5, z: 0}
+  m_LocalPosition: {x: -12.91, y: -5.95, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4693392112332574}
@@ -300,7 +300,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1592601691036372}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.367, y: 0.007, z: 0}
+  m_LocalPosition: {x: 6, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4865299117830094}
@@ -528,7 +528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TurnSpeed: 50
-  currentCharge: 50
+  currentCharge: 100
   maxCharge: 100
   gunRange: 0
   controlling: 0
@@ -683,7 +683,7 @@ LineRenderer:
         tangentMode: 0
       - serializedVersion: 2
         time: 1
-        value: 0.17023659
+        value: 0.65299416
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -771,25 +771,25 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 0
+        value: 0.12345886
         inSlope: 0
         outSlope: 0
         tangentMode: 0
       - serializedVersion: 2
         time: 0.05357143
-        value: 0.11312103
+        value: 0.2365799
         inSlope: 0
         outSlope: 0
         tangentMode: 0
       - serializedVersion: 2
         time: 0.94196427
-        value: 0.11312154
+        value: 0.2365804
         inSlope: 0
         outSlope: 0
         tangentMode: 0
       - serializedVersion: 2
         time: 1
-        value: 0
+        value: 0.12345886
         inSlope: 0
         outSlope: 0
         tangentMode: 0

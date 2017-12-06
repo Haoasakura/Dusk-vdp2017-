@@ -62,7 +62,9 @@ public class CameraController : MonoBehaviour {
         newY = transform.position.y;
         newZ = transform.position.z;
 
-        if ((collision.CompareTag(Tags.player) && !collision.gameObject.GetComponent<Player>().controlling) || (collision.gameObject.GetComponent<EnemyController>().controlled)) {
+
+
+        if ((collision.CompareTag(Tags.player) && !collision.gameObject.GetComponent<Player>().controlling) || (collision.CompareTag(Tags.enemy) && collision.gameObject.GetComponent<EnemyController>().controlled)) {
             Transform current = collision.transform;
 
             //Traslazioni nel caso il giocatore esca dal collider
@@ -88,10 +90,15 @@ public class CameraController : MonoBehaviour {
             transform.position= new Vector3 (newX, newY, newZ);
         }
 
+        if (collision.CompareTag(Tags.player))
+        {
+            SaveCameraPosition();
+        }
+
         ActivateEnemies();  
     }
 
-    private void ActivateEnemies() {     
+    private void ActivateEnemies() {
         foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
             if (coll.bounds.Contains(enemy.transform.position + new Vector3(0, 0, -10))) {
                 if (enemy.gameObject.GetComponent<Animator>().GetBool("Idle")) {

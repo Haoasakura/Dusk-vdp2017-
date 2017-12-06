@@ -6,9 +6,10 @@ public class BarrierController : MonoBehaviour {
 
     public bool active = false;
 
+
     private Vector3 startingPosition;
     private Vector3 targetPosition;
-
+    private ObjectSoundManager osm;
     private Vector3 nextPosition;
 
     [Header("Transform associated with child barrier")]
@@ -19,11 +20,12 @@ public class BarrierController : MonoBehaviour {
     [SerializeField]
     private Transform targetPointTransform;
 
-    private float speed = 6;
+    private float speed = 20;
 
     // Use this for initialization
     void Start () {
 
+        osm = GetComponent<ObjectSoundManager>();
         startingPosition = childTransform.localPosition;
         targetPosition = targetPointTransform.localPosition;
         nextPosition = startingPosition;
@@ -50,21 +52,28 @@ public class BarrierController : MonoBehaviour {
     public void ChangeDestination()
     {
         nextPosition = (nextPosition != startingPosition ? startingPosition : targetPosition);
+        osm.PlaySound();
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (!other.gameObject.tag.Equals("Gun"))
+        if (!other.gameObject.CompareTag("Gun") && !other.gameObject.CompareTag(Tags.enemy))
         {
             other.transform.parent = gameObject.GetComponentInChildren<Transform>(false).GetChild(0);
+        }
+        else if(other.gameObject.CompareTag(Tags.enemy)) {
+            other.transform.parent.parent= gameObject.GetComponentInChildren<Transform>(false).GetChild(0);
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (!other.gameObject.tag.Equals("Gun"))
+        if (!other.gameObject.tag.Equals("Gun") && !other.gameObject.CompareTag(Tags.enemy))
         {
             other.transform.parent = null;
+        }
+        else if (other.gameObject.CompareTag(Tags.enemy)) {
+            other.transform.parent.parent = null;
         }
     }
 }
