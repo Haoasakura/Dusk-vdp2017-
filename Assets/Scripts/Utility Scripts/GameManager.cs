@@ -104,6 +104,7 @@ public class GameManager : MonoBehaviour {
         Debug.Log(player.transform.position);
         camera.transform.position = cameraPosition;
         player.transform.position = playerPosition;
+        camera.GetComponent<CameraController>().ActivateEnemies();
         player.transform.Find("PivotArm").Find("Gun").gameObject.GetComponent<GunController>().currentCharge = duskCharge;
         SaveGame();
     }
