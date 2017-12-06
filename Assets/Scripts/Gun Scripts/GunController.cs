@@ -24,6 +24,7 @@ public class GunController : MonoBehaviour {
     public Material idleMaterial;
     public LayerMask gunLayer;
     public LayerMask untraversableLayers;
+    public bool canFire = false;
 
 
     private GameObject particleEffect;

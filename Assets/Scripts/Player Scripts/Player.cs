@@ -76,6 +76,10 @@ public class Player : MonoBehaviour
         controller.Move(velocity * Time.deltaTime, directionalInput);
         if (controller.collisions.above || controller.collisions.below)
             velocity.y = 0f;
+        if (controller.collisions.below)
+        {
+            gun.GetComponent<GunController>().canFire = true;
+        }
         playerAnimationController.Animate(velocity, isClimbing, controller);
     }
 
@@ -114,6 +118,8 @@ public class Player : MonoBehaviour
             isClimbing = false;
             pivotArm.SetActive(true);
             SoundManager.Instance.Jump();
+            gun.GetComponent<GunController>().canFire = false;
+
         }
         else if (isClimbing)
         {
