@@ -95,7 +95,7 @@ public class CameraController : MonoBehaviour {
             transform.position= new Vector3 (newX, newY, newZ);
         }
 
-        if (collision.CompareTag(Tags.player))
+        if ((collision.CompareTag(Tags.player) && !collision.gameObject.GetComponent<Player>().controlling))
         {
             SaveCameraPosition();
         }

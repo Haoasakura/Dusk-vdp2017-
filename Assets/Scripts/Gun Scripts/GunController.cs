@@ -149,6 +149,7 @@ public class GunController : MonoBehaviour {
                 StopCoroutine("LightningEffectOn");
                 StopCoroutine("TrailingEffectOn");
                 StopCoroutine("TrailingEffectOff");
+                SoundManager.Instance.GunshotStop();
                 Destroy(particleEffect);
             }
         }

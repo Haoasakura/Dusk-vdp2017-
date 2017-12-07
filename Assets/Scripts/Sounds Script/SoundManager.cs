@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -43,17 +44,18 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     //Player Sounds
     public void Jump()
     {
-        as_player.pitch = Random.Range(lowPitchRange, highPitchRange);
+        as_player.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
         as_player.clip = ac_jump;
         as_player.Play();
     }
 
     public void Walk()
     {
-        as_player.pitch = Random.Range(lowPitchRange, highPitchRange);
+        as_player.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
         if (!as_player.isPlaying)
         {
             as_player.PlayOneShot(ac_walk);
@@ -62,7 +64,7 @@ public class SoundManager : MonoBehaviour
 
     internal void Climb()
     {
-        as_player.pitch = Random.Range(lowPitchRange, highPitchRange);
+        as_player.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
         if (!as_player.isPlaying)
         {
             as_player.PlayOneShot(ac_climb);
@@ -72,23 +74,28 @@ public class SoundManager : MonoBehaviour
     //Gun Sounds
     public void Gunshot(float pitch)
     {
-        as_gun.pitch = Random.Range(pitch*lowPitchRange, pitch*highPitchRange);
+        as_gun.pitch = UnityEngine.Random.Range(pitch*lowPitchRange, pitch*highPitchRange);
         as_gun.PlayOneShot(ac_gunshot);
     }
 
     public void EmptyGunshot()
     {
-        as_gun.pitch = Random.Range(lowPitchRange, highPitchRange);
+        as_gun.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
         if (!as_gun.isPlaying)
         {
             as_gun.PlayOneShot(ac_emptygunshot);
         }
     }
 
+    internal void GunshotStop()
+    {
+        as_gun.Stop();
+    }
+
     //ObjectSounds
     public void Lever()
     {
-        as_objects.pitch = Random.Range(lowPitchRange, highPitchRange);
+        as_objects.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
         if (!as_objects.isPlaying)
         {
             as_objects.PlayOneShot(ac_lever);
@@ -97,7 +104,9 @@ public class SoundManager : MonoBehaviour
 
     public void Checkpoint()
     {
-        as_objects.pitch = Random.Range(lowPitchRange, highPitchRange);
+        as_objects.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
         as_objects.PlayOneShot(ac_chekpointReached);
     }
+
+
 }

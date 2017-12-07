@@ -217,6 +217,10 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.tag.Equals("ResetGun"))
         {
+            if (gun.GetComponent<GunController>().currentCharge > 0)
+            {
+                collision.GetComponent<AudioSource>().Play();
+            }
             gun.GetComponent<GunController>().currentCharge = 0;
         }
     }

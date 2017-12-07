@@ -7,6 +7,8 @@ public class UIvisibility : MonoBehaviour {
 
     private Image eye;
     public Player player;
+    private bool chaseInProgress;
+    private GameObject currentControl;
 
     public Sprite[] sprites = new Sprite[3];
 
@@ -14,13 +16,39 @@ public class UIvisibility : MonoBehaviour {
 	void Start () {
         player = GameObject.Find("Player").GetComponent<Player>();
         eye = GetComponent<Image>();
+        currentControl = player.gameObject;
+        chaseInProgress = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        foreach(GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy))
+        if (player.controlling)
         {
-            if(enemy.GetComponent<Enemy>().moveMinSpeed >= 4f)
+            foreach(GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy))
+            {
+                if (enemy.GetComponent<EnemyController>().controlled)
+                {
+                    currentControl = enemy.gameObject;
+                }
+                else
+                {
+                    currentControl = player.gameObject;
+                }
+            }
+        }
+
+        if (currentControl == player.gameObject)
+        {
+            foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy))
+            {
+                if (enemy.GetComponent<Enemy>().moveMinSpeed == 4f)
+                {
+                    chaseInProgress = true;
+                    break;
+                }
+                chaseInProgress = false;
+            }
+            if (chaseInProgress)
             {
                 eye.sprite = sprites[2];
             }
@@ -35,6 +63,10 @@ public class UIvisibility : MonoBehaviour {
                     eye.sprite = sprites[0];
                 }
             }
+        }
+        else
+        {
+            eye.sprite = sprites[1];
         }
         
 	}
