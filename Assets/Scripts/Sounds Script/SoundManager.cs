@@ -44,6 +44,7 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     //Player Sounds
     public void Jump()
     {

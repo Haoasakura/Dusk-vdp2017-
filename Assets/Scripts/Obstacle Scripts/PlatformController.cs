@@ -14,6 +14,7 @@ public class PlatformController : RaycastController
     [Range(0, 2)]
     public float easeAmount;
     public bool isPingPong = true;
+    public bool startActive = true;
 
     private int fromWaypointIndex;
     private float percentBetweenWaypoints;
@@ -34,12 +35,19 @@ public class PlatformController : RaycastController
 
     public void Activate()
     {
+        if (!startActive)
+        {
+            startActive = true;
+            return;
+        }
         fromWaypointIndex++;
         percentBetweenWaypoints = 1f - percentBetweenWaypoints;
     }
 
     private void Update()
     {
+        if (startActive)
+        {
             UpdateRaycastOrigins();
 
             Vector3 velocity = CalculatePlatformMovement();
@@ -49,6 +57,7 @@ public class PlatformController : RaycastController
             MovePassengers(true);
             transform.Translate(velocity);
             MovePassengers(false);
+        }
     }
 
     private float Ease(float x)

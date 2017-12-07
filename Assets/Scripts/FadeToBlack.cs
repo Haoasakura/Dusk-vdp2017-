@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class FadeToBlack : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public GameObject lever;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag(Tags.player))
+        {
+            if (!GetComponent<AudioSource>().isPlaying)
+                GetComponent<AudioSource>().Play();
+
+            lever.GetComponent<BoxCollider2D>().enabled = false;
+        }
+    }
+
 }

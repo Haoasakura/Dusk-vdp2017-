@@ -23,9 +23,11 @@ public class MainMenu : MonoBehaviour
 
     IEnumerator Fade()
     {
+        AudioSource audio = GetComponent<AudioSource>();
         CanvasGroup cg = gameObject.GetComponent<CanvasGroup>();
         while(cg.alpha > 0)
         {
+            audio.volume = audio.volume / 2;
             cg.alpha -= Time.deltaTime / 2;
             yield return null;
         }
