@@ -27,10 +27,11 @@ public class MainMenu : MonoBehaviour
         CanvasGroup cg = gameObject.GetComponent<CanvasGroup>();
         while(cg.alpha > 0)
         {
-            audio.volume = audio.volume / 2;
+            audio.volume -= Time.deltaTime / 3;
             cg.alpha -= Time.deltaTime / 2;
             yield return null;
         }
+        audio.volume = 0;
         cg.interactable = false;
         yield return null;
     }
