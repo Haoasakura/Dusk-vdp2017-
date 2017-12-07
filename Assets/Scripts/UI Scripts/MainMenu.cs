@@ -12,6 +12,8 @@ public class MainMenu : MonoBehaviour
     {
         if(Input.GetButtonDown("Submit") && gameObject.GetComponent<CanvasGroup>().alpha == 1)
         {
+            GetComponentInChildren<Transform>().GetChild(2).gameObject.SetActive(false);
+            GetComponentInChildren<Transform>().GetChild(3).gameObject.SetActive(true);
             ready = true;
         }
     }
