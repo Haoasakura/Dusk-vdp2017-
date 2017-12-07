@@ -7,6 +7,7 @@ public class UIvisibility : MonoBehaviour {
 
     private Image eye;
     public Player player;
+    private GameObject currentControl;
 
     public Sprite[] sprites = new Sprite[3];
 
@@ -14,27 +15,50 @@ public class UIvisibility : MonoBehaviour {
 	void Start () {
         player = GameObject.Find("Player").GetComponent<Player>();
         eye = GetComponent<Image>();
+        currentControl = player.gameObject;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        foreach(GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy))
+        if (player.controlling)
         {
-            if(enemy.GetComponent<Enemy>().moveMinSpeed >= 4f)
+            foreach(GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy))
             {
-                eye.sprite = sprites[2];
-            }
-            else
-            {
-                if (player.isVisible)
+                if (enemy.GetComponent<EnemyController>().controlled)
                 {
-                    eye.sprite = sprites[1];
+                    currentControl = enemy.gameObject;
                 }
                 else
                 {
-                    eye.sprite = sprites[0];
+                    currentControl = player.gameObject;
                 }
             }
+        }
+
+        if (currentControl == player.gameObject)
+        {
+            foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy))
+            {
+                if (enemy.GetComponent<Enemy>().moveMinSpeed >= 4f)
+                {
+                    eye.sprite = sprites[2];
+                }
+                else
+                {
+                    if (player.isVisible)
+                    {
+                        eye.sprite = sprites[1];
+                    }
+                    else
+                    {
+                        eye.sprite = sprites[0];
+                    }
+                }
+            }
+        }
+        else
+        {
+            eye.sprite = sprites[1];
         }
         
 	}
