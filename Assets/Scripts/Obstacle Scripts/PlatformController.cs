@@ -13,14 +13,14 @@ public class PlatformController : RaycastController
     public float waitTime;
     [Range(0, 2)]
     public float easeAmount;
-    public bool isActive = true;
+    public bool isPingPong = true;
+    public bool startActive = true;
 
     private int fromWaypointIndex;
     private float percentBetweenWaypoints;
     private float nextMoveTime;
 
     private List<PassengerMovement> passengerMovement;
-    private Dictionary<Transform, Controller2D> passengerDictionary = new Dictionary<Transform, Controller2D>();
 
     public override void Start()
     {
@@ -35,19 +35,18 @@ public class PlatformController : RaycastController
 
     public void Activate()
     {
-        if (isActive)
+        if (!startActive)
         {
-            isActive = false;
+            startActive = true;
+            return;
         }
-        else
-        {
-            isActive = true;
-        }
+        fromWaypointIndex++;
+        percentBetweenWaypoints = 1f - percentBetweenWaypoints;
     }
 
     private void Update()
     {
-        if (isActive)
+        if (startActive)
         {
             UpdateRaycastOrigins();
 
@@ -86,8 +85,12 @@ public class PlatformController : RaycastController
 
         if (percentBetweenWaypoints >= 1)
         {
-            percentBetweenWaypoints = 0f;
-            fromWaypointIndex++;
+
+            if (isPingPong)
+            {
+                percentBetweenWaypoints = 0f;
+                fromWaypointIndex++;
+            }
 
             if (!cyclic)
             {
@@ -98,7 +101,7 @@ public class PlatformController : RaycastController
                 }
             }
 
-            nextMoveTime = Time.time + waitTime;
+            nextMoveTime = Time.time + waitTime;            
         }
 
         return newPos - transform.position;
@@ -108,14 +111,20 @@ public class PlatformController : RaycastController
     {
         foreach (PassengerMovement passenger in passengerMovement)
         {
-            if (!passengerDictionary.ContainsKey(passenger.transform))
-            {
-                passengerDictionary.Add(passenger.transform, passenger.transform.GetComponent<Controller2D>());
-            }
 
-            if (passenger.moveBeforePlatform == beforeMovePlatform)
+            if (passenger.transform.gameObject.GetComponent<Controller2D>() != null)
             {
-                passengerDictionary[passenger.transform].Move(passenger.velocity, passenger.standingOnPlatform);
+                if (passenger.moveBeforePlatform == beforeMovePlatform)
+                {
+                    passenger.transform.gameObject.GetComponent<Controller2D>().Move(passenger.velocity, passenger.standingOnPlatform);
+                }
+            }
+            else
+            {
+                if (passenger.moveBeforePlatform == beforeMovePlatform) 
+                {
+                    passenger.transform.gameObject.GetComponent<EnemyController2D>().Move(passenger.velocity, passenger.standingOnPlatform);
+                }
             }
         }
     }

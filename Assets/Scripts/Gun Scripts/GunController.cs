@@ -92,7 +92,7 @@ public class GunController : MonoBehaviour {
                 }
             }
 
-            if (Input.GetButtonDown("Fire1")) {
+            if (Input.GetButtonDown("Fire1") && canFire) {
                 SoundManager.Instance.EmptyGunshot();
                 lightning.Trigger();
                 mLineRenderer.enabled = false;
@@ -149,6 +149,7 @@ public class GunController : MonoBehaviour {
                 StopCoroutine("LightningEffectOn");
                 StopCoroutine("TrailingEffectOn");
                 StopCoroutine("TrailingEffectOff");
+                SoundManager.Instance.GunshotStop();
                 Destroy(particleEffect);
             }
         }

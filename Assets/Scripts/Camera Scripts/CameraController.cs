@@ -33,7 +33,6 @@ public class CameraController : MonoBehaviour {
         EventManager.StartListening("EnemyDestroyed", returnOldFromEnemy);
         EventManager.StartListening("PlayerDied", returnOldCamera);
         SaveCameraPosition();
-        ActivateEnemies();
     }
 
     private void ReturnOldFromEnemy()
@@ -96,7 +95,7 @@ public class CameraController : MonoBehaviour {
             transform.position= new Vector3 (newX, newY, newZ);
         }
 
-        if (collision.CompareTag(Tags.player))
+        if ((collision.CompareTag(Tags.player) && !collision.gameObject.GetComponent<Player>().controlling))
         {
             SaveCameraPosition();
         }
@@ -104,7 +103,7 @@ public class CameraController : MonoBehaviour {
         ActivateEnemies();  
     }
 
-    private void ActivateEnemies() {
+    public void ActivateEnemies() {
         foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
             if (coll.bounds.Contains(enemy.transform.position + new Vector3(0, 0, -10))) {
                 if (enemy.gameObject.GetComponent<Animator>().GetBool("Idle")) {
