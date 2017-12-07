@@ -13,7 +13,7 @@ public class PlatformController : RaycastController
     public float waitTime;
     [Range(0, 2)]
     public float easeAmount;
-    public bool isActive = true;
+    public bool isPingPong = true;
 
     private int fromWaypointIndex;
     private float percentBetweenWaypoints;
@@ -34,20 +34,12 @@ public class PlatformController : RaycastController
 
     public void Activate()
     {
-        if (isActive)
-        {
-            isActive = false;
-        }
-        else
-        {
-            isActive = true;
-        }
+        fromWaypointIndex++;
+        percentBetweenWaypoints = 1f - percentBetweenWaypoints;
     }
 
     private void Update()
     {
-        if (isActive)
-        {
             UpdateRaycastOrigins();
 
             Vector3 velocity = CalculatePlatformMovement();
@@ -57,7 +49,6 @@ public class PlatformController : RaycastController
             MovePassengers(true);
             transform.Translate(velocity);
             MovePassengers(false);
-        }
     }
 
     private float Ease(float x)
@@ -85,8 +76,12 @@ public class PlatformController : RaycastController
 
         if (percentBetweenWaypoints >= 1)
         {
-            percentBetweenWaypoints = 0f;
-            fromWaypointIndex++;
+
+            if (isPingPong)
+            {
+                percentBetweenWaypoints = 0f;
+                fromWaypointIndex++;
+            }
 
             if (!cyclic)
             {
@@ -97,7 +92,7 @@ public class PlatformController : RaycastController
                 }
             }
 
-            nextMoveTime = Time.time + waitTime;
+            nextMoveTime = Time.time + waitTime;            
         }
 
         return newPos - transform.position;
@@ -107,14 +102,20 @@ public class PlatformController : RaycastController
     {
         foreach (PassengerMovement passenger in passengerMovement)
         {
+
             if (passenger.transform.gameObject.GetComponent<Controller2D>() != null)
             {
-                passenger.transform.gameObject.GetComponent<Controller2D>().Move(passenger.velocity, passenger.standingOnPlatform);
+                if (passenger.moveBeforePlatform == beforeMovePlatform)
+                {
+                    passenger.transform.gameObject.GetComponent<Controller2D>().Move(passenger.velocity, passenger.standingOnPlatform);
+                }
             }
             else
             {
-                passenger.transform.gameObject.GetComponent<EnemyController2D>().Move(passenger.velocity, passenger.standingOnPlatform);
-
+                if (passenger.moveBeforePlatform == beforeMovePlatform) 
+                {
+                    passenger.transform.gameObject.GetComponent<EnemyController2D>().Move(passenger.velocity, passenger.standingOnPlatform);
+                }
             }
         }
     }
