@@ -38,6 +38,9 @@ public class EnemyController : MonoBehaviour {
     private Transform mDestination;
     private Vector3 mChaseTarget;
     private EnemyController2D enemyController2D;
+    private BoxCollider2D boxCollider2D;
+    private GameObject mLadder;
+    private bool isClimbing = false;
 
     [SerializeField]
     private Transform startPoint;
@@ -51,6 +54,7 @@ public class EnemyController : MonoBehaviour {
         weapon = GetComponentInChildren<EnemyWeapon>();      
         animator = GetComponent<Animator>();
         enemyController2D = GetComponent<EnemyController2D>();
+        boxCollider2D = GetComponent<BoxCollider2D>();
         player = GameObject.FindGameObjectWithTag(Tags.player).transform;
     }
     void Start () {
@@ -129,12 +133,12 @@ public class EnemyController : MonoBehaviour {
         if (target != null) {
             Vector3 dir = (weapon.laserDirection.position - transform.position);
             dir.y = 0;
-            Debug.DrawRay(weapon.barrel.position, dir, Color.blue);
+            //Debug.DrawRay(weapon.barrel.position, dir, Color.blue);
             RaycastHit2D hit = Physics2D.Raycast(weapon.barrel.position, dir, range, sightLayerMask);
             if(hit.transform)
-            if (hit.collider != null && hit.collider.gameObject.name == target.gameObject.name && target.GetComponent<Player>() != null && target.gameObject.GetComponent<Player>().isVisible) {
-                return true;
-            }
+                if (hit.collider != null && hit.collider.gameObject.name == target.gameObject.name && target.GetComponent<Player>() != null && target.gameObject.GetComponent<Player>().isVisible) {
+                    return true;
+                }
         }
         return false;
     }
@@ -142,45 +146,43 @@ public class EnemyController : MonoBehaviour {
     IEnumerator Patrol() {
         SpriteRenderer gunSpriteRenderer = weapon.GetComponent<SpriteRenderer>();
         while (true) {
-            if (!animator.GetBool("PlayerInSight") && transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x)
-                foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, sightRange-12,sightLayerMask)) {
-                if (obj.gameObject.CompareTag(Tags.light)) {
-                    if (!obj.gameObject.GetComponent<LightController>().lightStatus && !obj.gameObject.GetComponent<LightController>().changingStatus && weapon.currentCharge>0) {
-                        obj.GetComponent<LightController>().SwitchOnOff(weapon.transform);
-                        float rotationZ = Mathf.Atan2((obj.transform.position - transform.position).y, (obj.transform.position - transform.position).x) * Mathf.Rad2Deg;
-                        weapon.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
+            if (!animator.GetBool("PlayerInSight") && transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x) {
+                RaycastHit2D hit = Physics2D.Raycast(new Vector2(weapon.pivot.position.x, transform.GetComponent<BoxCollider2D>().bounds.max.y+0.01f), Vector2.up);
+                if(hit && hit.collider.CompareTag(Tags.light)) {
+                    LightController lightController = hit.collider.gameObject.GetComponent<LightController>();
+                    if (!lightController.lightStatus && !lightController.changingStatus && weapon.currentCharge > 0) {
+                        lightController.SwitchOnOff(weapon.transform);
+                        weapon.armTransform.rotation = Quaternion.Euler(0.0f, 0.0f, enemy.transform.localScale.x * 159.1f);
                         shootingLights = true;
-
                     }
                 }
             }
 
             if (!controlled && !changingStatus) {
                 //questo è il caso del return to patrol
-                if (!(transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x)) {
-                    if (transform.position.y - startPoint.position.y >0.5f) {
-                        float closestLadder = 10000f;
-                        GameObject ladder = null;
-                        foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, sightRange)) {
-                            if (obj.gameObject.CompareTag(Tags.ladder)) {
-                                if (Vector3.Distance(obj.transform.position, mChaseTarget) < closestLadder) {
-                                    closestLadder = Vector3.Distance(obj.transform.position, mChaseTarget);
-                                    ladder = obj.gameObject;
-                                }
+                if (transform.position.y - startPoint.position.y > 0.5f) {
+                    float closestLadder = 10000f;
+                    GameObject ladder = null;
+                    foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, 100f)) {
+                        if (obj.CompareTag(Tags.ladder) && obj.transform.position.y <= boxCollider2D.bounds.min.y) {
+                            if (Vector3.Distance(obj.transform.position, transform.position) < closestLadder) {
+                                closestLadder = Vector3.Distance(obj.transform.position, transform.position);
+                                ladder = obj.transform.gameObject;
                             }
                         }
-                        if (ladder != null) {
-                            mChaseTarget = ladder.transform.parent.GetChild(0).GetComponent<Collider2D>().bounds.center;
-                            mDirection = (mChaseTarget - transform.position);
-                            mDirection.y = -1;
-                            Debug.Log(mDirection);
-                        }
                     }
-                    else
-                        mDirection = (startPosition - transform.position);
-                } else {
-                    
-                    float lastX = transform.localPosition.x;
+                    if (ladder != null) {
+                        mChaseTarget = ladder.GetComponent<Collider2D>().bounds.max /*+new Vector3(transform.localScale.x* 4,0,0)*/;
+                        mDirection = (mChaseTarget - transform.position);
+                        mDirection.x +=transform.localScale.x;
+                        if (ladder.transform.Find("TopLadder"))
+                            ladder.transform.Find("TopLadder").gameObject.layer = 9;
+                    }
+                }
+                else if (!(transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x)) {
+                    mDirection = (startPosition - transform.position);
+                }
+                else {
                     mDirection = (mDestination.position - transform.position);
                     if (Mathf.Abs(mDirection.x) < 1)
                         mDirection.x += 0.03f * Mathf.Sign(mDirection.x);
@@ -193,7 +195,6 @@ public class EnemyController : MonoBehaviour {
                     float rotationZ = Mathf.Atan2((weapon.laserDirection.transform.position - weapon.barrel.position).y, (weapon.laserDirection.transform.position - weapon.barrel.position).x) * Mathf.Rad2Deg;
                     weapon.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
                 }*/
-                
                 enemy.SetDirectionalInput(mDirection.normalized);
 
                 //commented part is for the swap without the triggers
@@ -238,41 +239,74 @@ public class EnemyController : MonoBehaviour {
         while (true) {
             if (!controlled && !changingStatus && player) {
                 if (player != null) {
-                    //Debug.Log(InLineOfSight(player.GetComponent<Collider2D>(), sightRange));
-                    if (!InLineOfSight(player.GetComponent<Collider2D>(), sightRange) && !enemy.isClimbing && !losingTarget) {
-                        StartCoroutine("ReturnToPatrol");
-                        //animator.SetBool("PlayerInSight", false);
+                    if (!InLineOfSight(player.GetComponent<Collider2D>(), sightRange) && !enemy.isClimbing && !((player.position - transform.position).y > 1.6f && (player.position - transform.position).y < 6f)) {
+                        if(!losingTarget)
+                            StartCoroutine("ReturnToPatrol");
                         losingTarget = true;
                     }
-                    else if ((player.position - transform.position).y>1.6f) {
+                    else {
+                        Debug.Log("stop coroutine");
                         StopCoroutine("ReturnToPatrol");
                         losingTarget = false;
                     }
                 }
 
-                float lastX = transform.localPosition.x;
-
                 // gestisce il chasing e i casi un sui deve salire le scale durante il chasing
                 mDirection = (player.position - transform.position);
-                if (mDirection.y > 1.6f) {
+               //Debug.Log(mDirection.y);
+                if (mDirection.y > 1.6f || isClimbing) {
                     float closestLadder = 10000f;
                     GameObject ladder = null;
-                    foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, sightRange)) {
+                    RaycastHit2D hit;
+                    if (transform.localScale.x > 0) {
+                        hit = Physics2D.Raycast(new Vector2(boxCollider2D.bounds.max.x + 0.01f, boxCollider2D.bounds.center.y /*+ 1.11f*/), transform.localScale.x * Vector2.right, 35);
+                        Debug.DrawRay(new Vector2(boxCollider2D.bounds.max.x /*+ 1.01f*/, boxCollider2D.bounds.center.y/* + 1.11f*/), transform.localScale.x * Vector2.right * 35,Color.cyan);
+                    }
+                    else {
+                        hit = Physics2D.Raycast(new Vector2(boxCollider2D.bounds.min.x - 0.01f, boxCollider2D.bounds.min.y /*+ 1.11f*/), -transform.localScale.x*Vector2.left, 35);
+                        Debug.DrawRay(new Vector2(boxCollider2D.bounds.min.x /*- 0.01f*/, boxCollider2D.bounds.min.y /* 1.11f*/), -transform.localScale.x*Vector2.left*35, Color.cyan);
+                    }
+
+                    if(hit && (hit.collider.CompareTag(Tags.ladder) || hit.collider.CompareTag(Tags.baseLadder) || hit.collider.CompareTag(Tags.topLadder))) {
+                        if (hit.collider.transform.name.StartsWith("Ladder"))
+                            mLadder = hit.collider.gameObject;
+                        else
+                            mLadder = hit.collider.transform.parent.gameObject;
+                    }
+                    else {
+                        StartCoroutine("ReturnToPatrol");
+                        losingTarget = true;
+                    }
+                    /*foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, sightRange)) {
                         if (obj.gameObject.CompareTag(Tags.ladder)) {
                             if (Vector3.Distance(obj.transform.position, mChaseTarget) < closestLadder) {
                                 closestLadder = Vector3.Distance(obj.transform.position, mChaseTarget);
                                 ladder = obj.gameObject;
                             }
                         }
-                    }
-                    if (ladder != null) {
-                        mChaseTarget = ladder.GetComponent<Collider2D>().bounds.max;
-                        mDirection = (mChaseTarget - transform.position);
-                        mDirection.y = -player.position.y;
+                    }*/
+                    if (mLadder != null) {
+                        //bool climbing = false;
+                        foreach (Collider2D obj in Physics2D.OverlapCircleAll(boxCollider2D.bounds.min, 0.1f)) {
+                            if ((obj.CompareTag(Tags.ladder) || obj.CompareTag(Tags.baseLadder) || obj.CompareTag(Tags.topLadder))) {
+                                isClimbing = true;
+                                break;
+                            }
+                            else
+                                isClimbing = false;
+                        }
+                        if (isClimbing) {
+                            mChaseTarget = mLadder.GetComponent<Collider2D>().bounds.center + new Vector3(0, 4f, 0);
+                            mDirection = (mChaseTarget - transform.position);
+                        }
+                        else {
+                            mChaseTarget = mLadder.GetComponent<Collider2D>().bounds.center/*+new Vector3(0,2f,0)*/;
+                            mDirection = (mChaseTarget - transform.position);
+                        }
                     }
                 }
                 else {
-                    GameObject ladder = null;
+                    /*GameObject ladder = null;
                     bool climbing = false;
                     foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, 1f)) {
                         if (obj.gameObject.CompareTag(Tags.ladder)) {
@@ -282,16 +316,15 @@ public class EnemyController : MonoBehaviour {
                     }
 
                     if (ladder != null && climbing && !enemy.GetComponent<Enemy>().controller.collisions.below) {
-                        mChaseTarget = ladder.GetComponent<Collider2D>().bounds.max;
+                        mChaseTarget = ladder.GetComponent<Collider2D>().bounds.max + new Vector3(0, 4f, 0);
                         mDirection = (mChaseTarget - transform.position);
-                        mDirection.y = -player.position.y;
                     }
-                    else {
+                    else {*/
                         mChaseTarget = player.position;
                         mDirection = (mChaseTarget - transform.position);
-                    }
+                    //}
                 }
-                if (!enemy.isClimbing && player != null && InLineOfSight(player.GetComponent<Collider2D>(), weaponRange)) {
+                if (!enemy.isClimbing && player != null && InLineOfSight(player.GetComponent<Collider2D>(), weaponRange) && enemy.controller.collisions.below) {
                     StartCoroutine("ShootPlayer");
                 }
 
@@ -314,7 +347,6 @@ public class EnemyController : MonoBehaviour {
                 }
                 if (shootingLights)
                     mDirection = Vector2.zero;
-
                 enemy.SetDirectionalInput(mDirection.normalized);
 
                 /*float rotationZ = Mathf.Atan2(mDirection.y, mDirection.x) * Mathf.Rad2Deg;
@@ -384,7 +416,7 @@ public class EnemyController : MonoBehaviour {
 
     IEnumerator ReturnToPatrol() {
         Debug.Log("Loosing Target...");
-        yield return new WaitForSeconds(timeToReturnPatrol);
+        yield return new WaitForSeconds(1/*timeToReturnPatrol*/);
         Debug.Log("...Target Lost, Returning!");
         animator.SetBool("PlayerInSight", false);
         losingTarget = false;

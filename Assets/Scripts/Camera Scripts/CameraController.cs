@@ -55,7 +55,6 @@ public class CameraController : MonoBehaviour {
 
     private void SaveCameraPosition()
     {
-        Debug.Log("ohilà");
         Debug.Log(transform.position);
 
         cameraPosition = transform.position;

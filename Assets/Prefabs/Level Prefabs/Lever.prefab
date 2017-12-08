@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212353687199530748}
   - component: {fileID: 114351717116431190}
   - component: {fileID: 61756240894436198}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Lever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35,8 +35,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1007856374767466}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.148, y: -0.48, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.41, y: -6.79, z: -0.07535245}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -58,7 +58,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.66, y: 1.97}
+    oldSize: {x: 0.65, y: 1.97}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faff4827616428d46891ecaa38d815e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mechanism: {fileID: 0}
+  mechanisms: []
 --- !u!212 &212353687199530748
 SpriteRenderer:
   m_ObjectHideFlags: 1

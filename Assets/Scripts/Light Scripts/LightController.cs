@@ -76,6 +76,7 @@ public class LightController : MonoBehaviour
     IEnumerator SwitchingOn(Transform gun)
     {
         Transform pointOfOrigin = null;
+        Quaternion initRot= Quaternion.Euler(0f, 0f, 73.4f); ;
         if (gun.GetComponentInParent<Player>() != null) {
             shooter = gun.GetComponentInParent<Player>().transform;
             pointOfOrigin = gun.GetComponent<GunController>().barrel;
@@ -83,6 +84,7 @@ public class LightController : MonoBehaviour
         else {
             shooter = gun.GetComponentInParent<Enemy>().transform;
             pointOfOrigin = gun.GetComponent<EnemyWeapon>().barrel;
+            initRot = gun.transform.rotation;
         }
         changingStatus = true;
         int seconds = (int)switchTime;
@@ -103,6 +105,8 @@ public class LightController : MonoBehaviour
         else {
             gun.GetComponent<EnemyWeapon>().currentCharge -= lightCharge;
             shooter.GetComponent<EnemyController>().shootingLights = false;
+            gun.parent.rotation = Quaternion.Euler(0f, 0f, shooter.transform.localScale.x * 73.4f); ;
+
         }
         changingStatus = false;
         shooter = null;
