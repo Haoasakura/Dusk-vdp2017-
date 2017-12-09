@@ -7,29 +7,43 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
+    public static GameManager Instance;
+
     public GameObject UITitle;
     public GameObject UIChapTitle;
-    private bool timerReached;
-    private float timer = 0;
-
     public int loadedScene;
-    public int gameOverScene;
+    public Vector3 cameraPosition = new Vector3(0f, 0f, -10f);
+    public Vector3 playerPosition = new Vector3 (0f, 0f);
+    public int duskCharge = 0;
 
     private UnityAction unityAction;
     private GameObject player;
     private new GameObject camera;
+    private bool timerReached;
+    private float timer = 0;
 
-    public Vector3 cameraPosition = new Vector3(0f, 0f, -10f);
-    public Vector3 playerPosition = new Vector3 (0f, 0f);
-    private int duskCharge = 0;
+
 
     private void Awake()
-    {        
-        DontDestroyOnLoad(transform.gameObject);
-        DontDestroyOnLoad(UITitle);
-        DontDestroyOnLoad(UIChapTitle);
-        //LoadGame();
-        //unityAction = new UnityAction(SaveGame);
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+
+            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(UITitle);
+            DontDestroyOnLoad(UIChapTitle);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        UITitle = GameObject.Find("UITitleScreen");
+        UIChapTitle = GameObject.Find("UIChapterTitleScreen");
     }
 
     private void Update()
@@ -46,13 +60,13 @@ public class GameManager : MonoBehaviour {
             LoadGame();
             unityAction = new UnityAction(SaveGame);
         }
-
     }
 
     private void OnEnable()
     {
         EventManager.StartListening("CheckpointReached", SaveGame);
         EventManager.StartListening("ReloadScene", ReloadGame);
+        EventManager.StartListening("RestartGame", RestartGame);
     }
 
     private void OnDisable()
@@ -77,6 +91,21 @@ public class GameManager : MonoBehaviour {
     void ReloadGame()
     {
         StartCoroutine("WaitLoading");
+    }
+
+    void RestartGame()
+    {
+        cameraPosition = new Vector3(0f, 0f, -10f);
+        playerPosition = new Vector3(-12f, -5f);
+        duskCharge = 0;
+        Destroy(UIChapTitle);
+        Destroy(UITitle);
+        Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
     }
 
     IEnumerator WaitLoading()
@@ -106,4 +135,6 @@ public class GameManager : MonoBehaviour {
         player.transform.Find("PivotArm").Find("Gun").gameObject.GetComponent<GunController>().currentCharge = duskCharge;
         SaveGame();
     }
+
+
 }

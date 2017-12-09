@@ -1576,6 +1576,7 @@ Transform:
   - {fileID: 285653931}
   - {fileID: 1802669583}
   - {fileID: 1298386389}
+  - {fileID: 1032851185}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7453,7 +7454,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1943845570}
+    m_TransformParent: {fileID: 27967326}
     m_Modifications:
     - target: {fileID: 4727283946861380, guid: 336fabb7abb99754d9da7a04ad52a13b, type: 2}
       propertyPath: m_LocalPosition.x
@@ -7485,7 +7486,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4727283946861380, guid: 336fabb7abb99754d9da7a04ad52a13b, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4727283946861380, guid: 336fabb7abb99754d9da7a04ad52a13b, type: 2}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -13006,9 +13007,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 0.81
-  m_Text: 'O  U  T
-
-    F  E  B  2018'
+  m_Text: C O M I N G    S O O N
 --- !u!222 &450276572
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15135,7 +15134,7 @@ Prefab:
     - target: {fileID: 114123664433838134, guid: 1fec26a6969afe349bfb0626ded28de8,
         type: 2}
       propertyPath: mechanisms.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4221773294021280, guid: 1fec26a6969afe349bfb0626ded28de8, type: 2}
       propertyPath: m_LocalPosition.x
@@ -27976,7 +27975,7 @@ Prefab:
     - target: {fileID: 114286328185314588, guid: 9f2a8a87d9830504f8bd63aa013ff6c0,
         type: 2}
       propertyPath: active
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9f2a8a87d9830504f8bd63aa013ff6c0, type: 2}
@@ -30340,11 +30339,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4132464546881570, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 13.25
+      value: 179.46
       objectReference: {fileID: 0}
     - target: {fileID: 4132464546881570, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 16.03
       objectReference: {fileID: 0}
     - target: {fileID: 4132464546881570, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
       propertyPath: m_LocalPosition.z
@@ -36388,7 +36387,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -40439,7 +40438,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1533972095
 GameObject:
@@ -52742,35 +52741,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4537676755355756, guid: d5eb62fa6ba3c084f8fb89469781bfe8,
     type: 2}
   m_PrefabInternal: {fileID: 1943433900}
---- !u!1 &1943845569
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1943845570}
-  m_Layer: 0
-  m_Name: Beautify
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1943845570
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1943845569}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1032851185}
-  m_Father: {fileID: 0}
-  m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1948349838 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4885878140906198, guid: be2c338037078a349a8c9f51e7a509eb,
