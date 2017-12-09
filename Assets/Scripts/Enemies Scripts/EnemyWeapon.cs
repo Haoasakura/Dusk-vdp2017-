@@ -33,7 +33,7 @@ public class EnemyWeapon : MonoBehaviour {
     private EnemyController enemyController;
     private Transform mTransform;
     private EnemyController enemyControlled;
-    private LineRenderer mLineRenderer;
+    public LineRenderer mLineRenderer;
     private DigitalRuby.LightningBolt.LightningBoltScript lightning;
 
     private void Awake() {

@@ -85,24 +85,25 @@ public class Player : MonoBehaviour
 
     private void VisibilityControl()
     {
-        isVisible = false;
-        bool enemiesAreChasing = false;
+        //isVisible = false;
+        bool seenByEnemies = false;
         foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
-            if (enemy.GetComponent<Animator>().GetBool("PlayerInSight") && !enemy.GetComponent<EnemyController>().losingTarget) {
-                enemiesAreChasing = true;
+            if (enemy.GetComponent<EnemyController>().playerInSight && Vector2.Distance(transform.position,enemy.transform.position)<enemy.GetComponent<EnemyController>().sightRange) {
+                seenByEnemies = true;
             }
         }
-        if (velocity.magnitude > 0.5f || isLighted || (velocity.magnitude<= 0.5f && enemiesAreChasing)) {
+
+        if (velocity.magnitude > 1f || isLighted || seenByEnemies) {
             isVisible = true;
         }
-        if (Input.GetButton("Fire1"))
-        {
+        else if (Input.GetButton("Fire1")) {
             isVisible = true;
         }
-        if (controlling)
-        {
+        else if (controlling) {
             isVisible = true;
         }
+        else
+            isVisible = false;
     }
 
     public void SetDirectionalInput(Vector2 input)
