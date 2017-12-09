@@ -43,10 +43,6 @@ public class CrusherController : MonoBehaviour {
         {
             gameObject.GetComponentInChildren<Transform>().GetChild(0).GetComponentInChildren<Transform>().GetChild(0).GetComponent<BoxCollider2D>().enabled = false;
         }
-        else
-        {
-            gameObject.GetComponentInChildren<Transform>().GetChild(0).GetComponentInChildren<Transform>().GetChild(0).GetComponent<BoxCollider2D>().enabled = true;
-        }
     }
 
     private void Move()
@@ -60,6 +56,15 @@ public class CrusherController : MonoBehaviour {
         if (active && (childTransform.localPosition == restPosition || childTransform.localPosition == smashPosition))
         {
             ChangeDestination();
+        }
+
+        if (active && (nextPosition == restPosition))
+        {
+            gameObject.GetComponentInChildren<Transform>().GetChild(0).GetComponentInChildren<Transform>().GetChild(0).GetComponent<BoxCollider2D>().enabled = false;
+        }
+        else
+        {
+            gameObject.GetComponentInChildren<Transform>().GetChild(0).GetComponentInChildren<Transform>().GetChild(0).GetComponent<BoxCollider2D>().enabled = true;
         }
 
         if (!active)

@@ -81,13 +81,11 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator WaitLoading()
     {
-        yield return new WaitForSeconds(3);
-        Time.timeScale = 0;
+        yield return new WaitForSeconds(1);
         while (!Input.GetButton("Retry"))
         {
             yield return null;
         }
-        Time.timeScale = 1;
         SceneManager.LoadScene(loadedScene, LoadSceneMode.Single);
         StartCoroutine("SearchPlayer");
     }

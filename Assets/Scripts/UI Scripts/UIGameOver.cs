@@ -13,13 +13,18 @@ public class UIGameOver : MonoBehaviour {
 	void Start () {
         UIText.SetActive(false);
         UIOverlay.SetActive(false);
-        EventManager.StartListening("PlayerDied", ShowUI);
+        EventManager.StartListening("PlayerDied", StartGameOver);
     }
 
-    private void ShowUI()
+    private void StartGameOver()
     {
+        StartCoroutine(ShowUI());
+    }
+
+    IEnumerator ShowUI()
+    {
+        yield return new WaitForSeconds(1);
         UIText.SetActive(true);
         UIOverlay.SetActive(true);
     }
-
 }
