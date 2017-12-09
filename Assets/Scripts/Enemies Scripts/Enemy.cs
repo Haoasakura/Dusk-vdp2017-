@@ -147,8 +147,13 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        if (collision.gameObject.tag.Equals("ResetGun")) {
-            weapon.GetComponent<GunController>().currentCharge = 0;
+        if (collision.gameObject.tag.Equals("ResetGun"))
+        {
+            if (weapon.GetComponent<EnemyWeapon>().currentCharge > 0)
+            {
+                collision.GetComponent<AudioSource>().Play();
+            }
+            weapon.GetComponent<EnemyWeapon>().currentCharge = 0;
         }
     }
 
