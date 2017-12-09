@@ -227,6 +227,7 @@ public class EnemyController : MonoBehaviour {
                     animator.SetBool("PlayerInSight", true);
                     mChaseTarget = gun.mTarget;
                 }*/
+                Debug.Log(GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<Collider2D>().bounds.Contains(transform.position + new Vector3(0, 0, -10)));
                 if (!changingStatus && !(player == null))
                     if (InLineOfSight(player, sightRange) && GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<Collider2D>().bounds.Contains(transform.position + new Vector3(0, 0, -10)) && GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<Collider2D>().bounds.Contains(player.position + new Vector3(0, 0, -10))) {
                         animator.SetBool("PlayerInSight", true);
