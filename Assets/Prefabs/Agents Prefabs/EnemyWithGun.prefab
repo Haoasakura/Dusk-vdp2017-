@@ -269,7 +269,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1896382861546928}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.69, y: -6.52, z: 0}
+  m_LocalPosition: {x: 11.27, y: -6.52, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4697053231449220}
@@ -314,7 +314,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1559151879951116}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.58, y: -0.25, z: 0}
+  m_LocalPosition: {x: 3.2, y: -0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4029164057039906}
@@ -465,7 +465,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1317101880541418}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.88, y: -0.22, z: 0}
+  m_LocalPosition: {x: -3.5, y: -0.22, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4029164057039906}
@@ -928,7 +928,7 @@ MonoBehaviour:
     type: 2}
   arm: {fileID: 212838839361010604}
   armShadow: {fileID: 212124052025484392}
-  aimMaterial: {fileID: 2100000, guid: 231ab5bae1ae98d44a7ba709ab99efc4, type: 2}
+  aimMaterial: {fileID: 2100000, guid: 3a4a7bd28c6ff3643a76713f890bbe90, type: 2}
   idleMaterial: {fileID: 2100000, guid: 231ab5bae1ae98d44a7ba709ab99efc4, type: 2}
   gunLayer:
     serializedVersion: 2
@@ -940,6 +940,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1280
   soundManager: {fileID: 114360353280467046}
+  mLineRenderer: {fileID: 0}
 --- !u!114 &114588290174991098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -970,7 +971,7 @@ MonoBehaviour:
   timeToReturnPatrol: 3
   controlled: 0
   changingStatus: 0
-  autodestruct: 1
+  autodestruct: 0
   playerInSight: 0
   flipStartDir: 0
   sightLayerMask:
