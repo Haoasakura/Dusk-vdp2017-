@@ -97,6 +97,7 @@ public class EnemyController : MonoBehaviour {
         playerInSight = false;
         if (flipStartDir)
             setDestination(endPoint);
+        SoundManager.Instance.PlayNormalSoundtrack();
         StartCoroutine("Patrol");
         weapon.mLineRenderer.material = weapon.idleMaterial;
     }
@@ -108,7 +109,7 @@ public class EnemyController : MonoBehaviour {
         enemy.moveMinSpeed = 4f;
         animator.SetBool("PlayerInSight", true);
         playerInSight = true;
-        SoundManager.Instance.ChangeSoundtrack();
+        SoundManager.Instance.PlayChaseSoundtrack();
         StartCoroutine("TransitionEffects");
         StartCoroutine("Chase");
         
@@ -368,7 +369,6 @@ public class EnemyController : MonoBehaviour {
         //Debug.Log("Loosing Target...");
         yield return new WaitForSeconds(timeToReturnPatrol);
         //Debug.Log("...Target Lost, Returning!");
-        SoundManager.Instance.ChangeSoundtrack();
         animator.SetBool("PlayerInSight", false);
         playerInSight = false;
         losingTarget = false;
@@ -380,7 +380,6 @@ public class EnemyController : MonoBehaviour {
         shootingLights = true;
         player.GetComponent<Player>().controlling = true;
         player.GetComponent<Player>().SetDirectionalInput(Vector2.zero);
-
         player.GetComponent<PlayerInput>().enabled = false;
         yield return new WaitForSeconds(switchTime);
         EventManager.TriggerEvent("PlayerControlled");

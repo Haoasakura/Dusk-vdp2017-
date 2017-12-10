@@ -114,38 +114,42 @@ public class SoundManager : MonoBehaviour
         as_objects.PlayOneShot(ac_chekpointReached);
     }
 
-    public void ReturnToNormalSoundtrack()
+    public void PlayNormalSoundtrack()
     {
+        if (as_soundtrack1.mute)
+        {
             as_soundtrack1.mute = false;
-            as_soundtrack1.volume = 1;
+            as_soundtrack1.volume = 0.1f;
             while (as_soundtrack2.volume > 0.1f)
             {
-                as_soundtrack2.volume -= Time.deltaTime / 3;
+                as_soundtrack1.volume += Time.deltaTime / 5;
+                as_soundtrack2.volume -= Time.deltaTime / 5;
             }
             as_soundtrack2.mute = true;
+        }
     }
 
-    public void ChangeSoundtrack()
+    public void EndSoundtrack()
+    {
+        while (as_soundtrack1.volume > 0.1f)
+        {
+            as_soundtrack1.volume -= Time.deltaTime / 10;
+        }
+        as_soundtrack1.mute = true;
+    }
+
+    public void PlayChaseSoundtrack()
     {
         if (!as_soundtrack1.mute)
         {
             as_soundtrack2.mute = false;
-            as_soundtrack2.volume = 1;
+            as_soundtrack2.volume = 0.1f;
             while (as_soundtrack1.volume > 0.1f)
             {
-                as_soundtrack1.volume -= Time.deltaTime / 3;
+                as_soundtrack2.volume += Time.deltaTime / 5;
+                as_soundtrack1.volume -= Time.deltaTime / 5;
             }
             as_soundtrack1.mute = true;
-        }
-        else
-        {
-            as_soundtrack1.mute = false;
-            as_soundtrack1.volume = 1;
-            while (as_soundtrack2.volume > 0.1f)
-            {
-                as_soundtrack2.volume -= Time.deltaTime / 3;
-            }
-            as_soundtrack2.mute = true;
         }
     }
 
