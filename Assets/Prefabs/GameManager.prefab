@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UITitle: {fileID: 0}
   UIChapTitle: {fileID: 0}
-  loadedScene: 3
+  loadedScene: 4
   cameraPosition: {x: 0, y: 0, z: -10}
   playerPosition: {x: -12, y: -5, z: 0}
   duskCharge: 0

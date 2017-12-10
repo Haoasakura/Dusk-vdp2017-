@@ -98,6 +98,8 @@ public class GameManager : MonoBehaviour {
         cameraPosition = new Vector3(0f, 0f, -10f);
         playerPosition = new Vector3(-12f, -5f);
         duskCharge = 0;
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
+        SoundManager.Instance.as_soundtrack1.Stop();
         Destroy(UIChapTitle);
         Destroy(UITitle);
         Destroy(gameObject);
@@ -105,8 +107,8 @@ public class GameManager : MonoBehaviour {
 
     private void OnDestroy()
     {
-        SceneManager.UnloadSceneAsync(0);
-        SceneManager.LoadScene(0, LoadSceneMode.Single);
+
+        
     }
 
     IEnumerator WaitLoading()

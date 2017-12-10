@@ -24,7 +24,10 @@ public class FadeToBlack : MonoBehaviour {
         if (collision.gameObject.CompareTag(Tags.player))
         {
             if (!GetComponent<AudioSource>().isPlaying)
+            {
+                SoundManager.Instance.EndSoundtrack();
                 GetComponent<AudioSource>().Play();
+            }
 
             lever.GetComponent<BoxCollider2D>().enabled = false;
             FadeMe();

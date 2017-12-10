@@ -294,6 +294,7 @@ public class Player : MonoBehaviour
     private void DeathProcess()
     {
         Instantiate(explosionDeath, transform.position, transform.rotation);
+        SoundManager.Instance.PlayNormalSoundtrack();
         Destroy(gameObject);
     }
 

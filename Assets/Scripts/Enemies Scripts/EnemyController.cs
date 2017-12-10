@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour {
     public float sightRange=10f;
     public int controlCost = 25;
     public int timeToReturnPatrol = 3;
+    public int transitionDuration = 1;
     public bool controlled = false;
     public bool changingStatus = false;
     public bool autodestruct = true;
@@ -105,6 +106,7 @@ public class EnemyController : MonoBehaviour {
         if (flipStartDir)
             setDestination(endPoint);
         weapon.transform.parent.rotation = Quaternion.Euler(0f, 0f, transform.localScale.x>0?73.4f:-73.4f);
+        SoundManager.Instance.PlayNormalSoundtrack();
         StartCoroutine("Patrol");
         weapon.mLineRenderer.material = weapon.idleMaterial;
     }
@@ -119,6 +121,7 @@ public class EnemyController : MonoBehaviour {
         animator.SetBool("PlayerInSight", true);
         animator.SetBool("EnemyTraitor", false);
         playerInSight = true;
+        SoundManager.Instance.PlayChaseSoundtrack();
         StartCoroutine("TransitionEffects");
         StartCoroutine("Chase");
     }
@@ -449,7 +452,7 @@ public class EnemyController : MonoBehaviour {
         
         while (seconds > 0) {
             Instantiate(alert, transform.position+Vector3.up*1.6f, transform.rotation);
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(transitionDuration);
             seconds--;
         }
         weapon.mLineRenderer.material = weapon.aimMaterial;
