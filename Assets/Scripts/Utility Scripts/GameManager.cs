@@ -105,6 +105,7 @@ public class GameManager : MonoBehaviour {
 
     private void OnDestroy()
     {
+        SceneManager.UnloadSceneAsync(0);
         SceneManager.LoadScene(0, LoadSceneMode.Single);
     }
 
@@ -115,6 +116,7 @@ public class GameManager : MonoBehaviour {
         {
             yield return null;
         }
+        SceneManager.UnloadSceneAsync(loadedScene);
         SceneManager.LoadScene(loadedScene, LoadSceneMode.Single);
         StartCoroutine("SearchPlayer");
     }

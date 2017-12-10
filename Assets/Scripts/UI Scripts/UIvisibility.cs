@@ -37,7 +37,7 @@ public class UIvisibility : MonoBehaviour {
             }
         }
 
-        if (currentControl == player.gameObject)
+        if (player != null && currentControl == player.gameObject)
         {
             foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy))
             {

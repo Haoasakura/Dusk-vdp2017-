@@ -35,7 +35,7 @@ public class UIGunCharge : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (gun.gameObject.transform.parent.parent.GetComponent<Player>().controlling)
+        if ( gun != null && gun.gameObject.transform.parent.parent.GetComponent<Player>().controlling)
         {
             foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy))
             {
