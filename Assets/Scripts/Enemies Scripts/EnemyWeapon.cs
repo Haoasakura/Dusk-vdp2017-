@@ -27,12 +27,11 @@ public class EnemyWeapon : MonoBehaviour {
     public LayerMask groundLayer;
     public LayerMask untraversableLayers;
     public EnemySoundManager soundManager;
-
-    private GameObject particleEffect;
+    public GameObject particleEffect;
     private Enemy enemy;
     private EnemyController enemyController;
     private Transform mTransform;
-    private EnemyController enemyControlled;
+    public EnemyController enemyControlled;
     public LineRenderer mLineRenderer;
     [HideInInspector]
     public DigitalRuby.LightningBolt.LightningBoltScript lightning;
@@ -133,10 +132,11 @@ public class EnemyWeapon : MonoBehaviour {
                     }
                     else if (mTarget.CompareTag(Tags.enemy)) {
                         enemyControlled = mTarget.GetComponent<EnemyController>();
-                        if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && currentCharge >= enemyControlled.controlCost) {
+                        if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && currentCharge >= enemyControlled.controlCost && !enemyControlled.gettingShoot) {
                             enemyControlled.ControlledOn(transform);
                             StartCoroutine("LightningEffectOn", mTarget.GetComponent<EnemyController>().switchTime);
                             StartCoroutine("TrailingEffectOn", mTarget.GetComponent<EnemyController>().switchTime);
+                            StartCoroutine("AlertEnemies");
                             isLocked = true;
                         }
                     }
@@ -160,6 +160,20 @@ public class EnemyWeapon : MonoBehaviour {
                 return true;
         }
         return false;
+    }
+
+    IEnumerator AlertEnemies() {
+        while (enemyController.controlled) {
+            BoxCollider2D coll = GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<BoxCollider2D>();
+            foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
+                if (coll.bounds.Contains(enemy.transform.position + new Vector3(0, 0, -10)) && !enemy.transform.GetComponent<Animator>().GetBool("EnemyTraitor")) {
+                    if (!enemy.transform.GetComponent<Animator>().GetBool("PlayerInSight") && !enemy.transform.GetComponent<EnemyController>().changingStatus && !enemy.transform.GetComponent<EnemyController>().controlled) {
+                        enemy.gameObject.GetComponent<Animator>().SetBool("EnemyTraitor", true);
+                    }
+                }
+            }
+            yield return null;
+        }
     }
 
     IEnumerator LightningEffectOn(float switchTime) {

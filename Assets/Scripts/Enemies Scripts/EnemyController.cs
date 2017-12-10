@@ -41,8 +41,9 @@ public class EnemyController : MonoBehaviour {
     private EnemyController2D enemyController2D;
     private BoxCollider2D boxCollider2D;
     private GameObject mLadder;
+    private Transform enemyTarget;
     private bool isClimbing = false;
-    private bool gettingShoot=false;
+    public bool gettingShoot=false;
 
     [SerializeField]
     private Transform startPoint;
@@ -71,12 +72,10 @@ public class EnemyController : MonoBehaviour {
         if (changingStatus) {
             if (!Input.GetButton("Fire1") && ((shooter != null && shooter.CompareTag(Tags.player)) || (shooter != null && shooter.CompareTag(Tags.enemy) && shooter.GetComponent<EnemyController>().controlled))) {
                 StopCoroutine("ConrtolledOn");
-                StopCoroutine("ControlledOff");
-                StopCoroutine("TrailingEffectOn");
-                StopCoroutine("TrailingEffectOff");
                 Destroy(particleEffect);
                 changingStatus = false;
                 controlled = false;
+                gettingShoot = false;
             }
         }
         else if (!controlled && !shootingLights) {
@@ -91,12 +90,19 @@ public class EnemyController : MonoBehaviour {
     public void StartPatrol() {
         //Debug.Log("Start Patrol");
         StopCoroutine("Patrol");
+        StopCoroutine("HuntTraitor");
         StopCoroutine("Chase");
         enemy.moveMinSpeed = 2f;
+        enemyTarget = null;
         animator.SetBool("PlayerInSight", false);
+        animator.SetBool("EnemyTraitor", false);
         playerInSight = false;
+        weapon.StopCoroutine("TrailingEffectOn");
+        weapon.StopCoroutine("LightningEffectOn");
+        Destroy(weapon.particleEffect);
         if (flipStartDir)
             setDestination(endPoint);
+        weapon.transform.parent.rotation = Quaternion.Euler(0f, 0f, transform.localScale.x>0?73.4f:-73.4f);
         StartCoroutine("Patrol");
         weapon.mLineRenderer.material = weapon.idleMaterial;
     }
@@ -104,13 +110,26 @@ public class EnemyController : MonoBehaviour {
     public void StartChase() {
         //Debug.Log("Start Chase");
         StopCoroutine("Patrol");
+        StopCoroutine("HuntTraitor");
         StopCoroutine("Chase");
+        enemyTarget = null;
         enemy.moveMinSpeed = 4f;
         animator.SetBool("PlayerInSight", true);
+        animator.SetBool("EnemyTraitor", false);
         playerInSight = true;
         StartCoroutine("TransitionEffects");
         StartCoroutine("Chase");
-        
+    }
+
+    public void StartTraitorHunt() {
+        //Debug.Log("Start Tritor Hunt");
+        StopCoroutine("Patrol");
+        StopCoroutine("HuntTraitor");
+        StopCoroutine("Chase");
+        enemy.moveMinSpeed = 4f;
+        animator.SetBool("EnemyTraitor", true);
+        StartCoroutine("TransitionEffects");
+        StartCoroutine("HuntTraitor");
     }
 
     public void ControlledOn(Transform gun) {
@@ -123,19 +142,25 @@ public class EnemyController : MonoBehaviour {
     }
 
     private bool InLineOfSight(Transform target, float range) {
-        if (player != null) {
             Vector3 dir = (weapon.laserDirection.position - weapon.barrel.position);
             dir.y = 0;
             RaycastHit2D hit = Physics2D.Raycast(weapon.barrel.position, dir, range, sightLayerMask);
-            if (hit.transform)
+        if (hit.transform) {
+            if (target.CompareTag(Tags.player)) {
                 if (hit.collider != null && hit.collider.gameObject.name == target.name && target.GetComponent<Player>() != null && target.GetComponent<Player>().isVisible)
                     return true;
+            }
+            else if (target.CompareTag(Tags.enemy)) {
+                if (hit.collider != null && hit.collider.gameObject.name == target.name && hit.collider.GetComponent<EnemyController>().controlled)
+                    return true;
+            }
+
         }
         return false;
     }
 
     IEnumerator Patrol() {
-        
+
         while (true) {
 
             if ((startPoint.position.x - transform.position.x > 0 || enemyController2D.collisions.left) && !controlled && !animator.GetBool("PlayerInSight"))
@@ -149,8 +174,9 @@ public class EnemyController : MonoBehaviour {
                 if(hit && hit.collider.CompareTag(Tags.light)) {
                     LightController lightController = hit.collider.gameObject.GetComponent<LightController>();
                     if (!lightController.lightStatus && !lightController.changingStatus && weapon.currentCharge > 0) {
-                        lightController.SwitchOnOff(weapon.transform);
                         weapon.armTransform.rotation = Quaternion.Euler(0.0f, 0.0f, enemy.transform.localScale.x * 159.1f);
+                        lightController.SwitchOnOff(weapon.transform);
+                        weapon.StartCoroutine("TrailingEffectOn", lightController.switchTime);
                         weapon.StartCoroutine("LightningEffectOn",lightController.switchTime);
                         shootingLights = true;
                     }
@@ -171,7 +197,7 @@ public class EnemyController : MonoBehaviour {
                         }
                     }
                     if (ladder != null) {
-                        mChaseTarget = ladder.GetComponent<Collider2D>().bounds.max /*+new Vector3(transform.localScale.x* 4,0,0)*/;
+                        mChaseTarget = ladder.GetComponent<Collider2D>().bounds.max;
                         mDirection = (mChaseTarget - transform.position);
                         mDirection.x +=transform.localScale.x;
                         if (ladder.transform.Find("TopLadder"))
@@ -187,7 +213,7 @@ public class EnemyController : MonoBehaviour {
                         mDirection.x += 0.03f * Mathf.Sign(mDirection.x);
                 }
 
-                if (shootingLights)
+                if (shootingLights || gettingShoot)
                     mDirection = Vector2.zero;
 
                 if (!changingStatus && player != null)
@@ -196,10 +222,9 @@ public class EnemyController : MonoBehaviour {
                         playerInSight = true;
                         mChaseTarget = player.position;
                     }
-                Debug.Log(mDirection.normalized);
                 enemy.SetDirectionalInput(mDirection.normalized);
             }
-            else if (changingStatus || enemy.controlling)
+            else if (changingStatus || enemy.controlling || gettingShoot)
                 enemy.SetDirectionalInput(Vector2.zero);
 
             yield return null;
@@ -303,6 +328,58 @@ public class EnemyController : MonoBehaviour {
         }
     }
 
+    IEnumerator HuntTraitor() {
+        //da mettere condizioni di uscita, lo sparo al nemico per uccidere e fare lo stato nell'animator
+        while (true) {
+            Transform _enemyTarget = null;
+            if (!controlled && !changingStatus && !shootingLights) {
+                foreach (GameObject _enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
+                    if (_enemy.GetComponent<EnemyController>().controlled) {
+                        _enemyTarget = _enemy.transform;
+                        break;
+                    }
+                }
+                if (_enemyTarget != null) {
+                    if(enemyTarget!=null && enemyTarget.parent!=_enemyTarget.parent) {
+                        StopCoroutine("ShootEnemy");
+                        enemyTarget.GetComponent<EnemyController>().gettingShoot = false;
+                        enemy.gameObject.GetComponent<Animator>().SetBool("EnemyTraitor", false);
+                    }
+                    enemyTarget = _enemyTarget;
+                    mChaseTarget = enemyTarget.position;
+                    mDirection = (mChaseTarget - transform.position);
+
+                    if (!enemy.isClimbing && InLineOfSight(enemyTarget, weaponRange) && enemy.controller.collisions.below && !changingStatus && !gettingShoot && enemy.gameObject.GetComponent<Animator>().GetBool("EnemyTraitor")) {
+                        EnemyController enemyTargetC = enemyTarget.GetComponent<EnemyController>();
+                        enemyTargetC.StopCoroutine("ShootEnemy");
+                        EnemyWeapon _enemyWeapon = enemyTargetC.GetComponentInChildren<EnemyWeapon>();
+                        _enemyWeapon.enemyControlled.StopCoroutine("ConrtolledOn");
+                        _enemyWeapon.enemyControlled.changingStatus = false;
+                        _enemyWeapon.enemyControlled.gettingShoot = false;
+                        _enemyWeapon.mLineRenderer.enabled = true;
+                        _enemyWeapon.StopCoroutine("LightningEffectOn");
+                        _enemyWeapon.StopCoroutine("TrailingEffectOn");
+                        _enemyWeapon.StopCoroutine("TrailingEffectOff");
+                        Destroy(_enemyWeapon.particleEffect);
+                        StartCoroutine("ShootEnemy", enemyTarget);
+                    }
+
+                    if (shootingLights || gettingShoot)
+                        mDirection = Vector2.zero;
+
+                    enemy.SetDirectionalInput(mDirection.normalized);
+                }
+                else {
+                    enemy.gameObject.GetComponent<Animator>().SetBool("EnemyTraitor", false);
+                }
+            }
+            else if (changingStatus || gettingShoot)
+                enemy.SetDirectionalInput(Vector2.zero);
+
+            yield return null;
+        }
+    }
+
     IEnumerator ConrtolledOn(Transform gun) {
         Transform pointOfOrigin = null;
         changingStatus = true;
@@ -317,13 +394,11 @@ public class EnemyController : MonoBehaviour {
         }
         
         int seconds = (int)switchTime;
-        StartCoroutine("TrailingEffectOn", pointOfOrigin);
+
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
             seconds--;
         }
-        StopCoroutine("TrailingEffectOn");
-        Destroy(particleEffect);
         controlled = true;
         if (shooter.GetComponent<Player>() != null) {
             shooter.GetComponent<Player>().controlling = true;
@@ -360,7 +435,14 @@ public class EnemyController : MonoBehaviour {
             seconds--;
         }
         weapon.mLineRenderer.material = weapon.aimMaterial;
+        weapon.transform.parent.rotation = Quaternion.Euler(0f, 0f, transform.localScale.x > 0 ? 73.4f : -73.4f);
         changingStatus = false;
+        if(shootingLights) {
+            weapon.StopCoroutine("TrailingEffectOn");
+            weapon.StopCoroutine("LightningEffectOn");
+            Destroy(weapon.particleEffect);
+            shootingLights = false;
+        }
     }
 
     IEnumerator ReturnToPatrol() {
@@ -373,36 +455,49 @@ public class EnemyController : MonoBehaviour {
     }
 
     IEnumerator ShootPlayer() {
-        if(!shootingLights)
-        StartCoroutine("TrailingEffectOff", player.transform);
+        if (!shootingLights) {
+            weapon.StopCoroutine("TrailingEffectOn");
+            weapon.StopCoroutine("LightningEffectOn");
+            Destroy(weapon.particleEffect);
+            weapon.StartCoroutine("TrailingEffectOn", switchTime);
+            weapon.StartCoroutine("LightningEffectOn", switchTime);
+        }
+        
         shootingLights = true;
         player.GetComponent<Player>().controlling = true;
         player.GetComponent<Player>().SetDirectionalInput(Vector2.zero);
         player.GetComponent<PlayerInput>().enabled = false;
         yield return new WaitForSeconds(switchTime);
         EventManager.TriggerEvent("PlayerControlled");
-        StopCoroutine("TrailingEffectOff");
-        
+        weapon.StopCoroutine("TrailingEffectOn");
+        weapon.StopCoroutine("LightningEffectOn");
     }
 
-    IEnumerator TrailingEffectOn(Transform gun) {
-        float startTime = Time.time;
-        particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
-        while (true) {
-            particleEffect.transform.position = Vector3.Lerp(gun.position, transform.position, Mathf.SmoothStep(0, 1, (Time.time - startTime) / switchTime));
-            yield return null;
+    IEnumerator ShootEnemy(Transform _enemy) {
+        if (!shootingLights) {
+            weapon.StopCoroutine("TrailingEffectOn");
+            weapon.StopCoroutine("LightningEffectOn");
+            Destroy(weapon.particleEffect);
+            weapon.StartCoroutine("TrailingEffectOn", switchTime);
+            weapon.StartCoroutine("LightningEffectOn", switchTime);
         }
-    }
+        shootingLights = true;
+        _enemy.GetComponent<EnemyController>().gettingShoot = true;
+        EnemyWeapon _enemyWeapon = _enemy.GetComponentInChildren<EnemyWeapon>();
+        _enemyWeapon.StopCoroutine("LightningEffectOn");
+        _enemyWeapon.StopCoroutine("TrailingEffectOn");
+        _enemyWeapon.StopCoroutine("TrailingEffectOff");
+        SoundManager.Instance.GunshotStop();
+        Destroy(_enemyWeapon.particleEffect);
+        _enemy.GetComponent<EnemyController>().controlled = true;
+        _enemy.GetComponent<Enemy>().SetDirectionalInput(Vector2.zero);
+        _enemy.GetComponent<EnemyInput>().enabled = false;
+        yield return new WaitForSeconds(switchTime);
+        if(_enemy && _enemy.parent.gameObject)
+            Destroy(_enemy.parent.gameObject);
+        weapon.StopCoroutine("TrailingEffectOn");
+        weapon.StopCoroutine("LightningEffectOn");
 
-    IEnumerator TrailingEffectOff(Transform gun) {
-        float startTime = Time.time;
-        particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
-        while (true) {
-            particleEffect.transform.position = Vector3.Lerp(transform.position, gun.position, Mathf.SmoothStep(0, 1, (Time.time - startTime) / switchTime));
-            yield return null;
-            weapon.soundManager.Gunshot((Time.time - startTime));
-            weapon.lightning.Trigger();
-        }
     }
 
     private void OnDestroy() {
@@ -423,6 +518,16 @@ public class EnemyController : MonoBehaviour {
                 shooter.GetComponent<Enemy>().controlling = true;
                 enemy.GetComponentInChildren<EnemyWeapon>().untraversableLayers = enemy.GetComponentInChildren<EnemyWeapon>().groundLayer;
             }
+
+        BoxCollider2D coll = GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<BoxCollider2D>();
+        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
+            if (coll.bounds.Contains(enemy.transform.position + new Vector3(0, 0, -10))) {
+                if (!enemy.transform.GetComponent<Animator>().GetBool("PlayerInSight") && !enemy.transform.GetComponent<EnemyController>().changingStatus && !enemy.transform.GetComponent<EnemyController>().controlled) {
+                    enemy.gameObject.GetComponent<Animator>().SetBool("EnemyTraitor", false);
+                    enemy.GetComponent<EnemyController>().shootingLights = false;
+                }
+            }
+        } 
     }
 
     private void OnDrawGizmos() {
