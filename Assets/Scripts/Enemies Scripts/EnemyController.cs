@@ -108,6 +108,7 @@ public class EnemyController : MonoBehaviour {
         enemy.moveMinSpeed = 4f;
         animator.SetBool("PlayerInSight", true);
         playerInSight = true;
+        SoundManager.Instance.ChangeSoundtrack();
         StartCoroutine("TransitionEffects");
         StartCoroutine("Chase");
         
@@ -196,7 +197,7 @@ public class EnemyController : MonoBehaviour {
                         playerInSight = true;
                         mChaseTarget = player.position;
                     }
-                Debug.Log(mDirection.normalized);
+                //Debug.Log(mDirection.normalized);
                 enemy.SetDirectionalInput(mDirection.normalized);
             }
             else if (changingStatus || enemy.controlling)
@@ -367,6 +368,7 @@ public class EnemyController : MonoBehaviour {
         //Debug.Log("Loosing Target...");
         yield return new WaitForSeconds(timeToReturnPatrol);
         //Debug.Log("...Target Lost, Returning!");
+        SoundManager.Instance.ChangeSoundtrack();
         animator.SetBool("PlayerInSight", false);
         playerInSight = false;
         losingTarget = false;
@@ -378,11 +380,11 @@ public class EnemyController : MonoBehaviour {
         shootingLights = true;
         player.GetComponent<Player>().controlling = true;
         player.GetComponent<Player>().SetDirectionalInput(Vector2.zero);
+
         player.GetComponent<PlayerInput>().enabled = false;
         yield return new WaitForSeconds(switchTime);
         EventManager.TriggerEvent("PlayerControlled");
-        StopCoroutine("TrailingEffectOff");
-        
+        StopCoroutine("TrailingEffectOff");       
     }
 
     IEnumerator TrailingEffectOn(Transform gun) {

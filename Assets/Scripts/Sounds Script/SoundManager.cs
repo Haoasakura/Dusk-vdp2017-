@@ -30,6 +30,12 @@ public class SoundManager : MonoBehaviour
     private float lowPitchRange = .95f;
     private float highPitchRange = 1.05f;
 
+    [Header("Soundtrack")]
+    public AudioSource as_soundtrack1;
+    public AudioSource as_soundtrack2;
+    public AudioClip ac_level11;
+    public AudioClip ac_level12;
+
 
     // Use this for initialization
     void Awake()
@@ -108,5 +114,39 @@ public class SoundManager : MonoBehaviour
         as_objects.PlayOneShot(ac_chekpointReached);
     }
 
+    public void ReturnToNormalSoundtrack()
+    {
+            as_soundtrack1.mute = false;
+            as_soundtrack1.volume = 1;
+            while (as_soundtrack2.volume > 0.1f)
+            {
+                as_soundtrack2.volume -= Time.deltaTime / 3;
+            }
+            as_soundtrack2.mute = true;
+    }
+
+    public void ChangeSoundtrack()
+    {
+        if (!as_soundtrack1.mute)
+        {
+            as_soundtrack2.mute = false;
+            as_soundtrack2.volume = 1;
+            while (as_soundtrack1.volume > 0.1f)
+            {
+                as_soundtrack1.volume -= Time.deltaTime / 3;
+            }
+            as_soundtrack1.mute = true;
+        }
+        else
+        {
+            as_soundtrack1.mute = false;
+            as_soundtrack1.volume = 1;
+            while (as_soundtrack2.volume > 0.1f)
+            {
+                as_soundtrack2.volume -= Time.deltaTime / 3;
+            }
+            as_soundtrack2.mute = true;
+        }
+    }
 
 }

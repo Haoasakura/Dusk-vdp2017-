@@ -294,11 +294,13 @@ public class Player : MonoBehaviour
     private void DeathProcess()
     {
         Instantiate(explosionDeath, transform.position, transform.rotation);
+        SoundManager.Instance.ReturnToNormalSoundtrack();
         Destroy(gameObject);
     }
 
     private void OnDestroy()
     {
+        SoundManager.Instance.ReturnToNormalSoundtrack();
         EventManager.TriggerEvent("ReloadScene");
     }
 
