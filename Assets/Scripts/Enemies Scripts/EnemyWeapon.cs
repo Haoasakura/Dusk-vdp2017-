@@ -71,13 +71,11 @@ public class EnemyWeapon : MonoBehaviour {
             float b = Input.GetAxis("VerticalGun");
             float c = Mathf.Sqrt(Mathf.Pow(a, 2) + Mathf.Pow(b, 2));
             //rotazione della pistola
-
-            if (Mathf.Abs(c) < 0.5) {
+            if (Mathf.Abs(c) < 0.5)
                 mLineRenderer.material = idleMaterial;
-            }
-            else {
+        
+            else
                 mLineRenderer.material = aimMaterial;
-            }
 
             if (Mathf.Abs(c) > 0.9 && !isLocked) {
                 float angleRot = -Mathf.Sign(b) * Mathf.Rad2Deg * Mathf.Acos(a / c);
@@ -85,21 +83,15 @@ public class EnemyWeapon : MonoBehaviour {
                 if(GetComponentInParent<Enemy>().transform.localScale.x>0)
                     transform.parent.rotation = Quaternion.Euler(0f, 0f, 73+angleRot);
                 else
-                     transform.parent.rotation = Quaternion.Euler(0f, 0f, 93+angleRot);
-
-                //transform.parent.RotateAround (pivot.position, Vector3.forward, angleRot);
+                    transform.parent.rotation = Quaternion.Euler(0f, 0f, 93+angleRot);
                 
                 //mantiene la sprite dell'arma nel verso giusto
                 if (mTransform.rotation.eulerAngles.z % 270 < 90 && mTransform.rotation.eulerAngles.z % 270 > 0) {
                     GetComponent<SpriteRenderer>().flipY = false;
-                    //arm.flipX = false;
-                    //armShadow.flipX = false;
                     transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().flipY = false;
                 }
                 else {
                     GetComponent<SpriteRenderer>().flipY = true;
-                    //arm.flipX = true;
-                    //armShadow.flipX = true;
                     transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().flipY = true;
                 }
             }
@@ -142,7 +134,7 @@ public class EnemyWeapon : MonoBehaviour {
                     else if (mTarget.CompareTag(Tags.enemy)) {
                         enemyControlled = mTarget.GetComponent<EnemyController>();
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && currentCharge >= enemyControlled.controlCost) {
-                            enemyControlled.ControlledOnOff(transform);
+                            enemyControlled.ControlledOn(transform);
                             StartCoroutine("LightningEffectOn", mTarget.GetComponent<EnemyController>().switchTime);
                             StartCoroutine("TrailingEffectOn", mTarget.GetComponent<EnemyController>().switchTime);
                             isLocked = true;
@@ -150,7 +142,7 @@ public class EnemyWeapon : MonoBehaviour {
                     }
                 }
             }
-            if (Input.GetButtonUp("Fire1") /*&& !enemy.controlling*/) {
+            if (Input.GetButtonUp("Fire1")) {
                 isLocked = false;
                 mLineRenderer.enabled = true;
                 StopCoroutine("LightningEffectOn");

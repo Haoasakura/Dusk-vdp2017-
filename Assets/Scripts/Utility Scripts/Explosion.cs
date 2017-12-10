@@ -5,8 +5,7 @@ public class Explosion : MonoBehaviour
 {
     public float delay = 0f;
     public AudioClip ac_explosion;
-
-    // Use this for initialization
+    
     void Start()
     {
         GetComponent<AudioSource>().PlayOneShot(ac_explosion);

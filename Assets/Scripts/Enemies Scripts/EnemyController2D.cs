@@ -29,9 +29,8 @@ public class EnemyController2D : RaycastController
         collisions.moveAmountOld = moveAmount;
         playerInput = input;
 
-        if (moveAmount.x != 0) {
+        if (moveAmount.x != 0)
             collisions.faceDir = (int)Mathf.Sign(moveAmount.x);
-        }
 
         if (moveAmount.y < 0) {
             moveAmount.y = moveAmount.y * gravityOnFall;
@@ -40,40 +39,23 @@ public class EnemyController2D : RaycastController
 
         HorizontalCollisions(ref moveAmount);
 
-        if (moveAmount.y != 0) {
+        if (moveAmount.y != 0)
             VerticalCollisions(ref moveAmount);
-        }
 
         transform.Translate(moveAmount);
 
-        if (standingOnPlatform) {
+        if (standingOnPlatform)
             collisions.below = true;
-        }
 
-        if (moveAmount.x < -0.001f)
-        {
+        if (moveAmount.x < -0.001f) {
             if (transform.localScale.Equals(new Vector3(1, 1, 1)))
-            {
-                if (transform.GetComponent<EnemyController>().controlled) {
+                if (transform.GetComponent<EnemyController>().controlled) 
                     transform.localScale = new Vector3(-1, 1, 1);
-                    //pivotArm.transform.localScale = new Vector3(-1, 1, 1);
-
-                    //pivotArm.transform.localRotation = Quaternion.Euler(0f, 0f, -pivotArm.transform.localRotation.z * Mathf.Rad2Deg * 2);
-                }
-            }
         }
-
-        else if (moveAmount.x > 0.001f)
-        {
+        else if (moveAmount.x > 0.001f) {
             if (transform.localScale.Equals(new Vector3(-1, 1, 1)))
-            {
-                if (transform.GetComponent<EnemyController>().controlled) {
+                if (transform.GetComponent<EnemyController>().controlled)
                     transform.localScale = new Vector3(1, 1, 1);
-                    //pivotArm.transform.localScale = new Vector3(1, 1, 1);
-
-                    //pivotArm.transform.localRotation = Quaternion.Euler(0f, 0f, -pivotArm.transform.localRotation.z * Mathf.Rad2Deg * 2);
-                }
-            }
         }
     }
 
@@ -81,9 +63,8 @@ public class EnemyController2D : RaycastController
         float directionX = collisions.faceDir;
         float rayLength = Mathf.Abs(moveAmount.x) + skinWidth;
 
-        if (Mathf.Abs(moveAmount.x) < skinWidth) {
+        if (Mathf.Abs(moveAmount.x) < skinWidth)
             rayLength = 2 * skinWidth;
-        }
 
         for (int i = 0; i < horizontalRayCount; i++) {
             Vector2 rayOrigin = (directionX == -1) ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight;
@@ -93,10 +74,9 @@ public class EnemyController2D : RaycastController
             Debug.DrawRay(rayOrigin, Vector2.right * directionX, Color.red);
 
             if (hit) {
-                if (hit.distance == 0) {
+                if (hit.distance == 0)
                     continue;
-                }
-
+                
                 float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
 
                 if (i == 0 && slopeAngle <= maxClimbAngle) {
@@ -117,9 +97,8 @@ public class EnemyController2D : RaycastController
                     moveAmount.x = (hit.distance - skinWidth) * directionX;
                     rayLength = hit.distance;
 
-                    if (collisions.climbingSlope) {
+                    if (collisions.climbingSlope)
                         moveAmount.y = Mathf.Tan(collisions.slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(moveAmount.x);
-                    }
 
                     collisions.left = directionX == -1;
                     collisions.right = directionX == 1;
