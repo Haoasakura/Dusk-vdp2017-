@@ -940,6 +940,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1280
   soundManager: {fileID: 114360353280467046}
+  particleEffect: {fileID: 0}
+  enemyControlled: {fileID: 0}
   mLineRenderer: {fileID: 0}
   lightning: {fileID: 0}
 --- !u!114 &114588290174991098
@@ -974,7 +976,7 @@ MonoBehaviour:
   changingStatus: 0
   autodestruct: 0
   playerInSight: 0
-  flipStartDir: 0
+  flipStartDir: 1
   sightLayerMask:
     serializedVersion: 2
     m_Bits: 1280
@@ -985,6 +987,7 @@ MonoBehaviour:
   animator: {fileID: 95698153002782214}
   losingTarget: 0
   shootingLights: 0
+  gettingShoot: 0
   startPoint: {fileID: 4908477930762620}
   endPoint: {fileID: 4080785784595764}
 --- !u!120 &120263575085329158
