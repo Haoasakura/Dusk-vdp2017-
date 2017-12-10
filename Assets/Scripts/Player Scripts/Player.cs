@@ -287,7 +287,7 @@ public class Player : MonoBehaviour
 
     IEnumerator PuppetAnimation()
     {
-        yield return new WaitForSeconds(1);
+        yield return null;//new WaitForSeconds(1);
         EventManager.TriggerEvent("PlayerDied");
     }
 

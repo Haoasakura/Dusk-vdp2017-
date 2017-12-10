@@ -9,7 +9,7 @@ public class Explosion : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        this.GetComponent<AudioSource>().PlayOneShot(ac_explosion);
+        GetComponent<AudioSource>().PlayOneShot(ac_explosion);
         Destroy(gameObject, this.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length + delay);
     }
 }

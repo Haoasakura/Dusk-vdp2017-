@@ -34,7 +34,8 @@ public class EnemyWeapon : MonoBehaviour {
     private Transform mTransform;
     private EnemyController enemyControlled;
     public LineRenderer mLineRenderer;
-    private DigitalRuby.LightningBolt.LightningBoltScript lightning;
+    [HideInInspector]
+    public DigitalRuby.LightningBolt.LightningBoltScript lightning;
 
     private void Awake() {
         gunRange = Mathf.Abs((laserDirection.position - barrel.position).x);

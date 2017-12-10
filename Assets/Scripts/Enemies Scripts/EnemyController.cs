@@ -18,6 +18,7 @@ public class EnemyController : MonoBehaviour {
     public LayerMask sightLayerMask;
 
     public GameObject explosion;
+    public GameObject alert;
     public GameObject absorptionEffect;  
     public DecisionTree chasingDT;
     public BehaviourTree patrolBT;
@@ -426,7 +427,7 @@ public class EnemyController : MonoBehaviour {
         int seconds = 1;
         
         while (seconds > 0) {
-            Instantiate(explosion, transform.position+Vector3.up, transform.rotation);
+            Instantiate(alert, transform.position+Vector3.up*1.6f, transform.rotation);
             yield return new WaitForSeconds(1f);
             seconds--;
         }
@@ -453,8 +454,9 @@ public class EnemyController : MonoBehaviour {
         player.GetComponent<Player>().SetDirectionalInput(Vector2.zero);
         player.GetComponent<PlayerInput>().enabled = false;
         yield return new WaitForSeconds(switchTime);
-        StopCoroutine("TrailingEffectOff");
         EventManager.TriggerEvent("PlayerControlled");
+        StopCoroutine("TrailingEffectOff");
+        
     }
 
     IEnumerator TrailingEffectOn(Transform gun) {
@@ -472,6 +474,8 @@ public class EnemyController : MonoBehaviour {
         while (true) {
             particleEffect.transform.position = Vector3.Lerp(transform.position, gun.position, Mathf.SmoothStep(0, 1, (Time.time - startTime) / switchTime));
             yield return null;
+            weapon.soundManager.Gunshot((Time.time - startTime));
+            weapon.lightning.Trigger();
         }
     }
 
