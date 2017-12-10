@@ -467,7 +467,9 @@ MonoBehaviour:
   ac_lever: {fileID: 8300000, guid: 74ec48ce9e6140e47ba7d1c9997d20bf, type: 3}
   ac_movingPlatform: {fileID: 8300000, guid: 903aea382316d874995ec767ea0c4476, type: 3}
   ac_chekpointReached: {fileID: 8300000, guid: 4b3afda972756af449f3ccf31fb4edde, type: 3}
-  as_soundtrack1: {fileID: 82834512028592402}
+  as_soundtrack1: {fileID: 82273385749664824}
   as_soundtrack2: {fileID: 82141366066888290}
   ac_level11: {fileID: 8300000, guid: 45c045803a1764d4ab6dfbdd890f03c0, type: 3}
   ac_level12: {fileID: 8300000, guid: e8459f88004d10446bc006b4cfcf06c8, type: 3}
+  fadeTime1: 2
+  fadeTime2: 10

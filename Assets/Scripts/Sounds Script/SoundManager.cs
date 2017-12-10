@@ -35,7 +35,8 @@ public class SoundManager : MonoBehaviour
     public AudioSource as_soundtrack2;
     public AudioClip ac_level11;
     public AudioClip ac_level12;
-
+    public float fadeTime1;
+    public float fadeTime2;
 
     // Use this for initialization
     void Awake()
@@ -116,41 +117,58 @@ public class SoundManager : MonoBehaviour
 
     public void PlayNormalSoundtrack()
     {
-        if (as_soundtrack1.mute)
-        {
-            as_soundtrack1.mute = false;
-            as_soundtrack1.volume = 0.1f;
-            while (as_soundtrack2.volume > 0.1f)
-            {
-                as_soundtrack1.volume += Time.deltaTime / 5;
-                as_soundtrack2.volume -= Time.deltaTime / 5;
-            }
-            as_soundtrack2.mute = true;
-        }
+
+        float t = fadeTime1;
+        as_soundtrack1.mute = false;
+        as_soundtrack1.volume = 0.5f;
+        StartCoroutine(FadeSountrack(as_soundtrack2, as_soundtrack1, t));
     }
 
     public void EndSoundtrack()
     {
-        while (as_soundtrack1.volume > 0.1f)
-        {
-            as_soundtrack1.volume -= Time.deltaTime / 10;
-        }
-        as_soundtrack1.mute = true;
+        float t = fadeTime2;
+        StartCoroutine(EndSoundtrack(as_soundtrack1, t));
     }
 
     public void PlayChaseSoundtrack()
     {
-        if (!as_soundtrack1.mute)
-        {
-            as_soundtrack2.mute = false;
-            as_soundtrack2.volume = 0.1f;
-            while (as_soundtrack1.volume > 0.1f)
-            {
-                as_soundtrack2.volume += Time.deltaTime / 5;
-                as_soundtrack1.volume -= Time.deltaTime / 5;
-            }
-            as_soundtrack1.mute = true;
-        }
+        float t = fadeTime1;
+        as_soundtrack2.mute = false;
+        as_soundtrack2.volume = 0.5f;
+        StartCoroutine(FadeSountrack(as_soundtrack1, as_soundtrack2, t));
     }
 
+    private IEnumerator EndSoundtrack(AudioSource as_soundtrack1, float t)
+    {
+        if (!as_soundtrack1.mute)
+        {
+            while (t > 0)
+            {
+                yield return null;
+                t -= Time.deltaTime;
+                as_soundtrack1.volume -= Time.deltaTime / fadeTime2;
+                as_player.volume -= Time.deltaTime / fadeTime2;
+            }
+
+
+        }
+        yield break;
+    }
+
+    private IEnumerator FadeSountrack(AudioSource s1, AudioSource s2, float t)
+    {
+        if (!s1.mute)
+        {
+
+            while (t > 0)
+            {
+                yield return null;
+                t -= Time.deltaTime;
+                s2.volume += Time.deltaTime / fadeTime1;
+                s1.volume -= Time.deltaTime / fadeTime1;
+            }
+            s1.mute = true;
+        }
+        yield break;
+    }
 }
