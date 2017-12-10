@@ -25,8 +25,6 @@ public class FadeToBlack : MonoBehaviour {
         {
             if (!GetComponent<AudioSource>().isPlaying)
             {
-                Debug.Log("oi");
-
                 SoundManager.Instance.EndSoundtrack();
                 GetComponent<AudioSource>().Play();
             }

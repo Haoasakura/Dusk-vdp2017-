@@ -70,6 +70,7 @@ public class UIChapterTitle : MonoBehaviour {
 
     IEnumerator FadeOutAll()
     {
+
         CanvasGroup cg = gameObject.GetComponent<CanvasGroup>();
         while (cg.alpha > 0)
         {
@@ -82,6 +83,7 @@ public class UIChapterTitle : MonoBehaviour {
 
     IEnumerator FadeInTitle()
     {
+
         CanvasGroup cg = title.GetComponent<CanvasGroup>();
         while (cg.alpha < 1)
         {
@@ -89,6 +91,8 @@ public class UIChapterTitle : MonoBehaviour {
             yield return null;
         }
         cg.interactable = false;
+        SoundManager.Instance.as_soundtrack1.Play();
+        SoundManager.Instance.ReturnSounds();
         yield return null;
     }
 }

@@ -138,6 +138,13 @@ public class SoundManager : MonoBehaviour
         StartCoroutine(FadeSountrack(as_soundtrack1, as_soundtrack2, t));
     }
 
+    public void ReturnSounds()
+    {
+        as_soundtrack1.volume = 1;
+        as_gun.volume = 0.5f;
+        as_player.volume = 0.5f;
+    }
+
     private IEnumerator EndSoundtrack(AudioSource as_soundtrack1, float t)
     {
         if (!as_soundtrack1.mute)
@@ -147,10 +154,9 @@ public class SoundManager : MonoBehaviour
                 yield return null;
                 t -= Time.deltaTime;
                 as_soundtrack1.volume -= Time.deltaTime / fadeTime2;
+                as_gun.volume -= Time.deltaTime / fadeTime2;
                 as_player.volume -= Time.deltaTime / fadeTime2;
             }
-
-
         }
         yield break;
     }
