@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ButtonController : MonoBehaviour {
 
+    public Sprite[] sprites;
+
     [Header("TRUE -> Pressure Plate; FALSE -> Set Reset Button")]
     [SerializeField]
     private bool isPressurePlate;
@@ -22,6 +24,7 @@ public class ButtonController : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        GetComponent<SpriteRenderer>().sprite = sprites[1];
         if (!isPressurePlate && isFirstPass)
         {
             osm.PlaySound(0.95f);
@@ -41,6 +44,7 @@ public class ButtonController : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        GetComponent<SpriteRenderer>().sprite = sprites[0];
         if (isPressurePlate)
         {
             osm.PlaySound(1.05f);
