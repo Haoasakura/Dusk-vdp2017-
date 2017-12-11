@@ -109,6 +109,12 @@ public class Player : MonoBehaviour
     public void SetDirectionalInput(Vector2 input)
     {
         directionalInput = input;
+        if (controlling)
+        {
+            directionalInput.x = 0f;
+            directionalInput.y = 0f;
+
+        }
     }
 
     public void OnJumpInputDown()
@@ -216,14 +222,6 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (collision.gameObject.tag.Equals("ResetGun"))
-        {
-            if (gun.GetComponent<GunController>().currentCharge > 0)
-            {
-                collision.GetComponent<AudioSource>().Play();
-            }
-            gun.GetComponent<GunController>().currentCharge = 0;
-        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)

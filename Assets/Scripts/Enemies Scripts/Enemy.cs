@@ -159,15 +159,6 @@ public class Enemy : MonoBehaviour
                 collision.gameObject.tag = "Through";
             }
         }
-
-        if (collision.gameObject.tag.Equals("ResetGun"))
-        {
-            if (weapon.GetComponent<EnemyWeapon>().currentCharge > 0)
-            {
-                collision.GetComponent<AudioSource>().Play();
-            }
-            weapon.GetComponent<EnemyWeapon>().currentCharge = 0;
-        }
     }
 
     private void OnTriggerStay2D(Collider2D collision) {

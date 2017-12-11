@@ -422,6 +422,7 @@ public class EnemyController : MonoBehaviour {
         controlled = true;
         if (shooter.GetComponent<Player>() != null) {
             shooter.GetComponent<Player>().controlling = true;
+            player.GetComponent<Player>().SetDirectionalInput(Vector2.zero);
             gun.GetComponent<GunController>().currentCharge -= controlCost;
             EventManager.TriggerEvent("EnemyControlled");
         }

@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour {
         {
             UITitle.GetComponent<MainMenu>().ready = false;
             UITitle.GetComponent<MainMenu>().FadeMe();
+
             UIChapTitle.GetComponent<UIChapterTitle>().ready = true;
             UIChapTitle.GetComponent<UIChapterTitle>().finished = true;
         }
@@ -132,7 +133,12 @@ public class GameManager : MonoBehaviour {
         {
             Debug.Log("PlayerFound");
         }
+        UITitle.GetComponent<MainMenu>().optionsText.SetActive(false);
+        UITitle.GetComponent<MainMenu>().loadingText.SetActive(true);
         Debug.Log(player.transform.position);
+        UIChapTitle.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
+        UITitle.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
+
         camera.transform.position = cameraPosition;
         player.transform.position = playerPosition;
         camera.GetComponent<CameraController>().ActivateEnemies();

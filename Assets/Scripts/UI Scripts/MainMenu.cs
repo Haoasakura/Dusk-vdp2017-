@@ -7,13 +7,14 @@ public class MainMenu : MonoBehaviour
 {
     public bool ready = false;
 
+    public GameObject optionsText;
+    public GameObject loadingText;
+
     // Update is called once per frame
     void Update()
     {
         if(Input.GetButtonDown("Submit") && gameObject.GetComponent<CanvasGroup>().alpha == 1)
         {
-            GetComponentInChildren<Transform>().GetChild(2).gameObject.SetActive(false);
-            GetComponentInChildren<Transform>().GetChild(3).gameObject.SetActive(true);
             ready = true;
         }
     }
