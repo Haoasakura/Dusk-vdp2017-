@@ -14,19 +14,23 @@ public class MachineryController : MonoBehaviour {
     public bool changingStatus = false;
     public float flickeringRange;
     public Sprite[] sprites = new Sprite[2];
+    public Transform shooter = null;
+    public Sprite[] lampSprites;
+    public SpriteRenderer Lamp;
 
     private SpriteRenderer spriteRenderer;
-    public Transform shooter = null;
 
     void Start () {
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (powered == false)
         {
             spriteRenderer.sprite = sprites[1];
+            Lamp.sprite = lampSprites[1];
         }
         else
         {
             spriteRenderer.sprite = sprites[0];
+            Lamp.sprite = lampSprites[0];
         }
     }
 	
@@ -42,10 +46,12 @@ public class MachineryController : MonoBehaviour {
                 if (powered)
                 {
                     spriteRenderer.sprite = sprites[0];
+                    Lamp.sprite = lampSprites[0];
                 }
                 else
                 {
                     spriteRenderer.sprite = sprites[1];
+                    Lamp.sprite = lampSprites[1];
                 }
             }
         }
@@ -82,6 +88,7 @@ public class MachineryController : MonoBehaviour {
             seconds--;
         }
         spriteRenderer.sprite = sprites[0];
+        Lamp.sprite = lampSprites[0];
         powered = true;
         if (shooter.GetComponent<Player>() != null) {
             gun.GetComponent<GunController>().currentCharge -= powerCharge;
@@ -111,6 +118,7 @@ public class MachineryController : MonoBehaviour {
             seconds--;
         }
         spriteRenderer.sprite = sprites[1];
+        Lamp.sprite = lampSprites[1];
         powered = false;
         if (shooter.GetComponent<Player>() != null)
         {
@@ -134,11 +142,12 @@ public class MachineryController : MonoBehaviour {
             if (Random.Range(Time.time - startTime, switchTime) > switchTime / flickeringRange)
             {
                 spriteRenderer.sprite = sprites[0];
+                Lamp.sprite = lampSprites[0];
             }
             else
             {
                 spriteRenderer.sprite = sprites[1];
-
+                Lamp.sprite = lampSprites[1];
             }
             yield return null;
         }
@@ -152,11 +161,12 @@ public class MachineryController : MonoBehaviour {
             if (Random.Range(Time.time - startTime, switchTime) > switchTime / flickeringRange)
             {
                 spriteRenderer.sprite = sprites[1];
-
+                Lamp.sprite = lampSprites[1];
             }
             else
             {
                 spriteRenderer.sprite = sprites[0];
+                Lamp.sprite = lampSprites[0];
             }
             yield return null;
         }
