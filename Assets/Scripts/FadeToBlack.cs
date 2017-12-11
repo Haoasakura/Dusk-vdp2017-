@@ -46,7 +46,7 @@ public class FadeToBlack : MonoBehaviour {
         CanvasGroup cg = gameObject.GetComponentInChildren<CanvasGroup>();
         while (cg.alpha < 1)
         {
-            cg.alpha += Time.deltaTime / 10;
+            cg.alpha += Time.deltaTime / 5;
             yield return null;
         }
         cg.interactable = false;
