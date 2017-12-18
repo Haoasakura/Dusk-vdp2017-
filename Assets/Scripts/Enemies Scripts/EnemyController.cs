@@ -174,7 +174,7 @@ public class EnemyController : MonoBehaviour {
             else if ((endPoint.position.x - transform.position.x < 0 || enemyController2D.collisions.right) && !controlled && !animator.GetBool("PlayerInSight"))
                 setDestination(startPoint);
 
-            if (!animator.GetBool("PlayerInSight") && transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x) {
+            if (!animator.GetBool("PlayerInSight") && !controlled &&transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x) {
                 RaycastHit2D hit = Physics2D.Raycast(new Vector2(weapon.pivot.position.x, transform.GetComponent<BoxCollider2D>().bounds.max.y+0.01f), Vector2.up);
                 if(hit && hit.collider.CompareTag(Tags.light)) {
                     LightController lightController = hit.collider.gameObject.GetComponent<LightController>();
@@ -300,8 +300,17 @@ public class EnemyController : MonoBehaviour {
                     mChaseTarget = player.position;
                     mDirection = (mChaseTarget - transform.position);
                 }
+                bool collidingWithTarget = false;
+                foreach (Collider2D obj in Physics2D.OverlapCircleAll(boxCollider2D.bounds.min, 0.1f)) {
+                    if (player && obj.CompareTag(Tags.player) && player.GetComponent<Player>().isVisible) {
+                        collidingWithTarget = true;
+                        break;
+                    }
+                    else
+                        collidingWithTarget = false;
+                }
 
-                if (!enemy.isClimbing && player != null && InLineOfSight(player, weaponRange) && enemy.controller.collisions.below && !changingStatus && !gettingShoot)
+                if (!enemy.isClimbing && player != null && (InLineOfSight(player, weaponRange) || collidingWithTarget ) && enemy.controller.collisions.below && !changingStatus && !gettingShoot)
                     StartCoroutine("ShootPlayer");
 
                 //controllo per evitare di cadere nella sua morte
@@ -361,7 +370,17 @@ public class EnemyController : MonoBehaviour {
                         shootingLights = false;
                     }
 
-                    if (!enemy.isClimbing && InLineOfSight(enemyTarget, weaponRange) && enemy.controller.collisions.below && !changingStatus && !inTransition && !gettingShoot && enemy.gameObject.GetComponent<Animator>().GetBool("EnemyTraitor")) {
+                    bool collidingWithTarget = false;
+                    foreach (Collider2D obj in Physics2D.OverlapCircleAll(boxCollider2D.bounds.min, 0.1f)) {
+                        if (enemyTarget && obj.transform.parent==enemyTarget.parent && enemyTarget.GetComponent<EnemyController>().controlled) {
+                            collidingWithTarget = true;
+                            break;
+                        }
+                        else
+                            collidingWithTarget = false;
+                    }
+
+                    if (!enemy.isClimbing && (InLineOfSight(enemyTarget, weaponRange) || collidingWithTarget) && enemy.controller.collisions.below && !changingStatus && !inTransition && !gettingShoot && enemy.gameObject.GetComponent<Animator>().GetBool("EnemyTraitor")) {
                         EnemyController enemyTargetC = enemyTarget.GetComponent<EnemyController>();
                         enemyTargetC.StopCoroutine("ShootEnemy");
                         EnemyWeapon _enemyWeapon = enemyTargetC.GetComponentInChildren<EnemyWeapon>();
