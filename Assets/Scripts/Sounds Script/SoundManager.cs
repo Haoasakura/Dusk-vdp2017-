@@ -130,7 +130,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayNormalSoundtrack()
     {
-
+        Debug.Log("Ohi!");
         float t = fadeTime1;
         as_soundtrack1.mute = false;
         as_soundtrack1.volume = 0.5f;
