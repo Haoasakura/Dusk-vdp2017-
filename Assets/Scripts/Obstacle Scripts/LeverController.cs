@@ -4,18 +4,36 @@ using UnityEngine;
 
 public class LeverController : MonoBehaviour {
 
+    public bool isOneTime = false;
+
     [Header("GameObject associated with linked mechanism")]
     [SerializeField]
     private GameObject[] mechanisms;
 
+    private bool isUsed = false;
+
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (Input.GetButtonDown("Fire2") && other.gameObject.tag.Equals("Player") &&
-            !Input.GetButton("Fire1"))
+        if (!isOneTime)
         {
-            SoundManager.Instance.Lever();
-            gameObject.GetComponent<SpriteRenderer>().flipX = gameObject.GetComponent<SpriteRenderer>().flipX == true ? false : true;
-            Activate();
+            if (Input.GetButtonDown("Fire2") && other.gameObject.tag.Equals("Player") &&
+                !Input.GetButton("Fire1"))
+            {
+                SoundManager.Instance.Lever();
+                gameObject.GetComponent<SpriteRenderer>().flipX = gameObject.GetComponent<SpriteRenderer>().flipX == true ? false : true;
+                Activate();
+            }
+        }
+        else
+        {
+            if (Input.GetButtonDown("Fire2") && other.gameObject.tag.Equals("Player") &&
+                !Input.GetButton("Fire1") && !isUsed)
+            {
+                SoundManager.Instance.Lever();
+                gameObject.GetComponent<SpriteRenderer>().flipX = gameObject.GetComponent<SpriteRenderer>().flipX == true ? false : true;
+                Activate();
+                isUsed = true;
+            }
         }
     }
 
@@ -50,6 +68,10 @@ public class LeverController : MonoBehaviour {
             else if (mechanism.GetComponent<PlatformController>() != null)
             {
                 mechanism.GetComponent<PlatformController>().Activate();
+            }
+            else if (mechanism.GetComponent<SpawnEnemyOnEvent>() != null)
+            {
+                mechanism.GetComponent<SpawnEnemyOnEvent>().Spawn();
             }
         }
     }

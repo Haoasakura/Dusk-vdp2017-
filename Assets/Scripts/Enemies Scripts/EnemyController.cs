@@ -6,6 +6,7 @@ public class EnemyController : MonoBehaviour {
 
     public float secondsForOneLength = 5f;
     public float speed = 10f;
+    public float huntSpeed = 0f;
     public float switchTime = 3f;
     public float sightRange=10f;
     public int controlCost = 25;
@@ -117,7 +118,7 @@ public class EnemyController : MonoBehaviour {
         StopCoroutine("HuntTraitor");
         StopCoroutine("Chase");
         enemyTarget = null;
-        enemy.moveMinSpeed = 4f;
+        enemy.moveMinSpeed = huntSpeed;
         animator.SetBool("PlayerInSight", true);
         animator.SetBool("EnemyTraitor", false);
         playerInSight = true;
@@ -131,7 +132,7 @@ public class EnemyController : MonoBehaviour {
         StopCoroutine("Patrol");
         StopCoroutine("HuntTraitor");
         StopCoroutine("Chase");
-        enemy.moveMinSpeed = 4f;
+        enemy.moveMinSpeed = huntSpeed;
         animator.SetBool("EnemyTraitor", true);
         StartCoroutine("TransitionEffects");
         StartCoroutine("HuntTraitor");

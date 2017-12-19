@@ -104,6 +104,10 @@ public class ButtonController : MonoBehaviour {
             {
                 mechanism.GetComponent<PlatformController>().Activate();
             }
+            else if (mechanism.GetComponent<SpawnEnemyOnEvent>() != null)
+            {
+                mechanism.GetComponent<SpawnEnemyOnEvent>().Spawn();
+            }
         }
     }
 }

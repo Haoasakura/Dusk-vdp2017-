@@ -974,10 +974,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   secondsForOneLength: 5
   speed: 15
+  huntSpeed: 7.5
   switchTime: 3
   sightRange: 28
   controlCost: 25
   timeToReturnPatrol: 3
+  transitionDuration: 1
   controlled: 0
   changingStatus: 0
   autodestruct: 0
