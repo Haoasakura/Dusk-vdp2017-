@@ -106,12 +106,6 @@ public class GameManager : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    private void OnDestroy()
-    {
-
-        
-    }
-
     IEnumerator WaitLoading()
     {
         yield return new WaitForSeconds(1);

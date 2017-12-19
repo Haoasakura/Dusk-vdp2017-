@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         EventManager.StartListening("PlayerDied", DeathProcess);
+        EventManager.StartListening("PlayerDiedFromFall", DeathFromFallProcess);
         EventManager.StartListening("PlayerControlled", DelayedDeath);
     }
 
@@ -295,6 +296,21 @@ public class Player : MonoBehaviour
         SoundManager.Instance.PlayNormalSoundtrack();
         Destroy(gameObject);
     }
+
+    private void DeathFromFallProcess()
+    {
+        GetComponent<PlayerInput>().enabled = false;
+        this.tag = "Untagged";
+        SoundManager.Instance.PlayNormalSoundtrack();
+        SoundManager.Instance.PlayFallSound();
+        StartCoroutine(FallDestruction());
+    }
+
+    private IEnumerator FallDestruction()
+    {
+        yield return new WaitForSeconds(2);
+        Destroy(gameObject);
+    }        
 
     private void OnDestroy()
     {

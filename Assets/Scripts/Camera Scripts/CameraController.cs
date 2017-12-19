@@ -32,6 +32,7 @@ public class CameraController : MonoBehaviour {
         EventManager.StartListening("EnemyControlled", saveCameraPosition);
         EventManager.StartListening("EnemyDestroyed", returnOldFromEnemy);
         EventManager.StartListening("PlayerDied", returnOldCamera);
+        EventManager.StartListening("PlayerDiedFromFall", returnOldCamera);
         SaveCameraPosition();
     }
 
@@ -48,8 +49,6 @@ public class CameraController : MonoBehaviour {
 
     private void ReturnOldCamera()
     {
-        Debug.Log("ohi");
-        Debug.Log(cameraPosition);
         transform.position = cameraPosition;
     }
 

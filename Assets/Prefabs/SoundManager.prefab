@@ -135,7 +135,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 45c045803a1764d4ab6dfbdd890f03c0, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -460,6 +460,7 @@ MonoBehaviour:
   ac_jump: {fileID: 8300000, guid: bc56255cfa8d7dc44b8699f014799975, type: 3}
   ac_walk: {fileID: 8300000, guid: f681b20ed8f63ae47ad67a50abda7148, type: 3}
   ac_climb: {fileID: 8300000, guid: c7942a6fd91a3e8409dca4b65c422ac7, type: 3}
+  ac_fall: {fileID: 8300000, guid: a49dfc9889dc42740a407c51ad553da3, type: 3}
   as_gun: {fileID: 82421407868649980}
   ac_gunshot: {fileID: 8300000, guid: fa57b2a9ab1cbd644b5c7db781b1b8db, type: 3}
   ac_emptygunshot: {fileID: 8300000, guid: 000e1d89e4a617045ae6653868015e54, type: 3}

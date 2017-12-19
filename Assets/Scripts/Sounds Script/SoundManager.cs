@@ -13,6 +13,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip ac_jump;
     public AudioClip ac_walk;
     public AudioClip ac_climb;
+    public AudioClip ac_fall;
+
 
     [Header("Gun Audio")]
     public AudioSource as_gun;
@@ -78,6 +80,15 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    internal void PlayFallSound()
+    {
+        as_player.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
+        if (!as_player.isPlaying)
+        {
+            as_player.PlayOneShot(ac_fall);
+        }
+    }
+
     //Gun Sounds
     public void Gunshot(float pitch)
     {
@@ -114,6 +125,8 @@ public class SoundManager : MonoBehaviour
         as_objects.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
         as_objects.PlayOneShot(ac_chekpointReached);
     }
+
+
 
     public void PlayNormalSoundtrack()
     {
@@ -177,4 +190,6 @@ public class SoundManager : MonoBehaviour
         }
         yield break;
     }
+
+
 }
