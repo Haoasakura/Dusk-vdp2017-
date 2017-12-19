@@ -1881,8 +1881,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 14491331}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.58786, y: 0.6405792, z: 90.125}
-  m_LocalScale: {x: 0.03998521, y: 0.03998521, z: 0.03998521}
+  m_LocalPosition: {x: 11.58786, y: 0.64056396, z: 90.125}
+  m_LocalScale: {x: 0.04, y: 0.04, z: 0.04}
   m_Children:
   - {fileID: 1952053292}
   - {fileID: 2139409325}
@@ -12892,6 +12892,15 @@ Prefab:
         type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114534532460197468, guid: 511e4ffb303511d428c3668b912474f6,
+        type: 2}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1969134256146868, guid: 511e4ffb303511d428c3668b912474f6, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 511e4ffb303511d428c3668b912474f6, type: 2}
@@ -25215,7 +25224,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 450276569}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.5, y: -141.19943, z: 0}
+  m_LocalPosition: {x: -4.5, y: -141.14722, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 14491332}
@@ -75202,6 +75211,8 @@ MonoBehaviour:
 
     Fire: Continua a premere R1.
 
+    Lever: use L1
+
     Puoi sparare a luci, macchinari e nemici.
 
     Uscire dal controllo nemici: O.'
@@ -107895,7 +107906,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2139409324}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7, y: 156.51012, z: 0}
+  m_LocalPosition: {x: 7, y: 156.45001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 14491332}
