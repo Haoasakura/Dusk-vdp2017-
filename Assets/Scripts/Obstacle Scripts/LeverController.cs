@@ -73,6 +73,15 @@ public class LeverController : MonoBehaviour {
             {
                 mechanism.GetComponent<SpawnEnemyOnEvent>().Spawn();
             }
+            else if (mechanism.GetComponent<LightController>() != null)
+            {
+                mechanism.GetComponent<SpriteRenderer>().sprite = mechanism.GetComponent<LightController>().lightStates[0];
+                mechanism.GetComponent<SpriteRenderer>().material = mechanism.GetComponent<LightController>().litMaterial;
+                mechanism.GetComponent<LightController>().lightAttached.enabled = true;
+                mechanism.GetComponent<LightController>().lightCollider.enabled = true;
+                mechanism.GetComponent<LightController>().maskAttached.enabled = true;
+                mechanism.GetComponent<LightController>().lightStatus = true;
+            }
         }
     }
 }

@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 212647321533822772}
   - component: {fileID: 50072552702205266}
   - component: {fileID: 114123664433838134}
-  - component: {fileID: 61651251948023538}
+  - component: {fileID: 61821417470612924}
   m_Layer: 10
   m_Name: Machinery
   m_TagString: Machinery
@@ -128,7 +128,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1358278321349194}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 113.4252, y: 18.155943, z: 0}
+  m_LocalPosition: {x: 94.86, y: 16.88, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4190549110032078}
@@ -183,7 +183,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &61651251948023538
+--- !u!61 &61821417470612924
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -195,7 +195,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.16325751, y: 1.2285124}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -206,7 +206,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.31348497, y: 0.32164836}
+  m_Size: {x: 0.64, y: 0.64}
   m_EdgeRadius: 0
 --- !u!114 &114123664433838134
 MonoBehaviour:
@@ -219,7 +219,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec72861c26ed19740b91ab1aaf6be367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mechanisms: []
+  mechanisms:
+  - {fileID: 0}
   switchTime: 3
   powerCharge: 25
   powered: 0

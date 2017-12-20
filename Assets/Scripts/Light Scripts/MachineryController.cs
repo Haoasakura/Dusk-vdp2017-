@@ -192,6 +192,22 @@ public class MachineryController : MonoBehaviour {
             {
                 mechanism.GetComponent<DoorController>().Activate();
             }
+            else if (mechanism.GetComponent<CrusherController>() != null)
+            {
+                mechanism.GetComponent<CrusherController>().Activate();
+            }
+            else if (mechanism.GetComponent<LaserController>() != null)
+            {
+                mechanism.GetComponent<LaserController>().Activate();
+            }
+            else if (mechanism.GetComponent<PlatformController>() != null)
+            {
+                mechanism.GetComponent<PlatformController>().Activate();
+            }
+            else if (mechanism.GetComponent<SpawnEnemyOnEvent>() != null)
+            {
+                mechanism.GetComponent<SpawnEnemyOnEvent>().Spawn();
+            }
         }
     }
 }
