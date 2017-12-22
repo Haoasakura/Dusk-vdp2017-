@@ -43,7 +43,7 @@ public class CameraController : MonoBehaviour {
 
     IEnumerator DontReturnSuddenly()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         ReturnOldCamera();
     }
 
@@ -62,8 +62,6 @@ public class CameraController : MonoBehaviour {
         newX = transform.position.x;
         newY = transform.position.y;
         newZ = transform.position.z;
-
-
 
         if ((collision.CompareTag(Tags.player) && !collision.gameObject.GetComponent<Player>().controlling) || (collision.CompareTag(Tags.enemy) && collision.gameObject.GetComponent<EnemyController>().controlled)) {
             Transform current = collision.transform;

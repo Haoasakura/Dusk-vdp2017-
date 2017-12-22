@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour {
     private UnityAction unityAction;
     private GameObject player;
     private new GameObject camera;
+    private int[] level2Data = {0, 0, 0, 0};
     private bool timerReached;
     private float timer = 0;
 
@@ -80,6 +81,23 @@ public class GameManager : MonoBehaviour {
         cameraPosition = new Vector3(camera.transform.position.x, camera.transform.position.y, -10f);
         playerPosition = new Vector3 (player.transform.position.x, player.transform.position.y);
         duskCharge = player.transform.Find("PivotArm").Find("Gun").gameObject.GetComponent<GunController>().currentCharge;
+        GameObject[] finalMachineries = GameObject.FindGameObjectsWithTag("FinalMachineries");
+        if (finalMachineries != null)
+        {
+            int i = 0;
+            foreach (GameObject f in finalMachineries)
+            {
+                if (f.GetComponentInChildren<MachineryController>().powered)
+                {
+                    level2Data[i] = 1;
+                }
+                else
+                {
+                    level2Data[i] = 0;
+                }
+                i++;
+            }
+        }
         Debug.Log("Saving");
     }
 
@@ -132,11 +150,21 @@ public class GameManager : MonoBehaviour {
         Debug.Log(player.transform.position);
         UIChapTitle.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
         UITitle.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
-
         camera.transform.position = cameraPosition;
         player.transform.position = playerPosition;
         camera.GetComponent<CameraController>().ActivateEnemies();
         player.transform.Find("PivotArm").Find("Gun").gameObject.GetComponent<GunController>().currentCharge = duskCharge;
+        GameObject[] finalMachineries = GameObject.FindGameObjectsWithTag("FinalMachineries");
+        if (finalMachineries != null)
+        {
+            int i = 0;
+            foreach (GameObject f in finalMachineries)
+            {
+                if (level2Data[i] == 1)
+                    f.GetComponentInChildren<MachineryController>().InstantSwitchOn();
+                i++;
+            }
+        }
         SaveGame();
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -65,7 +66,35 @@ public class DoorController : MonoBehaviour {
             {
                 collision.gameObject.transform.position = 
                     gameObject.transform.parent.Find(string.Concat("Door",otherName)).position;
+                StartCoroutine(MoveCamera(collision.gameObject.transform.position.x, collision.gameObject.transform.position.y));
             }
         }
+    }
+
+    private IEnumerator MoveCamera(float x, float y)
+    {
+        yield return new WaitForSeconds(0.1f);
+        GameObject c = GameObject.Find("Main Camera");
+        if (x%30 > 15)
+        {
+            x = x + (30 - x % 30);
+        }
+        else
+        {
+            x = x - x % 30;
+        }
+
+        if (y% 18 > 9)
+        {
+            y = y + (18 - (y % 18));
+        }
+        else
+        {
+            y = y - ( y % 18);
+        }
+
+        c.transform.position = new Vector3(x, y, -10f);
+        
+
     }
 }

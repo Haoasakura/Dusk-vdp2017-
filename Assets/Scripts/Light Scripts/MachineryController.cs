@@ -71,6 +71,14 @@ public class MachineryController : MonoBehaviour {
         }
     }
 
+    public void InstantSwitchOn()
+    {
+        spriteRenderer.sprite = sprites[0];
+        Lamp.sprite = lampSprites[0];
+        powered = true;
+        Activate();
+    }
+
     IEnumerator SwitchingOn(Transform gun) {
         Transform pointOfOrigin = null;
         if (gun.GetComponentInParent<Player>() != null) {
