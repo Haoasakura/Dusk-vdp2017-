@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 114591477377460908}
   m_Layer: 0
   m_Name: Trapdoor
-  m_TagString: Untagged
+  m_TagString: Trapdoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -81,7 +81,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1893885126136196}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.7714, y: -1.675, z: 0}
+  m_LocalPosition: {x: 38.14, y: -8.076, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4070308717099864}
@@ -237,6 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb796248a2f03144583e5cd29897204b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 0
   rotationCenterTransform: {fileID: 4987011380159104}
 --- !u!212 &212270354621535522
 SpriteRenderer:

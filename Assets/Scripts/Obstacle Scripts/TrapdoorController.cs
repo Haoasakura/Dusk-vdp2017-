@@ -6,7 +6,7 @@ public class TrapdoorController : MonoBehaviour {
 
     public bool active = false;
     private ObjectSoundManager osm;
-    private bool isOpen = false;
+    public bool isOpen = false;
 
     [Header("Transform for the center of rotation")]
     [SerializeField]

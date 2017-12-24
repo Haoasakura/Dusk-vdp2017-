@@ -47,6 +47,7 @@ public class EnemyController : MonoBehaviour {
     private Transform enemyTarget;
     private bool isClimbing = false;
     private bool inTransition = false;
+    public bool pitInPath = false;
 
 
     [SerializeField]
@@ -315,9 +316,15 @@ public class EnemyController : MonoBehaviour {
                     StartCoroutine("ShootPlayer");
 
                 //controllo per evitare di cadere nella sua morte
+                pitInPath = false;
+                foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, 1.3f)) {
+                    if (obj.gameObject.CompareTag(Tags.trapdoor) && obj.gameObject.transform.parent.GetComponent<TrapdoorController>().isOpen) {
+                        pitInPath = true;
+                    }
+                }
                 foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, 2.5f)) {
                     if (obj.gameObject.CompareTag(Tags.deathCollider)) {
-                        if ((player.position - transform.position).x > (obj.gameObject.transform.position - transform.position).x) {
+                        if (pitInPath && (player.position - transform.position).x > (obj.gameObject.transform.position - transform.position).x) {
                             mDirection = Vector2.zero;
                             if (!losingTarget) {
                                 StartCoroutine("ReturnToPatrol");
@@ -580,7 +587,7 @@ public class EnemyController : MonoBehaviour {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(endPoint.position, transform.GetComponent<BoxCollider2D>().size);
 
-        Gizmos.DrawWireSphere(transform.position, 16);
+        Gizmos.DrawWireSphere(transform.position, 1);
        
        
     }
