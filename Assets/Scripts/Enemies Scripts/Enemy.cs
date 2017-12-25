@@ -78,6 +78,10 @@ public class Enemy : MonoBehaviour
             velocity.y = maxJumpVelocity;
             isClimbing = false;
             pivotArm.SetActive(true);
+            foreach (SpriteRenderer sr in pivotArm.GetComponentsInChildren<SpriteRenderer>()) {
+                sr.enabled = true;
+            }
+            weapon.GetComponent<EnemyWeapon>().aimsight.GetComponent<LineRenderer>().enabled = true;
         }
     }
 
@@ -110,7 +114,10 @@ public class Enemy : MonoBehaviour
     private void ClimbControl() {
         if (!canClimb && isClimbing) {
             isClimbing = false;
-            pivotArm.SetActive(true);
+            foreach (SpriteRenderer sr in pivotArm.GetComponentsInChildren<SpriteRenderer>()) {
+                sr.enabled = true;
+            }
+            weapon.GetComponent<EnemyWeapon>().aimsight.GetComponent<LineRenderer>().enabled = true;
             Collider2D[] results = new Collider2D[10];
             int i = GetComponent<Collider2D>().OverlapCollider(contactFilter, results);
             if (i > 0) {
@@ -120,7 +127,10 @@ public class Enemy : MonoBehaviour
         }
         else if ((directionalInput.y > minClimbAngle) && canClimb && !isClimbing) {
             isClimbing = true;
-            pivotArm.SetActive(false);
+            foreach (SpriteRenderer sr in pivotArm.GetComponentsInChildren<SpriteRenderer>()) {
+                sr.enabled = false;
+            }
+            weapon.GetComponent<EnemyWeapon>().aimsight.GetComponent<LineRenderer>().enabled = false;
         }
         else if (directionalInput.y != 0 && (Mathf.Abs(directionalInput.y) > minClimbAngle) && canClimb && isClimbing) {
             velocity.y = climbSpeed * directionalInput.y;
@@ -130,12 +140,15 @@ public class Enemy : MonoBehaviour
         }
         else {
             isClimbing = false;
-            pivotArm.SetActive(true);
+            foreach (SpriteRenderer sr in pivotArm.GetComponentsInChildren<SpriteRenderer>()) {
+                sr.enabled = true;
+            }
+            weapon.GetComponent<EnemyWeapon>().aimsight.GetComponent<LineRenderer>().enabled = true;
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        //TODO: Estrarre questo codice nell'oggetto TopLadder
+
         if (collision.gameObject.name.Equals("TopLadder")) {
             if (isClimbing) {
                 collision.gameObject.layer = 9;
@@ -146,10 +159,6 @@ public class Enemy : MonoBehaviour
                 collision.gameObject.tag = "Through";
             }
         }
-
-        if (collision.gameObject.tag.Equals("ResetGun")) {
-            weapon.GetComponent<GunController>().currentCharge = 0;
-        }
     }
 
     private void OnTriggerStay2D(Collider2D collision) {
@@ -157,21 +166,29 @@ public class Enemy : MonoBehaviour
             canClimb = true;
             if (isClimbing)
             {
-                pivotArm.SetActive(false);
+                foreach(SpriteRenderer sr in pivotArm.GetComponentsInChildren<SpriteRenderer>()) {
+                    sr.enabled = false;
+                }
+                weapon.GetComponent<EnemyWeapon>().aimsight.GetComponent<LineRenderer>().enabled = false;
             }
         }
 
         if (collision.gameObject.tag.Equals("BaseLadder") && isClimbing && directionalInput.y < 0) {
             isClimbing = false;
-            pivotArm.SetActive(true);
+            foreach (SpriteRenderer sr in pivotArm.GetComponentsInChildren<SpriteRenderer>()) {
+                sr.enabled = true;
+            }
+            weapon.GetComponent<EnemyWeapon>().aimsight.GetComponent<LineRenderer>().enabled = true;
         }
-
-        //TODO: Estrarre questo codice nell'oggetto TopLadder
+        
         if (collision.gameObject.name.Equals("TopLadder")) {
             if (isClimbing) {
                 collision.gameObject.layer = 9;
                 collision.gameObject.tag = "Ladder";
-                pivotArm.SetActive(false);
+                foreach (SpriteRenderer sr in pivotArm.GetComponentsInChildren<SpriteRenderer>()) {
+                    sr.enabled = false;
+                }
+                weapon.GetComponent<EnemyWeapon>().aimsight.GetComponent<LineRenderer>().enabled = false;
             }
             else
             {
@@ -187,8 +204,7 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.tag.Equals("Ladder")) {
             canClimb = false;
         }
-
-        //TODO: Estrarre questo codice nell'oggetto TopLadder
+        
         if (collision.gameObject.name.Equals("TopLadder")) {
             collision.gameObject.layer = 11;
             collision.gameObject.tag = "Through";

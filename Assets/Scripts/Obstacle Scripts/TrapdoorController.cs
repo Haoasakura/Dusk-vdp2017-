@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class TrapdoorController : MonoBehaviour {
 
-    private bool active = false;
+    public bool active = false;
     private ObjectSoundManager osm;
-    private bool isOpen;
+    public bool isOpen = false;
 
     [Header("Transform for the center of rotation")]
     [SerializeField]
@@ -15,8 +15,6 @@ public class TrapdoorController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         osm = GetComponent<ObjectSoundManager>();
-        isOpen = false;
-
 	}
 	
 	// Update is called once per frame
@@ -38,14 +36,14 @@ public class TrapdoorController : MonoBehaviour {
         if (!isOpen)
         {
             osm.PlaySound(0.95f);
-            gameObject.transform.RotateAround(rotationCenterTransform.position, new Vector3(0, 0, 1), -90);
+            gameObject.transform.RotateAround(rotationCenterTransform.position, new Vector3(0, 0, 1), -90 * Mathf.Sign(transform.localScale.x));
             isOpen = true;
             active = false;
         }
         else
         {
             osm.PlaySound(0.95f);
-            gameObject.transform.RotateAround(rotationCenterTransform.position, new Vector3(0, 0, 1), 90);
+            gameObject.transform.RotateAround(rotationCenterTransform.position, new Vector3(0, 0, 1), 90 * Mathf.Sign(transform.localScale.x));
             isOpen = false;
             active = false;
         }

@@ -51,4 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3838f9e177d044a989cd743ddfbd4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadedScene: 1
+  UITitle: {fileID: 0}
+  UIChapTitle: {fileID: 0}
+  loadedScene: 4
+  cameraPosition: {x: 0, y: 0, z: -10}
+  playerPosition: {x: -12, y: -5, z: 0}
+  duskCharge: 0

@@ -17,6 +17,7 @@ public class LightController : MonoBehaviour
     public Material litMaterial;
     public Material unlitMaterial;
     public Sprite[] lightStates;
+    public GameObject[] mechanisms;
 
     private SpriteRenderer spriteRenderer;
 
@@ -76,6 +77,7 @@ public class LightController : MonoBehaviour
     IEnumerator SwitchingOn(Transform gun)
     {
         Transform pointOfOrigin = null;
+        Quaternion initRot= Quaternion.Euler(0f, 0f, 73.4f); ;
         if (gun.GetComponentInParent<Player>() != null) {
             shooter = gun.GetComponentInParent<Player>().transform;
             pointOfOrigin = gun.GetComponent<GunController>().barrel;
@@ -83,6 +85,7 @@ public class LightController : MonoBehaviour
         else {
             shooter = gun.GetComponentInParent<Enemy>().transform;
             pointOfOrigin = gun.GetComponent<EnemyWeapon>().barrel;
+            initRot = gun.transform.rotation;
         }
         changingStatus = true;
         int seconds = (int)switchTime;
@@ -103,9 +106,12 @@ public class LightController : MonoBehaviour
         else {
             gun.GetComponent<EnemyWeapon>().currentCharge -= lightCharge;
             shooter.GetComponent<EnemyController>().shootingLights = false;
+            gun.parent.rotation = Quaternion.Euler(0f, 0f, shooter.transform.localScale.x * 73.4f); ;
+
         }
         changingStatus = false;
         shooter = null;
+        Activate();
     }
 
     IEnumerator SwitchingOff(Transform gun)
@@ -139,6 +145,7 @@ public class LightController : MonoBehaviour
             gun.GetComponent<EnemyWeapon>().currentCharge += lightCharge;
         }
         changingStatus = false;
+        Activate();
     }
 
     IEnumerator FlickeringLightOn()
@@ -189,5 +196,45 @@ public class LightController : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    private void Activate()
+    {
+        foreach (GameObject mechanism in mechanisms)
+        {
+            if (mechanism.GetComponent<ElevatorMovement>() != null)
+            {
+                mechanism.GetComponent<ElevatorMovement>().ChangeDestination();
+            }
+            else if (mechanism.GetComponent<BarrierController>() != null)
+            {
+                mechanism.GetComponent<BarrierController>().ChangeDestination();
+            }
+            else if (mechanism.GetComponent<TrapdoorController>() != null)
+            {
+                mechanism.GetComponent<TrapdoorController>().Activate();
+            }
+            else if (mechanism.GetComponent<DoorController>() != null)
+            {
+                mechanism.GetComponent<DoorController>().Activate();
+            }
+            else if (mechanism.GetComponent<CrusherController>() != null)
+            {
+                mechanism.GetComponent<CrusherController>().Activate();
+            }
+            else if (mechanism.GetComponent<LaserController>() != null)
+            {
+                mechanism.GetComponent<LaserController>().Activate();
+            }
+            else if (mechanism.GetComponent<PlatformController>() != null)
+            {
+                mechanism.GetComponent<PlatformController>().Activate();
+            }
+            else if (mechanism.GetComponent<SpawnEnemyOnEvent>() != null)
+            {
+                mechanism.GetComponent<SpawnEnemyOnEvent>().Spawn();
+            }
+        }
+
     }
 }

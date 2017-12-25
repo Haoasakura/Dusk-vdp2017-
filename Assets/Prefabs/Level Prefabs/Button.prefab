@@ -60,7 +60,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.65, y: 0.17}
+    oldSize: {x: 0.65, y: 0.27}
     newSize: {x: 0.64, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -80,8 +80,8 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
+  m_Volume: 0.5
+  m_Pitch: 1.0257804
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -89,7 +89,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 0
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 30
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -99,10 +99,16 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
-      time: 0.002
-      value: 1
+      time: 0
+      value: 0.5028839
       inSlope: 0
       outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.566524
+      value: 0.48516798
+      inSlope: -0.10967255
+      outSlope: -0.10967255
       tangentMode: 0
     - serializedVersion: 2
       time: 1
@@ -173,6 +179,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 105aaaea9b9396747be3d836f996df3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 88bd6689de68ddd4c9e52402928ed49d, type: 3}
+  - {fileID: 21300000, guid: b79e3ca5ca273e844b00929c8c73b965, type: 3}
   isPressurePlate: 0
   mechanism: {fileID: 0}
 --- !u!212 &212687673665333390
@@ -209,7 +218,7 @@ SpriteRenderer:
   m_SortingLayerID: -1640383125
   m_SortingLayer: -3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 515d10bc160c5dc4dbef8dee3c1e7c2d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 88bd6689de68ddd4c9e52402928ed49d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

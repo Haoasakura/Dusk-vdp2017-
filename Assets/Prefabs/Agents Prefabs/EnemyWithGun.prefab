@@ -269,7 +269,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1896382861546928}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14.58, y: -6.52, z: 0}
+  m_LocalPosition: {x: 202.70581, y: 24.89, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4697053231449220}
@@ -314,7 +314,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1559151879951116}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.58, y: -0.25, z: 0}
+  m_LocalPosition: {x: 5.37, y: -0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4029164057039906}
@@ -465,7 +465,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1317101880541418}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.88, y: -0.22, z: 0}
+  m_LocalPosition: {x: -5.97, y: -0.22, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4029164057039906}
@@ -573,7 +573,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.1292162, y: 0}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -584,7 +584,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.0644169, y: 1.96}
+  m_Size: {x: 1.05, y: 1.96}
   m_EdgeRadius: 0
 --- !u!82 &82477268120374150
 AudioSource:
@@ -616,10 +616,16 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
-      time: 0.002
-      value: 1
+      time: 0
+      value: 0.5028839
       inSlope: 0
       outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.566524
+      value: 0.48516798
+      inSlope: -0.10967255
+      outSlope: -0.10967255
       tangentMode: 0
     - serializedVersion: 2
       time: 1
@@ -913,7 +919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TurnSpeed: 20
-  currentCharge: 50
+  currentCharge: 0
   maxCharge: 100
   gunRange: 6.4992065
   controlling: 1
@@ -928,7 +934,7 @@ MonoBehaviour:
     type: 2}
   arm: {fileID: 212838839361010604}
   armShadow: {fileID: 212124052025484392}
-  aimMaterial: {fileID: 2100000, guid: 231ab5bae1ae98d44a7ba709ab99efc4, type: 2}
+  aimMaterial: {fileID: 2100000, guid: 3a4a7bd28c6ff3643a76713f890bbe90, type: 2}
   idleMaterial: {fileID: 2100000, guid: 231ab5bae1ae98d44a7ba709ab99efc4, type: 2}
   gunLayer:
     serializedVersion: 2
@@ -940,6 +946,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1280
   soundManager: {fileID: 114360353280467046}
+  particleEffect: {fileID: 0}
+  enemyControlled: {fileID: 0}
+  mLineRenderer: {fileID: 0}
+  lightning: {fileID: 0}
 --- !u!114 &114588290174991098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -964,23 +974,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   secondsForOneLength: 5
   speed: 15
+  huntSpeed: 7.5
   switchTime: 3
   sightRange: 28
   controlCost: 25
   timeToReturnPatrol: 3
+  transitionDuration: 1
   controlled: 0
   changingStatus: 0
-  autodestruct: 1
+  autodestruct: 0
   playerInSight: 0
+  flipStartDir: 1
   sightLayerMask:
     serializedVersion: 2
     m_Bits: 1280
   explosion: {fileID: 1538426323180472, guid: 8644a2a8ce5daa64abbe4ae37c549cc5, type: 2}
+  alert: {fileID: 1940859715970898, guid: 63543aeceaffce2469207ae3cabca8c1, type: 2}
   absorptionEffect: {fileID: 1969731243722472, guid: 0a134329a976316469f76cc7b4ce36f6,
     type: 2}
   animator: {fileID: 95698153002782214}
   losingTarget: 0
   shootingLights: 0
+  gettingShoot: 0
   startPoint: {fileID: 4908477930762620}
   endPoint: {fileID: 4080785784595764}
 --- !u!120 &120263575085329158

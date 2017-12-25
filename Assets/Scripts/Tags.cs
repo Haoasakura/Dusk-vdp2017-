@@ -15,4 +15,5 @@ public class Tags : ScriptableObject
     public static readonly string baseLadder = "BaseLadder";
     public static readonly string patrolSwitch = "PatrolSwitch";
     public static readonly string deathCollider = "DeathCollider";
+    public static readonly string trapdoor = "Trapdoor";
 }

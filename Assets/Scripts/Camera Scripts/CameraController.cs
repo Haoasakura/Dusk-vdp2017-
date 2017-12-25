@@ -32,6 +32,7 @@ public class CameraController : MonoBehaviour {
         EventManager.StartListening("EnemyControlled", saveCameraPosition);
         EventManager.StartListening("EnemyDestroyed", returnOldFromEnemy);
         EventManager.StartListening("PlayerDied", returnOldCamera);
+        EventManager.StartListening("PlayerDiedFromFall", returnOldCamera);
         SaveCameraPosition();
     }
 
@@ -42,22 +43,17 @@ public class CameraController : MonoBehaviour {
 
     IEnumerator DontReturnSuddenly()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         ReturnOldCamera();
     }
 
     private void ReturnOldCamera()
     {
-        Debug.Log("ohi");
-        Debug.Log(cameraPosition);
         transform.position = cameraPosition;
     }
 
     private void SaveCameraPosition()
     {
-        Debug.Log("ohilà");
-        Debug.Log(transform.position);
-
         cameraPosition = transform.position;
     }
 
@@ -66,8 +62,6 @@ public class CameraController : MonoBehaviour {
         newX = transform.position.x;
         newY = transform.position.y;
         newZ = transform.position.z;
-
-
 
         if ((collision.CompareTag(Tags.player) && !collision.gameObject.GetComponent<Player>().controlling) || (collision.CompareTag(Tags.enemy) && collision.gameObject.GetComponent<EnemyController>().controlled)) {
             Transform current = collision.transform;

@@ -6,10 +6,7 @@ public class PatrolSMB : StateMachineBehaviour {
 
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-
-        //animator.gameObject.GetComponentInChildren<EnemyWeapon>().transform.rotation = Quaternion.Euler(0,0, -72.5f);
         animator.gameObject.GetComponent<EnemyController>().StartPatrol();
-
     }
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

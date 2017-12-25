@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         EventManager.StartListening("PlayerDied", DeathProcess);
+        EventManager.StartListening("PlayerDiedFromFall", DeathFromFallProcess);
         EventManager.StartListening("PlayerControlled", DelayedDeath);
     }
 
@@ -85,29 +86,36 @@ public class Player : MonoBehaviour
 
     private void VisibilityControl()
     {
-        isVisible = false;
-        bool enemiesAreChasing = false;
+        //isVisible = false;
+        bool seenByEnemies = false;
         foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
-            if (enemy.GetComponent<Animator>().GetBool("PlayerInSight") && !enemy.GetComponent<EnemyController>().losingTarget) {
-                enemiesAreChasing = true;
+            if (enemy.GetComponent<EnemyController>().playerInSight && Vector2.Distance(transform.position,enemy.transform.position)<enemy.GetComponent<EnemyController>().sightRange) {
+                seenByEnemies = true;
             }
         }
-        if (velocity.magnitude > 0.5f || isLighted || (velocity.magnitude<= 0.5f && enemiesAreChasing)) {
+
+        if (velocity.magnitude > 1f || isLighted || seenByEnemies) {
             isVisible = true;
         }
-        if (Input.GetButton("Fire1"))
-        {
+        else if (Input.GetButton("Fire1")) {
             isVisible = true;
         }
-        if (controlling)
-        {
+        else if (controlling) {
             isVisible = true;
         }
+        else
+            isVisible = false;
     }
 
     public void SetDirectionalInput(Vector2 input)
     {
         directionalInput = input;
+        if (controlling)
+        {
+            directionalInput.x = 0f;
+            directionalInput.y = 0f;
+
+        }
     }
 
     public void OnJumpInputDown()
@@ -215,14 +223,6 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (collision.gameObject.tag.Equals("ResetGun"))
-        {
-            if (gun.GetComponent<GunController>().currentCharge > 0)
-            {
-                collision.GetComponent<AudioSource>().Play();
-            }
-            gun.GetComponent<GunController>().currentCharge = 0;
-        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -286,15 +286,31 @@ public class Player : MonoBehaviour
 
     IEnumerator PuppetAnimation()
     {
-        yield return new WaitForSeconds(1);
+        yield return null;//new WaitForSeconds(1);
         EventManager.TriggerEvent("PlayerDied");
     }
 
     private void DeathProcess()
     {
         Instantiate(explosionDeath, transform.position, transform.rotation);
+        SoundManager.Instance.PlayNormalSoundtrack();
         Destroy(gameObject);
     }
+
+    private void DeathFromFallProcess()
+    {
+        GetComponent<PlayerInput>().enabled = false;
+        this.tag = "Untagged";
+        SoundManager.Instance.PlayNormalSoundtrack();
+        SoundManager.Instance.PlayFallSound();
+        StartCoroutine(FallDestruction());
+    }
+
+    private IEnumerator FallDestruction()
+    {
+        yield return new WaitForSeconds(2);
+        Destroy(gameObject);
+    }        
 
     private void OnDestroy()
     {

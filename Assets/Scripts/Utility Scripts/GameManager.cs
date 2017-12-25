@@ -7,29 +7,44 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
+    public static GameManager Instance;
+
     public GameObject UITitle;
     public GameObject UIChapTitle;
-    private bool timerReached;
-    private float timer = 0;
-
     public int loadedScene;
-    public int gameOverScene;
+    public Vector3 cameraPosition = new Vector3(0f, 0f, -10f);
+    public Vector3 playerPosition = new Vector3 (0f, 0f);
+    public int duskCharge = 0;
 
     private UnityAction unityAction;
     private GameObject player;
     private new GameObject camera;
+    private int[] level2Data = {0, 0, 0, 0};
+    private bool timerReached;
+    private float timer = 0;
 
-    public Vector3 cameraPosition = new Vector3(0f, 0f, -10f);
-    public Vector3 playerPosition = new Vector3 (0f, 0f);
-    private int duskCharge = 0;
+
 
     private void Awake()
-    {        
-        DontDestroyOnLoad(transform.gameObject);
-        DontDestroyOnLoad(UITitle);
-        DontDestroyOnLoad(UIChapTitle);
-        //LoadGame();
-        //unityAction = new UnityAction(SaveGame);
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+
+            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(UITitle);
+            DontDestroyOnLoad(UIChapTitle);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        UITitle = GameObject.Find("UITitleScreen");
+        UIChapTitle = GameObject.Find("UIChapterTitleScreen");
     }
 
     private void Update()
@@ -38,6 +53,7 @@ public class GameManager : MonoBehaviour {
         {
             UITitle.GetComponent<MainMenu>().ready = false;
             UITitle.GetComponent<MainMenu>().FadeMe();
+
             UIChapTitle.GetComponent<UIChapterTitle>().ready = true;
             UIChapTitle.GetComponent<UIChapterTitle>().finished = true;
         }
@@ -46,13 +62,13 @@ public class GameManager : MonoBehaviour {
             LoadGame();
             unityAction = new UnityAction(SaveGame);
         }
-
     }
 
     private void OnEnable()
     {
         EventManager.StartListening("CheckpointReached", SaveGame);
         EventManager.StartListening("ReloadScene", ReloadGame);
+        EventManager.StartListening("RestartGame", RestartGame);
     }
 
     private void OnDisable()
@@ -65,6 +81,23 @@ public class GameManager : MonoBehaviour {
         cameraPosition = new Vector3(camera.transform.position.x, camera.transform.position.y, -10f);
         playerPosition = new Vector3 (player.transform.position.x, player.transform.position.y);
         duskCharge = player.transform.Find("PivotArm").Find("Gun").gameObject.GetComponent<GunController>().currentCharge;
+        GameObject[] finalMachineries = GameObject.FindGameObjectsWithTag("FinalMachineries");
+        if (finalMachineries != null)
+        {
+            int i = 0;
+            foreach (GameObject f in finalMachineries)
+            {
+                if (f.GetComponentInChildren<MachineryController>().powered)
+                {
+                    level2Data[i] = 1;
+                }
+                else
+                {
+                    level2Data[i] = 0;
+                }
+                i++;
+            }
+        }
         Debug.Log("Saving");
     }
 
@@ -79,15 +112,26 @@ public class GameManager : MonoBehaviour {
         StartCoroutine("WaitLoading");
     }
 
+    void RestartGame()
+    {
+        cameraPosition = new Vector3(0f, 0f, -10f);
+        playerPosition = new Vector3(-12f, -5f);
+        duskCharge = 0;
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
+        SoundManager.Instance.as_soundtrack1.Stop();
+        Destroy(UIChapTitle);
+        Destroy(UITitle);
+        Destroy(gameObject);
+    }
+
     IEnumerator WaitLoading()
     {
-        yield return new WaitForSeconds(3);
-        Time.timeScale = 0;
+        yield return new WaitForSeconds(1);
         while (!Input.GetButton("Retry"))
         {
             yield return null;
         }
-        Time.timeScale = 1;
+        SceneManager.UnloadSceneAsync(loadedScene);
         SceneManager.LoadScene(loadedScene, LoadSceneMode.Single);
         StartCoroutine("SearchPlayer");
     }
@@ -101,11 +145,28 @@ public class GameManager : MonoBehaviour {
         {
             Debug.Log("PlayerFound");
         }
+        UITitle.GetComponent<MainMenu>().optionsText.SetActive(false);
+        UITitle.GetComponent<MainMenu>().loadingText.SetActive(true);
         Debug.Log(player.transform.position);
+        UIChapTitle.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
+        UITitle.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
         camera.transform.position = cameraPosition;
         player.transform.position = playerPosition;
         camera.GetComponent<CameraController>().ActivateEnemies();
         player.transform.Find("PivotArm").Find("Gun").gameObject.GetComponent<GunController>().currentCharge = duskCharge;
+        GameObject[] finalMachineries = GameObject.FindGameObjectsWithTag("FinalMachineries");
+        if (finalMachineries != null)
+        {
+            int i = 0;
+            foreach (GameObject f in finalMachineries)
+            {
+                if (level2Data[i] == 1)
+                    f.GetComponentInChildren<MachineryController>().InstantSwitchOn();
+                i++;
+            }
+        }
         SaveGame();
     }
+
+
 }

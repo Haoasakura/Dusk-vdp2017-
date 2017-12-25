@@ -133,7 +133,7 @@ public class GunController : MonoBehaviour {
                     else if (mTarget.CompareTag(Tags.enemy)) {
                         enemyControlled = mTarget.GetComponent<EnemyController>();
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && currentCharge >= enemyControlled.controlCost) {
-                            enemyControlled.ControlledOnOff(transform);
+                            enemyControlled.ControlledOn(transform);
                             StartCoroutine("LightningEffectOn", mTarget.GetComponent<EnemyController>().switchTime);
                             StartCoroutine("TrailingEffectOn", mTarget.GetComponent<EnemyController>().switchTime);
                             isLocked = true;
