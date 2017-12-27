@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switchTime: 1.5
-  flickeringRange: 1.5
+  flickeringRange: 1.1
   lightCharge: 25
   lightStatus: 1
   changingStatus: 0

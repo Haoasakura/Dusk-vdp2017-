@@ -292,7 +292,7 @@ public class Player : MonoBehaviour
     private void DeathProcess()
     {
         Instantiate(explosionDeath, transform.position, transform.rotation);
-        SoundManager.Instance.PlayNormalSoundtrack();
+        SoundManager.Instance.PlayNormalSoundtrackFromDeath();
         Destroy(gameObject);
     }
 
@@ -300,7 +300,7 @@ public class Player : MonoBehaviour
     {
         GetComponent<PlayerInput>().enabled = false;
         this.tag = "Untagged";
-        SoundManager.Instance.PlayNormalSoundtrack();
+        SoundManager.Instance.PlayNormalSoundtrackFromDeath();
         SoundManager.Instance.PlayFallSound();
         StartCoroutine(FallDestruction());
     }
