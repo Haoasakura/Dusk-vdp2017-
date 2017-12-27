@@ -94,16 +94,17 @@ public class Player : MonoBehaviour
             }
         }
 
+
+
         if (velocity.magnitude > 1f || isLighted || seenByEnemies) {
             isVisible = true;
         }
-        else if (Input.GetButton("Fire1")) {
+        else if (gun.GetComponent<GunController>().isAiming) {
             isVisible = true;
         }
         else if (controlling) {
             isVisible = true;
-        }
-        else
+        }else
             isVisible = false;
     }
 

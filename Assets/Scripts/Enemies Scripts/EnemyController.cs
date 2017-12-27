@@ -65,6 +65,7 @@ public class EnemyController : MonoBehaviour {
         boxCollider2D = GetComponent<BoxCollider2D>();
         player = GameObject.FindGameObjectWithTag(Tags.player).transform;
     }
+
     void Start () {
         startPosition = transform.position;
         setDestination(startPoint);
@@ -483,7 +484,7 @@ public class EnemyController : MonoBehaviour {
             yield return new WaitForSeconds(transitionDuration);
             seconds--;
         }
-        weapon.mLineRenderer.material = weapon.aimMaterial;
+        //weapon.mLineRenderer.material = weapon.aimMaterial;
         weapon.transform.parent.rotation = Quaternion.Euler(0f, 0f, transform.localScale.x > 0 ? 73.4f : -73.4f);
         changingStatus = false;
         inTransition = false;

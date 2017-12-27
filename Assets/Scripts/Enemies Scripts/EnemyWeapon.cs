@@ -85,7 +85,7 @@ public class EnemyWeapon : MonoBehaviour {
                     transform.parent.rotation = Quaternion.Euler(0f, 0f, 93+angleRot);
                 
                 //mantiene la sprite dell'arma nel verso giusto
-                if (mTransform.rotation.eulerAngles.z % 270 < 90 && mTransform.rotation.eulerAngles.z % 270 > 0) {
+                if (mTransform.rotation.eulerAngles.z % 270 < 90 && mTransform.rotation.eulerAngles.z % 270 >= 0) {
                     GetComponent<SpriteRenderer>().flipY = false;
                     transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().flipY = false;
                 }

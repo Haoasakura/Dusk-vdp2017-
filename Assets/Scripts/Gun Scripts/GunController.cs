@@ -25,6 +25,7 @@ public class GunController : MonoBehaviour {
     public LayerMask gunLayer;
     public LayerMask untraversableLayers;
     public bool canFire = false;
+    public bool isAiming = false;
 
 
     private GameObject particleEffect;
@@ -66,10 +67,12 @@ public class GunController : MonoBehaviour {
 
             if (Mathf.Abs(c) < 0.5){
                 mLineRenderer.material = idleMaterial;
+                isAiming = false;
             }
             else
             {
                 mLineRenderer.material = aimMaterial;
+                isAiming = true;
             }
 
             if (Mathf.Abs(c) > 0.9 && !isLocked) {
@@ -78,7 +81,7 @@ public class GunController : MonoBehaviour {
                 mTransform.rotation = Quaternion.Euler(0f, 0f, angleRot);
                                 
                 //mantiene la sprite dell'arma nel verso giusto
-                if (mTransform.rotation.eulerAngles.z % 270 < 90 && mTransform.rotation.eulerAngles.z % 270 > 0) {
+                if (mTransform.rotation.eulerAngles.z % 270 < 90 && mTransform.rotation.eulerAngles.z % 270 >= 0) {
                     GetComponent<SpriteRenderer>().flipY = false;
                     arm.flipX = false;
                     armShadow.flipX = false;

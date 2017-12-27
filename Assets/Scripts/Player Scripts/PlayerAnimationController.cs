@@ -25,7 +25,7 @@ public class PlayerAnimationController : MonoBehaviour {
             SoundManager.Instance.Walk();
             animName = "CharacterWalking";
             nextState = 1;
-            if (velocity.x > 3)
+            if (velocity.x > 4)
             {
                 animName = "CharacterRunning";
 
