@@ -975,7 +975,7 @@ MonoBehaviour:
   secondsForOneLength: 5
   speed: 15
   huntSpeed: 7.5
-  switchTime: 3
+  switchTime: 2.5
   sightRange: 28
   controlCost: 25
   timeToReturnPatrol: 3
@@ -996,6 +996,7 @@ MonoBehaviour:
   losingTarget: 0
   shootingLights: 0
   gettingShoot: 0
+  pitInPath: 0
   startPoint: {fileID: 4908477930762620}
   endPoint: {fileID: 4080785784595764}
 --- !u!120 &120263575085329158

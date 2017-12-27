@@ -105,11 +105,13 @@ public class GunController : MonoBehaviour {
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && !currentLight.changingStatus)
                             if ((currentLight.lightStatus && (maxCharge - currentCharge) >= currentLight.lightCharge) || (!currentLight.lightStatus && currentCharge >= currentLight.lightCharge)) {
                                 mTarget.GetComponent<LightController>().SwitchOnOff(transform);
-                                StartCoroutine("LightningEffectOn", mTarget.GetComponent<LightController>().switchTime);
+
                                 if (currentLight.lightStatus) {
+                                    StartCoroutine(LightningEffectOn(mTarget.GetComponent<LightController>().switchTime, true));
                                     StartCoroutine("TrailingEffectOff", mTarget.GetComponent<LightController>().switchTime);
                                 }
                                 else {
+                                    StartCoroutine(LightningEffectOn(mTarget.GetComponent<LightController>().switchTime, false));
                                     StartCoroutine("TrailingEffectOn", mTarget.GetComponent<LightController>().switchTime);
                                 }
                                 isLocked = true;
@@ -120,13 +122,14 @@ public class GunController : MonoBehaviour {
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && !currentMachinery.changingStatus)
                             if ((currentMachinery.powered && (maxCharge - currentCharge) >= currentMachinery.powerCharge) || (!currentMachinery.powered && currentCharge >= currentMachinery.powerCharge)) {
                                 currentMachinery.SwitchOnOff(transform);
-                                StartCoroutine("LightningEffectOn", mTarget.GetComponent<MachineryController>().switchTime);
                                 if (currentMachinery.powered)
                                 {
+                                    StartCoroutine(LightningEffectOn(mTarget.GetComponent<LightController>().switchTime, true));
                                     StartCoroutine("TrailingEffectOff", mTarget.GetComponent<MachineryController>().switchTime);
                                 }
                                 else
                                 {
+                                    StartCoroutine(LightningEffectOn(mTarget.GetComponent<LightController>().switchTime, false));
                                     StartCoroutine("TrailingEffectOn", mTarget.GetComponent<MachineryController>().switchTime);
                                 }
                                 isLocked = true;
@@ -137,7 +140,7 @@ public class GunController : MonoBehaviour {
                         enemyControlled = mTarget.GetComponent<EnemyController>();
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && currentCharge >= enemyControlled.controlCost) {
                             enemyControlled.ControlledOn(transform);
-                            StartCoroutine("LightningEffectOn", mTarget.GetComponent<EnemyController>().switchTime);
+                            StartCoroutine(LightningEffectOn(mTarget.GetComponent<LightController>().switchTime, false));
                             StartCoroutine("TrailingEffectOn", mTarget.GetComponent<EnemyController>().switchTime);
                             isLocked = true;
                         }
@@ -167,15 +170,26 @@ public class GunController : MonoBehaviour {
         return false;
     }
 
-    IEnumerator LightningEffectOn(float switchTime)
+    IEnumerator LightningEffectOn(float switchTime, bool isSucking)
     {
-
         float startTime = Time.time;
-        while ((Time.time - startTime) < switchTime)
+        if (isSucking)
         {
-            SoundManager.Instance.Gunshot((Time.time - startTime));
-            lightning.Trigger();
-            yield return null;
+            while ((Time.time - startTime) < switchTime)
+            {
+                SoundManager.Instance.Gunshot((Time.time - startTime));
+                lightning.Trigger();
+                yield return null;
+            }
+        }
+        else
+        {
+            while ((Time.time - startTime) < switchTime)
+            {
+                SoundManager.Instance.Gunshot(switchTime - (Time.time - startTime));
+                lightning.Trigger();
+                yield return null;
+            }
         }
         isLocked = false;
     }

@@ -94,8 +94,6 @@ public class Player : MonoBehaviour
             }
         }
 
-
-
         if (velocity.magnitude > 1f || isLighted || seenByEnemies) {
             isVisible = true;
         }
