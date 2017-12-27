@@ -28,9 +28,9 @@ public class EnemyWeapon : MonoBehaviour {
     public LayerMask untraversableLayers;
     public EnemySoundManager soundManager;
     public GameObject particleEffect;
-    private Enemy enemy;
-    private EnemyController enemyController;
-    private Transform mTransform;
+    protected Enemy enemy;
+    protected EnemyController enemyController;
+    protected Transform mTransform;
     public EnemyController enemyControlled;
     public LineRenderer mLineRenderer;
     [HideInInspector]
@@ -48,8 +48,7 @@ public class EnemyWeapon : MonoBehaviour {
         armTransform.position = pivot.position;
     }
 
-    void Update() {
-
+    protected virtual void Update() {
         mLineRenderer.SetPosition(0, barrel.position);
 
         RaycastHit2D hit = Physics2D.Linecast(barrel.position, laserDirection.position, untraversableLayers);
@@ -186,7 +185,7 @@ public class EnemyWeapon : MonoBehaviour {
         isLocked = false;
     }
 
-    IEnumerator TrailingEffectOn(float switchTime) {
+     IEnumerator TrailingEffectOn(float switchTime) {
         float startTime = Time.time;
         particleEffect = Instantiate(absorptionEffect, transform.position, transform.rotation) as GameObject;
         while ((Time.time - startTime) < switchTime) {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour {
-
+    public bool ranged = true;
     public float secondsForOneLength = 5f;
     public float speed = 10f;
     public float huntSpeed = 0f;
@@ -176,7 +176,7 @@ public class EnemyController : MonoBehaviour {
             else if ((endPoint.position.x - transform.position.x < 0 || enemyController2D.collisions.right) && !controlled && !animator.GetBool("PlayerInSight"))
                 setDestination(startPoint);
 
-            if (!animator.GetBool("PlayerInSight") && !controlled &&transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x) {
+            if (ranged && !animator.GetBool("PlayerInSight") && !controlled &&transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x) {
                 RaycastHit2D hit = Physics2D.Raycast(new Vector2(weapon.pivot.position.x, transform.GetComponent<BoxCollider2D>().bounds.max.y+0.01f), Vector2.up);
                 if(hit && hit.collider.CompareTag(Tags.light)) {
                     LightController lightController = hit.collider.gameObject.GetComponent<LightController>();
@@ -261,11 +261,9 @@ public class EnemyController : MonoBehaviour {
                     RaycastHit2D hit;
                     if (transform.localScale.x > 0) {
                         hit = Physics2D.Raycast(new Vector2(boxCollider2D.bounds.max.x + 0.01f, boxCollider2D.bounds.center.y), transform.localScale.x * Vector2.right, 35);
-                        //Debug.DrawRay(new Vector2(boxCollider2D.bounds.max.x + 0.01f, boxCollider2D.bounds.center.y), transform.localScale.x * Vector2.right * 35,Color.cyan);
                     }
                     else {
                         hit = Physics2D.Raycast(new Vector2(boxCollider2D.bounds.min.x - 0.01f, boxCollider2D.bounds.min.y), -transform.localScale.x*Vector2.left, 35);
-                        //Debug.DrawRay(new Vector2(boxCollider2D.bounds.min.x - 0.01f, boxCollider2D.bounds.min.y), -transform.localScale.x*Vector2.left*35, Color.cyan);
                     }
 
                     if(hit && (hit.collider.CompareTag(Tags.ladder) || hit.collider.CompareTag(Tags.baseLadder) || hit.collider.CompareTag(Tags.topLadder))) {
@@ -313,7 +311,11 @@ public class EnemyController : MonoBehaviour {
                 }
 
                 if (!enemy.isClimbing && player != null && (InLineOfSight(player, weaponRange) || collidingWithTarget ) && enemy.controller.collisions.below && !changingStatus && !gettingShoot)
-                    StartCoroutine("ShootPlayer");
+                    if (ranged)
+                        StartCoroutine("ShootPlayer");
+                    else
+                        StartCoroutine("MeleeAttack",player);
+                    
 
                 //controllo per evitare di cadere nella sua morte
                 pitInPath = false;
@@ -354,8 +356,7 @@ public class EnemyController : MonoBehaviour {
         //da mettere condizioni di uscita, lo sparo al nemico per uccidere e fare lo stato nell'animator
         while (true) {
             Transform _enemyTarget = null;
-            if(transform.parent.name== "EnemyWithGun (1)")
-                Debug.Log(!controlled && !changingStatus && !shootingLights);
+
             if (!controlled && !changingStatus && !shootingLights) {
                 foreach (GameObject _enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
                     if (_enemy.GetComponent<EnemyController>().controlled) {
@@ -401,7 +402,11 @@ public class EnemyController : MonoBehaviour {
                         _enemyWeapon.StopCoroutine("TrailingEffectOn");
                         _enemyWeapon.StopCoroutine("TrailingEffectOff");
                         Destroy(_enemyWeapon.particleEffect);
-                        StartCoroutine("ShootEnemy", enemyTarget);
+                        if(ranged)
+                            StartCoroutine("ShootEnemy", enemyTarget);
+                        else
+                            StartCoroutine("MeleeAttack",enemyTarget);
+
                     }
 
                     if (shootingLights || gettingShoot || inTransition)
@@ -547,11 +552,23 @@ public class EnemyController : MonoBehaviour {
             Destroy(_enemy.parent.gameObject);
         weapon.StopCoroutine("TrailingEffectOn");
         weapon.StopCoroutine("LightningEffectOn");
+    }
 
+    IEnumerator MeleeAttack(Transform _target) {
+        if (!shootingLights) {
+            weapon.StartCoroutine("MeleeAttack", _target);
+        }
+
+        shootingLights = true;
+        
+        yield return new WaitForSeconds(1f);
+        weapon.transform.parent.rotation = Quaternion.Euler(0f, 0f, transform.localScale.x > 0 ? 73.4f : -73.4f);
+        playerInSight = false;
+        shootingLights = false;
+        animator.SetBool("PlayerInSight", false);
     }
 
     private void OnDestroy() {
-
         Instantiate(explosion, transform.position, transform.rotation);
         if (controlled && player != null) {
             EventManager.TriggerEvent("EnemyDestroyed");
