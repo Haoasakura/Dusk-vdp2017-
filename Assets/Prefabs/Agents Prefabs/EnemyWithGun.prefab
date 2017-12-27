@@ -357,7 +357,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1120210818330934}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7, y: 0.1, z: 0}
+  m_LocalPosition: {x: 7.5, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4150831261549982}
@@ -976,7 +976,7 @@ MonoBehaviour:
   secondsForOneLength: 5
   speed: 15
   huntSpeed: 7.5
-  switchTime: 3
+  switchTime: 2.5
   sightRange: 28
   controlCost: 25
   timeToReturnPatrol: 3

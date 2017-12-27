@@ -39,6 +39,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip ac_level12;
     public float fadeTime1;
     public float fadeTime2;
+    public int enemiesOnChase = 0;
 
     // Use this for initialization
     void Awake()
@@ -130,6 +131,28 @@ public class SoundManager : MonoBehaviour
 
     public void PlayNormalSoundtrack()
     {
+        if (enemiesOnChase > 0)
+        {
+            enemiesOnChase--;
+        }
+        else
+        {
+            enemiesOnChase = 0;
+        }
+        Debug.Log("enemiesOnChase = " + enemiesOnChase);
+
+        if (enemiesOnChase == 0)
+        {
+            float t = fadeTime1;
+            as_soundtrack1.mute = false;
+            as_soundtrack1.volume = 0.5f;
+            StartCoroutine(FadeSountrack(as_soundtrack2, as_soundtrack1, t));
+        }
+    }
+
+    public void PlayNormalSoundtrackFromDeath()
+    {
+        enemiesOnChase = 0;
         float t = fadeTime1;
         as_soundtrack1.mute = false;
         as_soundtrack1.volume = 0.5f;
@@ -144,10 +167,17 @@ public class SoundManager : MonoBehaviour
 
     public void PlayChaseSoundtrack()
     {
-        float t = fadeTime1;
-        as_soundtrack2.mute = false;
-        as_soundtrack2.volume = 0.5f;
-        StartCoroutine(FadeSountrack(as_soundtrack1, as_soundtrack2, t));
+        enemiesOnChase++;
+
+        Debug.Log("EnemiesHunting = " + enemiesOnChase);
+
+        if (enemiesOnChase >= 0 && as_soundtrack2.mute)
+        {
+            float t = fadeTime1;
+            as_soundtrack2.mute = false;
+            as_soundtrack2.volume = 0.5f;
+            StartCoroutine(FadeSountrack(as_soundtrack1, as_soundtrack2, t));
+        }
     }
 
     public void ReturnSounds()

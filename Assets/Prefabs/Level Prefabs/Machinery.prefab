@@ -221,7 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mechanisms:
   - {fileID: 0}
-  switchTime: 3
+  switchTime: 2.5
   powerCharge: 25
   powered: 0
   changingStatus: 0
