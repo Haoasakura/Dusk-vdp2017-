@@ -104,7 +104,7 @@ public class EnemyController : MonoBehaviour {
         animator.SetBool("EnemyTraitor", false);
         playerInSight = false;
         weapon.StopCoroutine("TrailingEffectOn");
-        weapon.StopCoroutine("LightningEffectOn");
+        weapon.StopCoroutine(weapon.lightningCoroutine);
         Destroy(weapon.particleEffect);
         if (flipStartDir)
             setDestination(endPoint);
@@ -185,7 +185,7 @@ public class EnemyController : MonoBehaviour {
                         weapon.armTransform.rotation = Quaternion.Euler(0.0f, 0.0f, enemy.transform.localScale.x * 159.1f);
                         lightController.SwitchOnOff(weapon.transform);
                         weapon.StartCoroutine("TrailingEffectOn", lightController.switchTime);
-                        weapon.StartCoroutine("LightningEffectOn",lightController.switchTime);
+                        weapon.StartCoroutine(weapon.LightningEffectOn(lightController.switchTime, true));
                         shootingLights = true;
                     }
                 }
@@ -490,7 +490,7 @@ public class EnemyController : MonoBehaviour {
         inTransition = false;
         if(shootingLights) {
             weapon.StopCoroutine("TrailingEffectOn");
-            weapon.StopCoroutine("LightningEffectOn");
+            weapon.StopCoroutine(weapon.lightningCoroutine);
             Destroy(weapon.particleEffect);
             shootingLights = false;
         }
@@ -508,10 +508,10 @@ public class EnemyController : MonoBehaviour {
     IEnumerator ShootPlayer() {
         if (!shootingLights) {
             weapon.StopCoroutine("TrailingEffectOn");
-            weapon.StopCoroutine("LightningEffectOn");
+            weapon.StopCoroutine(weapon.lightningCoroutine);
             Destroy(weapon.particleEffect);
             weapon.StartCoroutine("TrailingEffectOn", switchTime);
-            weapon.StartCoroutine("LightningEffectOn", switchTime);
+            weapon.StartCoroutine(weapon.LightningEffectOn(switchTime, false));
         }
         
         shootingLights = true;
@@ -521,16 +521,16 @@ public class EnemyController : MonoBehaviour {
         yield return new WaitForSeconds(switchTime);
         EventManager.TriggerEvent("PlayerControlled");
         weapon.StopCoroutine("TrailingEffectOn");
-        weapon.StopCoroutine("LightningEffectOn");
+        weapon.StopCoroutine(weapon.lightningCoroutine);
     }
 
     IEnumerator ShootEnemy(Transform _enemy) {
         if (!shootingLights) {
             weapon.StopCoroutine("TrailingEffectOn");
-            weapon.StopCoroutine("LightningEffectOn");
+            weapon.StopCoroutine(weapon.lightningCoroutine);
             Destroy(weapon.particleEffect);
             weapon.StartCoroutine("TrailingEffectOn", switchTime);
-            weapon.StartCoroutine("LightningEffectOn", switchTime);
+            weapon.StartCoroutine(weapon.LightningEffectOn(switchTime, false));
         }
         shootingLights = true;
         _enemy.GetComponent<EnemyController>().gettingShoot = true;
@@ -547,7 +547,7 @@ public class EnemyController : MonoBehaviour {
         if(_enemy && _enemy.parent.gameObject)
             Destroy(_enemy.parent.gameObject);
         weapon.StopCoroutine("TrailingEffectOn");
-        weapon.StopCoroutine("LightningEffectOn");
+        weapon.StopCoroutine(weapon.lightningCoroutine);
 
     }
 

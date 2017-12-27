@@ -31,6 +31,8 @@ public class EnemyWeapon : MonoBehaviour {
     private Enemy enemy;
     private EnemyController enemyController;
     private Transform mTransform;
+    public Coroutine lightningCoroutine = null;
+
     public EnemyController enemyControlled;
     public LineRenderer mLineRenderer;
     [HideInInspector]
@@ -105,11 +107,12 @@ public class EnemyWeapon : MonoBehaviour {
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && !currentLight.changingStatus)
                             if ((currentLight.lightStatus && (maxCharge - currentCharge) >= currentLight.lightCharge) || (!currentLight.lightStatus && currentCharge >= currentLight.lightCharge)) {
                                 mTarget.GetComponent<LightController>().SwitchOnOff(transform);
-                                StartCoroutine("LightningEffectOn", mTarget.GetComponent<LightController>().switchTime);
                                 if (currentLight.lightStatus) {
+                                    lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<LightController>().switchTime, true));
                                     StartCoroutine("TrailingEffectOff", mTarget.GetComponent<LightController>().switchTime);
                                 }
                                 else {
+                                    lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<LightController>().switchTime, false));
                                     StartCoroutine("TrailingEffectOn", mTarget.GetComponent<LightController>().switchTime);
                                 }
                                 isLocked = true;
@@ -120,11 +123,12 @@ public class EnemyWeapon : MonoBehaviour {
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && !currentMachinery.changingStatus)
                             if ((currentMachinery.powered && (maxCharge - currentCharge) >= currentMachinery.powerCharge) || (!currentMachinery.powered && currentCharge >= currentMachinery.powerCharge)) {
                                 currentMachinery.SwitchOnOff(transform);
-                                StartCoroutine("LightningEffectOn", mTarget.GetComponent<MachineryController>().switchTime);
                                 if (currentMachinery.powered) {
+                                    lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<MachineryController>().switchTime, true));
                                     StartCoroutine("TrailingEffectOff", mTarget.GetComponent<MachineryController>().switchTime);
                                 }
                                 else {
+                                    lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<MachineryController>().switchTime, false));
                                     StartCoroutine("TrailingEffectOn", mTarget.GetComponent<MachineryController>().switchTime);
                                 }
                                 isLocked = true;
@@ -134,7 +138,7 @@ public class EnemyWeapon : MonoBehaviour {
                         enemyControlled = mTarget.GetComponent<EnemyController>();
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && currentCharge >= enemyControlled.controlCost && !enemyControlled.gettingShoot) {
                             enemyControlled.ControlledOn(transform);
-                            StartCoroutine("LightningEffectOn", mTarget.GetComponent<EnemyController>().switchTime);
+                            lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<EnemyController>().switchTime, false));
                             StartCoroutine("TrailingEffectOn", mTarget.GetComponent<EnemyController>().switchTime);
                             StartCoroutine("AlertEnemies");
                             isLocked = true;
@@ -145,7 +149,7 @@ public class EnemyWeapon : MonoBehaviour {
             if (Input.GetButtonUp("Fire1")) {
                 isLocked = false;
                 mLineRenderer.enabled = true;
-                StopCoroutine("LightningEffectOn");
+                StopCoroutine(lightningCoroutine);
                 StopCoroutine("TrailingEffectOn");
                 StopCoroutine("TrailingEffectOff");
                 Destroy(particleEffect);
@@ -176,12 +180,25 @@ public class EnemyWeapon : MonoBehaviour {
         }
     }
 
-    IEnumerator LightningEffectOn(float switchTime) {
+    public IEnumerator LightningEffectOn(float switchTime, bool isSucking) {
         float startTime = Time.time;
-        while ((Time.time - startTime) < switchTime) {
-            soundManager.Gunshot((Time.time - startTime));
-            lightning.Trigger();
-            yield return null;
+        if (isSucking)
+        {
+            while ((Time.time - startTime) < switchTime)
+            {
+                SoundManager.Instance.Gunshot((Time.time - startTime));
+                lightning.Trigger();
+                yield return null;
+            }
+        }
+        else
+        {
+            while ((Time.time - startTime) < switchTime)
+            {
+                SoundManager.Instance.Gunshot(switchTime - (Time.time - startTime));
+                lightning.Trigger();
+                yield return null;
+            }
         }
         isLocked = false;
     }

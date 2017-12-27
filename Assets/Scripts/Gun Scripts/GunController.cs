@@ -33,6 +33,7 @@ public class GunController : MonoBehaviour {
     private EnemyController enemyControlled;
     private LineRenderer mLineRenderer;
     private DigitalRuby.LightningBolt.LightningBoltScript lightning;
+    private Coroutine lightningCoroutine = null;
 
 
     void Start() {
@@ -107,11 +108,11 @@ public class GunController : MonoBehaviour {
                                 mTarget.GetComponent<LightController>().SwitchOnOff(transform);
 
                                 if (currentLight.lightStatus) {
-                                    StartCoroutine(LightningEffectOn(mTarget.GetComponent<LightController>().switchTime, true));
+                                    lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<LightController>().switchTime, true));
                                     StartCoroutine("TrailingEffectOff", mTarget.GetComponent<LightController>().switchTime);
                                 }
                                 else {
-                                    StartCoroutine(LightningEffectOn(mTarget.GetComponent<LightController>().switchTime, false));
+                                    lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<LightController>().switchTime, false));
                                     StartCoroutine("TrailingEffectOn", mTarget.GetComponent<LightController>().switchTime);
                                 }
                                 isLocked = true;
@@ -124,12 +125,12 @@ public class GunController : MonoBehaviour {
                                 currentMachinery.SwitchOnOff(transform);
                                 if (currentMachinery.powered)
                                 {
-                                    StartCoroutine(LightningEffectOn(mTarget.GetComponent<LightController>().switchTime, true));
+                                    lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<MachineryController>().switchTime, true));
                                     StartCoroutine("TrailingEffectOff", mTarget.GetComponent<MachineryController>().switchTime);
                                 }
                                 else
                                 {
-                                    StartCoroutine(LightningEffectOn(mTarget.GetComponent<LightController>().switchTime, false));
+                                    lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<MachineryController>().switchTime, false));
                                     StartCoroutine("TrailingEffectOn", mTarget.GetComponent<MachineryController>().switchTime);
                                 }
                                 isLocked = true;
@@ -140,19 +141,22 @@ public class GunController : MonoBehaviour {
                         enemyControlled = mTarget.GetComponent<EnemyController>();
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && currentCharge >= enemyControlled.controlCost) {
                             enemyControlled.ControlledOn(transform);
-                            StartCoroutine(LightningEffectOn(mTarget.GetComponent<LightController>().switchTime, false));
+                            lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<EnemyController>().switchTime, false));
                             StartCoroutine("TrailingEffectOn", mTarget.GetComponent<EnemyController>().switchTime);
                             isLocked = true;
                         }
                     }
                 }
 
-
             }
             if (Input.GetButtonUp("Fire1")) {
                 isLocked = false;
                 mLineRenderer.enabled = true;
-                StopCoroutine("LightningEffectOn");
+                Debug.Log("Please Stop");
+                if (lightningCoroutine != null)
+                {
+                    StopCoroutine(lightningCoroutine);
+                }
                 StopCoroutine("TrailingEffectOn");
                 StopCoroutine("TrailingEffectOff");
                 SoundManager.Instance.GunshotStop();
