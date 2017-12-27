@@ -127,29 +127,6 @@ public class SoundManager : MonoBehaviour
         as_objects.PlayOneShot(ac_chekpointReached);
     }
 
-
-
-    public void PlayNormalSoundtrack()
-    {
-        if (enemiesOnChase > 0)
-        {
-            enemiesOnChase--;
-        }
-        else
-        {
-            enemiesOnChase = 0;
-        }
-        Debug.Log("enemiesOnChase = " + enemiesOnChase);
-
-        if (enemiesOnChase == 0)
-        {
-            float t = fadeTime1;
-            as_soundtrack1.mute = false;
-            as_soundtrack1.volume = 0.5f;
-            StartCoroutine(FadeSountrack(as_soundtrack2, as_soundtrack1, t));
-        }
-    }
-
     public void PlayNormalSoundtrackFromDeath()
     {
         enemiesOnChase = 0;
@@ -163,6 +140,28 @@ public class SoundManager : MonoBehaviour
     {
         float t = fadeTime2;
         StartCoroutine(EndSoundtrack(as_soundtrack1, t));
+    }
+
+    public void PlayNormalSoundtrack()
+    {
+        if (enemiesOnChase > 0)
+        {
+            enemiesOnChase--;
+        }
+        else
+        {
+            enemiesOnChase = 0;
+        }
+
+        Debug.Log("enemiesOnChase = " + enemiesOnChase);
+
+        if (enemiesOnChase == 0)
+        {
+            float t = fadeTime1;
+            as_soundtrack1.mute = false;
+            as_soundtrack1.volume = 0.5f;
+            StartCoroutine(FadeSountrack(as_soundtrack2, as_soundtrack1, t));
+        }
     }
 
     public void PlayChaseSoundtrack()
@@ -215,7 +214,7 @@ public class SoundManager : MonoBehaviour
                 s2.volume += Time.deltaTime / fadeTime1;
                 s1.volume -= Time.deltaTime / fadeTime1;
             }
-            s1.mute = true;
+            //s1.mute = true;
         }
         yield break;
     }
