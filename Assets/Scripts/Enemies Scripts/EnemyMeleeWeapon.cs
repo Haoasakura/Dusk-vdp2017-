@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class EnemyMeleeWeapon : EnemyWeapon {
 
+    public ContactFilter2D contactFilter;
+    protected bool CR_running = false;
+
     protected override void Update() {
 
-        RaycastHit2D hit = Physics2D.Linecast(barrel.position, laserDirection.position, untraversableLayers);
+        RaycastHit2D hit = Physics2D.Linecast(barrel.position, laserDirection.position+new Vector3(-10,0,0), untraversableLayers);
         if (hit.collider != null && !hit.collider.gameObject.layer.Equals(9)) {
             mTarget = hit.transform;
         }
@@ -40,46 +43,44 @@ public class EnemyMeleeWeapon : EnemyWeapon {
             }
 
             if (Input.GetButtonDown("Fire1")) {
-                StartCoroutine("MeleeAttack", 1f);
-                if (mTarget != null) {
-                    if (mTarget.CompareTag(Tags.enemy)) {
-                        enemyControlled = mTarget.GetComponent<EnemyController>();
-                        if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && !enemyControlled.gettingShoot) {
-                            StartCoroutine("AlertEnemies");
-                            isLocked = true;
-                        }
-                    }
-                }
+                if(!CR_running)
+                    StartCoroutine("MeleeAttack", enemy.transform);
             }
             if (Input.GetButtonUp("Fire1")) {
                 isLocked = false;
-                StopCoroutine("MeleeAttack");
             }
         }
     }
 
     IEnumerator MeleeAttack(Transform _target) {
-        Debug.Log("Melee Attack");
+        CR_running = true;
         float armRotation = 159.1f;
         Collider2D weaponCollider = GetComponent<Collider2D>();
         armTransform.rotation = Quaternion.Euler(0.0f, 0.0f, enemy.transform.localScale.x * armRotation);
         float startTime = Time.time;
         while ((Time.time - startTime) < 0.3f) {
             float distCovered = (Time.time - startTime);
-            float fracJourney = distCovered / 0.033f;
+            float fracJourney = distCovered / 0.03f;
             armRotation -= fracJourney;
             armTransform.rotation = Quaternion.Euler(0.0f, 0.0f, enemy.transform.localScale.x * armRotation);
-            if(_target)
-                if (weaponCollider.IsTouching(_target.GetComponent<Collider2D>())) {
-                    if (_target.CompareTag("Player"))
+            int n = GameObject.FindGameObjectsWithTag(Tags.enemy).Length;
+            Collider2D[] results = new Collider2D[n+1];
+            weaponCollider.OverlapCollider(contactFilter, results);
+            foreach (Collider2D result in results) {
+                if (result && _target && _target.CompareTag(Tags.player) && result.transform != null && result.transform.CompareTag(Tags.player))
                         EventManager.TriggerEvent("PlayerDied");
-                    else
-                        Destroy(_target.parent.gameObject);
+                else if (result && result.transform && result.transform.CompareTag(Tags.enemy) && result.transform!=enemy.transform) {
+                    Destroy(result.transform.parent.gameObject);
+                    StartCoroutine("AlertEnemies");
                 }
+                
+            }
 
             yield return null;
         }
+        transform.parent.rotation = Quaternion.Euler(0f, 0f, enemyController.transform.localScale.x > 0 ? 73.4f : -73.4f);
         isLocked = false;
+        CR_running = false;
     }
 
 }
