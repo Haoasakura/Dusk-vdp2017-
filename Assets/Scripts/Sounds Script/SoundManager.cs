@@ -29,8 +29,8 @@ public class SoundManager : MonoBehaviour
 
     private float as_playerPitch;
 
-    private float lowPitchRange = .95f;
-    private float highPitchRange = 1.05f;
+    private float lowPitchRange = .90f;
+    private float highPitchRange = 1.10f;
 
     [Header("Soundtrack")]
     public AudioSource as_soundtrack1;
@@ -83,10 +83,10 @@ public class SoundManager : MonoBehaviour
 
     internal void PlayFallSound()
     {
-        as_player.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
+        as_objects.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
         if (!as_player.isPlaying)
         {
-            as_player.PlayOneShot(ac_fall);
+            as_objects.PlayOneShot(ac_fall);
         }
     }
 
@@ -179,11 +179,17 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void ReturnPlayerSound()
+    {
+        as_gun.mute = false;
+        as_player.mute = false;
+        as_gun.volume = 0.5f;
+        as_player.volume = 0.5f;
+    }
+
     public void ReturnSounds()
     {
         as_soundtrack1.volume = 1;
-        as_gun.volume = 0.5f;
-        as_player.volume = 0.5f;
     }
 
     private IEnumerator EndSoundtrack(AudioSource as_soundtrack1, float t)

@@ -28,7 +28,7 @@ public class Death : MonoBehaviour {
             }
             else if (collision.gameObject.tag.Equals("Enemy"))
             {
-                StartCoroutine(DestroyFromFall(collision));                
+                StartCoroutine(DestroyFromFall(collision));
             }
         }
     }
@@ -46,7 +46,7 @@ public class Death : MonoBehaviour {
                 mPlayer.GetComponentInChildren<GunController>().isLocked = false;
             }
         }
-
+        SoundManager.Instance.PlayFallSound();
         yield return new WaitForSeconds(1);
         Destroy(collision.gameObject);
     }
