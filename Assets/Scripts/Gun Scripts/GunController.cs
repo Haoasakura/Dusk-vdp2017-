@@ -18,6 +18,7 @@ public class GunController : MonoBehaviour {
     public Transform mTransform;
     public GameObject aimsight;
     public GameObject absorptionEffect;
+    public GameObject dotsight;
     public SpriteRenderer arm;
     public SpriteRenderer armShadow;
     public Material aimMaterial;
@@ -49,12 +50,14 @@ public class GunController : MonoBehaviour {
 
         RaycastHit2D hit = Physics2D.Linecast(barrel.position, laserDirection.position, untraversableLayers);
         if (hit.collider != null && !hit.collider.gameObject.layer.Equals(9)) {
+            dotsight.transform.position = hit.point;
             mLineRenderer.SetPosition(1, hit.point);
             lightning.EndPosition = hit.point;
             mTarget = hit.transform;
         }
         else {
             mLineRenderer.SetPosition(1, laserDirection.position);
+            dotsight.transform.position = laserDirection.position;
             lightning.EndPosition = laserDirection.position;
             mTarget = null;
         }
@@ -68,11 +71,13 @@ public class GunController : MonoBehaviour {
 
             if (Mathf.Abs(c) < 0.5){
                 mLineRenderer.material = idleMaterial;
+                dotsight.GetComponent<SpriteRenderer>().enabled = false;
                 isAiming = false;
             }
             else
             {
                 mLineRenderer.material = aimMaterial;
+                dotsight.GetComponent<SpriteRenderer>().enabled = true;
                 isAiming = true;
             }
 

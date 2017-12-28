@@ -14,8 +14,8 @@ public class EnemySoundManager : MonoBehaviour {
     public AudioClip ac_gunshot;
     public AudioClip ac_emptygunshot;
 
-    private float lowPitchRange = .95f;
-    private float highPitchRange = 1.05f;
+    private float lowPitchRange = .90f;
+    private float highPitchRange = 1.10f;
 
     //Enemy Sounds
     public void Walk()

@@ -220,7 +220,7 @@ public class SoundManager : MonoBehaviour
                 s2.volume += Time.deltaTime / fadeTime1;
                 s1.volume -= Time.deltaTime / fadeTime1;
             }
-            //s1.mute = true;
+            s1.mute = true;
         }
         yield break;
     }

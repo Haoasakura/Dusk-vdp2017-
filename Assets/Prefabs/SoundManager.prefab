@@ -465,7 +465,7 @@ MonoBehaviour:
   ac_gunshot: {fileID: 8300000, guid: fa57b2a9ab1cbd644b5c7db781b1b8db, type: 3}
   ac_emptygunshot: {fileID: 8300000, guid: 000e1d89e4a617045ae6653868015e54, type: 3}
   as_objects: {fileID: 82834512028592402}
-  ac_lever: {fileID: 8300000, guid: 74ec48ce9e6140e47ba7d1c9997d20bf, type: 3}
+  ac_lever: {fileID: 8300000, guid: 3df51563c3e1a5547856dc2a45330d9c, type: 3}
   ac_movingPlatform: {fileID: 8300000, guid: 903aea382316d874995ec767ea0c4476, type: 3}
   ac_chekpointReached: {fileID: 8300000, guid: 4b3afda972756af449f3ccf31fb4edde, type: 3}
   as_soundtrack1: {fileID: 82273385749664824}

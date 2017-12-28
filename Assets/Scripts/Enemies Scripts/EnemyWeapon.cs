@@ -19,6 +19,7 @@ public class EnemyWeapon : MonoBehaviour {
     public Transform pivot;
     public GameObject aimsight;
     public GameObject absorptionEffect;
+    public GameObject dotsight;
     public SpriteRenderer arm;
     public SpriteRenderer armShadow;
     public Material aimMaterial;
@@ -41,6 +42,7 @@ public class EnemyWeapon : MonoBehaviour {
     private void Awake() {
         gunRange = Mathf.Abs((laserDirection.position - barrel.position).x);
     }
+
     void Start() {
         enemy = GetComponentInParent<Enemy>();
         enemyController = GetComponentInParent<EnemyController>();
@@ -48,6 +50,7 @@ public class EnemyWeapon : MonoBehaviour {
         mLineRenderer = aimsight.GetComponent<LineRenderer>();
         lightning = GetComponent<DigitalRuby.LightningBolt.LightningBoltScript>();
         armTransform.position = pivot.position;
+        dotsight.SetActive(false);
     }
 
     protected virtual void Update() {
@@ -55,33 +58,39 @@ public class EnemyWeapon : MonoBehaviour {
 
         RaycastHit2D hit = Physics2D.Linecast(barrel.position, laserDirection.position, untraversableLayers);
         if (hit.collider != null && !hit.collider.gameObject.layer.Equals(9)) {
+            dotsight.transform.position = hit.point;
             mLineRenderer.SetPosition(1, hit.point);
             lightning.EndPosition = hit.point;
             mTarget = hit.transform;
         }
         else {
+            dotsight.transform.position = laserDirection.position;
             mLineRenderer.SetPosition(1, laserDirection.position);
             lightning.EndPosition = laserDirection.position;
             mTarget = null;
         }
 
         if (enemyController.controlled && !enemy.controlling) {
-
             float a = Input.GetAxis("HorizontalGun");
             float b = Input.GetAxis("VerticalGun");
             float c = Mathf.Sqrt(Mathf.Pow(a, 2) + Mathf.Pow(b, 2));
             //rotazione della pistola
             if (Mathf.Abs(c) < 0.5)
+            {
+                dotsight.SetActive(false);
                 mLineRenderer.material = idleMaterial;
-        
+            }
             else
+            {
+                dotsight.SetActive(true);
                 mLineRenderer.material = aimMaterial;
+            }
 
             if (Mathf.Abs(c) > 0.9 && !isLocked) {
                 float angleRot = -Mathf.Sign(b) * Mathf.Rad2Deg * Mathf.Acos(a / c);
 
                 if(GetComponentInParent<Enemy>().transform.localScale.x>0)
-                    transform.parent.rotation = Quaternion.Euler(0f, 0f, 73+angleRot);
+                    transform.parent.rotation = Quaternion.Euler(0f, 0f, 73.4f + angleRot);
                 else
                     transform.parent.rotation = Quaternion.Euler(0f, 0f, 93+angleRot);
                 

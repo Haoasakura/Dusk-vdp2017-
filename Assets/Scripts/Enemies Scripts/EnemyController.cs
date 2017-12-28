@@ -72,7 +72,6 @@ public class EnemyController : MonoBehaviour {
         setDestination(startPoint);
         weaponRange = weapon.gunRange;
         lastX = transform.position.x;
-
     }
 
     void Update () {
