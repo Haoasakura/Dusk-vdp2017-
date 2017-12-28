@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour {
         }
         if (UIChapTitle.GetComponent<UIChapterTitle>().finished) {
             UIChapTitle.GetComponent<UIChapterTitle>().finished = false;
-            LoadGame();
+            StartCoroutine(LoadGameFirstTime());
             unityAction = new UnityAction(SaveGame);
         }
     }
@@ -124,6 +124,13 @@ public class GameManager : MonoBehaviour {
         Destroy(gameObject);
     }
 
+    IEnumerator LoadGameFirstTime()
+    {
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene(loadedScene, LoadSceneMode.Single);
+        StartCoroutine("SearchPlayer");
+    }
+
     IEnumerator WaitLoading()
     {
         yield return new WaitForSeconds(1);
@@ -145,8 +152,7 @@ public class GameManager : MonoBehaviour {
         {
             Debug.Log("PlayerFound");
         }
-        UITitle.GetComponent<MainMenu>().optionsText.SetActive(false);
-        UITitle.GetComponent<MainMenu>().loadingText.SetActive(true);
+
         Debug.Log(player.transform.position);
         UIChapTitle.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
         UITitle.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();

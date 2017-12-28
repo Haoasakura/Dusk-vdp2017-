@@ -15,11 +15,11 @@ public class SoundManager : MonoBehaviour
     public AudioClip ac_climb;
     public AudioClip ac_fall;
 
-
     [Header("Gun Audio")]
     public AudioSource as_gun;
     public AudioClip ac_gunshot;
     public AudioClip ac_emptygunshot;
+    public AudioClip ac_lightSound;
 
     [Header("Objects Audio")]
     public AudioSource as_objects;
@@ -40,6 +40,10 @@ public class SoundManager : MonoBehaviour
     public float fadeTime1;
     public float fadeTime2;
     public int enemiesOnChase = 0;
+
+    [Header("Menù Sounds")]
+    public AudioSource as_UI;
+    public AudioClip ac_buttonOk;
 
     // Use this for initialization
     void Awake()
@@ -225,5 +229,22 @@ public class SoundManager : MonoBehaviour
         yield break;
     }
 
+    internal void LightOnSound(bool isSucking)
+    {
+        if (isSucking)
+        {
+            as_gun.pitch = UnityEngine.Random.Range(lowPitchRange - 0.2f,highPitchRange - 0.2f);
+        }
+        else
+        {
+            as_gun.pitch = UnityEngine.Random.Range(lowPitchRange + 0.1f, highPitchRange + 0.1f);
+        }
+        as_gun.PlayOneShot(ac_lightSound);
+    }
+
+    public void PlayOkSound()
+    {
+        as_UI.PlayOneShot(ac_buttonOk);
+    }
 
 }

@@ -200,6 +200,8 @@ public class GunController : MonoBehaviour {
                 yield return null;
             }
         }
+        SoundManager.Instance.GunshotStop();
+                SoundManager.Instance.LightOnSound(isSucking);
         isLocked = false;
     }
 
