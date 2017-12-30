@@ -44,6 +44,7 @@ public class CameraController : MonoBehaviour {
     IEnumerator DontReturnSuddenly()
     {
         yield return new WaitForSeconds(2);
+        SoundManager.Instance.Laugh();
         ReturnOldCamera();
     }
 
