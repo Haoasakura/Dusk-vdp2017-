@@ -227,7 +227,7 @@ Prefab:
     - target: {fileID: 114240218390091346, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
       propertyPath: playerPosition.y
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114240218390091346, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
@@ -778,6 +778,16 @@ Prefab:
     - target: {fileID: 4529855375827694, guid: cf69a574a19a2f24cb5cc3d6757016f4, type: 2}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 82834512028592402, guid: cf69a574a19a2f24cb5cc3d6757016f4,
+        type: 2}
+      propertyPath: Mute
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82504809353072418, guid: cf69a574a19a2f24cb5cc3d6757016f4,
+        type: 2}
+      propertyPath: Mute
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cf69a574a19a2f24cb5cc3d6757016f4, type: 2}

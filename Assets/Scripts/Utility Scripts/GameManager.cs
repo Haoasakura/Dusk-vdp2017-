@@ -158,6 +158,7 @@ public class GameManager : MonoBehaviour {
     IEnumerator LoadNewGame()
     {
         yield return new WaitForSeconds(2);
+        PlayerPrefs.DeleteAll();
         SceneManager.LoadScene(loadedScene, LoadSceneMode.Single);
         StartCoroutine("SearchPlayer");
     }
