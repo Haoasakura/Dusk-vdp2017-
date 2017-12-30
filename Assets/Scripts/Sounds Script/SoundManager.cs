@@ -207,6 +207,9 @@ public class SoundManager : MonoBehaviour
     {
         as_gun.mute = false;
         as_player.mute = false;
+        as_objects.mute = false;
+
+        as_objects.volume = 0.5f;
         as_gun.volume = 0.5f;
         as_player.volume = 0.5f;
     }

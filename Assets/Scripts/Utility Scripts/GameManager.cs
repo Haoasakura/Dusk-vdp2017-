@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour {
         }
         if (UIChapTitles[loadedScene-1].GetComponent<UIChapterTitle>().finished) {
             UIChapTitles[loadedScene-1].GetComponent<UIChapterTitle>().finished = false;
-            StartCoroutine(LoadGameFirstTime());
+            StartCoroutine(LoadNewGame());
             unityAction = new UnityAction(SaveGame);
         }
     }
@@ -90,10 +90,19 @@ public class GameManager : MonoBehaviour {
 
     void SaveGame()
     {
+        PlayerPrefs.SetInt("Scene", loadedScene);
+
         cameraPosition = new Vector3(camera.transform.position.x, camera.transform.position.y, -10f);
+        PlayerPrefs.SetFloat("CameraX", camera.transform.position.x);
+        PlayerPrefs.SetFloat("CameraY", camera.transform.position.y);
         playerPosition = new Vector3 (player.transform.position.x, player.transform.position.y);
+        PlayerPrefs.SetFloat("PlayerX", player.transform.position.x);
+        PlayerPrefs.SetFloat("PlayerY", player.transform.position.y);
         duskCharge = player.transform.Find("PivotArm").Find("Gun").gameObject.GetComponent<GunController>().currentCharge;
+        PlayerPrefs.SetInt("GunCharge", duskCharge);
+
         GameObject[] finalMachineries = GameObject.FindGameObjectsWithTag("FinalMachineries");
+
         if (finalMachineries != null)
         {
             int i = 0;
@@ -107,10 +116,10 @@ public class GameManager : MonoBehaviour {
                 {
                     level2Data[i] = 0;
                 }
+                PlayerPrefs.SetInt("FinalMachinery" + i, level2Data[i]);
                 i++;
             }
         }
-        Debug.Log("Saving");
     }
 
     void LoadGame()
@@ -139,11 +148,18 @@ public class GameManager : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    IEnumerator LoadGameFirstTime()
+    IEnumerator LoadNewGame()
     {
         yield return new WaitForSeconds(2);
         SceneManager.LoadScene(loadedScene, LoadSceneMode.Single);
         StartCoroutine("SearchPlayer");
+    }
+
+    IEnumerator LoadGameFromSave()
+    {
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene(PlayerPrefs.GetInt("Scene"), LoadSceneMode.Single);
+        StartCoroutine("SearchPlayerFromSave");
     }
 
     IEnumerator WaitLoading()
@@ -189,5 +205,32 @@ public class GameManager : MonoBehaviour {
         SaveGame();
     }
 
+    IEnumerator SearchPlayerFromSave()
+    {
 
+        yield return new WaitForSeconds(0.01f);
+        player = GameObject.FindWithTag("Player");
+        camera = GameObject.FindWithTag("MainCamera");
+
+        UIChapTitles[loadedScene - 1].GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
+        UITitle.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
+
+        camera.transform.position = new Vector3(PlayerPrefs.GetFloat("CameraX"), PlayerPrefs.GetFloat("CameraY"), -10);
+        player.transform.position = new Vector3(PlayerPrefs.GetFloat("PlayerX"), PlayerPrefs.GetFloat("PlayerY"), 0);
+        camera.GetComponent<CameraController>().ActivateEnemies();
+        player.transform.Find("PivotArm").Find("Gun").gameObject.GetComponent<GunController>().currentCharge = PlayerPrefs.GetInt("GunCharge");
+
+        GameObject[] finalMachineries = GameObject.FindGameObjectsWithTag("FinalMachineries");
+        if (finalMachineries != null)
+        {
+            int i = 0;
+            foreach (GameObject f in finalMachineries)
+            {
+                if (PlayerPrefs.GetInt("FinalMachinery" + i) == 1)
+                    f.GetComponentInChildren<MachineryController>().InstantSwitchOn();
+                i++;
+            }
+        }
+        SaveGame();
+    }
 }
