@@ -168,9 +168,15 @@ public class GunController : MonoBehaviour {
                 Destroy(particleEffect);
             }
         }
+        if (Input.GetButtonUp("Fire1"))
+        {
+            mLineRenderer.enabled = true;
+        }
+
+
     }
 
-    public bool InLineOfSight(Collider2D target) {
+        public bool InLineOfSight(Collider2D target) {
         if (target != null) {
             RaycastHit2D hit = Physics2D.Raycast(barrel.position, (target.transform.position - transform.position), 1000f, gunLayer);
             if (hit.collider != null && hit.collider.gameObject.name == target.gameObject.name)

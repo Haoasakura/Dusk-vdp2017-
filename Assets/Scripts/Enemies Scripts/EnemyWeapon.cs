@@ -209,6 +209,8 @@ public class EnemyWeapon : MonoBehaviour {
                 yield return null;
             }
         }
+        SoundManager.Instance.GunshotStop();
+        SoundManager.Instance.LightOnSound(isSucking);
         isLocked = false;
     }
 
