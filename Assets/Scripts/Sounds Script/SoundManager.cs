@@ -12,14 +12,13 @@ public class SoundManager : MonoBehaviour
     public AudioSource as_player;
     public AudioClip ac_jump;
     public AudioClip ac_walk;
+    public AudioClip ac_run;
     public AudioClip ac_climb;
-    public AudioClip ac_fall;
 
     [Header("Gun Audio")]
     public AudioSource as_gun;
     public AudioClip ac_gunshot;
     public AudioClip ac_emptygunshot;
-    public AudioClip ac_lightSound;
 
     [Header("Objects Audio")]
     public AudioSource as_objects;
@@ -44,6 +43,12 @@ public class SoundManager : MonoBehaviour
     [Header("Menù Sounds")]
     public AudioSource as_UI;
     public AudioClip ac_buttonOk;
+
+    [Header("Other Sounds")]
+    public AudioSource as_others;
+    public AudioClip ac_laugh;
+    public AudioClip ac_lightSound;
+    public AudioClip ac_fall;
 
     // Use this for initialization
     void Awake()
@@ -76,6 +81,15 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void Run()
+    {
+        as_player.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
+        if (!as_player.isPlaying)
+        {
+            as_player.PlayOneShot(ac_run);
+        }
+    }
+
     internal void Climb()
     {
         as_player.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
@@ -87,10 +101,16 @@ public class SoundManager : MonoBehaviour
 
     internal void PlayFallSound()
     {
-        as_objects.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
-        if (!as_player.isPlaying)
+        as_others.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
+        as_others.PlayOneShot(ac_fall);
+    }
+
+    internal void Laugh()
+    {
+        as_others.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
+        if (!as_others.isPlaying)
         {
-            as_objects.PlayOneShot(ac_fall);
+            as_others.PlayOneShot(ac_laugh);
         }
     }
 
@@ -233,13 +253,13 @@ public class SoundManager : MonoBehaviour
     {
         if (isSucking)
         {
-            as_gun.pitch = UnityEngine.Random.Range(lowPitchRange - 0.2f,highPitchRange - 0.2f);
+            as_others.pitch = UnityEngine.Random.Range(lowPitchRange - 0.2f,highPitchRange - 0.2f);
         }
         else
         {
-            as_gun.pitch = UnityEngine.Random.Range(lowPitchRange + 0.1f, highPitchRange + 0.1f);
+            as_others.pitch = UnityEngine.Random.Range(lowPitchRange + 0.1f, highPitchRange + 0.1f);
         }
-        as_gun.PlayOneShot(ac_lightSound);
+        as_others.PlayOneShot(ac_lightSound);
     }
 
     public void PlayOkSound()

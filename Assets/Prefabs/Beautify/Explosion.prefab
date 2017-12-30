@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delay: 0
-  ac_explosion: {fileID: 8300000, guid: 196b2fc87dc14384eb37b4aa9612c2b8, type: 3}
+  ac_explosion: {fileID: 8300000, guid: d3df9aa7e619ba849b0456b5857a2345, type: 3}
 --- !u!212 &212353010394000552
 SpriteRenderer:
   m_ObjectHideFlags: 1
