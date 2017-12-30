@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour {
     public static GameManager Instance;
 
     public GameObject UITitle;
-    public GameObject UIChapTitle;
+    public GameObject[] UIChapTitles;
     public int loadedScene;
     public Vector3 cameraPosition = new Vector3(0f, 0f, -10f);
     public Vector3 playerPosition = new Vector3 (0f, 0f);
@@ -33,7 +33,9 @@ public class GameManager : MonoBehaviour {
 
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(UITitle);
-            DontDestroyOnLoad(UIChapTitle);
+            //DontDestroyOnLoad(UIChapTitles[0]);
+            //DontDestroyOnLoad(UIChapTitles[1]);
+            //DontDestroyOnLoad(UIChapTitles[2]);
         }
         else
         {
@@ -43,22 +45,32 @@ public class GameManager : MonoBehaviour {
 
     private void Start()
     {
+        UIChapTitles = new GameObject[3];
         UITitle = GameObject.Find("UITitleScreen");
-        UIChapTitle = GameObject.Find("UIChapterTitleScreen");
+        UIChapTitles[0] = GameObject.Find("UIChapterTitleScreen_Level1");
+        UIChapTitles[1] = GameObject.Find("UIChapterTitleScreen_Level2");
+        UIChapTitles[2] = GameObject.Find("UIChapterTitleScreen_Level3");
+        DontDestroyOnLoad(UIChapTitles[0]);
+        DontDestroyOnLoad(UIChapTitles[1]);
+        DontDestroyOnLoad(UIChapTitles[2]);
+        UIChapTitles[0].SetActive(false);
+        UIChapTitles[1].SetActive(false);
+        UIChapTitles[2].SetActive(false);
     }
 
     private void Update()
     {
+        UIChapTitles[loadedScene - 1].SetActive(true);
         if (UITitle.GetComponent<MainMenu>().ready)
         {
             UITitle.GetComponent<MainMenu>().ready = false;
             UITitle.GetComponent<MainMenu>().FadeMe();
 
-            UIChapTitle.GetComponent<UIChapterTitle>().ready = true;
-            UIChapTitle.GetComponent<UIChapterTitle>().finished = true;
+            UIChapTitles[loadedScene-1].GetComponent<UIChapterTitle>().ready = true;
+            UIChapTitles[loadedScene-1].GetComponent<UIChapterTitle>().finished = true;
         }
-        if (UIChapTitle.GetComponent<UIChapterTitle>().finished) {
-            UIChapTitle.GetComponent<UIChapterTitle>().finished = false;
+        if (UIChapTitles[loadedScene-1].GetComponent<UIChapterTitle>().finished) {
+            UIChapTitles[loadedScene-1].GetComponent<UIChapterTitle>().finished = false;
             StartCoroutine(LoadGameFirstTime());
             unityAction = new UnityAction(SaveGame);
         }
@@ -119,7 +131,10 @@ public class GameManager : MonoBehaviour {
         duskCharge = 0;
         SceneManager.LoadScene(0, LoadSceneMode.Single);
         SoundManager.Instance.as_soundtrack1.Stop();
-        Destroy(UIChapTitle);
+        foreach(GameObject o in UIChapTitles)
+        {
+            Destroy(o);
+        }
         Destroy(UITitle);
         Destroy(gameObject);
     }
@@ -154,7 +169,7 @@ public class GameManager : MonoBehaviour {
         }
 
         Debug.Log(player.transform.position);
-        UIChapTitle.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
+        UIChapTitles[loadedScene-1].GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
         UITitle.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
         camera.transform.position = cameraPosition;
         player.transform.position = playerPosition;
