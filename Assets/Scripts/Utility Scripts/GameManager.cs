@@ -71,7 +71,17 @@ public class GameManager : MonoBehaviour {
         }
         if (UIChapTitles[loadedScene-1].GetComponent<UIChapterTitle>().finished) {
             UIChapTitles[loadedScene-1].GetComponent<UIChapterTitle>().finished = false;
+<<<<<<< Updated upstream
             StartCoroutine(LoadNewGame());
+=======
+            if (loadedScene == 1) {
+                StartCoroutine(LoadGameFirstTime());
+            }
+            else
+            {
+                LoadGame();
+            }
+>>>>>>> Stashed changes
             unityAction = new UnityAction(SaveGame);
         }
     }

@@ -242,7 +242,7 @@ Prefab:
     - target: {fileID: 114240218390091346, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
       propertyPath: loadedScene
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114240218390091346, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
@@ -400,6 +400,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1477291640546182, guid: 416e0aa6729c772468c7835b2211c2d5, type: 2}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 225290770785188930, guid: 416e0aa6729c772468c7835b2211c2d5,
+        type: 2}
+      propertyPath: m_Alpha
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -605,6 +610,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1477291640546182, guid: 416e0aa6729c772468c7835b2211c2d5, type: 2}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 225290770785188930, guid: 416e0aa6729c772468c7835b2211c2d5,
+        type: 2}
+      propertyPath: m_Alpha
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
