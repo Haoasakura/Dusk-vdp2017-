@@ -155,7 +155,7 @@ public class Enemy : MonoBehaviour
                 collision.gameObject.tag = "Ladder";
             }
             else {
-                collision.gameObject.layer = 11;
+                collision.gameObject.layer = 9;
                 collision.gameObject.tag = "Through";
             }
         }
@@ -192,7 +192,7 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                collision.gameObject.layer = 11;
+                collision.gameObject.layer = 9;
                 collision.gameObject.tag = "Through";
             }
         }

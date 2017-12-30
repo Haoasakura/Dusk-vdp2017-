@@ -157,7 +157,8 @@ public class EnemyWeapon : MonoBehaviour {
             if (Input.GetButtonUp("Fire1")) {
                 isLocked = false;
                 mLineRenderer.enabled = true;
-                StopCoroutine(lightningCoroutine);
+                if(lightningCoroutine!=null)
+                    StopCoroutine(lightningCoroutine);
                 StopCoroutine("TrailingEffectOn");
                 StopCoroutine("TrailingEffectOff");
                 Destroy(particleEffect);
@@ -179,7 +180,7 @@ public class EnemyWeapon : MonoBehaviour {
             BoxCollider2D coll = GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<BoxCollider2D>();
             foreach (GameObject _enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
                 if (coll.bounds.Contains(_enemy.transform.position + new Vector3(0, 0, -10)) && !_enemy.transform.GetComponent<Animator>().GetBool("EnemyTraitor") && Mathf.Abs(enemy.transform.position.y-_enemy.transform.position.y)<1.6f) {
-                    if (!_enemy.transform.GetComponent<Animator>().GetBool("PlayerInSight") && !_enemy.transform.GetComponent<EnemyController>().changingStatus && !_enemy.transform.GetComponent<EnemyController>().controlled) {
+                    if (!_enemy.transform.GetComponent<Animator>().GetBool("PlayerInSight") && !_enemy.transform.GetComponent<EnemyController>().changingStatus && !_enemy.transform.GetComponent<EnemyController>().controlled && _enemy.GetComponent<EnemyController>().InLineOfSight(enemy.transform, _enemy.GetComponent<EnemyController>().sightRange)) {
                         _enemy.gameObject.GetComponent<Animator>().SetBool("EnemyTraitor", true);
                     }
                 }

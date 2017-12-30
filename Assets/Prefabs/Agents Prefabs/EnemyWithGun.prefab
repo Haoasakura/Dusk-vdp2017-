@@ -285,7 +285,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1896382861546928}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 173.76, y: 38.09, z: 0}
+  m_LocalPosition: {x: 4.96, y: -1.69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4697053231449220}
@@ -850,7 +850,7 @@ MonoBehaviour:
   moveMinSpeed: 2
   moveMaxSpeed: 10
   minClimbAngle: 0.6
-  climbSpeed: 3
+  climbSpeed: 6
   accelerationTimeAirborne: 3
   accelerationTimeGrounded: 0.1
   controlling: 0
@@ -949,7 +949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TurnSpeed: 20
-  currentCharge: 0
+  currentCharge: 25
   maxCharge: 100
   gunRange: 6.4992065
   controlling: 1
@@ -1016,7 +1016,7 @@ MonoBehaviour:
   changingStatus: 0
   autodestruct: 0
   playerInSight: 0
-  flipStartDir: 1
+  flipStartDir: 0
   sightLayerMask:
     serializedVersion: 2
     m_Bits: 1280
