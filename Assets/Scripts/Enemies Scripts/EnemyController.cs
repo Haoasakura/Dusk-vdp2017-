@@ -184,6 +184,8 @@ public class EnemyController : MonoBehaviour {
         foreach (RaycastHit2D hit in hits) {
             if (hit.transform) {
                 if (target.CompareTag(Tags.player)) {
+                    if (hit.collider != null && hit.collider.gameObject.layer == 8)
+                        return false;
                     if (hit.collider != null && hit.collider.gameObject.name == target.name && target.GetComponent<Player>() != null && target.GetComponent<Player>().isVisible)
                         return true;
                 }

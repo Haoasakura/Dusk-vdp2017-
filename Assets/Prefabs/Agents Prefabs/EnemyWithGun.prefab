@@ -1019,7 +1019,7 @@ MonoBehaviour:
   flipStartDir: 0
   sightLayerMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 1280
   explosion: {fileID: 1538426323180472, guid: 8644a2a8ce5daa64abbe4ae37c549cc5, type: 2}
   alert: {fileID: 1940859715970898, guid: 63543aeceaffce2469207ae3cabca8c1, type: 2}
   absorptionEffect: {fileID: 1969731243722472, guid: 0a134329a976316469f76cc7b4ce36f6,
