@@ -21,7 +21,7 @@ public class TrapdoorController : MonoBehaviour {
 	void Update () {
         if (isOpen)
         {
-            gameObject.GetComponentInChildren<Transform>().GetChild(0).gameObject.layer = 0;
+            gameObject.GetComponentInChildren<Transform>().GetChild(0).gameObject.layer = 8;
         }
         else
         {

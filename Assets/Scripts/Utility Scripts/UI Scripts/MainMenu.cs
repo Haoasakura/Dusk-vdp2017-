@@ -15,6 +15,7 @@ public class MainMenu : MonoBehaviour
     {
         if(Input.GetButtonDown("Submit") && gameObject.GetComponent<CanvasGroup>().alpha == 1)
         {
+            SoundManager.Instance.PlayOkSound();
             ready = true;
         }
     }

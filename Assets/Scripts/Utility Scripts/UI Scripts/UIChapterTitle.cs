@@ -77,6 +77,7 @@ public class UIChapterTitle : MonoBehaviour {
             cg.alpha -= Time.deltaTime / 100;
             yield return null;
         }
+        SoundManager.Instance.ReturnPlayerSound();
         cg.interactable = false;
         yield return null;
     }

@@ -20,6 +20,7 @@ TagManager:
   - DeathCollider
   - Mine
   - FinalMachineries
+  - Trapdoor
   layers:
   - Default
   - TransparentFX

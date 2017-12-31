@@ -22,14 +22,19 @@ public class PlayerAnimationController : MonoBehaviour {
 
         if (!isClimbing && velocity.x > 0.2 && velocity.y < 0.2 && controller.collisions.below)
         {
-            SoundManager.Instance.Walk();
+
             animName = "CharacterWalking";
             nextState = 1;
-            if (velocity.x > 3)
+            if (velocity.x > 4)
             {
+                SoundManager.Instance.Run();
                 animName = "CharacterRunning";
 
                 nextState = 5;
+            }
+            else
+            {
+                SoundManager.Instance.Walk();
             }
 
         }

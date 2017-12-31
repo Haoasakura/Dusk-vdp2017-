@@ -97,13 +97,12 @@ public class Player : MonoBehaviour
         if (velocity.magnitude > 1f || isLighted || seenByEnemies) {
             isVisible = true;
         }
-        else if (Input.GetButton("Fire1")) {
+        else if (gun.GetComponent<GunController>().isAiming) {
             isVisible = true;
         }
         else if (controlling) {
             isVisible = true;
-        }
-        else
+        }else
             isVisible = false;
     }
 
@@ -293,16 +292,17 @@ public class Player : MonoBehaviour
     private void DeathProcess()
     {
         Instantiate(explosionDeath, transform.position, transform.rotation);
-        SoundManager.Instance.PlayNormalSoundtrack();
+        SoundManager.Instance.PlayNormalSoundtrackFromDeath();
         Destroy(gameObject);
     }
 
     private void DeathFromFallProcess()
     {
+        SoundManager.Instance.PlayNormalSoundtrackFromDeath();
+        SoundManager.Instance.PlayFallSound();
         GetComponent<PlayerInput>().enabled = false;
         this.tag = "Untagged";
-        SoundManager.Instance.PlayNormalSoundtrack();
-        SoundManager.Instance.PlayFallSound();
+
         StartCoroutine(FallDestruction());
     }
 

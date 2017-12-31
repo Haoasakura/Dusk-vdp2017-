@@ -18,6 +18,7 @@ public class GunController : MonoBehaviour {
     public Transform mTransform;
     public GameObject aimsight;
     public GameObject absorptionEffect;
+    public GameObject dotsight;
     public SpriteRenderer arm;
     public SpriteRenderer armShadow;
     public Material aimMaterial;
@@ -25,6 +26,7 @@ public class GunController : MonoBehaviour {
     public LayerMask gunLayer;
     public LayerMask untraversableLayers;
     public bool canFire = false;
+    public bool isAiming = false;
 
 
     private GameObject particleEffect;
@@ -32,6 +34,7 @@ public class GunController : MonoBehaviour {
     private EnemyController enemyControlled;
     private LineRenderer mLineRenderer;
     private DigitalRuby.LightningBolt.LightningBoltScript lightning;
+    private Coroutine lightningCoroutine = null;
 
 
     void Start() {
@@ -47,12 +50,14 @@ public class GunController : MonoBehaviour {
 
         RaycastHit2D hit = Physics2D.Linecast(barrel.position, laserDirection.position, untraversableLayers);
         if (hit.collider != null && !hit.collider.gameObject.layer.Equals(9)) {
+            dotsight.transform.position = hit.point;
             mLineRenderer.SetPosition(1, hit.point);
             lightning.EndPosition = hit.point;
             mTarget = hit.transform;
         }
         else {
             mLineRenderer.SetPosition(1, laserDirection.position);
+            dotsight.transform.position = laserDirection.position;
             lightning.EndPosition = laserDirection.position;
             mTarget = null;
         }
@@ -66,10 +71,14 @@ public class GunController : MonoBehaviour {
 
             if (Mathf.Abs(c) < 0.5){
                 mLineRenderer.material = idleMaterial;
+                dotsight.GetComponent<SpriteRenderer>().enabled = false;
+                isAiming = false;
             }
             else
             {
                 mLineRenderer.material = aimMaterial;
+                dotsight.GetComponent<SpriteRenderer>().enabled = true;
+                isAiming = true;
             }
 
             if (Mathf.Abs(c) > 0.9 && !isLocked) {
@@ -78,7 +87,7 @@ public class GunController : MonoBehaviour {
                 mTransform.rotation = Quaternion.Euler(0f, 0f, angleRot);
                                 
                 //mantiene la sprite dell'arma nel verso giusto
-                if (mTransform.rotation.eulerAngles.z % 270 < 90 && mTransform.rotation.eulerAngles.z % 270 > 0) {
+                if (mTransform.rotation.eulerAngles.z % 270 < 90 && mTransform.rotation.eulerAngles.z % 270 >= 0) {
                     GetComponent<SpriteRenderer>().flipY = false;
                     arm.flipX = false;
                     armShadow.flipX = false;
@@ -102,11 +111,13 @@ public class GunController : MonoBehaviour {
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && !currentLight.changingStatus)
                             if ((currentLight.lightStatus && (maxCharge - currentCharge) >= currentLight.lightCharge) || (!currentLight.lightStatus && currentCharge >= currentLight.lightCharge)) {
                                 mTarget.GetComponent<LightController>().SwitchOnOff(transform);
-                                StartCoroutine("LightningEffectOn", mTarget.GetComponent<LightController>().switchTime);
+
                                 if (currentLight.lightStatus) {
+                                    lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<LightController>().switchTime, true));
                                     StartCoroutine("TrailingEffectOff", mTarget.GetComponent<LightController>().switchTime);
                                 }
                                 else {
+                                    lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<LightController>().switchTime, false));
                                     StartCoroutine("TrailingEffectOn", mTarget.GetComponent<LightController>().switchTime);
                                 }
                                 isLocked = true;
@@ -117,13 +128,14 @@ public class GunController : MonoBehaviour {
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && !currentMachinery.changingStatus)
                             if ((currentMachinery.powered && (maxCharge - currentCharge) >= currentMachinery.powerCharge) || (!currentMachinery.powered && currentCharge >= currentMachinery.powerCharge)) {
                                 currentMachinery.SwitchOnOff(transform);
-                                StartCoroutine("LightningEffectOn", mTarget.GetComponent<MachineryController>().switchTime);
                                 if (currentMachinery.powered)
                                 {
+                                    lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<MachineryController>().switchTime, true));
                                     StartCoroutine("TrailingEffectOff", mTarget.GetComponent<MachineryController>().switchTime);
                                 }
                                 else
                                 {
+                                    lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<MachineryController>().switchTime, false));
                                     StartCoroutine("TrailingEffectOn", mTarget.GetComponent<MachineryController>().switchTime);
                                 }
                                 isLocked = true;
@@ -134,28 +146,37 @@ public class GunController : MonoBehaviour {
                         enemyControlled = mTarget.GetComponent<EnemyController>();
                         if (InLineOfSight(mTarget.GetComponent<Collider2D>()) && currentCharge >= enemyControlled.controlCost) {
                             enemyControlled.ControlledOn(transform);
-                            StartCoroutine("LightningEffectOn", mTarget.GetComponent<EnemyController>().switchTime);
+                            lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<EnemyController>().switchTime, false));
                             StartCoroutine("TrailingEffectOn", mTarget.GetComponent<EnemyController>().switchTime);
                             isLocked = true;
                         }
                     }
                 }
 
-
             }
             if (Input.GetButtonUp("Fire1")) {
                 isLocked = false;
                 mLineRenderer.enabled = true;
-                StopCoroutine("LightningEffectOn");
+                Debug.Log("Please Stop");
+                if (lightningCoroutine != null)
+                {
+                    StopCoroutine(lightningCoroutine);
+                }
                 StopCoroutine("TrailingEffectOn");
                 StopCoroutine("TrailingEffectOff");
                 SoundManager.Instance.GunshotStop();
                 Destroy(particleEffect);
             }
         }
+        if (Input.GetButtonUp("Fire1"))
+        {
+            mLineRenderer.enabled = true;
+        }
+
+
     }
 
-    public bool InLineOfSight(Collider2D target) {
+        public bool InLineOfSight(Collider2D target) {
         if (target != null) {
             RaycastHit2D hit = Physics2D.Raycast(barrel.position, (target.transform.position - transform.position), 1000f, gunLayer);
             if (hit.collider != null && hit.collider.gameObject.name == target.gameObject.name)
@@ -164,16 +185,29 @@ public class GunController : MonoBehaviour {
         return false;
     }
 
-    IEnumerator LightningEffectOn(float switchTime)
+    IEnumerator LightningEffectOn(float switchTime, bool isSucking)
     {
-
         float startTime = Time.time;
-        while ((Time.time - startTime) < switchTime)
+        if (isSucking)
         {
-            SoundManager.Instance.Gunshot((Time.time - startTime));
-            lightning.Trigger();
-            yield return null;
+            while ((Time.time - startTime) < switchTime)
+            {
+                SoundManager.Instance.Gunshot((Time.time - startTime));
+                lightning.Trigger();
+                yield return null;
+            }
         }
+        else
+        {
+            while ((Time.time - startTime) < switchTime)
+            {
+                SoundManager.Instance.Gunshot(switchTime - (Time.time - startTime));
+                lightning.Trigger();
+                yield return null;
+            }
+        }
+        SoundManager.Instance.GunshotStop();
+                SoundManager.Instance.LightOnSound(isSucking);
         isLocked = false;
     }
 

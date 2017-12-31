@@ -9,7 +9,7 @@ public class CrusherController : MonoBehaviour {
     private Vector3 restPosition;
     private Vector3 originalRestPosition;
     private Vector3 smashPosition;
-
+    private bool isWaiting = false;
     private Vector3 nextPosition;
 
     [Header("Transform associated with child crusher")]
@@ -23,6 +23,7 @@ public class CrusherController : MonoBehaviour {
     [Header("Crusher speed up and down")]
     public float returnSpeed = 3.5f;
     public float smashSpeed = 8;
+    public float waitTime = 1;
 
     // Use this for initialization
     void Start()
@@ -47,15 +48,16 @@ public class CrusherController : MonoBehaviour {
 
     private void Move()
     {
-        if (active)
+        if (active && !isWaiting)
         {
             childTransform.localPosition = Vector3.MoveTowards(childTransform.localPosition, nextPosition,
             (nextPosition == smashPosition ? smashSpeed * Time.deltaTime : returnSpeed * Time.deltaTime));
         }
 
-        if (active && (childTransform.localPosition == restPosition || childTransform.localPosition == smashPosition))
+        if (active && (childTransform.localPosition == restPosition || childTransform.localPosition == smashPosition) && !isWaiting)
         {
-            ChangeDestination();
+            isWaiting = true;
+            StartCoroutine(ChangeDestination());
         }
 
         if (active && (nextPosition == restPosition))
@@ -74,9 +76,19 @@ public class CrusherController : MonoBehaviour {
         }
     }
 
-    public void ChangeDestination()
+    IEnumerator ChangeDestination()
     {
-        nextPosition = (nextPosition != restPosition ? restPosition : smashPosition);
+        if (nextPosition == restPosition)
+        {
+            yield return new WaitForSeconds(waitTime);
+            nextPosition = (nextPosition != restPosition ? restPosition : smashPosition);
+            GetComponentInChildren<AudioSource>().Play();
+        }
+        else
+        {
+            nextPosition = (nextPosition != restPosition ? restPosition : smashPosition);
+        }
+        isWaiting = false;
     }
 
     public void Activate()

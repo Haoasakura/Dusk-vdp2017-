@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour {
-
+    public bool ranged = true;
     public float secondsForOneLength = 5f;
     public float speed = 10f;
     public float huntSpeed = 0f;
@@ -46,6 +46,7 @@ public class EnemyController : MonoBehaviour {
     private GameObject mLadder;
     private Transform enemyTarget;
     private bool isClimbing = false;
+    private bool isChasing = false;
     private bool inTransition = false;
     public bool pitInPath = false;
 
@@ -65,14 +66,15 @@ public class EnemyController : MonoBehaviour {
         boxCollider2D = GetComponent<BoxCollider2D>();
         player = GameObject.FindGameObjectWithTag(Tags.player).transform;
     }
+
     void Start () {
         startPosition = transform.position;
         setDestination(startPoint);
         weaponRange = weapon.gunRange;
         lastX = transform.position.x;
     }
-	
-	void Update () {
+
+    void Update () {
 
         if (changingStatus) {
             if (!Input.GetButton("Fire1") && ((shooter != null && shooter.CompareTag(Tags.player)) || (shooter != null && shooter.CompareTag(Tags.enemy) && shooter.GetComponent<EnemyController>().controlled))) {
@@ -93,7 +95,7 @@ public class EnemyController : MonoBehaviour {
     }
 
     public void StartPatrol() {
-        //Debug.Log("Start Patrol");
+        //Debug.Log("Start Patrol")        
         StopCoroutine("Patrol");
         StopCoroutine("HuntTraitor");
         StopCoroutine("Chase");
@@ -103,12 +105,19 @@ public class EnemyController : MonoBehaviour {
         animator.SetBool("EnemyTraitor", false);
         playerInSight = false;
         weapon.StopCoroutine("TrailingEffectOn");
-        weapon.StopCoroutine("LightningEffectOn");
+        if (weapon.lightningCoroutine != null)
+        {
+            weapon.StopCoroutine(weapon.lightningCoroutine);
+        }
         Destroy(weapon.particleEffect);
         if (flipStartDir)
             setDestination(endPoint);
         weapon.transform.parent.rotation = Quaternion.Euler(0f, 0f, transform.localScale.x>0?73.4f:-73.4f);
-        SoundManager.Instance.PlayNormalSoundtrack();
+        if (isChasing)
+        {
+            SoundManager.Instance.PlayNormalSoundtrack();
+            isChasing = false;
+        }
         StartCoroutine("Patrol");
         weapon.mLineRenderer.material = weapon.idleMaterial;
     }
@@ -125,6 +134,7 @@ public class EnemyController : MonoBehaviour {
         playerInSight = true;
         SoundManager.Instance.PlayChaseSoundtrack();
         StartCoroutine("TransitionEffects");
+        isChasing = true;
         StartCoroutine("Chase");
     }
 
@@ -148,7 +158,7 @@ public class EnemyController : MonoBehaviour {
         mDirection = (mDestination.position - transform.position).normalized/10f;
     }
 
-    private bool InLineOfSight(Transform target, float range) {
+    private bool InLineOfShot(Transform target, float range) {
             Vector3 dir = (weapon.laserDirection.position - weapon.barrel.position);
             dir.y = 0;
             RaycastHit2D hit = Physics2D.Raycast(weapon.barrel.position, dir, range, sightLayerMask);
@@ -166,6 +176,29 @@ public class EnemyController : MonoBehaviour {
         return false;
     }
 
+    public bool InLineOfSight(Transform target, float range) {
+        Vector3 dir = (weapon.laserDirection.position - weapon.barrel.position);
+        dir.y = 0;
+       // RaycastHit2D hit = Physics2D.Raycast(weapon.barrel.position, dir, range, sightLayerMask);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(weapon.barrel.position, dir, range, sightLayerMask);
+        foreach (RaycastHit2D hit in hits) {
+            if (hit.transform) {
+                if (target.CompareTag(Tags.player)) {
+                    if (hit.collider != null && hit.collider.gameObject.layer == 8)
+                        return false;
+                    if (hit.collider != null && hit.collider.gameObject.name == target.name && target.GetComponent<Player>() != null && target.GetComponent<Player>().isVisible)
+                        return true;
+                }
+                else if (target.CompareTag(Tags.enemy)) {
+                    if (hit.collider != null && hit.collider.gameObject.name == target.name && hit.collider.GetComponent<EnemyController>().controlled)
+                        return true;
+                }
+
+            }
+        }
+        return false;
+    }
+
     IEnumerator Patrol() {
 
         while (true) {
@@ -176,7 +209,7 @@ public class EnemyController : MonoBehaviour {
             else if ((endPoint.position.x - transform.position.x < 0 || enemyController2D.collisions.right) && !controlled && !animator.GetBool("PlayerInSight"))
                 setDestination(startPoint);
 
-            if (!animator.GetBool("PlayerInSight") && !controlled &&transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x) {
+            if (ranged && !animator.GetBool("PlayerInSight") && !controlled &&transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x) {
                 RaycastHit2D hit = Physics2D.Raycast(new Vector2(weapon.pivot.position.x, transform.GetComponent<BoxCollider2D>().bounds.max.y+0.01f), Vector2.up);
                 if(hit && hit.collider.CompareTag(Tags.light)) {
                     LightController lightController = hit.collider.gameObject.GetComponent<LightController>();
@@ -184,7 +217,7 @@ public class EnemyController : MonoBehaviour {
                         weapon.armTransform.rotation = Quaternion.Euler(0.0f, 0.0f, enemy.transform.localScale.x * 159.1f);
                         lightController.SwitchOnOff(weapon.transform);
                         weapon.StartCoroutine("TrailingEffectOn", lightController.switchTime);
-                        weapon.StartCoroutine("LightningEffectOn",lightController.switchTime);
+                        weapon.StartCoroutine(weapon.LightningEffectOn(lightController.switchTime, true));
                         shootingLights = true;
                     }
                 }
@@ -192,24 +225,68 @@ public class EnemyController : MonoBehaviour {
 
             if (!controlled && !changingStatus) {
                 //questo è il caso del return to patrol
-                if (transform.position.y - startPoint.position.y > 0.5f) {
+                mDirection = (mDestination.position - transform.position);
+                if (mDirection.y > 0.3f || isClimbing) {
+                    
                     float closestLadder = 10000f;
                     GameObject ladder = null;
                     foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, 100f)) {
-                        if (obj.CompareTag(Tags.ladder) && obj.transform.position.y <= boxCollider2D.bounds.min.y) {
-                            if (Vector3.Distance(obj.transform.position, transform.position) < closestLadder) {
-                                closestLadder = Vector3.Distance(obj.transform.position, transform.position);
-                                ladder = obj.transform.gameObject;
+                        if ((transform.position.y - startPoint.position.y) > 0) {
+                            if (((obj.CompareTag(Tags.ladder) && !obj.name.Contains("MidLadder")) || obj.CompareTag(Tags.baseLadder) || obj.CompareTag(Tags.topLadder)) && (obj.transform.position.y - boxCollider2D.bounds.min.y > -15)) {
+                                if (Vector3.Distance(obj.transform.position, transform.position) < closestLadder) {
+                                    closestLadder = Vector3.Distance(obj.transform.position, transform.position);
+                                    ladder = obj.transform.gameObject;
+                                }
+                            }
+                        }
+                        else {
+                            if (((obj.CompareTag(Tags.ladder) && !obj.name.Contains("MidLadder")) || obj.CompareTag(Tags.baseLadder) || obj.CompareTag(Tags.topLadder)) && (obj.transform.position.y - boxCollider2D.bounds.min.y > 0 && obj.transform.position.y - boxCollider2D.bounds.min.y < 5)) {
+                                if (Vector3.Distance(obj.transform.position, transform.position) < closestLadder) {
+                                    closestLadder = Vector3.Distance(obj.transform.position, transform.position);
+                                    ladder = obj.transform.gameObject;
+                                }
                             }
                         }
                     }
                     if (ladder != null) {
-                        mChaseTarget = ladder.GetComponent<Collider2D>().bounds.max;
-                        mDirection = (mChaseTarget - transform.position);
-                        mDirection.x +=transform.localScale.x;
+
+                        foreach (Collider2D obj in Physics2D.OverlapCircleAll(boxCollider2D.bounds.center, 0.1f)) {
+                            if ((obj.CompareTag(Tags.ladder) && !obj.name.Contains("MidLadder")) || obj.CompareTag(Tags.baseLadder) || obj.CompareTag(Tags.topLadder)) {
+                                isClimbing = true;
+                                break;
+                            }
+                            else {
+                                isClimbing = false;
+                            }
+                        }
+
+                        if (isClimbing) {
+                            if(!ladder.CompareTag(Tags.topLadder))
+                                if(ladder.transform.parent.CompareTag(Tags.ladder))
+                                    ladder=ladder.transform.parent.Find("TopLadder").gameObject;
+                                else
+                                    ladder = ladder.transform.Find("TopLadder").gameObject;
+                            mChaseTarget = ladder.GetComponent<Collider2D>().bounds.max + new Vector3(0, 10f, 0);
+                            mDirection = (mChaseTarget - transform.position);
+                            mDirection.y += 10;
+                        }
+                        else {
+                            mChaseTarget = ladder.GetComponent<Collider2D>().bounds.center;
+                            mDirection = (mChaseTarget - transform.position);  
+                        }
+                        
                         if (ladder.transform.Find("TopLadder"))
                             ladder.transform.Find("TopLadder").gameObject.layer = 9;
                     }
+                }
+                else if(-mDirection.y > 0.3f) {
+                    foreach (Collider2D obj in Physics2D.OverlapCircleAll(boxCollider2D.bounds.center, 0.1f)) {
+                        if ((obj.CompareTag(Tags.ladder) && !obj.name.Contains("MidLadder")) || obj.CompareTag(Tags.baseLadder) || obj.CompareTag(Tags.topLadder)) {
+                            obj.gameObject.layer = 9;
+                            break;
+                        }
+                    }
+                    mDirection = (startPosition - transform.position);
                 }
                 else if (!(transform.position.x > startPoint.position.x && transform.position.x < endPoint.position.x)) {
                     mDirection = (startPosition - transform.position);
@@ -261,11 +338,9 @@ public class EnemyController : MonoBehaviour {
                     RaycastHit2D hit;
                     if (transform.localScale.x > 0) {
                         hit = Physics2D.Raycast(new Vector2(boxCollider2D.bounds.max.x + 0.01f, boxCollider2D.bounds.center.y), transform.localScale.x * Vector2.right, 35);
-                        //Debug.DrawRay(new Vector2(boxCollider2D.bounds.max.x + 0.01f, boxCollider2D.bounds.center.y), transform.localScale.x * Vector2.right * 35,Color.cyan);
                     }
                     else {
                         hit = Physics2D.Raycast(new Vector2(boxCollider2D.bounds.min.x - 0.01f, boxCollider2D.bounds.min.y), -transform.localScale.x*Vector2.left, 35);
-                        //Debug.DrawRay(new Vector2(boxCollider2D.bounds.min.x - 0.01f, boxCollider2D.bounds.min.y), -transform.localScale.x*Vector2.left*35, Color.cyan);
                     }
 
                     if(hit && (hit.collider.CompareTag(Tags.ladder) || hit.collider.CompareTag(Tags.baseLadder) || hit.collider.CompareTag(Tags.topLadder))) {
@@ -280,8 +355,8 @@ public class EnemyController : MonoBehaviour {
                     }
 
                     if (mLadder != null) {
-                        foreach (Collider2D obj in Physics2D.OverlapCircleAll(boxCollider2D.bounds.min, 0.1f)) {
-                            if ((obj.CompareTag(Tags.ladder) || obj.CompareTag(Tags.baseLadder) || obj.CompareTag(Tags.topLadder))) {
+                        foreach (Collider2D obj in Physics2D.OverlapCircleAll(boxCollider2D.bounds.center, 0.1f)) {
+                            if ((obj.CompareTag(Tags.ladder) && !obj.name.Contains("MidLadder")) || obj.CompareTag(Tags.baseLadder) || obj.CompareTag(Tags.topLadder)) {
                                 isClimbing = true;
                                 break;
                             }
@@ -289,14 +364,52 @@ public class EnemyController : MonoBehaviour {
                                 isClimbing = false;
                         }
                         if (isClimbing) {
-                            mChaseTarget = mLadder.GetComponent<Collider2D>().bounds.center + new Vector3(0, 4f, 0);
+                            if (!mLadder.CompareTag(Tags.topLadder))
+                                if (mLadder.transform.parent.CompareTag(Tags.ladder))
+                                    mLadder = mLadder.transform.parent.Find("TopLadder").gameObject;
+                                else
+                                    mLadder = mLadder.transform.Find("TopLadder").gameObject;
+                            mChaseTarget = mLadder.GetComponent<Collider2D>().bounds.max + new Vector3(0, 10f, 0);
                             mDirection = (mChaseTarget - transform.position);
+                            mDirection.y += 10;
                         }
                         else {
                             mChaseTarget = mLadder.GetComponent<Collider2D>().bounds.center;
                             mDirection = (mChaseTarget - transform.position);
                         }
+
+                        if (mLadder.transform.Find("TopLadder"))
+                            mLadder.transform.Find("TopLadder").gameObject.layer = 9;
                     }
+                }
+                else if (-mDirection.y > 1.6f) {
+
+                    foreach (Collider2D obj in Physics2D.OverlapCircleAll(boxCollider2D.bounds.center, 0.1f)) {
+                        if ((obj.CompareTag(Tags.ladder) && !obj.name.Contains("MidLadder")) || obj.CompareTag(Tags.baseLadder) || obj.CompareTag(Tags.topLadder)) {
+                            obj.gameObject.layer = 9;
+                            break;
+                        }
+                    }
+
+                    float closestLadder = 10000f;
+                    GameObject ladder = null;
+                    foreach (Collider2D obj in Physics2D.OverlapCircleAll(transform.position, 100f)) {
+                        if ((transform.position.y - player.position.y) > 0) {
+                            if (obj.CompareTag(Tags.baseLadder) && (obj.transform.position.y - boxCollider2D.bounds.center.y < -1.6f)) {
+                                if (Vector3.Distance(obj.transform.position, transform.position) < closestLadder) {
+                                    closestLadder = Vector3.Distance(obj.transform.position, transform.position);
+                                    ladder = obj.transform.gameObject;
+                                }
+                            }
+                        }
+
+                        if (ladder != null) {
+                            mChaseTarget = ladder.GetComponent<Collider2D>().bounds.center;
+                            mDirection = (mChaseTarget - transform.position);
+                        }
+
+                    }
+                    
                 }
                 else {
                     mChaseTarget = player.position;
@@ -312,8 +425,12 @@ public class EnemyController : MonoBehaviour {
                         collidingWithTarget = false;
                 }
 
-                if (!enemy.isClimbing && player != null && (InLineOfSight(player, weaponRange) || collidingWithTarget ) && enemy.controller.collisions.below && !changingStatus && !gettingShoot)
-                    StartCoroutine("ShootPlayer");
+                if (!enemy.isClimbing && player != null && (InLineOfShot(player, weaponRange) || collidingWithTarget ) && enemy.controller.collisions.below && !changingStatus && !gettingShoot)
+                    if (ranged)
+                        StartCoroutine("ShootPlayer");
+                    else
+                        StartCoroutine("MeleeAttack",player);
+                    
 
                 //controllo per evitare di cadere nella sua morte
                 pitInPath = false;
@@ -354,8 +471,7 @@ public class EnemyController : MonoBehaviour {
         //da mettere condizioni di uscita, lo sparo al nemico per uccidere e fare lo stato nell'animator
         while (true) {
             Transform _enemyTarget = null;
-            if(transform.parent.name== "EnemyWithGun (1)")
-                Debug.Log(!controlled && !changingStatus && !shootingLights);
+
             if (!controlled && !changingStatus && !shootingLights) {
                 foreach (GameObject _enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
                     if (_enemy.GetComponent<EnemyController>().controlled) {
@@ -388,7 +504,7 @@ public class EnemyController : MonoBehaviour {
                             collidingWithTarget = false;
                     }
 
-                    if (!enemy.isClimbing && (InLineOfSight(enemyTarget, weaponRange) || collidingWithTarget) && enemy.controller.collisions.below && !changingStatus && !inTransition && !gettingShoot && enemy.gameObject.GetComponent<Animator>().GetBool("EnemyTraitor")) {
+                    if (!enemy.isClimbing && (InLineOfShot(enemyTarget, weaponRange) || collidingWithTarget) && enemy.controller.collisions.below && !changingStatus && !inTransition && !gettingShoot && enemy.gameObject.GetComponent<Animator>().GetBool("EnemyTraitor")) {
                         EnemyController enemyTargetC = enemyTarget.GetComponent<EnemyController>();
                         enemyTargetC.StopCoroutine("ShootEnemy");
                         EnemyWeapon _enemyWeapon = enemyTargetC.GetComponentInChildren<EnemyWeapon>();
@@ -397,11 +513,18 @@ public class EnemyController : MonoBehaviour {
                         _enemyWeapon.enemyControlled.StopCoroutine("ConrtolledOn");
 
                         _enemyWeapon.mLineRenderer.enabled = true;
-                        _enemyWeapon.StopCoroutine("LightningEffectOn");
+                        if (_enemyWeapon.lightningCoroutine != null)
+                        {
+                            _enemyWeapon.StopCoroutine(_enemyWeapon.lightningCoroutine);
+                        }
                         _enemyWeapon.StopCoroutine("TrailingEffectOn");
                         _enemyWeapon.StopCoroutine("TrailingEffectOff");
                         Destroy(_enemyWeapon.particleEffect);
-                        StartCoroutine("ShootEnemy", enemyTarget);
+                        if(ranged)
+                            StartCoroutine("ShootEnemy", enemyTarget);
+                        else
+                            StartCoroutine("MeleeAttack",enemyTarget);
+
                     }
 
                     if (shootingLights || gettingShoot || inTransition)
@@ -483,13 +606,16 @@ public class EnemyController : MonoBehaviour {
             yield return new WaitForSeconds(transitionDuration);
             seconds--;
         }
-        weapon.mLineRenderer.material = weapon.aimMaterial;
+        //weapon.mLineRenderer.material = weapon.aimMaterial;
         weapon.transform.parent.rotation = Quaternion.Euler(0f, 0f, transform.localScale.x > 0 ? 73.4f : -73.4f);
         changingStatus = false;
         inTransition = false;
         if(shootingLights) {
             weapon.StopCoroutine("TrailingEffectOn");
-            weapon.StopCoroutine("LightningEffectOn");
+            if (weapon.lightningCoroutine != null)
+            {
+                weapon.StopCoroutine(weapon.lightningCoroutine);
+            }
             Destroy(weapon.particleEffect);
             shootingLights = false;
         }
@@ -507,10 +633,13 @@ public class EnemyController : MonoBehaviour {
     IEnumerator ShootPlayer() {
         if (!shootingLights) {
             weapon.StopCoroutine("TrailingEffectOn");
-            weapon.StopCoroutine("LightningEffectOn");
+            if (weapon.lightningCoroutine != null)
+            {
+                weapon.StopCoroutine(weapon.lightningCoroutine);
+            }
             Destroy(weapon.particleEffect);
             weapon.StartCoroutine("TrailingEffectOn", switchTime);
-            weapon.StartCoroutine("LightningEffectOn", switchTime);
+            weapon.StartCoroutine(weapon.LightningEffectOn(switchTime, false));
         }
         
         shootingLights = true;
@@ -520,21 +649,30 @@ public class EnemyController : MonoBehaviour {
         yield return new WaitForSeconds(switchTime);
         EventManager.TriggerEvent("PlayerControlled");
         weapon.StopCoroutine("TrailingEffectOn");
-        weapon.StopCoroutine("LightningEffectOn");
+        if (weapon.lightningCoroutine != null)
+        {
+            weapon.StopCoroutine(weapon.lightningCoroutine);
+        }
     }
 
     IEnumerator ShootEnemy(Transform _enemy) {
         if (!shootingLights) {
             weapon.StopCoroutine("TrailingEffectOn");
-            weapon.StopCoroutine("LightningEffectOn");
+            if (weapon.lightningCoroutine != null)
+            {
+                weapon.StopCoroutine(weapon.lightningCoroutine);
+            }
             Destroy(weapon.particleEffect);
             weapon.StartCoroutine("TrailingEffectOn", switchTime);
-            weapon.StartCoroutine("LightningEffectOn", switchTime);
+            weapon.StartCoroutine(weapon.LightningEffectOn(switchTime, false));
         }
         shootingLights = true;
         _enemy.GetComponent<EnemyController>().gettingShoot = true;
         EnemyWeapon _enemyWeapon = _enemy.GetComponentInChildren<EnemyWeapon>();
-        _enemyWeapon.StopCoroutine("LightningEffectOn");
+        if (_enemyWeapon.lightningCoroutine != null)
+        {
+            _enemyWeapon.StopCoroutine(_enemyWeapon.lightningCoroutine);
+        }
         _enemyWeapon.StopCoroutine("TrailingEffectOn");
         _enemyWeapon.StopCoroutine("TrailingEffectOff");
         SoundManager.Instance.GunshotStop();
@@ -546,11 +684,33 @@ public class EnemyController : MonoBehaviour {
         if(_enemy && _enemy.parent.gameObject)
             Destroy(_enemy.parent.gameObject);
         weapon.StopCoroutine("TrailingEffectOn");
+        if (weapon.lightningCoroutine != null)
+        {
+            weapon.StopCoroutine(weapon.lightningCoroutine);
+        }
         weapon.StopCoroutine("LightningEffectOn");
+    }
 
+    IEnumerator MeleeAttack(Transform _target) {
+        if (!shootingLights) {
+            weapon.StartCoroutine("MeleeAttack", _target);
+        }
+
+        shootingLights = true;
+        
+        yield return new WaitForSeconds(1f);
+        weapon.transform.parent.rotation = Quaternion.Euler(0f, 0f, transform.localScale.x > 0 ? 73.4f : -73.4f);
+        playerInSight = false;
+        shootingLights = false;
+        animator.SetBool("PlayerInSight", false);
     }
 
     private void OnDestroy() {
+
+        if (isChasing)
+        {
+            SoundManager.Instance.PlayNormalSoundtrack();
+        }
 
         Instantiate(explosion, transform.position, transform.rotation);
         if (controlled && player != null) {

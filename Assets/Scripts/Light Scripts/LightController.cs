@@ -5,7 +5,7 @@ using UnityEngine;
 public class LightController : MonoBehaviour
 {
 
-    public float switchTime = 3f;
+    public float switchTime = 1.5f;
     public float flickeringRange = 1.5f; 
     public int lightCharge = 25;
     public bool lightStatus = true;
@@ -89,11 +89,10 @@ public class LightController : MonoBehaviour
         }
         changingStatus = true;
         int seconds = (int)switchTime;
-        while (seconds > 0)
-        {
-            yield return new WaitForSeconds(1f);
-            seconds--;
-        }
+
+        yield return new WaitForSeconds(switchTime);
+
+        changingStatus = false;
         spriteRenderer.sprite = lightStates[0];
         spriteRenderer.material = litMaterial;
         lightAttached.enabled = true;
@@ -109,7 +108,6 @@ public class LightController : MonoBehaviour
             gun.parent.rotation = Quaternion.Euler(0f, 0f, shooter.transform.localScale.x * 73.4f); ;
 
         }
-        changingStatus = false;
         shooter = null;
         Activate();
     }
@@ -126,12 +124,10 @@ public class LightController : MonoBehaviour
             pointOfOrigin = gun.GetComponent<EnemyWeapon>().barrel;
         }
         changingStatus = true;
-        int seconds = (int)switchTime;
-        while (seconds > 0)
-        {
-            yield return new WaitForSeconds(1f);
-            seconds--;
-        }
+
+        yield return new WaitForSeconds(switchTime);
+
+        changingStatus = false;
         spriteRenderer.sprite = lightStates[1];
         spriteRenderer.material = unlitMaterial;
         lightAttached.enabled = false;
@@ -144,7 +140,6 @@ public class LightController : MonoBehaviour
         else {
             gun.GetComponent<EnemyWeapon>().currentCharge += lightCharge;
         }
-        changingStatus = false;
         Activate();
     }
 
@@ -153,21 +148,23 @@ public class LightController : MonoBehaviour
         float startTime = Time.time;
         while ((Time.time - startTime) < switchTime)
         {
-            if (Random.Range (Time.time - startTime, switchTime) > switchTime / flickeringRange)
+            if (changingStatus && Random.Range (Time.time - startTime, switchTime) > switchTime / flickeringRange)
             {
                 spriteRenderer.sprite = lightStates[0];
                 spriteRenderer.material = litMaterial;
                 lightAttached.enabled = true;
                 lightCollider.enabled = true;
                 maskAttached.enabled = true;
-            }
-            else
-            {
-                spriteRenderer.sprite = lightStates[1];
-                spriteRenderer.material = unlitMaterial;
-                lightAttached.enabled = false;
-                lightCollider.enabled = false;
-                maskAttached.enabled = false;
+
+                yield return new WaitForSeconds(0.05f);
+                if (!lightStatus)
+                {
+                    spriteRenderer.sprite = lightStates[1];
+                    spriteRenderer.material = unlitMaterial;
+                    lightAttached.enabled = false;
+                    lightCollider.enabled = false;
+                    maskAttached.enabled = false;
+                }
             }
             yield return null;
         }
@@ -178,21 +175,23 @@ public class LightController : MonoBehaviour
         float startTime = Time.time;
         while ((Time.time - startTime) < switchTime)
         {
-            if (Random.Range(Time.time - startTime, switchTime) > switchTime / flickeringRange)
+            if (changingStatus && Random.Range(Time.time - startTime, switchTime) > switchTime / flickeringRange)
             {
                 spriteRenderer.sprite = lightStates[1];
                 spriteRenderer.material = unlitMaterial;
                 lightAttached.enabled = false;
                 lightCollider.enabled = false;
                 maskAttached.enabled = false;
-            }
-            else
-            {
-                spriteRenderer.sprite = lightStates[0];
-                spriteRenderer.material = litMaterial;
-                lightAttached.enabled = true;
-                lightCollider.enabled = true;
-                maskAttached.enabled = true;
+
+                yield return new WaitForSeconds(0.05f);
+                if (lightStatus)
+                {
+                    spriteRenderer.sprite = lightStates[0];
+                    spriteRenderer.material = litMaterial;
+                    lightAttached.enabled = true;
+                    lightCollider.enabled = true;
+                    maskAttached.enabled = true;
+                }
             }
             yield return null;
         }

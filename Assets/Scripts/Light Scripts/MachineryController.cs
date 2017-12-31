@@ -105,6 +105,7 @@ public class MachineryController : MonoBehaviour {
             gun.GetComponent<EnemyWeapon>().currentCharge -= powerCharge;
             shooter.GetComponent<EnemyController>().shootingLights = false;
         }
+        GetComponent<ObjectSoundManager>().PlaySound();
         changingStatus = false;
         Activate();
     }

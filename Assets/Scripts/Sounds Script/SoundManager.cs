@@ -12,9 +12,8 @@ public class SoundManager : MonoBehaviour
     public AudioSource as_player;
     public AudioClip ac_jump;
     public AudioClip ac_walk;
+    public AudioClip ac_run;
     public AudioClip ac_climb;
-    public AudioClip ac_fall;
-
 
     [Header("Gun Audio")]
     public AudioSource as_gun;
@@ -29,8 +28,8 @@ public class SoundManager : MonoBehaviour
 
     private float as_playerPitch;
 
-    private float lowPitchRange = .95f;
-    private float highPitchRange = 1.05f;
+    private float lowPitchRange = .90f;
+    private float highPitchRange = 1.10f;
 
     [Header("Soundtrack")]
     public AudioSource as_soundtrack1;
@@ -39,6 +38,17 @@ public class SoundManager : MonoBehaviour
     public AudioClip ac_level12;
     public float fadeTime1;
     public float fadeTime2;
+    public int enemiesOnChase = 0;
+
+    [Header("Menù Sounds")]
+    public AudioSource as_UI;
+    public AudioClip ac_buttonOk;
+
+    [Header("Other Sounds")]
+    public AudioSource as_others;
+    public AudioClip ac_laugh;
+    public AudioClip ac_lightSound;
+    public AudioClip ac_fall;
 
     // Use this for initialization
     void Awake()
@@ -71,6 +81,15 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void Run()
+    {
+        as_player.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
+        if (!as_player.isPlaying)
+        {
+            as_player.PlayOneShot(ac_run);
+        }
+    }
+
     internal void Climb()
     {
         as_player.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
@@ -82,10 +101,16 @@ public class SoundManager : MonoBehaviour
 
     internal void PlayFallSound()
     {
-        as_player.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
-        if (!as_player.isPlaying)
+        as_others.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
+        as_others.PlayOneShot(ac_fall);
+    }
+
+    internal void Laugh()
+    {
+        as_others.pitch = UnityEngine.Random.Range(lowPitchRange, highPitchRange);
+        if (!as_others.isPlaying)
         {
-            as_player.PlayOneShot(ac_fall);
+            as_others.PlayOneShot(ac_laugh);
         }
     }
 
@@ -126,11 +151,9 @@ public class SoundManager : MonoBehaviour
         as_objects.PlayOneShot(ac_chekpointReached);
     }
 
-
-
-    public void PlayNormalSoundtrack()
+    public void PlayNormalSoundtrackFromDeath()
     {
-        Debug.Log("Ohi!");
+        enemiesOnChase = 0;
         float t = fadeTime1;
         as_soundtrack1.mute = false;
         as_soundtrack1.volume = 0.5f;
@@ -143,19 +166,57 @@ public class SoundManager : MonoBehaviour
         StartCoroutine(EndSoundtrack(as_soundtrack1, t));
     }
 
+    public void PlayNormalSoundtrack()
+    {
+        if (enemiesOnChase > 0)
+        {
+            enemiesOnChase--;
+        }
+        else
+        {
+            enemiesOnChase = 0;
+        }
+
+        Debug.Log("enemiesOnChase = " + enemiesOnChase);
+
+        if (enemiesOnChase == 0)
+        {
+            float t = fadeTime1;
+            as_soundtrack1.mute = false;
+            as_soundtrack1.volume = 0.5f;
+            StartCoroutine(FadeSountrack(as_soundtrack2, as_soundtrack1, t));
+        }
+    }
+
     public void PlayChaseSoundtrack()
     {
-        float t = fadeTime1;
-        as_soundtrack2.mute = false;
-        as_soundtrack2.volume = 0.5f;
-        StartCoroutine(FadeSountrack(as_soundtrack1, as_soundtrack2, t));
+        enemiesOnChase++;
+
+        Debug.Log("EnemiesHunting = " + enemiesOnChase);
+
+        if (enemiesOnChase >= 0 && as_soundtrack2.mute)
+        {
+            float t = fadeTime1;
+            as_soundtrack2.mute = false;
+            as_soundtrack2.volume = 0.5f;
+            StartCoroutine(FadeSountrack(as_soundtrack1, as_soundtrack2, t));
+        }
+    }
+
+    public void ReturnPlayerSound()
+    {
+        as_gun.mute = false;
+        as_player.mute = false;
+        as_objects.mute = false;
+
+        as_objects.volume = 0.5f;
+        as_gun.volume = 0.5f;
+        as_player.volume = 0.5f;
     }
 
     public void ReturnSounds()
     {
         as_soundtrack1.volume = 1;
-        as_gun.volume = 0.5f;
-        as_player.volume = 0.5f;
     }
 
     private IEnumerator EndSoundtrack(AudioSource as_soundtrack1, float t)
@@ -191,5 +252,22 @@ public class SoundManager : MonoBehaviour
         yield break;
     }
 
+    internal void LightOnSound(bool isSucking)
+    {
+        if (isSucking)
+        {
+            as_others.pitch = UnityEngine.Random.Range(lowPitchRange - 0.2f,highPitchRange - 0.2f);
+        }
+        else
+        {
+            as_others.pitch = UnityEngine.Random.Range(lowPitchRange + 0.1f, highPitchRange + 0.1f);
+        }
+        as_others.PlayOneShot(ac_lightSound);
+    }
+
+    public void PlayOkSound()
+    {
+        as_UI.PlayOneShot(ac_buttonOk);
+    }
 
 }

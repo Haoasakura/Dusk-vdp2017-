@@ -18,6 +18,7 @@ public class UIGunCharge : MonoBehaviour {
     private void OnEnable()
     {
         EventManager.StartListening("PlayerDied", PlayerDied);
+        EventManager.StartListening("PlayerDiedFromFall", PlayerDied);
         EventManager.StartListening("PlayerControlled", PlayerDied);
     }
 

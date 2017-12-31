@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 4444032132352376}
   - component: {fileID: 212676342667311960}
   - component: {fileID: 61387308058437518}
+  - component: {fileID: 82476931826136742}
   m_Layer: 8
   m_Name: Crusher Graphics
   m_TagString: Untagged
@@ -211,6 +212,92 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.177535, y: 0.097061634}
   m_EdgeRadius: 0
+--- !u!82 &82476931826136742
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1315602030213178}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 196b2fc87dc14384eb37b4aa9612c2b8, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.2
+  m_Pitch: 1.0257804
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 0
+  MinDistance: 1
+  MaxDistance: 30
+  Pan2D: 0
+  rolloffMode: 2
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0.5028839
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.566524
+      value: 0.48516798
+      inSlope: -0.10967255
+      outSlope: -0.10967255
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: -3.3545885
+      outSlope: -3.3545885
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0.86530685
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &114351230747139888
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -222,6 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b99d621df35311b4c9031ee78f887786, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fallCollider: 0
 --- !u!114 &114587607287222312
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -238,6 +326,7 @@ MonoBehaviour:
   targetPointTransform: {fileID: 4818304822878232}
   returnSpeed: 1
   smashSpeed: 10
+  waitTime: 1
 --- !u!212 &212244925630512976
 SpriteRenderer:
   m_ObjectHideFlags: 1

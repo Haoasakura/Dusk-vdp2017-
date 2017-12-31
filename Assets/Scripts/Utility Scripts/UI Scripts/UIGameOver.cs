@@ -14,6 +14,7 @@ public class UIGameOver : MonoBehaviour {
         UIText.SetActive(false);
         UIOverlay.SetActive(false);
         EventManager.StartListening("PlayerDied", StartGameOver);
+        EventManager.StartListening("PlayerDiedFromFall", StartGameOver);
     }
 
     private void StartGameOver()
