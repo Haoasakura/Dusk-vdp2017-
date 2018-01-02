@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BruteShadowAnimator
+  m_Controller: {fileID: 9100000, guid: 043b09ae9a3740748a87ca160112df86, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 48cd87b98eda5ac49a1e80dfdc0b7f69, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 40e87580eab82d743ba31457a1aeef50, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: d100ad49ec982764e99577db1e23fc66, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 40e87580eab82d743ba31457a1aeef50, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6f762f791c908e14595906bad2887b84, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 9213c4df6a047c34296dc1c960422d85, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 8b0f102913597da4eb35286a30dac275, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 9b063ba39eade0a44a390f9b28d701aa, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: fefb4b8f0c73a3b4d846d49b4e375009, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 9b063ba39eade0a44a390f9b28d701aa, type: 2}
