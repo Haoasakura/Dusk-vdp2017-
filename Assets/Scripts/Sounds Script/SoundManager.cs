@@ -177,13 +177,15 @@ public class SoundManager : MonoBehaviour
             enemiesOnChase = 0;
         }
 
-        Debug.Log("enemiesOnChase = " + enemiesOnChase);
 
         if (enemiesOnChase == 0)
         {
+        Debug.Log("enemiesOnChase = " + enemiesOnChase);
+
             float t = fadeTime1;
             as_soundtrack1.mute = false;
             as_soundtrack1.volume = 0.5f;
+            StopAllCoroutines();
             StartCoroutine(FadeSountrack(as_soundtrack2, as_soundtrack1, t));
         }
     }
@@ -199,6 +201,7 @@ public class SoundManager : MonoBehaviour
             float t = fadeTime1;
             as_soundtrack2.mute = false;
             as_soundtrack2.volume = 0.5f;
+            StopAllCoroutines();
             StartCoroutine(FadeSountrack(as_soundtrack1, as_soundtrack2, t));
         }
     }
@@ -239,7 +242,6 @@ public class SoundManager : MonoBehaviour
     {
         if (!s1.mute)
         {
-
             while (t > 0)
             {
                 yield return null;

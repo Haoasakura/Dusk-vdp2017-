@@ -6,18 +6,33 @@ using UnityEngine;
 public class Death : MonoBehaviour {
 
     public bool fallCollider;
+    public bool explosionCollider = true;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!fallCollider)
         {
-            if (collision.gameObject.tag.Equals("Player"))
+            if (explosionCollider)
             {
-                EventManager.TriggerEvent("PlayerDied");
+                if (collision.gameObject.tag.Equals("Player"))
+                {
+                    EventManager.TriggerEvent("PlayerDied");
+                }
+                else if (collision.gameObject.tag.Equals("Enemy"))
+                {
+                    Destroy(collision.gameObject);
+                }
             }
-            else if (collision.gameObject.tag.Equals("Enemy"))
+            else
             {
-                Destroy(collision.gameObject);
+                if (collision.gameObject.tag.Equals("Player"))
+                {
+                    EventManager.TriggerEvent("PlayerFallApart");
+                }
+                else if (collision.gameObject.tag.Equals("Enemy"))
+                {
+                    Destroy(collision.gameObject);
+                }
             }
         }
         else
