@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
@@ -14,6 +15,8 @@ public class MainMenu : MonoBehaviour
     public GameObject buttonBox;
     public GameObject title;
     public GameObject background;
+    public GameObject settings;
+    public GameObject credits;
 
     // Update is called once per frame
     void Update()
@@ -38,7 +41,12 @@ public class MainMenu : MonoBehaviour
             StartCoroutine(FadeButtons());
             buttonsOut = true;
         }
-        
+        if (credits.activeInHierarchy && Input.GetButtonDown("Submit"))
+        {
+            credits.SetActive(false);
+            buttonBox.SetActive(true);
+            GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("CreditsButton"));
+        }
     }
 
     public void PlayButton() {
@@ -49,16 +57,29 @@ public class MainMenu : MonoBehaviour
 
     public void SettingsButton() {
         SoundManager.Instance.PlayOkSound();
-        GameObject settings = GameObject.Find("UISettingsScreen");
-        settings.SetActive(false);
+        buttonBox.SetActive(false);
         settings.SetActive(true);
-        GameObject.Find("UITitleScreen").SetActive(false);
+        GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("BackButton"));
+    }
+
+    public void BackButton()
+    {
+        SoundManager.Instance.PlayOkSound();
+        settings.SetActive(false);
+        buttonBox.SetActive(true);
+        GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("SettingsButton"));
     }
 
     public void QuitGameButton() {
         SoundManager.Instance.PlayOkSound();
         EditorApplication.isPlaying = false;
         Application.Quit();
+    }
+
+    public void CreditsButton() {
+        SoundManager.Instance.PlayOkSound();
+        buttonBox.SetActive(false);
+        credits.SetActive(true);
     }
 
     public void FadeMe()
