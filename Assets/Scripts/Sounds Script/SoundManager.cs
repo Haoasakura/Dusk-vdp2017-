@@ -37,6 +37,9 @@ public class SoundManager : MonoBehaviour
     public AudioClip ac_level11;
     public AudioClip ac_level12;
     public float fadeTime1;
+
+
+
     public float fadeTime2;
     public int enemiesOnChase = 0;
 
@@ -48,6 +51,7 @@ public class SoundManager : MonoBehaviour
     public AudioSource as_others;
     public AudioClip ac_laugh;
     public AudioClip ac_lightSound;
+    public AudioClip ac_gunFound;
     public AudioClip ac_fall;
 
     // Use this for initialization
@@ -272,4 +276,8 @@ public class SoundManager : MonoBehaviour
         as_UI.PlayOneShot(ac_buttonOk);
     }
 
+    internal void GetGun()
+    {
+        as_others.PlayOneShot(ac_gunFound);
+    }
 }
