@@ -33,9 +33,6 @@ public class GameManager : MonoBehaviour {
 
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(UITitle);
-            //DontDestroyOnLoad(UIChapTitles[0]);
-            //DontDestroyOnLoad(UIChapTitles[1]);
-            //DontDestroyOnLoad(UIChapTitles[2]);
         }
         else
         {
@@ -56,6 +53,7 @@ public class GameManager : MonoBehaviour {
         UIChapTitles[0].SetActive(false);
         UIChapTitles[1].SetActive(false);
         UIChapTitles[2].SetActive(false);
+        DontDestroyOnLoad(GameObject.Find("UISettingsScreen"));
     }
 
     private void Update()
