@@ -8,6 +8,7 @@ public class EnemySoundManager : MonoBehaviour {
     public AudioSource as_enemy;
     public AudioClip ac_walk;
     public AudioClip ac_climb;
+    public AudioClip ac_run;
 
     [Header("Gun Audio")]
     public AudioSource as_gun;
@@ -33,6 +34,15 @@ public class EnemySoundManager : MonoBehaviour {
         if (!as_enemy.isPlaying)
         {
             as_enemy.PlayOneShot(ac_climb);
+        }
+    }
+
+    internal void Run()
+    {
+        as_enemy.pitch = Random.Range(lowPitchRange, highPitchRange);
+        if (!as_enemy.isPlaying)
+        {
+            as_enemy.PlayOneShot(ac_run);
         }
     }
 

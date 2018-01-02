@@ -24,14 +24,18 @@ public class EnemyAnimatorController : MonoBehaviour
 
         if (!isClimbing && velocity.x > 0.2 && velocity.y < 0.2)
         {
-            soundManager.Walk();
             animName = "CharacterWalking";
             nextState = 1;
             if (velocity.x > 3)
             {
+                Debug.Log("Yoyo");
+                soundManager.Run();
                 animName = "CharacterRunning";
-
                 nextState = 5;
+            }
+            else
+            {
+                soundManager.Walk();
             }
 
         }
