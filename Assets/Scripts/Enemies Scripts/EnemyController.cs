@@ -21,7 +21,8 @@ public class EnemyController : MonoBehaviour {
 
     public GameObject explosion;
     public GameObject alert;
-    public GameObject absorptionEffect;  
+    public GameObject absorptionEffect;
+    public GameObject enemySoundManager;
     public DecisionTree chasingDT;
     public BehaviourTree patrolBT;
     public Animator animator;
@@ -99,6 +100,7 @@ public class EnemyController : MonoBehaviour {
         StopCoroutine("Patrol");
         StopCoroutine("HuntTraitor");
         StopCoroutine("Chase");
+        StopCoroutine("RandomlyBark");
         enemy.moveMinSpeed = 2f;
         enemyTarget = null;
         animator.SetBool("PlayerInSight", false);
@@ -127,6 +129,7 @@ public class EnemyController : MonoBehaviour {
         StopCoroutine("Patrol");
         StopCoroutine("HuntTraitor");
         StopCoroutine("Chase");
+        StopCoroutine("RandomlyBark");
         enemyTarget = null;
         enemy.moveMinSpeed = huntSpeed;
         animator.SetBool("PlayerInSight", true);
@@ -136,6 +139,7 @@ public class EnemyController : MonoBehaviour {
         StartCoroutine("TransitionEffects");
         isChasing = true;
         StartCoroutine("Chase");
+        StartCoroutine("RandomlyBark");
     }
 
     public void StartTraitorHunt() {
@@ -143,10 +147,28 @@ public class EnemyController : MonoBehaviour {
         StopCoroutine("Patrol");
         StopCoroutine("HuntTraitor");
         StopCoroutine("Chase");
+        StopCoroutine("RandomlyBark");
         enemy.moveMinSpeed = huntSpeed;
         animator.SetBool("EnemyTraitor", true);
         StartCoroutine("TransitionEffects");
         StartCoroutine("HuntTraitor");
+        StartCoroutine("RandomlyBark");
+    }
+
+    IEnumerator RandomlyBark()
+    {
+        float init = Time.deltaTime;
+        while (true)
+        {
+            yield return new WaitForSeconds(0.1f);
+            float t = Time.deltaTime;
+            float r = Random.Range(0, t - init);
+            if (r > 0)
+            {
+                enemySoundManager.GetComponent<EnemySoundManager>().Hunt();
+                init = Time.deltaTime;
+            }
+        }
     }
 
     public void ControlledOn(Transform gun) {

@@ -15,6 +15,10 @@ public class EnemySoundManager : MonoBehaviour {
     public AudioClip ac_gunshot;
     public AudioClip ac_emptygunshot;
 
+    [Header("Gun Audio")]
+    public AudioSource as_hunt;
+    public AudioClip ac_hunt;
+
     private float lowPitchRange = .90f;
     private float highPitchRange = 1.10f;
 
@@ -59,6 +63,15 @@ public class EnemySoundManager : MonoBehaviour {
         if (!as_gun.isPlaying)
         {
             as_gun.PlayOneShot(ac_emptygunshot);
+        }
+    }
+
+    public void Hunt()
+    {
+        as_hunt.pitch = Random.Range(lowPitchRange, highPitchRange);
+        if (!as_hunt.isPlaying)
+        {
+            as_hunt.PlayOneShot(ac_hunt);
         }
     }
 }

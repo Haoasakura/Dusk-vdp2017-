@@ -28,7 +28,6 @@ public class EnemyAnimatorController : MonoBehaviour
             nextState = 1;
             if (velocity.x > 3)
             {
-                Debug.Log("Yoyo");
                 soundManager.Run();
                 animName = "CharacterRunning";
                 nextState = 5;

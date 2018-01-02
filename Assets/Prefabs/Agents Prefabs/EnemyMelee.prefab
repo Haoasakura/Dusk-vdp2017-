@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 114369773165322046}
   - component: {fileID: 82442058959324422}
   - component: {fileID: 82847629106371112}
+  - component: {fileID: 82760503845027020}
   m_Layer: 10
   m_Name: EnemyGraphicsAndSounds
   m_TagString: Untagged
@@ -728,6 +729,86 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!82 &82760503845027020
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1480563530554080}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!82 &82847629106371112
 AudioSource:
   m_ObjectHideFlags: 1
@@ -891,6 +972,7 @@ MonoBehaviour:
   alert: {fileID: 1940859715970898, guid: 63543aeceaffce2469207ae3cabca8c1, type: 2}
   absorptionEffect: {fileID: 1969731243722472, guid: 0a134329a976316469f76cc7b4ce36f6,
     type: 2}
+  enemySoundManager: {fileID: 1480563530554080}
   animator: {fileID: 95505610568040988}
   losingTarget: 0
   shootingLights: 0
@@ -1016,6 +1098,8 @@ MonoBehaviour:
   as_gun: {fileID: 82847629106371112}
   ac_gunshot: {fileID: 8300000, guid: 000e1d89e4a617045ae6653868015e54, type: 3}
   ac_emptygunshot: {fileID: 8300000, guid: e48e7eafd577c244da42e47ce9887722, type: 3}
+  as_hunt: {fileID: 82760503845027020}
+  ac_hunt: {fileID: 8300000, guid: 2f192b40709bdf64c92882a61494c740, type: 3}
 --- !u!114 &114425854074645270
 MonoBehaviour:
   m_ObjectHideFlags: 1
