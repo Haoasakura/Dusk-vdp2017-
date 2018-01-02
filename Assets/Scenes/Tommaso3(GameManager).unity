@@ -737,6 +737,26 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: 505.91638
       objectReference: {fileID: 0}
+    - target: {fileID: 114861270751446738, guid: caac597d0ff75404083df56b4613371c,
+        type: 2}
+      propertyPath: m_Text
+      value: P R E S S   A N Y   B U T T O N
+      objectReference: {fileID: 0}
+    - target: {fileID: 114861270751446738, guid: caac597d0ff75404083df56b4613371c,
+        type: 2}
+      propertyPath: m_FontData.m_VerticalOverflow
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114861270751446738, guid: caac597d0ff75404083df56b4613371c,
+        type: 2}
+      propertyPath: m_FontData.m_HorizontalOverflow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114861270751446738, guid: caac597d0ff75404083df56b4613371c,
+        type: 2}
+      propertyPath: m_FontData.m_AlignByGeometry
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: caac597d0ff75404083df56b4613371c, type: 2}
   m_IsPrefabParent: 0
