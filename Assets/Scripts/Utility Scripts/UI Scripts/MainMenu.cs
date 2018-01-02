@@ -13,7 +13,16 @@ public class MainMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Submit") && gameObject.GetComponent<CanvasGroup>().alpha == 1)
+        bool anyKeyPressed = false;
+        for (int i = 0; i < 20; i++)
+        {
+            if (Input.GetKeyDown("joystick button " + i))
+            {
+                anyKeyPressed = true;
+                break;
+            }
+        }
+        if (anyKeyPressed && gameObject.GetComponent<CanvasGroup>().alpha == 1)
         {
             SoundManager.Instance.PlayOkSound();
             ready = true;
