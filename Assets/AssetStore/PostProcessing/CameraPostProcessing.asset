@@ -100,7 +100,7 @@ MonoBehaviour:
     m_Enabled: 1
     m_Settings:
       bloom:
-        intensity: 3
+        intensity: 3.3
         threshold: 1.1
         softKnee: 0.6
         radius: 6.01
@@ -127,20 +127,20 @@ MonoBehaviour:
         saturation: 0.74
         contrast: 1.2
       channelMixer:
-        red: {x: 1, y: 0, z: 0}
+        red: {x: 0, y: 0, z: 0}
         green: {x: 0, y: 1, z: 0}
         blue: {x: 0, y: 0, z: 1}
         currentEditingChannel: 0
       colorWheels:
-        mode: 1
+        mode: 0
         log:
-          slope: {r: 1, g: 1, b: 1, a: 0}
-          power: {r: 1, g: 1, b: 1, a: 0}
-          offset: {r: 1, g: 1, b: 1, a: 0}
+          slope: {r: 0.12863398, g: 0.19384125, b: 1, a: 1}
+          power: {r: 1, g: 0.11875029, b: 0, a: 0.23076923}
+          offset: {r: 1, g: 0, b: 0.6000776, a: 0}
         linear:
-          lift: {r: 0, g: 0, b: 0, a: 0}
-          gamma: {r: 0, g: 0, b: 0, a: 0}
-          gain: {r: 0, g: 0, b: 0, a: 0}
+          lift: {r: 0.57402277, g: 0.77388436, b: 1, a: 0}
+          gamma: {r: 1, g: 0.85043883, b: 0.8347068, a: 0}
+          gain: {r: 0, g: 0.1574924, b: 1, a: 0}
       curves:
         master:
           curve:
@@ -298,7 +298,7 @@ MonoBehaviour:
       mode: 0
       color: {r: 0, g: 0, b: 0, a: 1}
       center: {x: 0.5, y: 0.5}
-      intensity: 0.184
+      intensity: 0.13
       smoothness: 0.496
       roundness: 1
       mask: {fileID: 0}
