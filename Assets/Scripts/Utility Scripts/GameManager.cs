@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
 
     public GameObject UITitle;
     public GameObject[] UIChapTitles;
+    public GameObject UIPause;
     public int loadedScene;
     public Vector3 cameraPosition = new Vector3(0f, 0f, -10f);
     public Vector3 playerPosition = new Vector3 (0f, 0f);
