@@ -58,7 +58,6 @@ public class GameManager : MonoBehaviour {
         UIChapTitles[0].SetActive(false);
         UIChapTitles[1].SetActive(false);
         UIChapTitles[2].SetActive(false);
-        DontDestroyOnLoad(GameObject.Find("UISettingsScreen"));
     }
 
     private void Update()
@@ -259,13 +258,15 @@ public class GameManager : MonoBehaviour {
 
     public void ResumeButton()
     {
+        UIPause = GameObject.Find("UIPauseScreen");
         UIPause.SetActive(false);
         Time.timeScale = 1;
-        
     }
 
     public void SaveButton()
     {
+        player = GameObject.FindWithTag("Player");
+        camera = GameObject.FindWithTag("MainCamera");
         SaveGame();
     }
 }
