@@ -175,6 +175,7 @@ public class GameManager : MonoBehaviour {
         {
             yield return null;
         }
+        SoundManager.Instance.PlayOkSound();
         SceneManager.UnloadSceneAsync(loadedScene);
         SceneManager.LoadScene(loadedScene, LoadSceneMode.Single);
         StartCoroutine("SearchPlayer");
@@ -196,6 +197,7 @@ public class GameManager : MonoBehaviour {
         camera.transform.position = cameraPosition;
         player.transform.position = playerPosition;
         camera.GetComponent<CameraController>().ActivateEnemies();
+        camera.GetComponent<CameraController>().SaveCameraPosition();
         player.transform.Find("PivotArm").Find("Gun").gameObject.GetComponent<GunController>().currentCharge = duskCharge;
         GameObject[] finalMachineries = GameObject.FindGameObjectsWithTag("FinalMachineries");
         if (finalMachineries != null)
@@ -224,6 +226,7 @@ public class GameManager : MonoBehaviour {
         camera.transform.position = new Vector3(PlayerPrefs.GetFloat("CameraX"), PlayerPrefs.GetFloat("CameraY"), -10);
         player.transform.position = new Vector3(PlayerPrefs.GetFloat("PlayerX"), PlayerPrefs.GetFloat("PlayerY"), 0);
         camera.GetComponent<CameraController>().ActivateEnemies();
+        camera.GetComponent<CameraController>().SaveCameraPosition();
         player.transform.Find("PivotArm").Find("Gun").gameObject.GetComponent<GunController>().currentCharge = PlayerPrefs.GetInt("GunCharge");
 
         GameObject[] finalMachineries = GameObject.FindGameObjectsWithTag("FinalMachineries");

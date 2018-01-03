@@ -256,7 +256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fallCollider: 0
-  explosionCollider: 0
+  explosionCollider: 1
 --- !u!114 &114417370002759996
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -734,7 +734,6 @@ public class EnemyController : MonoBehaviour {
             SoundManager.Instance.PlayNormalSoundtrack();
         }
 
-        Instantiate(explosion, transform.position, transform.rotation);
         if (controlled && player != null) {
             EventManager.TriggerEvent("EnemyDestroyed");
             Player mPlayer = player.GetComponent<Player>();
@@ -760,6 +759,13 @@ public class EnemyController : MonoBehaviour {
                 }
             }
         } 
+    }
+
+    public void Kill()
+    {
+        Debug.Log("Imgonnadie");
+        Instantiate(explosion, transform.position, transform.rotation);
+        Destroy(this.gameObject);
     }
 
     private void OnDrawGizmos() {

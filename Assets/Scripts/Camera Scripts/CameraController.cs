@@ -54,7 +54,7 @@ public class CameraController : MonoBehaviour {
         transform.position = cameraPosition;
     }
 
-    private void SaveCameraPosition()
+    public void SaveCameraPosition()
     {
         cameraPosition = transform.position;
     }

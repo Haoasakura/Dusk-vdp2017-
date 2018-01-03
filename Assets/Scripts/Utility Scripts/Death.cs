@@ -20,7 +20,7 @@ public class Death : MonoBehaviour {
                 }
                 else if (collision.gameObject.tag.Equals("Enemy"))
                 {
-                    Destroy(collision.gameObject);
+                    collision.GetComponent<EnemyController>().Kill();
                 }
             }
             else
@@ -31,7 +31,7 @@ public class Death : MonoBehaviour {
                 }
                 else if (collision.gameObject.tag.Equals("Enemy"))
                 {
-                    Destroy(collision.gameObject);
+                    collision.GetComponent<EnemyController>().Kill();
                 }
             }
         }
@@ -63,6 +63,6 @@ public class Death : MonoBehaviour {
         }
         SoundManager.Instance.PlayFallSound();
         yield return new WaitForSeconds(1);
-        Destroy(collision.gameObject);
+        collision.GetComponent<EnemyController>().Kill();
     }
 }
