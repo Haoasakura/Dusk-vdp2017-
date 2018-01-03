@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour {
     public Vector3 playerPosition = new Vector3 (0f, 0f);
     public int duskCharge = 0;
 
+    public bool isNewGame = false;
+    public bool isSavedGame = false;
+
     private UnityAction unityAction;
     private GameObject player;
     private new GameObject camera;
@@ -25,7 +28,7 @@ public class GameManager : MonoBehaviour {
     private bool timerReached;
     private float timer = 0;
 
-
+    
 
     private void Awake()
     {
@@ -62,24 +65,25 @@ public class GameManager : MonoBehaviour {
 
     private void Update()
     {
-        UIChapTitles[loadedScene - 1].SetActive(true);
+        int sceneToLoad = (isNewGame ? (loadedScene - 1) : PlayerPrefs.GetInt("Scene") - 1);
+        UIChapTitles[sceneToLoad].SetActive(true);
         if (UITitle.GetComponent<MainMenu>().ready)
         {
             UITitle.GetComponent<MainMenu>().ready = false;
             UITitle.GetComponent<MainMenu>().FadeMe();
 
-            UIChapTitles[loadedScene-1].GetComponent<UIChapterTitle>().ready = true;
-            UIChapTitles[loadedScene-1].GetComponent<UIChapterTitle>().finished = true;
+            UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().ready = true;
+            UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().finished = true;
         }
-        if (UIChapTitles[loadedScene-1].GetComponent<UIChapterTitle>().finished) {
-            UIChapTitles[loadedScene-1].GetComponent<UIChapterTitle>().finished = false;
+        if (UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().finished) {
+            UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().finished = false;
             
-            if (loadedScene == 1) {
+            if (isNewGame) {
                 StartCoroutine(LoadNewGame());
             }
-            else
+            else if (isSavedGame)
             {
-                LoadGame();
+                LoadGameFromSave();
             }
             unityAction = new UnityAction(SaveGame);
         }
@@ -205,7 +209,7 @@ public class GameManager : MonoBehaviour {
         }
 
         Debug.Log(player.transform.position);
-        UIChapTitles[loadedScene-1].GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
+        UIChapTitles[loadedScene - 1].GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
         UITitle.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
         camera.transform.position = cameraPosition;
         player.transform.position = playerPosition;
@@ -228,12 +232,11 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator SearchPlayerFromSave()
     {
-
         yield return new WaitForSeconds(0.01f);
         player = GameObject.FindWithTag("Player");
         camera = GameObject.FindWithTag("MainCamera");
 
-        UIChapTitles[loadedScene - 1].GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
+        UIChapTitles[PlayerPrefs.GetInt("Scene") - 1].GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
         UITitle.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
 
         camera.transform.position = new Vector3(PlayerPrefs.GetFloat("CameraX"), PlayerPrefs.GetFloat("CameraY"), -10);

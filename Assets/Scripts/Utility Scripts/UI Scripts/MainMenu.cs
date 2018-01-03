@@ -54,6 +54,15 @@ public class MainMenu : MonoBehaviour
     public void PlayButton() {
         SoundManager.Instance.PlayOkSound();
         loadingText.SetActive(true);
+        GameObject.Find("GameManager").GetComponent<GameManager>().isNewGame = true;
+        ready = true;
+    }
+
+    public void ContinueButton()
+    {
+        SoundManager.Instance.PlayOkSound();
+        loadingText.SetActive(true);
+        GameObject.Find("GameManager").GetComponent<GameManager>().isSavedGame = true;
         ready = true;
     }
 
