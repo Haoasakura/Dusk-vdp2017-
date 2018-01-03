@@ -87,7 +87,8 @@ public class GunController : MonoBehaviour {
             else
             {
                 mLineRenderer.material = aimMaterial;
-                dotsight.GetComponent<SpriteRenderer>().enabled = true;
+                if (hasGun)
+                    dotsight.GetComponent<SpriteRenderer>().enabled = true;
                 isAiming = true;
             }
 

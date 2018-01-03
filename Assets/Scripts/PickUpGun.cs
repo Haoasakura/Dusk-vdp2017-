@@ -16,6 +16,7 @@ public class PickUpGun : MonoBehaviour {
                 gunController.dotsight.GetComponent<SpriteRenderer>().enabled = true;
                 transform.gameObject.SetActive(false);
                 gunController.hasGun = true;
+                SoundManager.Instance.GetGun();
             }
         }
     }

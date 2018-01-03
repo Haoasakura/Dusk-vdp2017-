@@ -950,7 +950,7 @@ MonoBehaviour:
   speed: 15
   huntSpeed: 7.5
   switchTime: 2.5
-  sightRange: 28
+  sightRange: 500
   controlCost: 25
   timeToReturnPatrol: 3
   transitionDuration: 1
