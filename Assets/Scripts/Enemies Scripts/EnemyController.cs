@@ -704,7 +704,7 @@ public class EnemyController : MonoBehaviour {
         _enemy.GetComponent<EnemyInput>().enabled = false;
         yield return new WaitForSeconds(switchTime);
         if(_enemy && _enemy.parent.gameObject)
-            Destroy(_enemy.parent.gameObject);
+            _enemy.GetComponent<EnemyController>().Kill();
         weapon.StopCoroutine("TrailingEffectOn");
         if (weapon.lightningCoroutine != null)
         {
@@ -749,6 +749,10 @@ public class EnemyController : MonoBehaviour {
                 shooter.GetComponent<Enemy>().controlling = true;
                 enemy.GetComponentInChildren<EnemyWeapon>().untraversableLayers = enemy.GetComponentInChildren<EnemyWeapon>().groundLayer;
             }
+    }
+
+    public void Kill()
+    {
 
         BoxCollider2D coll = GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<BoxCollider2D>();
         foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
@@ -758,14 +762,10 @@ public class EnemyController : MonoBehaviour {
                     enemy.GetComponent<EnemyController>().shootingLights = false;
                 }
             }
-        } 
-    }
-
-    public void Kill()
-    {
-        Debug.Log("Imgonnadie");
+        }
+        
         Instantiate(explosion, transform.position, transform.rotation);
-        Destroy(this.gameObject);
+        Destroy(this.transform.parent.gameObject);
     }
 
     private void OnDrawGizmos() {
