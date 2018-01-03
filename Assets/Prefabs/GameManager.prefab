@@ -9,17 +9,17 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1526631065406620}
+  m_RootGameObject: {fileID: 1782659268749640}
   m_IsPrefabParent: 1
---- !u!1 &1526631065406620
+--- !u!1 &1782659268749640
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4899919963785448}
-  - component: {fileID: 114240218390091346}
+  - component: {fileID: 4965530108806760}
+  - component: {fileID: 114085150579832702}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -27,12 +27,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4899919963785448
+--- !u!4 &4965530108806760
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1526631065406620}
+  m_GameObject: {fileID: 1782659268749640}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -40,21 +40,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114240218390091346
+--- !u!114 &114085150579832702
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1526631065406620}
+  m_GameObject: {fileID: 1782659268749640}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d3838f9e177d044a989cd743ddfbd4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UITitle: {fileID: 0}
-  UIChapTitles: []
+  UIChapTitles:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   UIPause: {fileID: 0}
-  loadedScene: 4
+  loadedScene: 2
   cameraPosition: {x: 0, y: 0, z: -10}
-  playerPosition: {x: -12, y: -5, z: 0}
+  playerPosition: {x: 0, y: 5, z: 0}
   duskCharge: 0
