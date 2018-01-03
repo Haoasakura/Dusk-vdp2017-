@@ -39,6 +39,8 @@ public class MainMenu : MonoBehaviour
                                       background.GetComponentInChildren<RectTransform>().GetChild(0).position, 2f));
             buttonBox.SetActive(true);
             StartCoroutine(FadeButtons());
+            GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find(null));
+            GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("PlayButton"));
             buttonsOut = true;
         }
         if (credits.activeInHierarchy && Input.GetButtonDown("Submit"))
