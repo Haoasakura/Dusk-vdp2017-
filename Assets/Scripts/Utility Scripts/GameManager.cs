@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
@@ -34,6 +35,9 @@ public class GameManager : MonoBehaviour {
 
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(UITitle);
+            DontDestroyOnLoad(UIPause);
+            DontDestroyOnLoad(GameObject.Find("EventSystem"));
+            UIPause.SetActive(false);
         }
         else
         {
@@ -79,6 +83,15 @@ public class GameManager : MonoBehaviour {
                 LoadGame();
             }
             unityAction = new UnityAction(SaveGame);
+        }
+        if (PlayerPrefs.HasKey("Scene") && !UIPause.activeInHierarchy)
+        {
+            if (Input.GetButtonDown("Submit") && UITitle.GetComponent<CanvasGroup>().alpha == 0)
+            {
+                Time.timeScale = 0;
+                UIPause.SetActive(true);
+                GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("ResumeButton"));
+            }
         }
     }
 
@@ -241,6 +254,18 @@ public class GameManager : MonoBehaviour {
                 i++;
             }
         }
+        SaveGame();
+    }
+
+    public void ResumeButton()
+    {
+        UIPause.SetActive(false);
+        Time.timeScale = 1;
+        
+    }
+
+    public void SaveButton()
+    {
         SaveGame();
     }
 }
