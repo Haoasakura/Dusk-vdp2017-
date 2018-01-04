@@ -100,7 +100,7 @@ MonoBehaviour:
     m_Enabled: 1
     m_Settings:
       bloom:
-        intensity: 5
+        intensity: 3
         threshold: 1.1
         softKnee: 0.6
         radius: 6.01
@@ -138,9 +138,9 @@ MonoBehaviour:
           power: {r: 1, g: 0.9151163, b: 0.61603296, a: 0.23076923}
           offset: {r: 1, g: 0.8587976, b: 0.6282833, a: 0}
         linear:
-          lift: {r: 0, g: 0.6127305, b: 1, a: 0}
+          lift: {r: 1, g: 0.9880688, b: 0.685439, a: 0}
           gamma: {r: 1, g: 0.89359385, b: 0, a: 0}
-          gain: {r: 1, g: 0.93849826, b: 0, a: 0}
+          gain: {r: 0.9199001, g: 1, b: 0.123042464, a: 0}
       curves:
         master:
           curve:
