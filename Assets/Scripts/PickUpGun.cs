@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PickUpGun : MonoBehaviour {
 
+    public GameObject gunUI;
+
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.CompareTag(Tags.player)) {
             //GameObject gun = collision.GetComponent<Player>().gun;
@@ -17,6 +19,7 @@ public class PickUpGun : MonoBehaviour {
                 transform.gameObject.SetActive(false);
                 gunController.hasGun = true;
                 SoundManager.Instance.GetGun();
+                gunUI.SetActive(true);
             }
         }
     }
