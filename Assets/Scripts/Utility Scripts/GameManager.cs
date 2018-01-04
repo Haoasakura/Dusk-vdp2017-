@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour {
 
     private void Update()
     {
+        Debug.Log("MainMenu ready: "+UITitle.GetComponent<MainMenu>().ready.ToString());
         int sceneToLoad = (isNewGame ? (loadedScene - 1) : PlayerPrefs.GetInt("Scene") - 1);
         UIChapTitles[sceneToLoad].SetActive(true);
         if (UITitle.GetComponent<MainMenu>().ready)
@@ -79,11 +80,15 @@ public class GameManager : MonoBehaviour {
             UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().finished = false;
             
             if (isNewGame) {
+                Debug.Log("I'm playing a new game");
+                isNewGame = false;
                 StartCoroutine(LoadNewGame());
             }
-            else if (isSavedGame)
+            if (isSavedGame)
             {
-                LoadGameFromSave();
+                Debug.Log("I'm loading a saved game");
+                isSavedGame = false;
+                StartCoroutine(LoadGameFromSave());
             }
             unityAction = new UnityAction(SaveGame);
         }
@@ -268,8 +273,8 @@ public class GameManager : MonoBehaviour {
 
     public void SaveButton()
     {
-        player = GameObject.FindWithTag("Player");
-        camera = GameObject.FindWithTag("MainCamera");
-        SaveGame();
+        StartCoroutine(SearchPlayerFromSave());
+        cameraPosition = new Vector3(0f, 0f, -10f);
+        playerPosition = new Vector3(0f, 5f, 0f);
     }
 }
