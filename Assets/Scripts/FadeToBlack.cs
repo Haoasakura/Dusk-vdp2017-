@@ -51,6 +51,7 @@ public class FadeToBlack : MonoBehaviour {
             yield return null;
         }
         cg.interactable = false;
+        GameObject.Find("UIChapterTitleScreen_Level3").GetComponent<CanvasGroup>().alpha = 1;
         yield return null;
     }
 

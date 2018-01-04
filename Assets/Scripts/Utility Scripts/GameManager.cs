@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour {
     private bool timerReached;
     private float timer = 0;
     private bool isChangingLevel = false;
+    private bool firstTime = true;
+    private int sceneToLoad = 0;
 
     private void Awake()
     {
@@ -60,12 +62,24 @@ public class GameManager : MonoBehaviour {
         UIChapTitles[0].SetActive(false);
         UIChapTitles[1].SetActive(false);
         UIChapTitles[2].SetActive(false);
+        firstTime = true;
     }
 
     private void Update()
     {
-        Debug.Log("MainMenu ready: "+UITitle.GetComponent<MainMenu>().ready.ToString());
-        int sceneToLoad = (isNewGame ? (loadedScene - 1) : PlayerPrefs.GetInt("Scene") - 1);
+        if (firstTime)
+        {
+            firstTime = false;
+            sceneToLoad = 1;
+        }
+        if (isNewGame)
+        {
+            sceneToLoad = loadedScene - 1;
+        }
+        else if (isSavedGame)
+        {
+            sceneToLoad = PlayerPrefs.GetInt("Scene") - 1;
+        }
         int i = 0;
         foreach (GameObject chapTitle in UIChapTitles)
         {
