@@ -390,27 +390,27 @@ Prefab:
     - target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
       propertyPath: loadedScene
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
       propertyPath: cameraPosition.x
-      value: 690
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
       propertyPath: cameraPosition.y
-      value: 72
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
       propertyPath: playerPosition.x
-      value: 690
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
       propertyPath: playerPosition.y
-      value: 73
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c8a86063b97318240b8f3b8640fd9e34, type: 2}
