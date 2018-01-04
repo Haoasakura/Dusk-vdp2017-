@@ -29,7 +29,6 @@ public class FadeToBlack : MonoBehaviour {
                 SoundManager.Instance.EndSoundtrack();
                 GetComponent<AudioSource>().Play();
             }
-            collision.tag = "Untagged";
             collision.gameObject.GetComponent<PlayerInput>().enabled = false;
             collision.gameObject.GetComponentInChildren<GunController>().enabled = false;
             FadeMe();
@@ -44,7 +43,7 @@ public class FadeToBlack : MonoBehaviour {
 
     IEnumerator Fade()
     {
-        yield return new WaitForSeconds(180);
+        yield return new WaitForSeconds(77);
         CanvasGroup cg = gameObject.GetComponentInChildren<CanvasGroup>();
         while (cg.alpha < 1)
         {
