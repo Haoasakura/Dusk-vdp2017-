@@ -92,11 +92,13 @@ public class GameManager : MonoBehaviour {
 
                 if (isNewGame)
                 {
+                    isNewGame = false;
                     Debug.Log("LoadNew");
                     StartCoroutine(LoadNewGame());
                 }
                 else if (isSavedGame)
                 {
+                    isSavedGame = false;
                     Debug.Log("LoadSaved");
                     StartCoroutine(LoadGameFromSave());
                 }
