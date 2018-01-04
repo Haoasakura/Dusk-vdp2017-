@@ -34,6 +34,7 @@ public class EndLevelFade : MonoBehaviour {
     IEnumerator Fade()
     {
         CanvasGroup cg = gameObject.GetComponentInChildren<CanvasGroup>();
+        SoundManager.Instance.EndSoundtrack();
         while (cg.alpha < 1)
         {
             cg.alpha += Time.deltaTime / 3;

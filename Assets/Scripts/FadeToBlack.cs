@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class FadeToBlack : MonoBehaviour {
 
-    public GameObject lever;
-
     private bool isOver = false;
 
     private void Update()
     {
         if (isOver)
         {
-            if (Input.GetButton("Submit"))
+            for (int i = 0; i < 20; i++)
             {
-                EventManager.TriggerEvent("RestartGame");
+                if (Input.GetKeyDown("joystick button " + i))
+                {
+                    EventManager.TriggerEvent("RestartGame");
+                }
             }
         }
     }
@@ -28,8 +29,9 @@ public class FadeToBlack : MonoBehaviour {
                 SoundManager.Instance.EndSoundtrack();
                 GetComponent<AudioSource>().Play();
             }
-
-            lever.GetComponent<BoxCollider2D>().enabled = false;
+            collision.tag = "Untagged";
+            collision.gameObject.GetComponent<PlayerInput>().enabled = false;
+            collision.gameObject.GetComponentInChildren<GunController>().enabled = false;
             FadeMe();
         }
     }
@@ -42,7 +44,7 @@ public class FadeToBlack : MonoBehaviour {
 
     IEnumerator Fade()
     {
-        yield return new WaitForSeconds(30);
+        yield return new WaitForSeconds(180);
         CanvasGroup cg = gameObject.GetComponentInChildren<CanvasGroup>();
         while (cg.alpha < 1)
         {

@@ -92,10 +92,12 @@ public class GameManager : MonoBehaviour {
 
                 if (isNewGame)
                 {
+                    Debug.Log("LoadNew");
                     StartCoroutine(LoadNewGame());
                 }
                 else if (isSavedGame)
                 {
+                    Debug.Log("LoadSaved");
                     StartCoroutine(LoadGameFromSave());
                 }
                 unityAction = new UnityAction(SaveGame);
@@ -227,6 +229,7 @@ public class GameManager : MonoBehaviour {
     IEnumerator WaitLoading()
     {
         yield return new WaitForSeconds(1);
+        Debug.Log("OkiDoki");
         while (!Input.GetButton("Retry"))
         {
             yield return null;
@@ -242,12 +245,7 @@ public class GameManager : MonoBehaviour {
         yield return new WaitForSeconds(0.01f);
         player = GameObject.FindWithTag("Player");
         camera = GameObject.FindWithTag("MainCamera");
-        if (!(player == null))
-        {
-            Debug.Log("PlayerFound");
-        }
 
-        Debug.Log(player.transform.position);
         foreach (GameObject chapTitle in UIChapTitles)
         {
             chapTitle.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
@@ -270,6 +268,7 @@ public class GameManager : MonoBehaviour {
             }
         }
         SaveGame();
+        StopAllCoroutines();
     }
 
     IEnumerator SearchPlayerFromSave()

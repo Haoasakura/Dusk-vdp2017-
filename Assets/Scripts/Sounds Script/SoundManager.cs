@@ -236,8 +236,6 @@ public class SoundManager : MonoBehaviour
                 yield return null;
                 t -= Time.deltaTime;
                 as_soundtrack1.volume -= Time.deltaTime / fadeTime2;
-                as_gun.volume -= Time.deltaTime / fadeTime2;
-                as_player.volume -= Time.deltaTime / fadeTime2;
             }
         }
         yield break;

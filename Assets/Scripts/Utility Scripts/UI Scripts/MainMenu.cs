@@ -52,6 +52,7 @@ public class MainMenu : MonoBehaviour
     }
 
     public void PlayButton() {
+        Debug.Log("Hello");
         SoundManager.Instance.PlayOkSound();
         loadingText.SetActive(true);
         GameObject.Find("GameManager").GetComponent<GameManager>().isSavedGame = false;

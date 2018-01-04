@@ -390,27 +390,27 @@ Prefab:
     - target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
       propertyPath: loadedScene
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
       propertyPath: cameraPosition.x
-      value: 900
+      value: 690
       objectReference: {fileID: 0}
     - target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
       propertyPath: cameraPosition.y
-      value: 54
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
       propertyPath: playerPosition.x
-      value: 900
+      value: 690
       objectReference: {fileID: 0}
     - target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
       propertyPath: playerPosition.y
-      value: 50
+      value: 73
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c8a86063b97318240b8f3b8640fd9e34, type: 2}
@@ -1005,6 +1005,11 @@ Prefab:
         type: 2}
       propertyPath: Mute
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114843351711196858, guid: cf69a574a19a2f24cb5cc3d6757016f4,
+        type: 2}
+      propertyPath: fadeTime2
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cf69a574a19a2f24cb5cc3d6757016f4, type: 2}
