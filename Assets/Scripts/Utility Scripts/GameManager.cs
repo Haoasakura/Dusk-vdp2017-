@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -72,7 +73,7 @@ public class GameManager : MonoBehaviour {
             firstTime = false;
             sceneToLoad = 1;
         }
-        if (isNewGame)
+        if (isNewGame || isChangingLevel)
         {
             sceneToLoad = loadedScene - 1;
         }
@@ -113,6 +114,7 @@ public class GameManager : MonoBehaviour {
                 else if (isSavedGame)
                 {
                     isSavedGame = false;
+                    loadedScene = PlayerPrefs.GetInt("Scene");
                     Debug.Log("LoadSaved");
                     StartCoroutine(LoadGameFromSave());
                 }
@@ -331,5 +333,7 @@ public class GameManager : MonoBehaviour {
         StartCoroutine(SearchPlayerFromSave());
         cameraPosition = new Vector3(0f, 0f, -10f);
         playerPosition = new Vector3(0f, 5f, 0f);
+        Application.Quit();
+        EditorApplication.isPlaying = false;
     }
 }

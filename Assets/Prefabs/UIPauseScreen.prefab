@@ -224,7 +224,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114240218390091346, guid: c8a86063b97318240b8f3b8640fd9e34,
+      - m_Target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
           type: 2}
         m_MethodName: ResumeButton
         m_Mode: 1
@@ -451,8 +451,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: QuitGameButton
+      - m_Target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
+          type: 2}
+        m_MethodName: SaveButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
