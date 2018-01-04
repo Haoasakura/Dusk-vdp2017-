@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour {
 
     private void Update()
     {
+        Debug.Log("MainMenu ready: "+UITitle.GetComponent<MainMenu>().ready.ToString());
         int sceneToLoad = (isNewGame ? (loadedScene - 1) : PlayerPrefs.GetInt("Scene") - 1);
         int i = 0;
         foreach (GameObject chapTitle in UIChapTitles)
@@ -312,8 +313,8 @@ public class GameManager : MonoBehaviour {
 
     public void SaveButton()
     {
-        player = GameObject.FindWithTag("Player");
-        camera = GameObject.FindWithTag("MainCamera");
-        SaveGame();
+        StartCoroutine(SearchPlayerFromSave());
+        cameraPosition = new Vector3(0f, 0f, -10f);
+        playerPosition = new Vector3(0f, 5f, 0f);
     }
 }

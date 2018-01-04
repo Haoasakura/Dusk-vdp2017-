@@ -54,6 +54,7 @@ public class MainMenu : MonoBehaviour
     public void PlayButton() {
         SoundManager.Instance.PlayOkSound();
         loadingText.SetActive(true);
+        GameObject.Find("GameManager").GetComponent<GameManager>().isSavedGame = false;
         GameObject.Find("GameManager").GetComponent<GameManager>().isNewGame = true;
         ready = true;
     }
@@ -62,8 +63,10 @@ public class MainMenu : MonoBehaviour
     {
         SoundManager.Instance.PlayOkSound();
         loadingText.SetActive(true);
+        GameObject.Find("GameManager").GetComponent<GameManager>().isNewGame = false;
         GameObject.Find("GameManager").GetComponent<GameManager>().isSavedGame = true;
         ready = true;
+        Debug.Log("Ready: "+ready);
     }
 
     public void SettingsButton() {
