@@ -212,6 +212,7 @@ public class SoundManager : MonoBehaviour
 
     public void ReturnPlayerSound()
     {
+        StopAllCoroutines();
         as_gun.mute = false;
         as_player.mute = false;
         as_objects.mute = false;

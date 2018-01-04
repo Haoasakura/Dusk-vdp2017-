@@ -418,7 +418,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1695276674333248
 GameObject:
   m_ObjectHideFlags: 1
@@ -848,7 +848,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: bc238f045cd78d249902a0624562251d, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 849602406311e6e48bc595086070a949, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1717,7 +1717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bbce334549772e4a901e968a729b136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ready: 1
+  ready: 0
   optionsText: {fileID: 1376221735539168}
   loadingText: {fileID: 1632601344065100}
   buttonBox: {fileID: 1107090260025598}
@@ -2450,7 +2450,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114617073138364794}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114383249000852692}
+        m_MethodName: ContinueButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!222 &222005092071983016

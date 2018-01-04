@@ -9,6 +9,7 @@ public class UIChapterTitle : MonoBehaviour {
     public bool ready;
     public bool finished;
     public bool textDone;
+    public AudioClip ac_soundtrack1;
 
     private bool timerReached = false;
     private float timer = 0;
@@ -92,6 +93,9 @@ public class UIChapterTitle : MonoBehaviour {
             yield return null;
         }
         cg.interactable = false;
+
+        SoundManager.Instance.as_soundtrack1.clip = ac_soundtrack1;
+
         SoundManager.Instance.as_soundtrack1.Play();
         SoundManager.Instance.ReturnSounds();
         yield return null;
