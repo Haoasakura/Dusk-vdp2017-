@@ -838,7 +838,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -850,7 +850,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -862,7 +862,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!95 &95268306136838540
 Animator:
   serializedVersion: 3
@@ -991,7 +991,7 @@ MonoBehaviour:
   ac_gunshot: {fileID: 8300000, guid: 000e1d89e4a617045ae6653868015e54, type: 3}
   ac_emptygunshot: {fileID: 8300000, guid: e48e7eafd577c244da42e47ce9887722, type: 3}
   as_hunt: {fileID: 82965107851455490}
-  ac_hunt: {fileID: 8300000, guid: 4dae368b4b4eb604593f91c134af2822, type: 3}
+  ac_hunt: {fileID: 8300000, guid: 440a9d9b62c1b8b4991ffbe4679d732c, type: 3}
 --- !u!114 &114386073335598840
 MonoBehaviour:
   m_ObjectHideFlags: 1

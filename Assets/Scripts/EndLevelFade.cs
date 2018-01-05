@@ -21,6 +21,8 @@ public class EndLevelFade : MonoBehaviour {
         {
             collision.tag = "Untagged";
             collision.gameObject.GetComponent<PlayerInput>().enabled = false;
+            foreach (LineRenderer r in collision.gameObject.GetComponentsInChildren<LineRenderer>())
+                r.enabled = false;
             collision.gameObject.GetComponentInChildren<GunController>().enabled = false;
             FadeMe();
         }
