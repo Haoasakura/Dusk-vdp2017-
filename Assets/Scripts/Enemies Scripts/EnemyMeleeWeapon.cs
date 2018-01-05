@@ -43,7 +43,8 @@ public class EnemyMeleeWeapon : EnemyWeapon {
             }
 
             if (Input.GetButtonDown("Fire1")) {
-                if(!CR_running)
+                isLocked = true;
+                if (!CR_running)
                     StartCoroutine("MeleeAttack", enemy.transform);
             }
             if (Input.GetButtonUp("Fire1")) {

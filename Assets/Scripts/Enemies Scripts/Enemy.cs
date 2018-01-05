@@ -155,7 +155,7 @@ public class Enemy : MonoBehaviour
                 collision.gameObject.tag = "Ladder";
             }
             else {
-                collision.gameObject.layer = 9;
+                collision.gameObject.layer = 11;
                 collision.gameObject.tag = "Through";
             }
         }
@@ -190,11 +190,11 @@ public class Enemy : MonoBehaviour
                 }
                 weapon.GetComponent<EnemyWeapon>().aimsight.GetComponent<LineRenderer>().enabled = false;
             }
-            else
+           /* else
             {
                 collision.gameObject.layer = 9;
                 collision.gameObject.tag = "Through";
-            }
+            }*/
         }
 
     }

@@ -272,7 +272,7 @@ public class EnemyController : MonoBehaviour {
                     }
                     if (ladder != null) {
 
-                        foreach (Collider2D obj in Physics2D.OverlapCircleAll(boxCollider2D.bounds.center, 0.1f)) {
+                        foreach (Collider2D obj in Physics2D.OverlapCircleAll(new Vector2(boxCollider2D.bounds.center.x, boxCollider2D.bounds.min.y), 0.1f)) {
                             if ((obj.CompareTag(Tags.ladder) && !obj.name.Contains("MidLadder")) || obj.CompareTag(Tags.baseLadder) || obj.CompareTag(Tags.topLadder)) {
                                 isClimbing = true;
                                 break;
@@ -377,7 +377,7 @@ public class EnemyController : MonoBehaviour {
                     }
 
                     if (mLadder != null) {
-                        foreach (Collider2D obj in Physics2D.OverlapCircleAll(boxCollider2D.bounds.center, 0.1f)) {
+                        foreach (Collider2D obj in Physics2D.OverlapCircleAll(new Vector2(boxCollider2D.bounds.center.x, boxCollider2D.bounds.min.y), 0.1f)) {
                             if ((obj.CompareTag(Tags.ladder) && !obj.name.Contains("MidLadder")) || obj.CompareTag(Tags.baseLadder) || obj.CompareTag(Tags.topLadder)) {
                                 isClimbing = true;
                                 break;
@@ -391,6 +391,7 @@ public class EnemyController : MonoBehaviour {
                                     mLadder = mLadder.transform.parent.Find("TopLadder").gameObject;
                                 else
                                     mLadder = mLadder.transform.Find("TopLadder").gameObject;
+
                             mChaseTarget = mLadder.GetComponent<Collider2D>().bounds.max + new Vector3(0, 10f, 0);
                             mDirection = (mChaseTarget - transform.position);
                             mDirection.y += 10;
@@ -517,7 +518,7 @@ public class EnemyController : MonoBehaviour {
                     }
 
                     bool collidingWithTarget = false;
-                    foreach (Collider2D obj in Physics2D.OverlapCircleAll(boxCollider2D.bounds.min, 0.1f)) {
+                    foreach (Collider2D obj in Physics2D.OverlapCircleAll(boxCollider2D.bounds.center, 0.1f)) {
                         if (enemyTarget && obj.transform.parent==enemyTarget.parent && enemyTarget.GetComponent<EnemyController>().controlled) {
                             collidingWithTarget = true;
                             break;
@@ -530,18 +531,20 @@ public class EnemyController : MonoBehaviour {
                         EnemyController enemyTargetC = enemyTarget.GetComponent<EnemyController>();
                         enemyTargetC.StopCoroutine("ShootEnemy");
                         EnemyWeapon _enemyWeapon = enemyTargetC.GetComponentInChildren<EnemyWeapon>();
-                        _enemyWeapon.enemyControlled.changingStatus = false;
-                        _enemyWeapon.enemyControlled.gettingShoot = false;
-                        _enemyWeapon.enemyControlled.StopCoroutine("ConrtolledOn");
+                        Debug.Log(_enemyWeapon.GetType().Equals(typeof(EnemyWeapon)));
+                        if (_enemyWeapon.GetType().Equals(typeof(EnemyWeapon))) {
+                            _enemyWeapon.enemyControlled.changingStatus = false;
+                            _enemyWeapon.enemyControlled.gettingShoot = false;
+                            _enemyWeapon.enemyControlled.StopCoroutine("ConrtolledOn");
 
-                        _enemyWeapon.mLineRenderer.enabled = true;
-                        if (_enemyWeapon.lightningCoroutine != null)
-                        {
-                            _enemyWeapon.StopCoroutine(_enemyWeapon.lightningCoroutine);
+                            _enemyWeapon.mLineRenderer.enabled = true;
+                            if (_enemyWeapon.lightningCoroutine != null) {
+                                _enemyWeapon.StopCoroutine(_enemyWeapon.lightningCoroutine);
+                            }
+                            _enemyWeapon.StopCoroutine("TrailingEffectOn");
+                            _enemyWeapon.StopCoroutine("TrailingEffectOff");
+                            Destroy(_enemyWeapon.particleEffect);
                         }
-                        _enemyWeapon.StopCoroutine("TrailingEffectOn");
-                        _enemyWeapon.StopCoroutine("TrailingEffectOff");
-                        Destroy(_enemyWeapon.particleEffect);
                         if(ranged)
                             StartCoroutine("ShootEnemy", enemyTarget);
                         else
@@ -668,6 +671,7 @@ public class EnemyController : MonoBehaviour {
         player.GetComponent<Player>().controlling = true;
         player.GetComponent<Player>().SetDirectionalInput(Vector2.zero);
         player.GetComponent<PlayerInput>().enabled = false;
+        player.GetComponent<Controller2D>().gravityOnFall = 0f;
         yield return new WaitForSeconds(switchTime);
         EventManager.TriggerEvent("PlayerControlled");
         weapon.StopCoroutine("TrailingEffectOn");
@@ -753,13 +757,14 @@ public class EnemyController : MonoBehaviour {
 
     public void Kill()
     {
-
-        BoxCollider2D coll = GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<BoxCollider2D>();
-        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
-            if (coll.bounds.Contains(enemy.transform.position + new Vector3(0, 0, -10))) {
-                if (!enemy.transform.GetComponent<Animator>().GetBool("PlayerInSight") && !enemy.transform.GetComponent<EnemyController>().changingStatus && !enemy.transform.GetComponent<EnemyController>().controlled) {
-                    enemy.gameObject.GetComponent<Animator>().SetBool("EnemyTraitor", false);
-                    enemy.GetComponent<EnemyController>().shootingLights = false;
+        if (GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<BoxCollider2D>()) {
+            BoxCollider2D coll = GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<BoxCollider2D>();
+            foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
+                if (coll.bounds.Contains(enemy.transform.position + new Vector3(0, 0, -10))) {
+                    if (!enemy.transform.GetComponent<Animator>().GetBool("PlayerInSight") && !enemy.transform.GetComponent<EnemyController>().changingStatus && !enemy.transform.GetComponent<EnemyController>().controlled) {
+                        enemy.gameObject.GetComponent<Animator>().SetBool("EnemyTraitor", false);
+                        enemy.GetComponent<EnemyController>().shootingLights = false;
+                    }
                 }
             }
         }
@@ -776,6 +781,8 @@ public class EnemyController : MonoBehaviour {
         Gizmos.DrawWireCube(endPoint.position, transform.GetComponent<BoxCollider2D>().size);
 
         Gizmos.DrawWireSphere(transform.position, 1);
+        
+        Gizmos.DrawSphere(new Vector2(GetComponent<BoxCollider2D>().bounds.center.x, GetComponent<BoxCollider2D>().bounds.min.y), 0.1f);
        
        
     }
