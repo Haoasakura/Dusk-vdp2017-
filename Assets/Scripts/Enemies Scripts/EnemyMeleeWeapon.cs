@@ -70,7 +70,7 @@ public class EnemyMeleeWeapon : EnemyWeapon {
                 if (result && _target && _target.CompareTag(Tags.player) && result.transform != null && result.transform.CompareTag(Tags.player))
                         EventManager.TriggerEvent("PlayerDied");
                 else if (result && result.transform && result.transform.CompareTag(Tags.enemy) && result.transform!=enemy.transform) {
-                    Destroy(result.transform.parent.gameObject);
+                    result.GetComponent<EnemyController>().Kill();
                     StartCoroutine("AlertEnemies");
                 }
                 

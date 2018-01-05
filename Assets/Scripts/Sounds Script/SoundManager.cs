@@ -166,7 +166,9 @@ public class SoundManager : MonoBehaviour
 
     public void EndSoundtrack()
     {
+        StopAllCoroutines();
         float t = fadeTime2;
+        StartCoroutine(EndSoundtrack(as_soundtrack2, t));
         StartCoroutine(EndSoundtrack(as_soundtrack1, t));
     }
 
