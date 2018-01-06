@@ -182,8 +182,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 0
   sprites:
-  - {fileID: 21300000, guid: dfbcddcd16040fa4aad8aa7bf3b4a59c, type: 3}
-  - {fileID: 21300000, guid: 64f39b5816034094f94045ca0594ea6e, type: 3}
+  - {fileID: 21300000, guid: c0efd977a91b2d747bc864fbd8c42825, type: 3}
+  - {fileID: 21300000, guid: 6e5ab0ffe3188ae419b115fb302632e4, type: 3}
   isOpen: 1
 --- !u!212 &212522191556561508
 SpriteRenderer:
