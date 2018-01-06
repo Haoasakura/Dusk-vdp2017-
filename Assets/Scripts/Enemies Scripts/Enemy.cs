@@ -183,8 +183,8 @@ public class Enemy : MonoBehaviour
         
         if (collision.gameObject.name.Equals("TopLadder")) {
             if (isClimbing) {
-                collision.gameObject.layer = 9;
-                collision.gameObject.tag = "Ladder";
+                //collision.gameObject.layer = 9;
+                //collision.gameObject.tag = "Ladder";
                 foreach (SpriteRenderer sr in pivotArm.GetComponentsInChildren<SpriteRenderer>()) {
                     sr.enabled = false;
                 }
@@ -207,7 +207,7 @@ public class Enemy : MonoBehaviour
         
         if (collision.gameObject.name.Equals("TopLadder")) {
             collision.gameObject.layer = 11;
-            collision.gameObject.tag = "Through";
+            //collision.gameObject.tag = "Through";
         }
     }
 }
