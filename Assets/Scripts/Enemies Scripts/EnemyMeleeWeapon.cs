@@ -55,31 +55,19 @@ public class EnemyMeleeWeapon : EnemyWeapon {
 
     IEnumerator MeleeAttack(Transform _target) {
         CR_running = true;
-        float armRotation = 159.1f;
-        Collider2D weaponCollider = GetComponent<Collider2D>();
-        armTransform.rotation = Quaternion.Euler(0.0f, 0.0f, enemy.transform.localScale.x * armRotation);
         float startTime = Time.time;
         while ((Time.time - startTime) < 0.3f) {
-            float distCovered = (Time.time - startTime);
-            float fracJourney = distCovered / 0.03f;
-            armRotation -= fracJourney;
-            armTransform.rotation = Quaternion.Euler(0.0f, 0.0f, enemy.transform.localScale.x * armRotation);
-            int n = GameObject.FindGameObjectsWithTag(Tags.enemy).Length;
-            Collider2D[] results = new Collider2D[n+1];
-            weaponCollider.OverlapCollider(contactFilter, results);
-            foreach (Collider2D result in results) {
+            foreach (Collider2D result in Physics2D.OverlapCircleAll(transform.position, 1f)) {
                 if (result && _target && _target.CompareTag(Tags.player) && result.transform != null && result.transform.CompareTag(Tags.player))
-                        EventManager.TriggerEvent("PlayerDied");
-                else if (result && result.transform && result.transform.CompareTag(Tags.enemy) && result.transform!=enemy.transform) {
+                    EventManager.TriggerEvent("PlayerDied");
+                else if (result && result.transform && result.transform.CompareTag(Tags.enemy) && result.transform != enemy.transform) {
                     result.GetComponent<EnemyController>().Kill();
                     StartCoroutine("AlertEnemies");
                 }
-                
             }
 
             yield return null;
         }
-        transform.parent.rotation = Quaternion.Euler(0f, 0f, enemyController.transform.localScale.x > 0 ? 73.4f : -73.4f);
         isLocked = false;
         CR_running = false;
     }

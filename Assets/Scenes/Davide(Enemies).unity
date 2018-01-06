@@ -230,11 +230,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4600137399880602, guid: c09e187aeba357d4fa9f869cd51f1ad2, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -2.18
+      value: -2.26
       objectReference: {fileID: 0}
     - target: {fileID: 4600137399880602, guid: c09e187aeba357d4fa9f869cd51f1ad2, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1.33
+      value: -6.7
       objectReference: {fileID: 0}
     - target: {fileID: 4600137399880602, guid: c09e187aeba357d4fa9f869cd51f1ad2, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2939,6 +2939,16 @@ Prefab:
     - target: {fileID: 4132464546881570, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
       propertyPath: m_RootOrder
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 114225520261703780, guid: d89e776f8fbf98044a26519cf56b24ca,
+        type: 2}
+      propertyPath: hasGun
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114225520261703780, guid: d89e776f8fbf98044a26519cf56b24ca,
+        type: 2}
+      propertyPath: currentCharge
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
@@ -11336,7 +11346,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1896382861546928, guid: d90b847acad90ff45a457519be442a9c, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d90b847acad90ff45a457519be442a9c, type: 2}

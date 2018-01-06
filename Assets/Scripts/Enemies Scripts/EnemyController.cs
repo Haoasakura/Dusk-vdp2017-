@@ -782,7 +782,7 @@ public class EnemyController : MonoBehaviour {
 
         Gizmos.DrawWireSphere(transform.position, 1);
         
-        Gizmos.DrawSphere(new Vector2(GetComponent<BoxCollider2D>().bounds.center.x, GetComponent<BoxCollider2D>().bounds.min.y), 0.1f);
+        Gizmos.DrawWireSphere(new Vector2(GetComponent<BoxCollider2D>().bounds.center.x, GetComponent<BoxCollider2D>().bounds.center.y), 1.1f);
        
        
     }
