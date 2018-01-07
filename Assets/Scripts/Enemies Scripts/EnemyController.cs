@@ -288,9 +288,10 @@ public class EnemyController : MonoBehaviour {
                                     ladder=ladder.transform.parent.Find("TopLadder").gameObject;
                                 else
                                     ladder = ladder.transform.Find("TopLadder").gameObject;
-                            mChaseTarget = ladder.GetComponent<Collider2D>().bounds.max + new Vector3(0, 10f, 0);
+                            mChaseTarget = new Vector3(ladder.GetComponent<Collider2D>().bounds.center.x, ladder.GetComponent<Collider2D>().bounds.max.y) + new Vector3(0, 10f, 0);
                             mDirection = (mChaseTarget - transform.position);
-                            mDirection.y += 10;
+                            mDirection.y += 100;
+                            transform.position += (Vector3.up/2);
                         }
                         else {
                             mChaseTarget = ladder.GetComponent<Collider2D>().bounds.center;
@@ -392,9 +393,10 @@ public class EnemyController : MonoBehaviour {
                                 else
                                     mLadder = mLadder.transform.Find("TopLadder").gameObject;
 
-                            mChaseTarget = mLadder.GetComponent<Collider2D>().bounds.max + new Vector3(0, 10f, 0);
+                            mChaseTarget = new Vector3(mLadder.GetComponent<Collider2D>().bounds.center.x, mLadder.GetComponent<Collider2D>().bounds.max.y) + new Vector3(0, 10f, 0);
                             mDirection = (mChaseTarget - transform.position);
-                            mDirection.y += 10;
+                            mDirection.y += 100;
+                            transform.position += (Vector3.up / 2);
                         }
                         else {
                             mChaseTarget = mLadder.GetComponent<Collider2D>().bounds.center;
@@ -670,6 +672,10 @@ public class EnemyController : MonoBehaviour {
         shootingLights = true;
         player.GetComponent<Player>().controlling = true;
         player.GetComponent<Player>().SetDirectionalInput(Vector2.zero);
+        player.GetComponent<Player>().moveMinSpeed = 0;
+        player.GetComponent<Player>().moveMaxSpeed = 0;
+        player.GetComponent<Player>().accelerationTimeAirborne = 0;
+        player.GetComponent<Player>().accelerationTimeGrounded = 0;
         player.GetComponent<PlayerInput>().enabled = false;
         player.GetComponent<Controller2D>().gravityOnFall = 0f;
         yield return new WaitForSeconds(switchTime);
@@ -770,7 +776,7 @@ public class EnemyController : MonoBehaviour {
         }
         
         Instantiate(explosion, transform.position, transform.rotation);
-        Destroy(this.transform.parent.gameObject);
+        Destroy(transform.parent.gameObject);
     }
 
     private void OnDrawGizmos() {

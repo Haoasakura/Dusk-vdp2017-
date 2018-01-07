@@ -931,7 +931,7 @@ MonoBehaviour:
   moveMinSpeed: 2
   moveMaxSpeed: 10
   minClimbAngle: 0.6
-  climbSpeed: 10
+  climbSpeed: 5
   accelerationTimeAirborne: 3
   accelerationTimeGrounded: 0.1
   controlling: 0

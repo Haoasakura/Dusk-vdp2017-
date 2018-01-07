@@ -312,7 +312,7 @@ public class Player : MonoBehaviour
         SoundManager.Instance.PlayNormalSoundtrackFromDeath();
         SoundManager.Instance.PlayFallSound();
         GetComponent<PlayerInput>().enabled = false;
-        this.tag = "Untagged";
+        tag = "Untagged";
 
         StartCoroutine(FallDestruction());
     }

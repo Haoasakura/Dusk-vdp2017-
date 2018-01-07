@@ -246,7 +246,7 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator WaitLoading()
     {
-        yield return new WaitForSeconds(1);
+        //yield return new WaitForSeconds(1);
         Debug.Log("OkiDoki");
         while (!Input.GetButton("Retry"))
         {

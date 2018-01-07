@@ -63,6 +63,7 @@ public class Death : MonoBehaviour {
         }
         SoundManager.Instance.PlayFallSound();
         yield return new WaitForSeconds(1);
-        collision.GetComponent<EnemyController>().Kill();
+        if(collision)
+            collision.GetComponent<EnemyController>().Kill();
     }
 }

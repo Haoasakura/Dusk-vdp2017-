@@ -339,7 +339,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1480855903984298}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.37, y: -0.25, z: 0}
+  m_LocalPosition: {x: 8.44, y: -0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4600137399880602}
@@ -404,7 +404,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1117273931519308}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.18, y: -1.33, z: 0}
+  m_LocalPosition: {x: 509.7, y: 53.27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4605044590616906}
@@ -466,7 +466,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1566974932471626}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.97, y: -0.22, z: 0}
+  m_LocalPosition: {x: -3.96, y: -0.22, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4600137399880602}
@@ -1069,7 +1069,7 @@ MonoBehaviour:
   moveMinSpeed: 2
   moveMaxSpeed: 10
   minClimbAngle: 0.6
-  climbSpeed: 10
+  climbSpeed: 5
   accelerationTimeAirborne: 3
   accelerationTimeGrounded: 0.1
   controlling: 0
