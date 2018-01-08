@@ -123,14 +123,14 @@ MonoBehaviour:
         postExposure: -0.1
         temperature: 0
         tint: -26
-        hueShift: 51
+        hueShift: 39
         saturation: 1.4
         contrast: 1.17
       channelMixer:
         red: {x: 1, y: 0, z: 0.7}
-        green: {x: 0.5, y: 1.33, z: 0.91}
+        green: {x: 0.5, y: 1.2, z: 0.46}
         blue: {x: 0.53, y: 0.97, z: 0.5}
-        currentEditingChannel: 0
+        currentEditingChannel: 1
       colorWheels:
         mode: 1
         log:
