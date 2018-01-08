@@ -291,7 +291,7 @@ public class EnemyController : MonoBehaviour {
                             mChaseTarget = new Vector3(ladder.GetComponent<Collider2D>().bounds.center.x, ladder.GetComponent<Collider2D>().bounds.max.y) + new Vector3(0, 10f, 0);
                             mDirection = (mChaseTarget - transform.position);
                             mDirection.y += 100;
-                            transform.position += (Vector3.up/2);
+                            transform.position += new Vector3(0f, 0.75f, 0f);
                         }
                         else {
                             mChaseTarget = ladder.GetComponent<Collider2D>().bounds.center;
@@ -396,7 +396,7 @@ public class EnemyController : MonoBehaviour {
                             mChaseTarget = new Vector3(mLadder.GetComponent<Collider2D>().bounds.center.x, mLadder.GetComponent<Collider2D>().bounds.max.y) + new Vector3(0, 10f, 0);
                             mDirection = (mChaseTarget - transform.position);
                             mDirection.y += 100;
-                            transform.position += (Vector3.up / 2);
+                            transform.position += new Vector3(0f,0.75f,0f);
                         }
                         else {
                             mChaseTarget = mLadder.GetComponent<Collider2D>().bounds.center;

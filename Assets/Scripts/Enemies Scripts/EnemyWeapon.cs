@@ -187,7 +187,7 @@ public class EnemyWeapon : MonoBehaviour {
             }
             yield return null;
         }
-        if(mTarget)
+        if(mTarget && mTarget.GetComponent<EnemyController>() && !mTarget.GetComponent<EnemyController>().controlled)
             mTarget.gameObject.GetComponent<Animator>().SetBool("EnemyTraitor", true);
     }
 
