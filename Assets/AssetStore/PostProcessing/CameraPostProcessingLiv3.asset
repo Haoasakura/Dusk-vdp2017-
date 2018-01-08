@@ -122,15 +122,15 @@ MonoBehaviour:
       basic:
         postExposure: -0.1
         temperature: 0
-        tint: -21
-        hueShift: 54
-        saturation: 0.9
-        contrast: 1
+        tint: -26
+        hueShift: 51
+        saturation: 1.4
+        contrast: 1.17
       channelMixer:
         red: {x: 1, y: 0, z: 0.7}
-        green: {x: 0.57, y: 1.33, z: 0.61}
+        green: {x: 0.5, y: 1.33, z: 0.91}
         blue: {x: 0.53, y: 0.97, z: 0.5}
-        currentEditingChannel: 2
+        currentEditingChannel: 0
       colorWheels:
         mode: 1
         log:
@@ -284,7 +284,7 @@ MonoBehaviour:
     m_Enabled: 1
     m_Settings:
       spectralTexture: {fileID: 0}
-      intensity: 0.3
+      intensity: 0.15
   grain:
     m_Enabled: 1
     m_Settings:

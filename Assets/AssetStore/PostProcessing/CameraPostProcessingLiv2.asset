@@ -124,8 +124,8 @@ MonoBehaviour:
         temperature: 43
         tint: -17
         hueShift: -3
-        saturation: 0.64
-        contrast: 0.96
+        saturation: 0.85
+        contrast: 1.06
       channelMixer:
         red: {x: 1.17, y: 0, z: 0}
         green: {x: 0, y: 1, z: 0}
@@ -284,7 +284,7 @@ MonoBehaviour:
     m_Enabled: 1
     m_Settings:
       spectralTexture: {fileID: 0}
-      intensity: 0.3
+      intensity: 0.15
   grain:
     m_Enabled: 1
     m_Settings:
