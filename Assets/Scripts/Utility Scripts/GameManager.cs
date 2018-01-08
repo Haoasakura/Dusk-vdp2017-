@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour {
                 chapTitle.SetActive(false);
             i++;
         }
-        Debug.Log(UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().ready + " " + UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().ac_soundtrack1.ToString());
+
 
         if (!isChangingLevel)
         {
@@ -103,7 +103,6 @@ public class GameManager : MonoBehaviour {
                 UIChapTitles[sceneToLoad].GetComponent<CanvasGroup>().alpha = 1;
                 UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().ready = true;
 
-                Debug.Log(UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().ready + " " + UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().ac_soundtrack1.ToString());
                 UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().finished = true;
             }
             if (UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().finished)
@@ -216,7 +215,6 @@ public class GameManager : MonoBehaviour {
         cameraPosition = new Vector3(0f, 0f, -10f);
         playerPosition = new Vector3(-12f, -5f);
         loadedScene = 1;
-        PlayerPrefs.DeleteAll();
         duskCharge = 0;
         SceneManager.LoadScene(0, LoadSceneMode.Single);
         SoundManager.Instance.as_soundtrack1.Stop();
@@ -228,20 +226,17 @@ public class GameManager : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    void ReturnToMenu()
+    public void ReturnToMenu()
     {
-        cameraPosition = new Vector3(0f, 0f, -10f);
-        playerPosition = new Vector3(-12f, -5f);
-        loadedScene = 1;
-        duskCharge = 0;
-        SceneManager.LoadScene(0, LoadSceneMode.Single);
-        SoundManager.Instance.as_soundtrack1.Stop();
-        foreach (GameObject o in UIChapTitles)
-        {
-            Destroy(o);
-        }
-        Destroy(UITitle);
-        Destroy(gameObject);
+        player = GameObject.FindWithTag("Player");
+        player.gameObject.GetComponent<PlayerInput>().enabled = false;
+        foreach (LineRenderer r in player.gameObject.GetComponentsInChildren<LineRenderer>())
+            r.enabled = false;
+        player.gameObject.GetComponentInChildren<GunController>().enabled = false;
+        UIPause = GameObject.Find("UIPauseScreen");
+        UIPause.SetActive(false);
+        Time.timeScale = 1;
+        EventManager.TriggerEvent("RestartGame");
     }
 
     IEnumerator LoadNewGame()
