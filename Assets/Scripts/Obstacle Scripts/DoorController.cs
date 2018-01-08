@@ -99,7 +99,7 @@ public class DoorController : MonoBehaviour {
         {
             y = y - ( y % 18);
         }
-
+        c.GetComponent<CameraController>().ActivateEnemies();
         c.transform.position = new Vector3(x, y, -10f);
         
 

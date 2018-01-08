@@ -39,8 +39,6 @@ public class FadeToBlack : MonoBehaviour {
 
     public void FadeMe()
     {
-        isOver = true;
-
         StartCoroutine(Fade());
     }
 
