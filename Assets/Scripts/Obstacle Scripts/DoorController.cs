@@ -80,7 +80,7 @@ public class DoorController : MonoBehaviour {
 
     private IEnumerator MoveCamera(float x, float y)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.1f);
         GameObject c = GameObject.Find("Main Camera");
         if (x%30 > 15)
         {
