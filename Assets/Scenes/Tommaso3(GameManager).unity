@@ -331,6 +331,12 @@ Prefab:
       propertyPath: ac_soundtrack1
       value: 
       objectReference: {fileID: 8300000, guid: 2d008f0959d9fb547ad9babf395a10dc, type: 3}
+    - target: {fileID: 114210587183725134, guid: 416e0aa6729c772468c7835b2211c2d5,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 89526205850e8014cb20dc644a47c335,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 416e0aa6729c772468c7835b2211c2d5, type: 2}
   m_IsPrefabParent: 0
@@ -401,27 +407,27 @@ Prefab:
     - target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
       propertyPath: loadedScene
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
       propertyPath: cameraPosition.x
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
       propertyPath: cameraPosition.y
-      value: 36
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
       propertyPath: playerPosition.x
-      value: 40
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
       propertyPath: playerPosition.y
-      value: 40
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 114085150579832702, guid: c8a86063b97318240b8f3b8640fd9e34,
         type: 2}
@@ -643,6 +649,12 @@ Prefab:
       propertyPath: ac_soundtrack1
       value: 
       objectReference: {fileID: 8300000, guid: 9f419ec6d7593f74aaca25906590e64e, type: 3}
+    - target: {fileID: 114210587183725134, guid: 416e0aa6729c772468c7835b2211c2d5,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: eb5c0d48e1aff4748809cb6d2959b892,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 416e0aa6729c772468c7835b2211c2d5, type: 2}
   m_IsPrefabParent: 0
@@ -1267,6 +1279,12 @@ Prefab:
       propertyPath: ac_soundtrack1
       value: 
       objectReference: {fileID: 8300000, guid: 45c045803a1764d4ab6dfbdd890f03c0, type: 3}
+    - target: {fileID: 114210587183725134, guid: 416e0aa6729c772468c7835b2211c2d5,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6c03221a9251c1c4491125b4dfe08ae3,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 416e0aa6729c772468c7835b2211c2d5, type: 2}
   m_IsPrefabParent: 0
