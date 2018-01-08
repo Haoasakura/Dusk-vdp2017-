@@ -60,6 +60,50 @@ public class MainMenu : MonoBehaviour
         ready = true;
     }
 
+    public void PlayButtonLevel1()
+    {
+        Debug.Log("Hello");
+        SoundManager.Instance.PlayOkSound();
+        loadingText.SetActive(true);
+        GameObject.Find("GameManager").GetComponent<GameManager>().loadedScene = 1;
+        GameObject.Find("GameManager").GetComponent<GameManager>().cameraPosition = new Vector3(0f, 0f, -10f);
+        GameObject.Find("GameManager").GetComponent<GameManager>().playerPosition = new Vector3(0f, 0f, 0f);
+        GameObject.Find("GameManager").GetComponent<GameManager>().duskCharge = 0;
+
+
+        GameObject.Find("GameManager").GetComponent<GameManager>().isSavedGame = false;
+        GameObject.Find("GameManager").GetComponent<GameManager>().isNewGame = true;
+        ready = true;
+    }
+
+    public void PlayButtonLevel2()
+    {
+        Debug.Log("Hello");
+        SoundManager.Instance.PlayOkSound();
+        loadingText.SetActive(true);
+        GameObject.Find("GameManager").GetComponent<GameManager>().loadedScene = 2;
+        GameObject.Find("GameManager").GetComponent<GameManager>().cameraPosition = new Vector3(0f, 0f, -10f);
+        GameObject.Find("GameManager").GetComponent<GameManager>().playerPosition = new Vector3(0f, 5f, 0f);
+        GameObject.Find("GameManager").GetComponent<GameManager>().duskCharge = 0;
+        GameObject.Find("GameManager").GetComponent<GameManager>().isSavedGame = false;
+        GameObject.Find("GameManager").GetComponent<GameManager>().isNewGame = true;
+        ready = true;
+    }
+
+    public void PlayButtonLevel3()
+    {
+        Debug.Log("Hello");
+        SoundManager.Instance.PlayOkSound();
+        loadingText.SetActive(true);
+        GameObject.Find("GameManager").GetComponent<GameManager>().loadedScene = 3;
+        GameObject.Find("GameManager").GetComponent<GameManager>().cameraPosition = new Vector3(0f, 0f, -10f);
+        GameObject.Find("GameManager").GetComponent<GameManager>().playerPosition = new Vector3(0f, 0f, 0f);
+        GameObject.Find("GameManager").GetComponent<GameManager>().duskCharge = 0;
+        GameObject.Find("GameManager").GetComponent<GameManager>().isSavedGame = false;
+        GameObject.Find("GameManager").GetComponent<GameManager>().isNewGame = true;
+        ready = true;
+    }
+
     public void ContinueButton()
     {
         SoundManager.Instance.PlayOkSound();
