@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -351,6 +350,5 @@ public class GameManager : MonoBehaviour {
         cameraPosition = new Vector3(0f, 0f, -10f);
         playerPosition = new Vector3(0f, 5f, 0f);
         Application.Quit();
-        EditorApplication.isPlaying = false;
     }
 }

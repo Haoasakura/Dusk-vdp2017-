@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -131,7 +130,6 @@ public class MainMenu : MonoBehaviour
 
     public void QuitGameButton() {
         SoundManager.Instance.PlayOkSound();
-        EditorApplication.isPlaying = false;
         Application.Quit();
     }
 
