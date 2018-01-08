@@ -30,6 +30,8 @@ public class FadeToBlack : MonoBehaviour {
                 GetComponent<AudioSource>().Play();
             }
             collision.gameObject.GetComponent<PlayerInput>().enabled = false;
+            foreach (LineRenderer r in collision.gameObject.GetComponentsInChildren<LineRenderer>())
+                r.enabled = false;
             collision.gameObject.GetComponentInChildren<GunController>().enabled = false;
             FadeMe();
         }
@@ -38,6 +40,7 @@ public class FadeToBlack : MonoBehaviour {
     public void FadeMe()
     {
         isOver = true;
+
         StartCoroutine(Fade());
     }
 
@@ -51,7 +54,8 @@ public class FadeToBlack : MonoBehaviour {
             yield return null;
         }
         cg.interactable = false;
-        GameObject.Find("UIChapterTitleScreen_Level3").GetComponent<CanvasGroup>().alpha = 1;
+        //GameObject.Find("UIChapterTitleScreen_Level3").GetComponent<CanvasGroup>().alpha = 1;
+        isOver = true;
         yield return null;
     }
 

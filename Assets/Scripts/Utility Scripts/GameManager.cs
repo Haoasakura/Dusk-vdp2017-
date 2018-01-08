@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour {
     private float timer = 0;
     private bool isChangingLevel = false;
     private bool firstTime = true;
-    private int sceneToLoad = 0;
+    public int sceneToLoad = 0;
 
     private void Awake()
     {
@@ -90,19 +90,25 @@ public class GameManager : MonoBehaviour {
                 chapTitle.SetActive(false);
             i++;
         }
+        Debug.Log(UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().ready + " " + UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().ac_soundtrack1.ToString());
+
         if (!isChangingLevel)
         {
             if (UITitle.GetComponent<MainMenu>().ready || isChangingLevel)
             {
-
                 UITitle.GetComponent<MainMenu>().ready = false;
                 UITitle.GetComponent<MainMenu>().FadeMe();
-
+                UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().StopAllCoroutines();
+                UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().timer = 0;
+                UIChapTitles[sceneToLoad].GetComponent<CanvasGroup>().alpha = 1;
                 UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().ready = true;
+
+                Debug.Log(UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().ready + " " + UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().ac_soundtrack1.ToString());
                 UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().finished = true;
             }
             if (UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().finished)
             {
+
                 UIChapTitles[sceneToLoad].GetComponent<UIChapterTitle>().finished = false;
 
                 if (isNewGame)
@@ -215,6 +221,22 @@ public class GameManager : MonoBehaviour {
         SceneManager.LoadScene(0, LoadSceneMode.Single);
         SoundManager.Instance.as_soundtrack1.Stop();
         foreach(GameObject o in UIChapTitles)
+        {
+            Destroy(o);
+        }
+        Destroy(UITitle);
+        Destroy(gameObject);
+    }
+
+    void ReturnToMenu()
+    {
+        cameraPosition = new Vector3(0f, 0f, -10f);
+        playerPosition = new Vector3(-12f, -5f);
+        loadedScene = 1;
+        duskCharge = 0;
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
+        SoundManager.Instance.as_soundtrack1.Stop();
+        foreach (GameObject o in UIChapTitles)
         {
             Destroy(o);
         }

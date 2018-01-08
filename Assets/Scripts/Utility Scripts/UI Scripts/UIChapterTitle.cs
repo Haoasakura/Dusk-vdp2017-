@@ -9,17 +9,10 @@ public class UIChapterTitle : MonoBehaviour {
     public bool ready;
     public bool finished;
     public bool textDone;
+    public float timer = 0;
     public AudioClip ac_soundtrack1;
 
     private bool timerReached = false;
-    private float timer = 0;
-
-    private void Start()
-    {
-        ready = false;
-        finished = false;
-        textDone = false;
-    }
 
     // Update is called once per frame
     void Update () {
@@ -27,6 +20,7 @@ public class UIChapterTitle : MonoBehaviour {
         {
             if (!textDone)
             {
+
                 if (!timerReached)
                 {
                     timer += Time.deltaTime;
@@ -53,10 +47,7 @@ public class UIChapterTitle : MonoBehaviour {
                 }
             }
         }
-        if(gameObject.GetComponent<CanvasGroup>().alpha == 0)
-        {
-            ready = false;
-        }
+
     }
 
     public void FadeMe()
@@ -73,11 +64,14 @@ public class UIChapterTitle : MonoBehaviour {
     {
 
         CanvasGroup cg = gameObject.GetComponent<CanvasGroup>();
+
         while (cg.alpha > 0)
         {
             cg.alpha -= Time.deltaTime / 100;
             yield return null;
         }
+        Debug.Log("Ojh");
+        ready = false;
         SoundManager.Instance.ReturnPlayerSound();
         cg.interactable = false;
         yield return null;
