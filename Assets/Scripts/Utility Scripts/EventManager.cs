@@ -31,7 +31,9 @@ public class EventManager : MonoBehaviour
             return eventManager;
         }
     }
-
+    private void Start() {
+        Cursor.visible = false;
+    }
     void Init()
     {
         DontDestroyOnLoad(transform.gameObject);
