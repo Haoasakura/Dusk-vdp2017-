@@ -10,7 +10,6 @@ public class GunController : MonoBehaviour {
     public float gunRange;
     public bool controlling = false;
     public bool isLocked = false;
-    public bool hasGun = true;
 
     [HideInInspector]
     public Transform mTarget;
@@ -22,7 +21,6 @@ public class GunController : MonoBehaviour {
     public GameObject dotsight;
     public SpriteRenderer arm;
     public SpriteRenderer armShadow;
-    public SpriteRenderer gunShadow;
     public Material aimMaterial;
     public Material idleMaterial;
     public LayerMask gunLayer;
@@ -34,8 +32,7 @@ public class GunController : MonoBehaviour {
     private GameObject particleEffect;
     private Player player;
     private EnemyController enemyControlled;
-    [HideInInspector]
-    public LineRenderer mLineRenderer;
+    private LineRenderer mLineRenderer;
     private DigitalRuby.LightningBolt.LightningBoltScript lightning;
     private Coroutine lightningCoroutine = null;
 
@@ -45,13 +42,6 @@ public class GunController : MonoBehaviour {
         mLineRenderer = aimsight.GetComponent<LineRenderer>();
         gunRange = Mathf.Abs((laserDirection.position-barrel.position).x);
         lightning = GetComponent<DigitalRuby.LightningBolt.LightningBoltScript>();
-        if(!hasGun) {
-            GetComponent<SpriteRenderer>().color = new Color(255f, 255f, 255f, 0f);
-            gunShadow.color = new Color(255f, 255f, 255f, 0f);
-            GetComponent<LineRenderer>().enabled = false;
-            mLineRenderer.enabled = false;
-            dotsight.GetComponent<SpriteRenderer>().enabled = false;
-        }
     }
 
     void Update() {
@@ -87,8 +77,7 @@ public class GunController : MonoBehaviour {
             else
             {
                 mLineRenderer.material = aimMaterial;
-                if (hasGun)
-                    dotsight.GetComponent<SpriteRenderer>().enabled = true;
+                dotsight.GetComponent<SpriteRenderer>().enabled = true;
                 isAiming = true;
             }
 
@@ -112,7 +101,7 @@ public class GunController : MonoBehaviour {
                 }
             }
 
-            if (hasGun && canFire && Input.GetButtonDown("Fire1")) {
+            if (Input.GetButtonDown("Fire1") && canFire) {
                 SoundManager.Instance.EmptyGunshot();
                 lightning.Trigger();
                 mLineRenderer.enabled = false;
@@ -165,10 +154,10 @@ public class GunController : MonoBehaviour {
                 }
 
             }
-            if (hasGun && Input.GetButtonUp("Fire1")) {
+            if (Input.GetButtonUp("Fire1")) {
                 isLocked = false;
                 mLineRenderer.enabled = true;
-
+                Debug.Log("Please Stop");
                 if (lightningCoroutine != null)
                 {
                     StopCoroutine(lightningCoroutine);
@@ -179,7 +168,7 @@ public class GunController : MonoBehaviour {
                 Destroy(particleEffect);
             }
         }
-        if (hasGun && Input.GetButtonUp("Fire1"))
+        if (Input.GetButtonUp("Fire1"))
         {
             mLineRenderer.enabled = true;
         }

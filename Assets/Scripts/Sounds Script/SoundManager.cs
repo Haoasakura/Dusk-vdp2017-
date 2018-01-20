@@ -37,9 +37,6 @@ public class SoundManager : MonoBehaviour
     public AudioClip ac_level11;
     public AudioClip ac_level12;
     public float fadeTime1;
-
-
-
     public float fadeTime2;
     public int enemiesOnChase = 0;
 
@@ -51,7 +48,6 @@ public class SoundManager : MonoBehaviour
     public AudioSource as_others;
     public AudioClip ac_laugh;
     public AudioClip ac_lightSound;
-    public AudioClip ac_gunFound;
     public AudioClip ac_fall;
 
     // Use this for initialization
@@ -166,9 +162,7 @@ public class SoundManager : MonoBehaviour
 
     public void EndSoundtrack()
     {
-        StopAllCoroutines();
         float t = fadeTime2;
-        StartCoroutine(EndSoundtrack(as_soundtrack2, t));
         StartCoroutine(EndSoundtrack(as_soundtrack1, t));
     }
 
@@ -183,15 +177,13 @@ public class SoundManager : MonoBehaviour
             enemiesOnChase = 0;
         }
 
+        Debug.Log("enemiesOnChase = " + enemiesOnChase);
 
         if (enemiesOnChase == 0)
         {
-        Debug.Log("enemiesOnChase = " + enemiesOnChase);
-
             float t = fadeTime1;
             as_soundtrack1.mute = false;
             as_soundtrack1.volume = 0.5f;
-            StopAllCoroutines();
             StartCoroutine(FadeSountrack(as_soundtrack2, as_soundtrack1, t));
         }
     }
@@ -207,14 +199,12 @@ public class SoundManager : MonoBehaviour
             float t = fadeTime1;
             as_soundtrack2.mute = false;
             as_soundtrack2.volume = 0.5f;
-            StopAllCoroutines();
             StartCoroutine(FadeSountrack(as_soundtrack1, as_soundtrack2, t));
         }
     }
 
     public void ReturnPlayerSound()
     {
-        StopAllCoroutines();
         as_gun.mute = false;
         as_player.mute = false;
         as_objects.mute = false;
@@ -238,6 +228,8 @@ public class SoundManager : MonoBehaviour
                 yield return null;
                 t -= Time.deltaTime;
                 as_soundtrack1.volume -= Time.deltaTime / fadeTime2;
+                as_gun.volume -= Time.deltaTime / fadeTime2;
+                as_player.volume -= Time.deltaTime / fadeTime2;
             }
         }
         yield break;
@@ -247,6 +239,7 @@ public class SoundManager : MonoBehaviour
     {
         if (!s1.mute)
         {
+
             while (t > 0)
             {
                 yield return null;
@@ -277,8 +270,4 @@ public class SoundManager : MonoBehaviour
         as_UI.PlayOneShot(ac_buttonOk);
     }
 
-    internal void GetGun()
-    {
-        as_others.PlayOneShot(ac_gunFound);
-    }
 }

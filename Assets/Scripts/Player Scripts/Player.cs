@@ -8,7 +8,6 @@ public class Player : MonoBehaviour
 {
     //Settaggi per il personaggio (Utilizza Inspector per cambiarli)
     public GameObject explosionDeath;
-    public GameObject fallApartDeath;
     public float maxJumpHeight = 4f;
     public float minJumpHeight = 1f;
     public float timeToJumpApex = .4f;
@@ -55,10 +54,7 @@ public class Player : MonoBehaviour
         EventManager.StartListening("PlayerDied", DeathProcess);
         EventManager.StartListening("PlayerDiedFromFall", DeathFromFallProcess);
         EventManager.StartListening("PlayerControlled", DelayedDeath);
-        EventManager.StartListening("PlayerFallApart", FallApartDeath);
     }
-
-
 
     private void Start()
     {
@@ -293,13 +289,6 @@ public class Player : MonoBehaviour
         EventManager.TriggerEvent("PlayerDied");
     }
 
-    private void FallApartDeath()
-    {
-        Instantiate(fallApartDeath, transform.position, transform.rotation);
-        SoundManager.Instance.PlayNormalSoundtrackFromDeath();
-        Destroy(gameObject);
-    }
-
     private void DeathProcess()
     {
         Instantiate(explosionDeath, transform.position, transform.rotation);
@@ -312,7 +301,7 @@ public class Player : MonoBehaviour
         SoundManager.Instance.PlayNormalSoundtrackFromDeath();
         SoundManager.Instance.PlayFallSound();
         GetComponent<PlayerInput>().enabled = false;
-        tag = "Untagged";
+        this.tag = "Untagged";
 
         StartCoroutine(FallDestruction());
     }

@@ -20,8 +20,6 @@ public class UIGunCharge : MonoBehaviour {
         EventManager.StartListening("PlayerDied", PlayerDied);
         EventManager.StartListening("PlayerDiedFromFall", PlayerDied);
         EventManager.StartListening("PlayerControlled", PlayerDied);
-        EventManager.StartListening("PlayerFallApart", PlayerDied);
-
     }
 
     private void PlayerDied()

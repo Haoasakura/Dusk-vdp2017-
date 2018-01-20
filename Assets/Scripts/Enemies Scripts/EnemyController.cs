@@ -21,8 +21,7 @@ public class EnemyController : MonoBehaviour {
 
     public GameObject explosion;
     public GameObject alert;
-    public GameObject absorptionEffect;
-    public GameObject enemySoundManager;
+    public GameObject absorptionEffect;  
     public DecisionTree chasingDT;
     public BehaviourTree patrolBT;
     public Animator animator;
@@ -100,7 +99,6 @@ public class EnemyController : MonoBehaviour {
         StopCoroutine("Patrol");
         StopCoroutine("HuntTraitor");
         StopCoroutine("Chase");
-        StopCoroutine("RandomlyBark");
         enemy.moveMinSpeed = 2f;
         enemyTarget = null;
         animator.SetBool("PlayerInSight", false);
@@ -129,7 +127,6 @@ public class EnemyController : MonoBehaviour {
         StopCoroutine("Patrol");
         StopCoroutine("HuntTraitor");
         StopCoroutine("Chase");
-        StopCoroutine("RandomlyBark");
         enemyTarget = null;
         enemy.moveMinSpeed = huntSpeed;
         animator.SetBool("PlayerInSight", true);
@@ -139,7 +136,6 @@ public class EnemyController : MonoBehaviour {
         StartCoroutine("TransitionEffects");
         isChasing = true;
         StartCoroutine("Chase");
-        StartCoroutine("RandomlyBark");
     }
 
     public void StartTraitorHunt() {
@@ -147,28 +143,10 @@ public class EnemyController : MonoBehaviour {
         StopCoroutine("Patrol");
         StopCoroutine("HuntTraitor");
         StopCoroutine("Chase");
-        StopCoroutine("RandomlyBark");
         enemy.moveMinSpeed = huntSpeed;
         animator.SetBool("EnemyTraitor", true);
         StartCoroutine("TransitionEffects");
         StartCoroutine("HuntTraitor");
-        StartCoroutine("RandomlyBark");
-    }
-
-    IEnumerator RandomlyBark()
-    {
-        float init = Time.deltaTime;
-        while (true)
-        {
-            yield return new WaitForSeconds(0.1f);
-            float t = Time.deltaTime;
-            float r = Random.Range(0, t - init);
-            if (r > 0)
-            {
-                enemySoundManager.GetComponent<EnemySoundManager>().Hunt();
-                init = Time.deltaTime;
-            }
-        }
     }
 
     public void ControlledOn(Transform gun) {
@@ -272,7 +250,7 @@ public class EnemyController : MonoBehaviour {
                     }
                     if (ladder != null) {
 
-                        foreach (Collider2D obj in Physics2D.OverlapCircleAll(new Vector2(boxCollider2D.bounds.center.x, boxCollider2D.bounds.min.y), 0.1f)) {
+                        foreach (Collider2D obj in Physics2D.OverlapCircleAll(boxCollider2D.bounds.center, 0.1f)) {
                             if ((obj.CompareTag(Tags.ladder) && !obj.name.Contains("MidLadder")) || obj.CompareTag(Tags.baseLadder) || obj.CompareTag(Tags.topLadder)) {
                                 isClimbing = true;
                                 break;
@@ -288,10 +266,9 @@ public class EnemyController : MonoBehaviour {
                                     ladder=ladder.transform.parent.Find("TopLadder").gameObject;
                                 else
                                     ladder = ladder.transform.Find("TopLadder").gameObject;
-                            mChaseTarget = new Vector3(ladder.GetComponent<Collider2D>().bounds.center.x, ladder.GetComponent<Collider2D>().bounds.max.y) + new Vector3(0, 10f, 0);
+                            mChaseTarget = ladder.GetComponent<Collider2D>().bounds.max + new Vector3(0, 10f, 0);
                             mDirection = (mChaseTarget - transform.position);
-                            mDirection.y += 100;
-                            transform.position += new Vector3(0f, 0.75f, 0f);
+                            mDirection.y += 10;
                         }
                         else {
                             mChaseTarget = ladder.GetComponent<Collider2D>().bounds.center;
@@ -378,7 +355,7 @@ public class EnemyController : MonoBehaviour {
                     }
 
                     if (mLadder != null) {
-                        foreach (Collider2D obj in Physics2D.OverlapCircleAll(new Vector2(boxCollider2D.bounds.center.x, boxCollider2D.bounds.min.y), 0.1f)) {
+                        foreach (Collider2D obj in Physics2D.OverlapCircleAll(boxCollider2D.bounds.center, 0.1f)) {
                             if ((obj.CompareTag(Tags.ladder) && !obj.name.Contains("MidLadder")) || obj.CompareTag(Tags.baseLadder) || obj.CompareTag(Tags.topLadder)) {
                                 isClimbing = true;
                                 break;
@@ -392,11 +369,9 @@ public class EnemyController : MonoBehaviour {
                                     mLadder = mLadder.transform.parent.Find("TopLadder").gameObject;
                                 else
                                     mLadder = mLadder.transform.Find("TopLadder").gameObject;
-
-                            mChaseTarget = new Vector3(mLadder.GetComponent<Collider2D>().bounds.center.x, mLadder.GetComponent<Collider2D>().bounds.max.y) + new Vector3(0, 10f, 0);
+                            mChaseTarget = mLadder.GetComponent<Collider2D>().bounds.max + new Vector3(0, 10f, 0);
                             mDirection = (mChaseTarget - transform.position);
-                            mDirection.y += 100;
-                            transform.position += new Vector3(0f,0.75f,0f);
+                            mDirection.y += 10;
                         }
                         else {
                             mChaseTarget = mLadder.GetComponent<Collider2D>().bounds.center;
@@ -520,7 +495,7 @@ public class EnemyController : MonoBehaviour {
                     }
 
                     bool collidingWithTarget = false;
-                    foreach (Collider2D obj in Physics2D.OverlapCircleAll(boxCollider2D.bounds.center, 0.1f)) {
+                    foreach (Collider2D obj in Physics2D.OverlapCircleAll(boxCollider2D.bounds.min, 0.1f)) {
                         if (enemyTarget && obj.transform.parent==enemyTarget.parent && enemyTarget.GetComponent<EnemyController>().controlled) {
                             collidingWithTarget = true;
                             break;
@@ -533,20 +508,18 @@ public class EnemyController : MonoBehaviour {
                         EnemyController enemyTargetC = enemyTarget.GetComponent<EnemyController>();
                         enemyTargetC.StopCoroutine("ShootEnemy");
                         EnemyWeapon _enemyWeapon = enemyTargetC.GetComponentInChildren<EnemyWeapon>();
-                        Debug.Log(_enemyWeapon.GetType().Equals(typeof(EnemyWeapon)));
-                        if (_enemyWeapon.GetType().Equals(typeof(EnemyWeapon))) {
-                            _enemyWeapon.enemyControlled.changingStatus = false;
-                            _enemyWeapon.enemyControlled.gettingShoot = false;
-                            _enemyWeapon.enemyControlled.StopCoroutine("ConrtolledOn");
+                        _enemyWeapon.enemyControlled.changingStatus = false;
+                        _enemyWeapon.enemyControlled.gettingShoot = false;
+                        _enemyWeapon.enemyControlled.StopCoroutine("ConrtolledOn");
 
-                            _enemyWeapon.mLineRenderer.enabled = true;
-                            if (_enemyWeapon.lightningCoroutine != null) {
-                                _enemyWeapon.StopCoroutine(_enemyWeapon.lightningCoroutine);
-                            }
-                            _enemyWeapon.StopCoroutine("TrailingEffectOn");
-                            _enemyWeapon.StopCoroutine("TrailingEffectOff");
-                            Destroy(_enemyWeapon.particleEffect);
+                        _enemyWeapon.mLineRenderer.enabled = true;
+                        if (_enemyWeapon.lightningCoroutine != null)
+                        {
+                            _enemyWeapon.StopCoroutine(_enemyWeapon.lightningCoroutine);
                         }
+                        _enemyWeapon.StopCoroutine("TrailingEffectOn");
+                        _enemyWeapon.StopCoroutine("TrailingEffectOff");
+                        Destroy(_enemyWeapon.particleEffect);
                         if(ranged)
                             StartCoroutine("ShootEnemy", enemyTarget);
                         else
@@ -590,9 +563,7 @@ public class EnemyController : MonoBehaviour {
             shooter = gun.GetComponentInParent<Enemy>().transform;
         }
         
-        float seconds = switchTime;
-        /*if (gun.GetType().Equals("EnemyMeleeWeapon"))
-            seconds = 0.3f;*/
+        int seconds = (int)switchTime;
 
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
@@ -674,12 +645,7 @@ public class EnemyController : MonoBehaviour {
         shootingLights = true;
         player.GetComponent<Player>().controlling = true;
         player.GetComponent<Player>().SetDirectionalInput(Vector2.zero);
-        player.GetComponent<Player>().moveMinSpeed = 0;
-        player.GetComponent<Player>().moveMaxSpeed = 0;
-        player.GetComponent<Player>().accelerationTimeAirborne = 0;
-        player.GetComponent<Player>().accelerationTimeGrounded = 0;
         player.GetComponent<PlayerInput>().enabled = false;
-        player.GetComponent<Controller2D>().gravityOnFall = 0f;
         yield return new WaitForSeconds(switchTime);
         EventManager.TriggerEvent("PlayerControlled");
         weapon.StopCoroutine("TrailingEffectOn");
@@ -716,7 +682,7 @@ public class EnemyController : MonoBehaviour {
         _enemy.GetComponent<EnemyInput>().enabled = false;
         yield return new WaitForSeconds(switchTime);
         if(_enemy && _enemy.parent.gameObject)
-            _enemy.GetComponent<EnemyController>().Kill();
+            Destroy(_enemy.parent.gameObject);
         weapon.StopCoroutine("TrailingEffectOn");
         if (weapon.lightningCoroutine != null)
         {
@@ -746,6 +712,7 @@ public class EnemyController : MonoBehaviour {
             SoundManager.Instance.PlayNormalSoundtrack();
         }
 
+        Instantiate(explosion, transform.position, transform.rotation);
         if (controlled && player != null) {
             EventManager.TriggerEvent("EnemyDestroyed");
             Player mPlayer = player.GetComponent<Player>();
@@ -761,24 +728,16 @@ public class EnemyController : MonoBehaviour {
                 shooter.GetComponent<Enemy>().controlling = true;
                 enemy.GetComponentInChildren<EnemyWeapon>().untraversableLayers = enemy.GetComponentInChildren<EnemyWeapon>().groundLayer;
             }
-    }
 
-    public void Kill()
-    {
-        if (GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<BoxCollider2D>()) {
-            BoxCollider2D coll = GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<BoxCollider2D>();
-            foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
-                if (coll.bounds.Contains(enemy.transform.position + new Vector3(0, 0, -10))) {
-                    if (!enemy.transform.GetComponent<Animator>().GetBool("PlayerInSight") && !enemy.transform.GetComponent<EnemyController>().changingStatus && !enemy.transform.GetComponent<EnemyController>().controlled) {
-                        enemy.gameObject.GetComponent<Animator>().SetBool("EnemyTraitor", false);
-                        enemy.GetComponent<EnemyController>().shootingLights = false;
-                    }
+        BoxCollider2D coll = GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<BoxCollider2D>();
+        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
+            if (coll.bounds.Contains(enemy.transform.position + new Vector3(0, 0, -10))) {
+                if (!enemy.transform.GetComponent<Animator>().GetBool("PlayerInSight") && !enemy.transform.GetComponent<EnemyController>().changingStatus && !enemy.transform.GetComponent<EnemyController>().controlled) {
+                    enemy.gameObject.GetComponent<Animator>().SetBool("EnemyTraitor", false);
+                    enemy.GetComponent<EnemyController>().shootingLights = false;
                 }
             }
-        }
-        
-        Instantiate(explosion, transform.position, transform.rotation);
-        Destroy(transform.parent.gameObject);
+        } 
     }
 
     private void OnDrawGizmos() {
@@ -789,8 +748,6 @@ public class EnemyController : MonoBehaviour {
         Gizmos.DrawWireCube(endPoint.position, transform.GetComponent<BoxCollider2D>().size);
 
         Gizmos.DrawWireSphere(transform.position, 1);
-        
-        Gizmos.DrawWireSphere(new Vector2(GetComponent<BoxCollider2D>().bounds.center.x, GetComponent<BoxCollider2D>().bounds.center.y), 1.1f);
        
        
     }

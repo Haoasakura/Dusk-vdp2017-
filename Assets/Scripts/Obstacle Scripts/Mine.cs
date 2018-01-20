@@ -15,7 +15,7 @@ public class Mine : MonoBehaviour {
         
         if (collision.gameObject.tag.Equals("Enemy"))
         {
-            collision.GetComponent<EnemyController>().Kill();
+            Destroy(collision.gameObject);
         }
 
         Explode();

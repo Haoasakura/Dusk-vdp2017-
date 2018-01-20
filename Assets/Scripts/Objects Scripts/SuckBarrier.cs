@@ -19,6 +19,7 @@ public class SuckBarrier : MonoBehaviour {
             lightning.Trigger();
             GetComponent<AudioSource>().Play();
             collision.gameObject.GetComponentInChildren<GunController>().currentCharge = 0;
+            Debug.Log("Hello");
         }
 
         if (collision.CompareTag(Tags.enemy) && collision.gameObject.GetComponentInChildren<EnemyWeapon>().currentCharge > 0)

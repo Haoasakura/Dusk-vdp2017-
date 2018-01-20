@@ -148,8 +148,8 @@ public class EnemyWeapon : MonoBehaviour {
                             enemyControlled.ControlledOn(transform);
                             lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<EnemyController>().switchTime, false));
                             StartCoroutine("TrailingEffectOn", mTarget.GetComponent<EnemyController>().switchTime);
-                            isLocked = true;
                             StartCoroutine("AlertEnemies");
+                            isLocked = true;
                         }
                     }
                 }
@@ -176,7 +176,7 @@ public class EnemyWeapon : MonoBehaviour {
     }
 
     IEnumerator AlertEnemies() {
-        while (enemyController.controlled && isLocked) {
+        while (enemyController.controlled) {
             BoxCollider2D coll = GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<BoxCollider2D>();
             foreach (GameObject _enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
                 if (coll.bounds.Contains(_enemy.transform.position + new Vector3(0, 0, -10)) && !_enemy.transform.GetComponent<Animator>().GetBool("EnemyTraitor") && Mathf.Abs(enemy.transform.position.y-_enemy.transform.position.y)<1.6f) {
@@ -187,8 +187,6 @@ public class EnemyWeapon : MonoBehaviour {
             }
             yield return null;
         }
-        if(mTarget && mTarget.GetComponent<EnemyController>() && !mTarget.GetComponent<EnemyController>().controlled)
-            mTarget.gameObject.GetComponent<Animator>().SetBool("EnemyTraitor", true);
     }
 
     public IEnumerator LightningEffectOn(float switchTime, bool isSucking) {
