@@ -2991,6 +2991,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 114225520261703780, guid: d89e776f8fbf98044a26519cf56b24ca,
+        type: 2}
+      propertyPath: hasGun
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114225520261703780, guid: d89e776f8fbf98044a26519cf56b24ca,
+        type: 2}
+      propertyPath: currentCharge
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d89e776f8fbf98044a26519cf56b24ca, type: 2}
   m_IsPrefabParent: 0
@@ -11375,6 +11385,10 @@ Prefab:
     - target: {fileID: 4029164057039906, guid: d90b847acad90ff45a457519be442a9c, type: 2}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1896382861546928, guid: d90b847acad90ff45a457519be442a9c, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d90b847acad90ff45a457519be442a9c, type: 2}

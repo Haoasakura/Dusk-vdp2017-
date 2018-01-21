@@ -78,7 +78,6 @@ GameObject:
   - component: {fileID: 114447383990128234}
   - component: {fileID: 114132608266449860}
   - component: {fileID: 120793296116926246}
-  - component: {fileID: 114048559643369872}
   m_Layer: 10
   m_Name: Gun
   m_TagString: Gun
@@ -111,7 +110,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4535846146129616}
   - component: {fileID: 212124052025484392}
-  - component: {fileID: 114514559085080530}
   m_Layer: 10
   m_Name: ArmShadow
   m_TagString: Untagged
@@ -133,8 +131,6 @@ GameObject:
   - component: {fileID: 82477268120374150}
   - component: {fileID: 82858078040815276}
   - component: {fileID: 82311294909729950}
-  - component: {fileID: 114509234195516620}
-  - component: {fileID: 114020061417192176}
   m_Layer: 10
   m_Name: EnemyGraphicsAndSounds
   m_TagString: Untagged
@@ -151,7 +147,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4702311802371664}
   - component: {fileID: 212838839361010604}
-  - component: {fileID: 114139363099516580}
   m_Layer: 10
   m_Name: Arm
   m_TagString: Untagged
@@ -199,7 +194,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4485754474244312}
   - component: {fileID: 212944562320958408}
-  - component: {fileID: 114210895107288952}
   m_Layer: 10
   m_Name: GunShadow
   m_TagString: Untagged
@@ -217,8 +211,6 @@ GameObject:
   - component: {fileID: 4568926039379098}
   - component: {fileID: 212437538716043858}
   - component: {fileID: 95971574844229164}
-  - component: {fileID: 114892227563252618}
-  - component: {fileID: 114289843852667474}
   m_Layer: 10
   m_Name: EnemyShadowGraphics
   m_TagString: Untagged
@@ -474,7 +466,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1060611368795358}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.81, y: -0.16, z: 0}
+  m_LocalPosition: {x: -4.19, y: -0.16, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children:
   - {fileID: 4623544703859014}
@@ -504,7 +496,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1317101880541418}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.49, y: -0.29, z: 0}
+  m_LocalPosition: {x: -14.94, y: -0.29, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4029164057039906}
@@ -922,19 +914,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114020061417192176
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1380376006441138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bcf6c7f1d63ac848a457d3fd271ec3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 0, g: 1, b: 0.9586208, a: 1}
-  outlineSize: 5
 --- !u!114 &114042369193304436
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -963,19 +942,6 @@ MonoBehaviour:
   pivotArm: {fileID: 1860259847764534}
   weapon: {fileID: 1291629822638102}
   controller: {fileID: 114306670039632392}
---- !u!114 &114048559643369872
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1291629822638102}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bcf6c7f1d63ac848a457d3fd271ec3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 0, g: 1, b: 0.9586208, a: 1}
-  outlineSize: 4
 --- !u!114 &114132608266449860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -998,45 +964,6 @@ MonoBehaviour:
   Rows: 1
   Columns: 1
   AnimationMode: 3
---- !u!114 &114139363099516580
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1466579948889132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bcf6c7f1d63ac848a457d3fd271ec3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 0, g: 1, b: 0.9586208, a: 1}
-  outlineSize: 5
---- !u!114 &114210895107288952
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1605072429998874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bcf6c7f1d63ac848a457d3fd271ec3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 0, g: 1, b: 0.9586208, a: 1}
-  outlineSize: 4
---- !u!114 &114289843852667474
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1730627520173990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bcf6c7f1d63ac848a457d3fd271ec3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 0, g: 1, b: 0.9586208, a: 1}
-  outlineSize: 5
 --- !u!114 &114306670039632392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1138,32 +1065,6 @@ MonoBehaviour:
   enemyControlled: {fileID: 0}
   mLineRenderer: {fileID: 0}
   lightning: {fileID: 0}
---- !u!114 &114509234195516620
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1380376006441138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bcf6c7f1d63ac848a457d3fd271ec3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 1, g: 1, b: 1, a: 1}
-  outlineSize: 4
---- !u!114 &114514559085080530
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1346411725557902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bcf6c7f1d63ac848a457d3fd271ec3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 0, g: 1, b: 0.9586208, a: 1}
-  outlineSize: 5
 --- !u!114 &114588290174991098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1209,28 +1110,12 @@ MonoBehaviour:
     type: 2}
   enemySoundManager: {fileID: 1380376006441138}
   animator: {fileID: 95698153002782214}
-  spriteDefault: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  spriteOutline: {fileID: 2100000, guid: 5b0bc317862dc5642808511fe7d4ce3c, type: 2}
   losingTarget: 0
   shootingLights: 0
   gettingShoot: 0
-  targetedByGun: 0
   pitInPath: 0
   startPoint: {fileID: 4908477930762620}
   endPoint: {fileID: 4080785784595764}
---- !u!114 &114892227563252618
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1730627520173990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bcf6c7f1d63ac848a457d3fd271ec3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 1, g: 1, b: 1, a: 1}
-  outlineSize: 4
 --- !u!120 &120263575085329158
 LineRenderer:
   m_ObjectHideFlags: 1

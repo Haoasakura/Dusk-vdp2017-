@@ -105,16 +105,6 @@ public class EnemyWeapon : MonoBehaviour {
                 }
             }
 
-            if (mTarget != null && mTarget.CompareTag(Tags.enemy)) {
-                enemyControlled = mTarget.GetComponent<EnemyController>();
-                enemyControlled.targetedByGun = true;
-            }
-            else if ((mTarget == null || (mTarget != null && !mTarget.CompareTag(Tags.enemy)))) {
-                foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
-                    enemy.GetComponent<EnemyController>().targetedByGun = false;
-                }
-            }
-
             if (Input.GetButtonDown("Fire1")) {
                 soundManager.EmptyGunshot();
                 lightning.Trigger();

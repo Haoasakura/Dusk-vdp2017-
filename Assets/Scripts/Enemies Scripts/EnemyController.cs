@@ -26,15 +26,12 @@ public class EnemyController : MonoBehaviour {
     public DecisionTree chasingDT;
     public BehaviourTree patrolBT;
     public Animator animator;
-    public Material spriteDefault;
-    public Material spriteOutline;
 
     private float weaponRange;
     private float lastX;
     public bool losingTarget=false;
     public bool shootingLights = false;
     public bool gettingShoot=false;
-    public bool targetedByGun = false;
 
     private Vector3 startPosition;
     private GameObject particleEffect;
@@ -49,7 +46,6 @@ public class EnemyController : MonoBehaviour {
     private BoxCollider2D boxCollider2D;
     private GameObject mLadder;
     private Transform enemyTarget;
-    private SpriteRenderer[] spriteRenderers;
     private bool isClimbing = false;
     private bool isChasing = false;
     private bool inTransition = false;
@@ -70,7 +66,6 @@ public class EnemyController : MonoBehaviour {
         enemyController2D = GetComponent<EnemyController2D>();
         boxCollider2D = GetComponent<BoxCollider2D>();
         player = GameObject.FindGameObjectWithTag(Tags.player).transform;
-        spriteRenderers= GetComponentsInChildren<SpriteRenderer>();
     }
 
     void Start () {
@@ -98,18 +93,6 @@ public class EnemyController : MonoBehaviour {
                 transform.localScale = new Vector3(-1, 1, 1);
         }   
         lastX = transform.position.x;
-
-        if(targetedByGun && spriteRenderers[0].material!=spriteOutline && !controlled) {
-            foreach (SpriteRenderer spriteRenderer in spriteRenderers) {
-                spriteRenderer.material = spriteOutline;
-            }
-        }
-        else if((!targetedByGun && spriteRenderers[0].material != spriteDefault) || controlled) {
-            foreach (SpriteRenderer spriteRenderer in spriteRenderers) {
-                spriteRenderer.material = spriteDefault;
-            }
-        }
-
     }
 
     public void StartPatrol() {
