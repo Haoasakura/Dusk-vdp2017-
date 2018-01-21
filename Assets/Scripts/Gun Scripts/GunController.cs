@@ -111,6 +111,15 @@ public class GunController : MonoBehaviour {
                     transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().flipY = true;
                 }
             }
+            if(hasGun && mTarget!=null && mTarget.CompareTag(Tags.enemy)) {
+                enemyControlled = mTarget.GetComponent<EnemyController>();
+                enemyControlled.targetedByGun = true;
+            }
+            else if(hasGun && (mTarget==null || (mTarget!=null && !mTarget.CompareTag(Tags.enemy)))) {
+                foreach (GameObject enemy in GameObject.FindGameObjectsWithTag(Tags.enemy)) {
+                    enemy.GetComponent<EnemyController>().targetedByGun = false;
+                }
+            }
 
             if (hasGun && canFire && Input.GetButtonDown("Fire1")) {
                 SoundManager.Instance.EmptyGunshot();
@@ -181,7 +190,7 @@ public class GunController : MonoBehaviour {
         }
         if (hasGun && Input.GetButtonUp("Fire1"))
         {
-            mLineRenderer.enabled = true;
+            mLineRenderer.enabled = false;
         }
 
 

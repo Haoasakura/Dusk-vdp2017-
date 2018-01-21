@@ -232,7 +232,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1469963480000816}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 271.5, y: 50.8, z: 0}
+  m_LocalPosition: {x: 10.49, y: 4.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4693392112332574}
@@ -560,12 +560,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TurnSpeed: 50
-  currentCharge: 0
+  currentCharge: 50
   maxCharge: 100
   gunRange: 0
   controlling: 0
   isLocked: 0
-  hasGun: 0
+  hasGun: 1
   mTarget: {fileID: 0}
   barrel: {fileID: 4399440208905720}
   laserDirection: {fileID: 4828965061366874}
@@ -579,6 +579,8 @@ MonoBehaviour:
   gunShadow: {fileID: 212335012547949778}
   aimMaterial: {fileID: 2100000, guid: 3a4a7bd28c6ff3643a76713f890bbe90, type: 2}
   idleMaterial: {fileID: 2100000, guid: 231ab5bae1ae98d44a7ba709ab99efc4, type: 2}
+  spriteDefault: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  spriteOutline: {fileID: 2100000, guid: 5b0bc317862dc5642808511fe7d4ce3c, type: 2}
   gunLayer:
     serializedVersion: 2
     m_Bits: 1024

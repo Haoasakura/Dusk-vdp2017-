@@ -162,6 +162,8 @@ GameObject:
   - component: {fileID: 82442058959324422}
   - component: {fileID: 82847629106371112}
   - component: {fileID: 82760503845027020}
+  - component: {fileID: 114951127099159870}
+  - component: {fileID: 114628682378944888}
   m_Layer: 10
   m_Name: EnemyGraphicsAndSounds
   m_TagString: Untagged
@@ -257,6 +259,8 @@ GameObject:
   - component: {fileID: 4122735557884148}
   - component: {fileID: 212744302080420502}
   - component: {fileID: 95677588194290700}
+  - component: {fileID: 114801958466316576}
+  - component: {fileID: 114133077272955652}
   m_Layer: 10
   m_Name: EnemyShadowGraphics
   m_TagString: Untagged
@@ -404,7 +408,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1117273931519308}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 509.7, y: 53.27, z: 0}
+  m_LocalPosition: {x: -2.26, y: -1.69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4605044590616906}
@@ -974,12 +978,28 @@ MonoBehaviour:
     type: 2}
   enemySoundManager: {fileID: 1480563530554080}
   animator: {fileID: 95505610568040988}
+  spriteDefault: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  spriteOutline: {fileID: 2100000, guid: 5b0bc317862dc5642808511fe7d4ce3c, type: 2}
   losingTarget: 0
   shootingLights: 0
   gettingShoot: 0
+  targetedByGun: 0
   pitInPath: 0
   startPoint: {fileID: 4701005041644050}
   endPoint: {fileID: 4323275259070732}
+--- !u!114 &114133077272955652
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1829152644784304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcf6c7f1d63ac848a457d3fd271ec3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 1, b: 0.9586208, a: 1}
+  outlineSize: 5
 --- !u!114 &114156210795931468
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1111,6 +1131,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5738f23f2bb29e24db4e7a6053c6402a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114628682378944888
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1480563530554080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcf6c7f1d63ac848a457d3fd271ec3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 1, b: 0.9586208, a: 1}
+  outlineSize: 5
 --- !u!114 &114739121890723060
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1133,6 +1166,19 @@ MonoBehaviour:
   Rows: 1
   Columns: 1
   AnimationMode: 3
+--- !u!114 &114801958466316576
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1829152644784304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcf6c7f1d63ac848a457d3fd271ec3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 1, b: 0.9586208, a: 1}
+  outlineSize: 6
 --- !u!114 &114901392488202894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1156,6 +1202,19 @@ MonoBehaviour:
   fallingThroughPlatformResetTimer: 0.1
   gravityOnFall: 2.5
   playerInput: {x: -0.99985343, y: -0.017123802}
+--- !u!114 &114951127099159870
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1480563530554080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcf6c7f1d63ac848a457d3fd271ec3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 1, b: 0.9586208, a: 1}
+  outlineSize: 6
 --- !u!120 &120430687187147558
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -1644,7 +1703,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5b0bc317862dc5642808511fe7d4ce3c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
