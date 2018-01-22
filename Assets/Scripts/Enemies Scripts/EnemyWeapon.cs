@@ -105,7 +105,7 @@ public class EnemyWeapon : MonoBehaviour {
                 }
             }
 
-            if (Input.GetButtonDown("Fire1")) {
+            if (Input.GetButtonDown("Fire1")&& !enemyController.gettingShoot) {
                 soundManager.EmptyGunshot();
                 lightning.Trigger();
                 mLineRenderer.enabled = false;

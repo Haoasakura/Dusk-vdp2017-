@@ -42,7 +42,7 @@ public class EnemyMeleeWeapon : EnemyWeapon {
                 }
             }
 
-            if (Input.GetButtonDown("Fire1")) {
+            if (Input.GetButtonDown("Fire1") && !enemyController.gettingShoot) {
                 isLocked = true;
                 if (!CR_running)
                     StartCoroutine("MeleeAttack", enemy.transform);
@@ -58,11 +58,14 @@ public class EnemyMeleeWeapon : EnemyWeapon {
         float startTime = Time.time;
         while ((Time.time - startTime) < 0.3f) {
             foreach (Collider2D result in Physics2D.OverlapCircleAll(transform.position, 1f)) {
-                if (result && _target && _target.CompareTag(Tags.player) && result.transform != null && result.transform.CompareTag(Tags.player))
+                if (result && _target && _target.CompareTag(Tags.player) && result.transform != null && result.transform.CompareTag(Tags.player)) {
                     EventManager.TriggerEvent("PlayerDied");
+                    break;
+                }
                 else if (result && result.transform && result.transform.CompareTag(Tags.enemy) && result.transform != enemy.transform) {
                     result.GetComponent<EnemyController>().Kill();
                     StartCoroutine("AlertEnemies");
+                    break;
                 }
             }
 
@@ -71,5 +74,4 @@ public class EnemyMeleeWeapon : EnemyWeapon {
         isLocked = false;
         CR_running = false;
     }
-
 }

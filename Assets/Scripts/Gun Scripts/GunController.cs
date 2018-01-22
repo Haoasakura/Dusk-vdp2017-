@@ -77,9 +77,9 @@ public class GunController : MonoBehaviour {
             float a = Input.GetAxis("HorizontalGun");
             float b = Input.GetAxis("VerticalGun");
             float c = Mathf.Sqrt(Mathf.Pow(a, 2) + Mathf.Pow(b, 2));
+            
             //rotazione della pistola
-
-            if (Mathf.Abs(c) < 0.5){
+            if (Mathf.Abs(c) < 0.5f){
                 mLineRenderer.material = idleMaterial;
                 dotsight.GetComponent<SpriteRenderer>().enabled = false;
                 isAiming = false;
@@ -113,6 +113,7 @@ public class GunController : MonoBehaviour {
             }
 
             if (hasGun && canFire && Input.GetButtonDown("Fire1")) {
+                isLocked = true;
                 SoundManager.Instance.EmptyGunshot();
                 lightning.Trigger();
                 mLineRenderer.enabled = false;
@@ -131,7 +132,7 @@ public class GunController : MonoBehaviour {
                                     lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<LightController>().switchTime, false));
                                     StartCoroutine("TrailingEffectOn", mTarget.GetComponent<LightController>().switchTime);
                                 }
-                                isLocked = true;
+                                //isLocked = true;
                             }
                     }
                     else if (mTarget.CompareTag(Tags.machinery)) {
@@ -149,7 +150,7 @@ public class GunController : MonoBehaviour {
                                     lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<MachineryController>().switchTime, false));
                                     StartCoroutine("TrailingEffectOn", mTarget.GetComponent<MachineryController>().switchTime);
                                 }
-                                isLocked = true;
+                                //isLocked = true;
 
                             }
                     }
@@ -159,7 +160,7 @@ public class GunController : MonoBehaviour {
                             enemyControlled.ControlledOn(transform);
                             lightningCoroutine = StartCoroutine(LightningEffectOn(mTarget.GetComponent<EnemyController>().switchTime, false));
                             StartCoroutine("TrailingEffectOn", mTarget.GetComponent<EnemyController>().switchTime);
-                            isLocked = true;
+                            //isLocked = true;
                         }
                     }
                 }
@@ -178,6 +179,9 @@ public class GunController : MonoBehaviour {
                 SoundManager.Instance.GunshotStop();
                 Destroy(particleEffect);
             }
+        }
+        else if(mLineRenderer.material!=idleMaterial) {
+            mLineRenderer.material = idleMaterial;
         }
         if (hasGun && Input.GetButtonUp("Fire1"))
         {

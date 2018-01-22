@@ -493,7 +493,7 @@ public class EnemyController : MonoBehaviour {
     }
 
     IEnumerator HuntTraitor() {
-        //da mettere condizioni di uscita, lo sparo al nemico per uccidere e fare lo stato nell'animator
+
         while (true) {
             Transform _enemyTarget = null;
 
@@ -533,7 +533,7 @@ public class EnemyController : MonoBehaviour {
                         EnemyController enemyTargetC = enemyTarget.GetComponent<EnemyController>();
                         enemyTargetC.StopCoroutine("ShootEnemy");
                         EnemyWeapon _enemyWeapon = enemyTargetC.GetComponentInChildren<EnemyWeapon>();
-                        Debug.Log(_enemyWeapon.GetType().Equals(typeof(EnemyWeapon)));
+                        //Debug.Log(_enemyWeapon.GetType().Equals(typeof(EnemyWeapon)));
                         if (_enemyWeapon.GetType().Equals(typeof(EnemyWeapon))) {
                             _enemyWeapon.enemyControlled.changingStatus = false;
                             _enemyWeapon.enemyControlled.gettingShoot = false;
@@ -546,12 +546,11 @@ public class EnemyController : MonoBehaviour {
                             _enemyWeapon.StopCoroutine("TrailingEffectOn");
                             _enemyWeapon.StopCoroutine("TrailingEffectOff");
                             Destroy(_enemyWeapon.particleEffect);
-                        }
+                        }   
                         if(ranged)
                             StartCoroutine("ShootEnemy", enemyTarget);
                         else
                             StartCoroutine("MeleeAttack",enemyTarget);
-
                     }
 
                     if (shootingLights || gettingShoot || inTransition)
@@ -590,9 +589,7 @@ public class EnemyController : MonoBehaviour {
             shooter = gun.GetComponentInParent<Enemy>().transform;
         }
         
-        float seconds = switchTime;
-        /*if (gun.GetType().Equals("EnemyMeleeWeapon"))
-            seconds = 0.3f;*/
+        int seconds = (int) switchTime;
 
         while (seconds > 0) {
             yield return new WaitForSeconds(1f);
@@ -752,13 +749,21 @@ public class EnemyController : MonoBehaviour {
             if (mPlayer != null) {
                 mPlayer.controlling = false;
                 mPlayer.GetComponentInChildren<GunController>().isLocked = false;
+                mPlayer.moveMinSpeed = 3;
+                mPlayer.moveMaxSpeed = 7;
+                mPlayer.accelerationTimeAirborne = 3;
+                mPlayer.accelerationTimeGrounded = 0.1f;
+                player.GetComponent<PlayerInput>().enabled = true;
+                player.GetComponent<Controller2D>().gravityOnFall = 2.5f;
             }
         }
 
         if (shooter != null)
             if (controlled && shooter.gameObject.CompareTag(Tags.enemy)) {
                 shooter.GetComponentInChildren<EnemyController>().controlled = false;
+                shooter.GetComponentInChildren<EnemyController>().gettingShoot = false;
                 shooter.GetComponent<Enemy>().controlling = true;
+                shooter.GetComponent<EnemyInput>().enabled = true;
                 enemy.GetComponentInChildren<EnemyWeapon>().untraversableLayers = enemy.GetComponentInChildren<EnemyWeapon>().groundLayer;
             }
     }
