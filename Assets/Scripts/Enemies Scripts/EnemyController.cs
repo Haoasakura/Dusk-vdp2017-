@@ -590,7 +590,7 @@ public class EnemyController : MonoBehaviour {
             shooter = gun.GetComponentInParent<Enemy>().transform;
         }
         
-        float seconds = switchTime;
+        int seconds = (int) switchTime;
         /*if (gun.GetType().Equals("EnemyMeleeWeapon"))
             seconds = 0.3f;*/
 
