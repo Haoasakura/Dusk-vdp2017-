@@ -7,6 +7,9 @@ public class DoorController : MonoBehaviour {
 
     public bool active = false;
 
+    private DigitalRuby.LightningBolt.LightningBoltScript lightning;
+
+
     [Header("0 -> Open; 1 -> Closed")]
     public Sprite[] sprites = new Sprite[2];
 
@@ -16,6 +19,8 @@ public class DoorController : MonoBehaviour {
 
     private void Start()
     {
+        lightning = GetComponent<DigitalRuby.LightningBolt.LightningBoltScript>();
+
         if (isOpen)
         {
             gameObject.GetComponent<SpriteRenderer>().sprite = sprites[0];
@@ -67,6 +72,8 @@ public class DoorController : MonoBehaviour {
                 collision.gameObject.transform.position = 
                     gameObject.transform.parent.Find(string.Concat("Door",otherName)).position;
                 StartCoroutine(MoveCamera(collision.gameObject.transform.position.x, collision.gameObject.transform.position.y));
+                lightning.Trigger();
+                SoundManager.Instance.EmptyGunshot();
             }
         }
     }
@@ -92,7 +99,7 @@ public class DoorController : MonoBehaviour {
         {
             y = y - ( y % 18);
         }
-
+        c.GetComponent<CameraController>().ActivateEnemies();
         c.transform.position = new Vector3(x, y, -10f);
         
 

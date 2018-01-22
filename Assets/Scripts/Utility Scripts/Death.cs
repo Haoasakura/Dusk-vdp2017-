@@ -6,18 +6,33 @@ using UnityEngine;
 public class Death : MonoBehaviour {
 
     public bool fallCollider;
+    public bool explosionCollider = true;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!fallCollider)
         {
-            if (collision.gameObject.tag.Equals("Player"))
+            if (explosionCollider)
             {
-                EventManager.TriggerEvent("PlayerDied");
+                if (collision.gameObject.tag.Equals("Player"))
+                {
+                    EventManager.TriggerEvent("PlayerDied");
+                }
+                else if (collision.gameObject.tag.Equals("Enemy"))
+                {
+                    collision.GetComponent<EnemyController>().Kill();
+                }
             }
-            else if (collision.gameObject.tag.Equals("Enemy"))
+            else
             {
-                Destroy(collision.gameObject);
+                if (collision.gameObject.tag.Equals("Player"))
+                {
+                    EventManager.TriggerEvent("PlayerFallApart");
+                }
+                else if (collision.gameObject.tag.Equals("Enemy"))
+                {
+                    collision.GetComponent<EnemyController>().Kill();
+                }
             }
         }
         else
@@ -48,6 +63,7 @@ public class Death : MonoBehaviour {
         }
         SoundManager.Instance.PlayFallSound();
         yield return new WaitForSeconds(1);
-        Destroy(collision.gameObject);
+        if(collision)
+            collision.GetComponent<EnemyController>().Kill();
     }
 }

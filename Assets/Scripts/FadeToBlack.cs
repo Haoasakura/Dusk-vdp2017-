@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class FadeToBlack : MonoBehaviour {
 
-    public GameObject lever;
-
     private bool isOver = false;
 
     private void Update()
     {
         if (isOver)
         {
-            if (Input.GetButton("Submit"))
+            for (int i = 0; i < 20; i++)
             {
-                EventManager.TriggerEvent("RestartGame");
+                if (Input.GetKeyDown("joystick button " + i))
+                {
+                    EventManager.TriggerEvent("RestartGame");
+                }
             }
         }
     }
@@ -28,21 +29,22 @@ public class FadeToBlack : MonoBehaviour {
                 SoundManager.Instance.EndSoundtrack();
                 GetComponent<AudioSource>().Play();
             }
-
-            lever.GetComponent<BoxCollider2D>().enabled = false;
+            collision.gameObject.GetComponent<PlayerInput>().enabled = false;
+            foreach (LineRenderer r in collision.gameObject.GetComponentsInChildren<LineRenderer>())
+                r.enabled = false;
+            collision.gameObject.GetComponentInChildren<GunController>().enabled = false;
             FadeMe();
         }
     }
 
     public void FadeMe()
     {
-        isOver = true;
         StartCoroutine(Fade());
     }
 
     IEnumerator Fade()
     {
-        yield return new WaitForSeconds(30);
+        yield return new WaitForSeconds(77);
         CanvasGroup cg = gameObject.GetComponentInChildren<CanvasGroup>();
         while (cg.alpha < 1)
         {
@@ -50,6 +52,8 @@ public class FadeToBlack : MonoBehaviour {
             yield return null;
         }
         cg.interactable = false;
+        //GameObject.Find("UIChapterTitleScreen_Level3").GetComponent<CanvasGroup>().alpha = 1;
+        isOver = true;
         yield return null;
     }
 

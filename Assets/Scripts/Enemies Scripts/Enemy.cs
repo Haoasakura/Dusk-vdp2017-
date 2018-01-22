@@ -155,7 +155,7 @@ public class Enemy : MonoBehaviour
                 collision.gameObject.tag = "Ladder";
             }
             else {
-                collision.gameObject.layer = 9;
+                collision.gameObject.layer = 11;
                 collision.gameObject.tag = "Through";
             }
         }
@@ -183,18 +183,18 @@ public class Enemy : MonoBehaviour
         
         if (collision.gameObject.name.Equals("TopLadder")) {
             if (isClimbing) {
-                collision.gameObject.layer = 9;
-                collision.gameObject.tag = "Ladder";
+                //collision.gameObject.layer = 9;
+                //collision.gameObject.tag = "Ladder";
                 foreach (SpriteRenderer sr in pivotArm.GetComponentsInChildren<SpriteRenderer>()) {
                     sr.enabled = false;
                 }
                 weapon.GetComponent<EnemyWeapon>().aimsight.GetComponent<LineRenderer>().enabled = false;
             }
-            else
+           /* else
             {
                 collision.gameObject.layer = 9;
                 collision.gameObject.tag = "Through";
-            }
+            }*/
         }
 
     }
@@ -207,7 +207,7 @@ public class Enemy : MonoBehaviour
         
         if (collision.gameObject.name.Equals("TopLadder")) {
             collision.gameObject.layer = 11;
-            collision.gameObject.tag = "Through";
+            //collision.gameObject.tag = "Through";
         }
     }
 }

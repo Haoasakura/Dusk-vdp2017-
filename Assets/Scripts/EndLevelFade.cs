@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class EndLevelFade : MonoBehaviour {
 
+    public int newLevel;
+    public Vector3 newPlayerPosition;
+
     private GameObject gm;
 
     private void Start()
@@ -14,8 +17,15 @@ public class EndLevelFade : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        FadeMe();
-        GameObject.Find("UIChapterTitleScreen_Level1").SetActive(false);
+        if (collision.tag.Equals(Tags.player))
+        {
+            collision.tag = "Untagged";
+            collision.gameObject.GetComponent<PlayerInput>().enabled = false;
+            foreach (LineRenderer r in collision.gameObject.GetComponentsInChildren<LineRenderer>())
+                r.enabled = false;
+            collision.gameObject.GetComponentInChildren<GunController>().enabled = false;
+            FadeMe();
+        }
     }
 
     public void FadeMe()
@@ -26,12 +36,13 @@ public class EndLevelFade : MonoBehaviour {
     IEnumerator Fade()
     {
         CanvasGroup cg = gameObject.GetComponentInChildren<CanvasGroup>();
+        SoundManager.Instance.EndSoundtrack();
         while (cg.alpha < 1)
         {
             cg.alpha += Time.deltaTime / 3;
             yield return null;
         }
-        gm.GetComponent<GameManager>().loadedScene = 2;
+        gm.GetComponent<GameManager>().LoadNewLevel(newLevel, newPlayerPosition);
         cg.interactable = false;
         yield return null;
     }
