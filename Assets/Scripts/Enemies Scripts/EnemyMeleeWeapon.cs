@@ -56,15 +56,18 @@ public class EnemyMeleeWeapon : EnemyWeapon {
     IEnumerator MeleeAttack(Transform _target) {
         CR_running = true;
         float startTime = Time.time;
+        bool oneKill = false;
         while ((Time.time - startTime) < 0.3f) {
             foreach (Collider2D result in Physics2D.OverlapCircleAll(transform.position, 1f)) {
-                if (result && _target && _target.CompareTag(Tags.player) && result.transform != null && result.transform.CompareTag(Tags.player)) {
+                if (result && !oneKill && _target && _target.CompareTag(Tags.player) && result.transform != null && result.transform.CompareTag(Tags.player)) {
                     EventManager.TriggerEvent("PlayerDied");
+                    oneKill = true;
                     break;
                 }
-                else if (result && result.transform && result.transform.CompareTag(Tags.enemy) && result.transform != enemy.transform) {
+                else if (result && !oneKill && result.transform && result.transform.CompareTag(Tags.enemy) && result.transform != enemy.transform) {
                     result.GetComponent<EnemyController>().Kill();
                     StartCoroutine("AlertEnemies");
+                    oneKill = true;
                     break;
                 }
             }
@@ -72,6 +75,7 @@ public class EnemyMeleeWeapon : EnemyWeapon {
             yield return null;
         }
         isLocked = false;
+        oneKill = false;
         CR_running = false;
     }
 }
