@@ -105,7 +105,6 @@ public class CameraController : MonoBehaviour {
                 if (current.position.y % 18 < -9)
                 {
                     newY = ((Mathf.Abs(current.position.y) % 18) - 18) + current.position.y;
-                    Debug.Log("Hello...");
                 }
                 else
                 {
