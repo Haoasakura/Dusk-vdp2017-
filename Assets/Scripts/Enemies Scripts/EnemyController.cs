@@ -759,7 +759,7 @@ public class EnemyController : MonoBehaviour {
         }
 
         if (shooter != null)
-            if (controlled && shooter.gameObject.CompareTag(Tags.enemy)) {
+            if (shooter.gameObject.CompareTag(Tags.enemy)) {
                 shooter.GetComponentInChildren<EnemyController>().controlled = false;
                 shooter.GetComponentInChildren<EnemyController>().gettingShoot = false;
                 shooter.GetComponent<Enemy>().controlling = true;
