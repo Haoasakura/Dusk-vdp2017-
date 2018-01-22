@@ -71,7 +71,7 @@ public class DoorController : MonoBehaviour {
             {
                 collision.gameObject.transform.position = 
                     gameObject.transform.parent.Find(string.Concat("Door",otherName)).position;
-                StartCoroutine(MoveCamera(collision.gameObject.transform.position.x, collision.gameObject.transform.position.y));
+                //StartCoroutine(MoveCamera(collision.gameObject.transform.position.x, collision.gameObject.transform.position.y));
                 lightning.Trigger();
                 SoundManager.Instance.EmptyGunshot();
             }

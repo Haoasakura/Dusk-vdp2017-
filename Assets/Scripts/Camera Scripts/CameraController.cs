@@ -61,15 +61,60 @@ public class CameraController : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D collision) {
 
-        newX = transform.position.x;
-        newY = transform.position.y;
         newZ = transform.position.z;
 
         if ((collision.CompareTag(Tags.player) && !collision.gameObject.GetComponent<Player>().controlling) || (collision.CompareTag(Tags.enemy) && collision.gameObject.GetComponent<EnemyController>().controlled)) {
+
             Transform current = collision.transform;
+            if (current.position.x >= 0)
+            {
+                if (current.position.x % 30 > 15)
+                {
+                    newX = current.position.x + (30 - current.position.x % 30);
+                }
+                else
+                {
+                    newX = current.position.x - (current.position.x % 30);
+                }
+            }
+            else
+            {
+                if (current.position.x % 30 < -15)
+                {
+                    newX = ((Mathf.Abs(current.position.x) % 30) - 30) + current.position.x;
+                }
+                else
+                {
+                    newX = (Mathf.Abs(current.position.x % 30)) + current.position.x;
+                }
+            }
+
+            if (current.position.y >= 0)
+            {
+                if (current.position.y % 18 > 9)
+                {
+                    newY = current.position.y + (18 - (current.position.y % 18));
+                }
+                else
+                {
+                    newY = current.position.y - (current.position.y % 18);
+                }
+            }
+            else
+            {
+                if (current.position.y % 18 < -9)
+                {
+                    newY = ((Mathf.Abs(current.position.y) % 18) - 18) + current.position.y;
+                    Debug.Log("Hello...");
+                }
+                else
+                {
+                    newY = (Mathf.Abs(current.position.y % 18)) + current.position.y;
+                }
+            }
 
             //Traslazioni nel caso il giocatore esca dal collider
-            if ((Mathf.Abs(transform.position.x - current.position.x) > collX / 2) && Mathf.Sign(transform.position.x - current.position.x) < 0)
+            /*if ((Mathf.Abs(transform.position.x - current.position.x) > collX / 2) && Mathf.Sign(transform.position.x - current.position.x) < 0)
             {
                 newX = transform.position.x + collX - offsetX;
             }
@@ -84,9 +129,7 @@ public class CameraController : MonoBehaviour {
             else if ((Mathf.Abs(transform.position.y - current.position.y) > collY / 2) && Mathf.Sign(transform.position.y - current.position.y) > 0)
             {
                 newY = transform.position.y - collY + offsetY;
-            }
-
-            newZ = transform.position.z;
+            }*/
 
             transform.position= new Vector3 (newX, newY, newZ);
         }

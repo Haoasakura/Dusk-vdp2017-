@@ -227,6 +227,7 @@ public class GameManager : MonoBehaviour {
 
     public void ReturnToMenu()
     {
+        Time.timeScale = 1;
         player = GameObject.FindWithTag("Player");
         player.gameObject.GetComponent<PlayerInput>().enabled = false;
         foreach (LineRenderer r in player.gameObject.GetComponentsInChildren<LineRenderer>())
@@ -234,7 +235,6 @@ public class GameManager : MonoBehaviour {
         player.gameObject.GetComponentInChildren<GunController>().enabled = false;
         UIPause = GameObject.Find("UIPauseScreen");
         UIPause.SetActive(false);
-        Time.timeScale = 1;
         EventManager.TriggerEvent("RestartGame");
     }
 
