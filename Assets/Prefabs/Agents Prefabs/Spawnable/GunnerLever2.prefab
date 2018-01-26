@@ -994,7 +994,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TurnSpeed: 20
-  currentCharge: 0
+  currentCharge: 50
   maxCharge: 100
   gunRange: 6.4992065
   controlling: 1
