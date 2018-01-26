@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4745160433729930}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35,7 +35,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4170922863186962}
   - component: {fileID: 212772005013242930}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Dotsight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 114318174158140272}
   - component: {fileID: 114824535326333242}
   - component: {fileID: 120991936085673828}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Gun
   m_TagString: Gun
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4383827781734508}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LaserDirection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 114030356441400288}
   - component: {fileID: 114821482141767330}
   - component: {fileID: 95190677226012286}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4787694249352524}
   - component: {fileID: 212632102888513740}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GunShadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4400191819563452}
   - component: {fileID: 120890367743978976}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Aimsight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
